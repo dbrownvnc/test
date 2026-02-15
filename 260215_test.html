@@ -1,1100 +1,744 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>재정(Fiscal)·통화(Monetary)·금융(Financial) 개념 정리 | 10분 투자 아카데미</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        :root {
-            --bg-primary: #0a0e17;
-            --bg-card: #111827;
-            --bg-card-alt: #1a2235;
-            --accent-blue: #3b82f6;
-            --accent-cyan: #06b6d4;
-            --accent-emerald: #10b981;
-            --accent-amber: #f59e0b;
-            --accent-rose: #f43f5e;
-            --accent-violet: #8b5cf6;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: #1e293b;
-            --glow-blue: rgba(59, 130, 246, 0.15);
-            --glow-cyan: rgba(6, 182, 212, 0.15);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.8;
-            font-size: 15px;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            padding: 48px 20px 40px;
-            text-align: center;
-            overflow: hidden;
-            background: linear-gradient(180deg, #0f1729 0%, var(--bg-primary) 100%);
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .hero-badge {
-            display: inline-block;
-            position: relative;
-            padding: 6px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent-blue);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .hero h1 {
-            position: relative;
-            font-family: 'Noto Serif KR', serif;
-            font-size: 26px;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-meta {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .hero-meta span { display: flex; align-items: center; gap: 4px; }
-
-        /* Section Styles */
-        .section {
-            padding: 32px 0;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-cyan);
-            margin-bottom: 12px;
-        }
-
-        .section-label::before {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 2px;
-            background: var(--accent-cyan);
-        }
-
-        .section-title {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px 20px;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-
-        .card-fiscal::before { background: linear-gradient(90deg, var(--accent-amber), var(--accent-rose)); }
-        .card-monetary::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
-        .card-financial::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
-        .card-sec::before { background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue)); }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .icon-fiscal { background: rgba(245, 158, 11, 0.15); }
-        .icon-monetary { background: rgba(59, 130, 246, 0.15); }
-        .icon-financial { background: rgba(16, 185, 129, 0.15); }
-        .icon-sec { background: rgba(139, 92, 246, 0.15); }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .card-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .card p, .card li {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.9;
-        }
-
-        .card strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        /* Tag */
-        .tag {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-right: 6px;
-            margin-bottom: 4px;
-        }
-
-        .tag-fiscal { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
-        .tag-monetary { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
-        .tag-financial { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
-        .tag-danger { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
-        .tag-info { background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); }
-
-        /* Key Point */
-        .key-point {
-            display: flex;
-            gap: 12px;
-            padding: 14px 16px;
-            background: var(--bg-card-alt);
-            border-radius: 10px;
-            margin: 12px 0;
-            border-left: 3px solid var(--accent-cyan);
-        }
-
-        .key-point-icon {
-            font-size: 18px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-
-        .key-point p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* Highlight Box */
-        .highlight-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.05));
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .highlight-box h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--accent-blue);
-            margin-bottom: 10px;
-        }
-
-        .highlight-box p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* Warning Box */
-        .warning-box {
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.08), rgba(245, 158, 11, 0.05));
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .warning-box h4 {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--accent-rose);
-            margin-bottom: 10px;
-        }
-
-        .warning-box p {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* Comparison Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 20px 0;
-            font-size: 13px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .comparison-table thead th {
-            background: var(--bg-card-alt);
-            padding: 12px 14px;
-            text-align: left;
-            font-weight: 700;
-            font-size: 12px;
-            color: var(--text-primary);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .comparison-table tbody td {
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            vertical-align: top;
-            line-height: 1.6;
-        }
-
-        .comparison-table tbody tr:last-child td { border-bottom: none; }
-        .comparison-table tbody tr:hover { background: rgba(59, 130, 246, 0.03); }
-
-        /* Chart Container */
-        .chart-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px 16px 16px;
-            margin: 20px 0;
-        }
-
-        .chart-title {
-            font-size: 15px;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .chart-subtitle {
-            font-size: 12px;
-            text-align: center;
-            color: var(--text-muted);
-            margin-top: 8px;
-        }
-
-        canvas {
-            max-width: 100%;
-        }
-
-        /* Flow Diagram */
-        .flow-diagram {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .flow-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .flow-item::after {
-            content: '↓';
-            position: absolute;
-            bottom: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--text-muted);
-            font-size: 14px;
-            z-index: 1;
-        }
-
-        .flow-item:last-child::after { display: none; }
-
-        .flow-number {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .flow-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .flow-text strong { color: var(--text-primary); }
-
-        /* Divider */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-            margin: 8px 0;
-        }
-
-        /* Bottom spacing */
-        .bottom-space { height: 60px; }
-
-        /* Inline list */
-        .inline-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .inline-list li {
-            padding: 8px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .inline-list li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent-cyan);
-        }
-
-        /* Securities Grid */
-        .securities-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 16px 0;
-        }
-
-        .security-item {
-            padding: 14px;
-            background: var(--bg-card-alt);
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
-
-        .security-item .emoji { font-size: 24px; margin-bottom: 6px; }
-        .security-item .name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
-        .security-item .desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-        /* Timeline */
-        .misconception-list {
-            margin: 16px 0;
-        }
-
-        .misconception-item {
-            padding: 16px;
-            margin-bottom: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-        }
-
-        .wrong-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent-rose);
-            margin-bottom: 6px;
-        }
-
-        .wrong-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-decoration: line-through;
-            text-decoration-color: rgba(244, 63, 94, 0.4);
-            margin-bottom: 10px;
-        }
-
-        .right-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent-emerald);
-            margin-bottom: 6px;
-        }
-
-        .right-text {
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        /* Source */
-        .source-info {
-            padding: 20px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 12px;
-            border-top: 1px solid var(--border-color);
-            margin-top: 32px;
-        }
-
-        .source-info a {
-            color: var(--accent-blue);
-            text-decoration: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 380px) {
-            .hero h1 { font-size: 22px; }
-            .section-title { font-size: 19px; }
-            .card { padding: 20px 16px; }
-            .securities-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 뉴스 분석 | 미국 증시·경제 관점 (2026.02.15)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e8e8f0;
+  --text-dim: #8888a0;
+  --accent: #6c5ce7;
+  --accent2: #00cec9;
+  --red: #ff6b6b;
+  --green: #51cf66;
+  --orange: #ffa94d;
+  --yellow: #ffd43b;
+  --blue: #4dabf7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header */
+.hero {
+  background: linear-gradient(135deg, #1a1040 0%, #0a0a1a 50%, #0a1a2a 100%);
+  padding: 48px 16px 40px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 50%, rgba(108,92,231,0.08) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(0,206,201,0.06) 0%, transparent 50%);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(108,92,231,0.15);
+  border: 1px solid rgba(108,92,231,0.3);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff 0%, #c8c8e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* TOC */
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 24px auto;
+  max-width: 680px;
+  padding: 20px;
+}
+
+.toc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.toc-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toc-list a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.toc-list a:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.toc-num {
+  background: var(--surface2);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Sections */
+.section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.tag-hot { background: rgba(255,107,107,0.15); color: var(--red); }
+.tag-market { background: rgba(77,171,247,0.15); color: var(--blue); }
+.tag-tech { background: rgba(108,92,231,0.15); color: var(--accent); }
+.tag-open { background: rgba(81,207,102,0.15); color: var(--green); }
+.tag-robot { background: rgba(255,169,77,0.15); color: var(--orange); }
+.tag-macro { background: rgba(255,212,59,0.15); color: var(--yellow); }
+
+.section h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 20px 0 10px;
+  color: var(--accent2);
+}
+
+p { margin-bottom: 14px; color: var(--text); font-weight: 300; }
+
+/* Highlight Box */
+.highlight-box {
+  background: var(--surface);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 16px 18px;
+  margin: 16px 0;
+}
+
+.highlight-box.green { border-left-color: var(--green); }
+.highlight-box.red { border-left-color: var(--red); }
+.highlight-box.orange { border-left-color: var(--orange); }
+.highlight-box.blue { border-left-color: var(--blue); }
+
+.highlight-box p:last-child { margin-bottom: 0; }
+
+.highlight-box strong { color: var(--text); font-weight: 600; }
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent2);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+/* Ticker */
+.ticker-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: 8px;
+  margin: 6px 0;
+}
+
+.ticker-name {
+  font-weight: 600;
+  font-size: 13px;
+  flex: 1;
+}
+
+.ticker-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.ticker-impact {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.impact-up { background: rgba(81,207,102,0.15); color: var(--green); }
+.impact-down { background: rgba(255,107,107,0.15); color: var(--red); }
+.impact-neutral { background: rgba(136,136,160,0.15); color: var(--text-dim); }
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+.data-table th {
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(42,42,58,0.5);
+  font-weight: 300;
+}
+
+.data-table tr:hover { background: rgba(108,92,231,0.04); }
+
+/* Conclusion */
+.conclusion {
+  background: linear-gradient(135deg, rgba(108,92,231,0.08), rgba(0,206,201,0.06));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px;
+  margin: 24px 0;
+}
+
+.conclusion h3 {
+  color: var(--text);
+  font-size: 17px;
+  margin-bottom: 14px;
+}
+
+/* Emoji icons */
+.icon { margin-right: 6px; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 32px 16px;
+  font-size: 11px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .hero h1 { font-size: 19px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .section h2 { font-size: 17px; }
+}
+</style>
 </head>
 <body>
 
-<!-- Hero -->
-<div class="hero">
-    <div class="container">
-        <div class="hero-badge">📚 10분 투자 아카데미 #3</div>
-        <h1>혼동하면 안 되는<br>재정 · 통화 · 금융 · 증권<br>핵심 개념 정리</h1>
-        <div class="hero-meta">
-            <span>📅 2026.02.02</span>
-            <span>📺 NOVA Real Invest</span>
-        </div>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">📡 AI WEEKLY ANALYSIS</div>
+    <h1>Seedance 2.0, Gemini 3 Deep, GPT 5.3 Codex Spark, GLM-5 외 — 미국 증시·경제 관점 분석</h1>
+    <div class="hero-meta">
+      <span>📅 2026.02.15</span>
+      <span>📺 IT뉴스 (조코딩)</span>
+      <span>📊 미국 증시·경제 분석</span>
     </div>
-</div>
+  </div>
+</header>
 
+<!-- TOC -->
 <div class="container">
+<nav class="toc">
+  <div class="toc-title">📑 목차</div>
+  <ol class="toc-list">
+    <li><a href="#s1"><span class="toc-num">01</span>Seedance 2.0 — 영상생성 AI의 지각변동</a></li>
+    <li><a href="#s2"><span class="toc-num">02</span>할리우드·디즈니의 반격과 저작권 전쟁</a></li>
+    <li><a href="#s3"><span class="toc-num">03</span>"Something Big" — AI 가속화 메가트렌드</a></li>
+    <li><a href="#s4"><span class="toc-num">04</span>GPT 5.3 Codex Spark & 셀레브라스 협업</a></li>
+    <li><a href="#s5"><span class="toc-num">05</span>Gemini 3 Deep Think — 구글의 역습</a></li>
+    <li><a href="#s6"><span class="toc-num">06</span>중국 AI 오픈소스 공세 (GLM-5, MiniMax M2.5, Qwen 2.0)</a></li>
+    <li><a href="#s7"><span class="toc-num">07</span>음성 AI — ElevenLabs & Moss TTS</a></li>
+    <li><a href="#s8"><span class="toc-num">08</span>휴머노이드 로봇 — 제조업 자동화 가속</a></li>
+    <li><a href="#s9"><span class="toc-num">09</span>AI 컴패니언 시장 & ChatGPT 한국 마케팅</a></li>
+    <li><a href="#s10"><span class="toc-num">10</span>종합 투자 시사점 및 전략</a></li>
+  </ol>
+</nav>
 
-    <!-- 핵심 요약 -->
-    <div class="section">
-        <div class="section-label">OVERVIEW</div>
-        <div class="section-title">💡 핵심 요약</div>
+<!-- S1 -->
+<section class="section" id="s1">
+  <span class="section-tag tag-hot">🔥 핵심 이슈</span>
+  <h2>1. Seedance 2.0 — 영상생성 AI의 지각변동</h2>
 
-        <div class="highlight-box">
-            <h4>이 영상에서 다루는 것</h4>
-            <p>미국 경제를 이해하는 데 가장 기본이 되는 세 가지 영역 — <strong>재정(Fiscal)</strong>, <strong>통화(Monetary)</strong>, <strong>금융(Financial/Securities)</strong> — 의 정확한 의미와 각 담당 기관을 정리한다. 한국 언론과 투자자들이 이 용어를 혼용하는 문제점을 지적하며, 올바른 개념 이해가 미국 투자의 출발점임을 강조한다.</p>
-        </div>
+  <p>바이트댄스(틱톡 모회사)가 출시한 <strong>Seedance 2.0</strong>이 영상생성 AI 분야에서 폭발적 반향을 일으키고 있다. 공중파에도 보도될 정도로 화제이며, 드래곤볼·나루토 실사화, 모션디자인, UGC 광고 제작 등 다양한 사례가 바이럴되고 있다.</p>
+
+  <h3>핵심 성능 특징</h3>
+  <div class="highlight-box">
+    <p><strong>• 프롬프트 2줄</strong>로 할리우드급 액션 시퀀스 생성 가능</p>
+    <p><strong>• Sora 2 대비</strong> 서사 부여·장면 구성에서 우위를 보이는 평가 다수</p>
+    <p><strong>• Kling 3.0 대비</strong> 서사 연결성, 장면-동작 일치도에서 확연한 차이</p>
+    <p><strong>• 저작권 필터링 미비</strong> — 디즈니·마블·톰 크루즈 등 무제한 생성 가능(현재 일부 차단 진행 중)</p>
+  </div>
+
+  <h3>📈 관련 종목 & 증시 영향</h3>
+  <div class="ticker-row">
+    <span class="ticker-name">ByteDance (비상장)</span>
+    <span class="ticker-tag">비상장</span>
+    <span class="ticker-impact impact-up">▲ 기업가치↑</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">NVIDIA (NVDA)</span>
+    <span class="ticker-tag">GPU 수요</span>
+    <span class="ticker-impact impact-up">▲ 수혜</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Disney (DIS)</span>
+    <span class="ticker-tag">IP 위협</span>
+    <span class="ticker-impact impact-down">▼ 리스크</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">전통 미디어/VFX</span>
+    <span class="ticker-tag">대체 위험</span>
+    <span class="ticker-impact impact-down">▼ 구조적 위험</span>
+  </div>
+
+  <div class="highlight-box orange">
+    <p><strong>투자 시사점:</strong> 영상생성 AI의 급격한 품질 향상은 (1) GPU·AI 인프라 수요 가속, (2) 전통 미디어·VFX 산업 구조적 위축, (3) AI 기반 광고·콘텐츠 플랫폼 부상이라는 3대 투자 테마를 강화한다. 바이트댄스 IPO 여부도 시장의 관심사로 부각될 전망이다.</p>
+  </div>
+</section>
+
+<!-- S2 -->
+<section class="section" id="s2">
+  <span class="section-tag tag-market">⚖️ 규제·법률</span>
+  <h2>2. 할리우드·디즈니의 반격과 저작권 전쟁</h2>
+
+  <p>Seedance 2.0의 무차별적 IP 생성에 대해 미국 엔터테인먼트 업계가 즉각 반응했다.</p>
+
+  <h3>주요 대응 현황</h3>
+  <div class="highlight-box red">
+    <p><strong>• MPA(미국영화협회):</strong> 톰 크루즈 등 배우 초상 사용 금지 성명</p>
+    <p><strong>• 디즈니:</strong> 스타워즈·마블 등 IP 관련 사용 중지 및 금지 명령서 발송</p>
+    <p><strong>• 배우 연합(SAG-AFTRA):</strong> AI 영상의 배우 초상권 침해에 대한 공식 항의</p>
+    <p><strong>• 일부 바이럴 콘텐츠:</strong> 저작권자 요청으로 플랫폼에서 실제 정지 조치</p>
+  </div>
+
+  <p>다만 중국 기업이라는 점에서 미국 저작권법 집행의 실효성에 의문이 제기되고 있다. 이는 <strong>미·중 AI 규제 비대칭</strong>이라는 새로운 지정학적 리스크를 부각시킨다.</p>
+
+  <div class="highlight-box blue">
+    <p><strong>거시경제 관점:</strong> AI 저작권 분쟁은 향후 미 의회의 AI 규제 입법을 가속화할 수 있으며, 이는 미국 빅테크와 중국 AI 기업 간의 비대칭 규제 환경을 심화시킬 요인이다. 디즈니(DIS), 워너브러더스(WBD) 등 전통 미디어 기업의 IP 가치 재평가 논의가 불가피하다.</p>
+  </div>
+</section>
+
+<!-- S3 -->
+<section class="section" id="s3">
+  <span class="section-tag tag-macro">📊 메가트렌드</span>
+  <h2>3. "Something Big Is Happening" — AI 가속화 메가트렌드</h2>
+
+  <p>하이퍼라이트 AI 대표 <strong>맷 슈머(Matt Shumer)</strong>의 게시글이 <strong>8,200만 뷰 이상</strong> 기록하며 화제가 됐다. "거대한 무언가가 일어나고 있다"는 메시지로, AI 업계의 구조적 전환을 종합 분석한 글이다.</p>
+
+  <h3>핵심 주장 요약</h3>
+  <div class="highlight-box green">
+    <p><strong>① 자기 강화 루프:</strong> AI 모델이 AI 개발을 가속화하는 순환 구조 형성</p>
+    <p><strong>② 직무 구조 변화:</strong> 법률·금융·의료·소프트웨어 분야의 실질적 자동화 진행 중</p>
+    <p><strong>③ 생산성 폭발:</strong> GPT 5.2 기준 약 <strong>6.6시간</strong> 분량의 작업 대체 가능(역대 최고)</p>
+    <p><strong>④ 2~5년 구조적 전환기:</strong> 두려움보다 조기 적응이 핵심 경쟁력</p>
+  </div>
+
+  <h3>AI 생산성 지표 급증</h3>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value">6.6h</div>
+      <div class="stat-label">GPT 5.2 작업 대체량<br>(역대 최고)</div>
     </div>
-
-    <div class="divider"></div>
-
-    <!-- 3대 기관 & 정책 영역 -->
-    <div class="section">
-        <div class="section-label">CORE CONCEPTS</div>
-        <div class="section-title">🏛️ 미국 경제 3대 정책 영역</div>
-
-        <!-- 차트: 3대 기관 구조 -->
-        <div class="chart-container">
-            <div class="chart-title">미국 경제 정책 3대 축 — 역할 구분</div>
-            <canvas id="chartPillars" height="260"></canvas>
-            <div class="chart-subtitle">각 기관은 독립적으로 운영되며 서로 다른 정책 영역을 담당</div>
-        </div>
-
-        <!-- Card 1: Fiscal -->
-        <div class="card card-fiscal">
-            <div class="card-header">
-                <div class="card-icon icon-fiscal">🏦</div>
-                <div>
-                    <div class="card-title">재정 정책 (Fiscal Policy)</div>
-                    <div class="card-subtitle">담당기관: 재무부 (U.S. Treasury)</div>
-                </div>
-            </div>
-            <p><span class="tag tag-fiscal">FISCAL</span> 재무부 장관(현 스콧 베센트)이 이끄는 기관으로, <strong>예산 편성</strong>과 <strong>세금 징수</strong>가 핵심 기능이다.</p>
-
-            <ul class="inline-list">
-                <li><strong>예산 편성 및 집행</strong> — 정부 재정 운용의 중심</li>
-                <li><strong>세금 징수 (IRS)</strong> — 법인세, 양도소득세(Capital Gains Tax), 탈세 단속 등</li>
-                <li><strong>달러 인쇄</strong> — 물리적 화폐 발행은 재무부 산하 기관에서 담당하지만, <strong>통화량 결정은 연준의 가이던스에 따름</strong></li>
-            </ul>
-
-            <div class="key-point">
-                <div class="key-point-icon">⚠️</div>
-                <p>재무부는 현 정권(캐비닛)에 소속된 기관이다. 정권의 공약과 정책을 재정적으로 뒷받침하는 역할이므로, <strong>통화 정책과는 명확히 구분</strong>해야 한다.</p>
-            </div>
-        </div>
-
-        <!-- Card 2: Monetary -->
-        <div class="card card-monetary">
-            <div class="card-header">
-                <div class="card-icon icon-monetary">🏛️</div>
-                <div>
-                    <div class="card-title">통화 정책 (Monetary Policy)</div>
-                    <div class="card-subtitle">담당기관: 연방준비제도 (Federal Reserve)</div>
-                </div>
-            </div>
-            <p><span class="tag tag-monetary">MONETARY</span> 연준(Fed)은 <strong>독립 기관</strong>으로서 미국의 통화량과 금리를 조절한다. 핵심 목표는 두 가지다:</p>
-
-            <div class="highlight-box" style="margin-top: 16px;">
-                <h4>연준의 이중 책무 (Dual Mandate)</h4>
-                <p>① <strong>완전 고용</strong> (Full Employment) — 실업률 약 3%대 수준<br>
-                ② <strong>물가 안정</strong> (Price Stability) — 적정 인플레이션 유지</p>
-            </div>
-
-            <ul class="inline-list">
-                <li><strong>금리(이자율) 조정</strong>으로 통화량(M1, M2) 관리</li>
-                <li><strong>대차대조표(Balance Sheet) 운용</strong> — 국채 매입·매각을 통한 유동성 조절</li>
-                <li>금리 인하 → 통화량 증가 → 기업 차입 비용 감소 → 고용 증가 (↔ 인플레이션 상승 리스크)</li>
-                <li>금리 인상 → 통화량 감소 → 인플레이션 억제 (↔ 기업 부담 증가)</li>
-            </ul>
-
-            <div class="warning-box">
-                <h4>🚨 정치적 개입의 위험</h4>
-                <p>트럼프 대통령이 자신의 정책에 우호적인 인물(예: 케빈 워시 거론)을 연준 의장에 앉히려는 시도가 있다. 통화 정책에 정치적 목적이 개입되면 <strong>통화 정책 자체가 와해될 수 있으며</strong>, 이것이 현재 가장 큰 리스크라고 영상은 경고한다.</p>
-            </div>
-        </div>
-
-        <!-- Card 3: Financial/Securities -->
-        <div class="card card-financial">
-            <div class="card-header">
-                <div class="card-icon icon-financial">📈</div>
-                <div>
-                    <div class="card-title">금융·증권 시장 (Financial Markets)</div>
-                    <div class="card-subtitle">월가 (Wall Street) / 증권 거래</div>
-                </div>
-            </div>
-            <p><span class="tag tag-financial">FINANCIAL</span> 월가(Wall Street)는 <strong>증권 거래(Securities Trading)</strong>를 의미한다. 재정 정책이나 통화 정책과는 <strong>독립적으로 운영</strong>되는 시장이다.</p>
-
-            <div class="key-point">
-                <div class="key-point-icon">📌</div>
-                <p><strong>"미국 주식 시장"이 아니라 "미국 증권 시장"</strong>이 정확한 표현이다. 주식뿐 아니라 ETF, 채권(Bond), 뮤추얼펀드, 파생상품(Futures) 등 매매 가능한 모든 금융상품을 포괄하기 때문이다.</p>
-            </div>
-
-            <p style="margin-top: 12px;">미국인의 약 <strong>70%</strong>가 증시에 투자하고 있어, 증시 하락은 정권의 재임에 직접적 영향을 미친다. 따라서 재무부와 연준 모두 증시에 우호적인 방향으로 정책을 운영하려는 경향이 있다.</p>
-        </div>
+    <div class="stat-card">
+      <div class="stat-value">82M+</div>
+      <div class="stat-label">맷 슈머 게시글<br>조회수</div>
     </div>
-
-    <div class="divider"></div>
-
-    <!-- 증권의 의미 -->
-    <div class="section">
-        <div class="section-label">SECURITIES</div>
-        <div class="section-title">📊 증권(Securities)의 정확한 의미</div>
-
-        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">
-            증권(Securities)이란 <strong>매매 가능한 가치가 있는 금융 상품</strong>의 총칭이다. 흔히 "주식 시장"이라 부르지만, 실제로는 다양한 상품이 포함되어 있으므로 <strong>"증권 시장"</strong>이 정확한 표현이다.
-        </p>
-
-        <div class="securities-grid">
-            <div class="security-item">
-                <div class="emoji">📃</div>
-                <div class="name">주식 (Stocks)</div>
-                <div class="desc">기업 소유권 지분</div>
-            </div>
-            <div class="security-item">
-                <div class="emoji">📦</div>
-                <div class="name">ETF</div>
-                <div class="desc">상장지수펀드 (상품)</div>
-            </div>
-            <div class="security-item">
-                <div class="emoji">💰</div>
-                <div class="name">채권 (Bonds)</div>
-                <div class="desc">국채·회사채 등 채무증서</div>
-            </div>
-            <div class="security-item">
-                <div class="emoji">🔄</div>
-                <div class="name">파생상품 (Derivatives)</div>
-                <div class="desc">선물·옵션 등</div>
-            </div>
-        </div>
-
-        <div class="key-point">
-            <div class="key-point-icon">💡</div>
-            <p>ETF와 뮤추얼펀드는 주식이 아니라 <strong>'상품(Product)'</strong>으로 분류된다. "ETF가 올랐다 = 증시가 올랐다"고 말하는 것은 부정확하며, 증권 시장 전체의 흐름으로 이해해야 한다.</p>
-        </div>
+    <div class="stat-card">
+      <div class="stat-value">📈 급증</div>
+      <div class="stat-label">신규 웹사이트<br>생성량</div>
     </div>
-
-    <div class="divider"></div>
-
-    <!-- 비교표 -->
-    <div class="section">
-        <div class="section-label">COMPARISON</div>
-        <div class="section-title">📋 3대 영역 비교표</div>
-
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>구분</th>
-                    <th>재정 (Fiscal)</th>
-                    <th>통화 (Monetary)</th>
-                    <th>금융 (Financial)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>담당기관</strong></td>
-                    <td>재무부 (Treasury)</td>
-                    <td>연준 (Fed)</td>
-                    <td>증권시장 (Wall Street)</td>
-                </tr>
-                <tr>
-                    <td><strong>성격</strong></td>
-                    <td>정부 기관 (캐비닛)</td>
-                    <td>독립 기관</td>
-                    <td>민간 시장</td>
-                </tr>
-                <tr>
-                    <td><strong>핵심 기능</strong></td>
-                    <td>예산 편성, 세금 징수</td>
-                    <td>금리·통화량 조절</td>
-                    <td>증권 거래·투자</td>
-                </tr>
-                <tr>
-                    <td><strong>목표</strong></td>
-                    <td>정부 정책 재정 지원</td>
-                    <td>완전고용 + 물가안정</td>
-                    <td>자본배분·수익 창출</td>
-                </tr>
-                <tr>
-                    <td><strong>수장</strong></td>
-                    <td>재무장관 (베센트)</td>
-                    <td>연준의장 (파월)</td>
-                    <td>SEC 위원장 / 시장 자율</td>
-                </tr>
-                <tr>
-                    <td><strong>영어 키워드</strong></td>
-                    <td>Fiscal, Tax, Budget</td>
-                    <td>Monetary, Interest Rate</td>
-                    <td>Securities, Financial</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="stat-card">
+      <div class="stat-value">📈 급증</div>
+      <div class="stat-label">iOS 앱 출시<br>& GitHub 코드량</div>
     </div>
+  </div>
 
-    <div class="divider"></div>
+  <p>실제로 한 크리에이터는 <strong>틱톡 계정 150개</strong>에 AI 생성 영상을 도배하며 인턴 3명을 고용해 월 <strong>$37,000</strong> 수익을 올리고 있다고 보도됐다. 인스타그램의 영상 피드도 2026년 현재 광고를 제외하면 대부분 AI 생성 콘텐츠로 채워지고 있다.</p>
 
-    <!-- 규제 기관 -->
-    <div class="section">
-        <div class="section-label">REGULATORS</div>
-        <div class="section-title">🛡️ 증권시장 규제 기관</div>
+  <div class="highlight-box">
+    <p><strong>투자 시사점:</strong> AI가 생산성을 극적으로 끌어올리며 소프트웨어·미디어·전문서비스 산업의 수익 구조가 근본적으로 변화하고 있다. 이는 AI 인프라(NVDA, AMD), AI 플랫폼(MSFT, GOOG, META), AI 툴링 기업의 밸류에이션 상향을 뒷받침하는 동시에, 전통 노동집약적 산업의 인력 수요 감소를 시사한다. 연준 입장에서는 생산성 향상이 비인플레이션적 성장(non-inflationary growth)을 촉진할 잠재력이 있으나, 고용시장 구조 변화에 대한 모니터링이 필요해진다.</p>
+  </div>
+</section>
 
-        <div class="card card-sec">
-            <div class="card-header">
-                <div class="card-icon icon-sec">⚖️</div>
-                <div>
-                    <div class="card-title">SEC (증권거래위원회)</div>
-                    <div class="card-subtitle">Securities and Exchange Commission</div>
-                </div>
-            </div>
-            <p><span class="tag tag-info">독립기관</span> 대통령의 직접적 간섭을 받지 않는 독립 규제기관으로, 1933~1940년대에 제정된 다양한 증권법을 기반으로 투자자 보호와 시장 감독을 담당한다.</p>
-            <ul class="inline-list">
-                <li>증권법 집행 및 가이던스 제정</li>
-                <li>투자자 보호, 시장 공정성 유지</li>
-                <li>사기·내부거래·사이버범죄 단속</li>
-                <li>미국의 징벌적 제재: 재산 환수 + 10배 이상 배상 + 10년 이상 실형</li>
-            </ul>
-        </div>
+<!-- S4 -->
+<section class="section" id="s4">
+  <span class="section-tag tag-tech">⚡ 모델 신규 출시</span>
+  <h2>4. GPT 5.3 Codex Spark & 셀레브라스 협업</h2>
 
-        <div class="card" style="border-left: 3px solid var(--accent-cyan);">
-            <div class="card-header">
-                <div class="card-icon" style="background: rgba(6, 182, 212, 0.15);">🔍</div>
-                <div>
-                    <div class="card-title">FINRA (금융산업규제청)</div>
-                    <div class="card-subtitle">Financial Industry Regulatory Authority</div>
-                </div>
-            </div>
-            <p><span class="tag" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">자율규제</span> SEC를 보완하는 민간 자율규제기관. 마치 자체 경찰처럼 증권업계 내부의 사이버범죄, 고객 자산 유용, 사기 행위 등을 감시·단속한다.</p>
-        </div>
-    </div>
+  <p>OpenAI가 <strong>GPT 5.3 Codex Spark</strong>를 출시했다. 핵심은 AI 칩 스타트업 <strong>셀레브라스(Cerebras)</strong>와의 협업을 통한 <strong>초고속 추론</strong>이다.</p>
 
-    <div class="divider"></div>
+  <h3>성능 하이라이트</h3>
+  <div class="highlight-box">
+    <p><strong>• 속도:</strong> 일반 GPT 5.3 Codex 대비 압도적 — 게임 코드 <strong>~10초</strong> 완성(일반 모델은 수 분)</p>
+    <p><strong>• 방식:</strong> 셀레브라스의 웨이퍼 스케일 칩(거대 단일 칩)을 활용한 추론 특화</p>
+    <p><strong>• 유사 사례:</strong> Anthropic의 '패스트 모드'와 유사한 고속 추론 경쟁</p>
+  </div>
 
-    <!-- 통화정책 메커니즘 -->
-    <div class="section">
-        <div class="section-label">MECHANISM</div>
-        <div class="section-title">⚙️ 통화정책의 작동 원리</div>
+  <p>별도로 <strong>GPT 5.2가 이론 물리학</strong>에서 강한 핵력(글루온 산란 진폭)에 대한 새 공식을 제안하고, 연구진이 이를 검증하는 데 성공했다는 소식도 전해졌다.</p>
 
-        <!-- 차트: 금리 vs 효과 -->
-        <div class="chart-container">
-            <div class="chart-title">금리 변동에 따른 경제 효과 관계도</div>
-            <canvas id="chartRate" height="280"></canvas>
-            <div class="chart-subtitle">금리 인하 시 고용↑·인플레↑ / 금리 인상 시 고용↓·인플레↓</div>
-        </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Cerebras (비상장/IPO 추진)</span>
+    <span class="ticker-tag">AI칩</span>
+    <span class="ticker-impact impact-up">▲ IPO 주목</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">OpenAI (비상장)</span>
+    <span class="ticker-tag">GPT 5.3</span>
+    <span class="ticker-impact impact-up">▲ 생태계 확대</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Microsoft (MSFT)</span>
+    <span class="ticker-tag">OpenAI 최대주주</span>
+    <span class="ticker-impact impact-up">▲ 간접 수혜</span>
+  </div>
 
-        <div class="flow-diagram">
-            <div class="flow-item">
-                <div class="flow-number" style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue);">1</div>
-                <div class="flow-text"><strong>연준이 기준금리 결정</strong> — 경제 데이터(고용, 물가 등) 기반 판단</div>
-            </div>
-            <div class="flow-item">
-                <div class="flow-number" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);">2</div>
-                <div class="flow-text"><strong>통화량(M1/M2) 조절</strong> — 국채 매입(확장) 또는 매각(긴축)</div>
-            </div>
-            <div class="flow-item">
-                <div class="flow-number" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);">3</div>
-                <div class="flow-text"><strong>시중 유동성 변화</strong> — 기업 차입비용 및 소비에 영향</div>
-            </div>
-            <div class="flow-item">
-                <div class="flow-number" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber);">4</div>
-                <div class="flow-text"><strong>고용·물가에 반영</strong> — 두 목표 간 균형점(적정선) 추구</div>
-            </div>
-        </div>
+  <div class="highlight-box green">
+    <p><strong>투자 시사점:</strong> 초고속 추론 경쟁은 AI 칩 시장의 다양화를 의미한다. NVIDIA 독점 구도에서 셀레브라스·Groq 등 추론 전용 칩 업체의 부상이 가시화되고 있으며, 이는 AI 반도체 생태계의 밸류체인 확장을 시사한다. 또한 AI가 이론 물리학에서 새 결과를 도출한 것은 과학 R&D 가속화의 상징적 사건으로, 제약·재료과학 등 R&D 집약 산업에 장기적 긍정 영향을 줄 수 있다.</p>
+  </div>
+</section>
 
-        <div class="warning-box">
-            <h4>💡 핵심 인사이트: "두 마리 토끼"의 딜레마</h4>
-            <p>완전 고용과 물가 안정은 <strong>서로 반비례(Inverse) 경향</strong>이 있지만 절대적인 관계는 아니다. 다양한 경제 데이터와 통계를 종합해 판단해야 하며, 무조건 금리를 내리는 것이 좋은 것은 아니다. <strong>적정선을 찾는 것이 통화정책의 핵심</strong>이다.</p>
-        </div>
-    </div>
+<!-- S5 -->
+<section class="section" id="s5">
+  <span class="section-tag tag-tech">🧠 모델 신규 출시</span>
+  <h2>5. Gemini 3 Deep Think — 구글의 역습</h2>
 
-    <div class="divider"></div>
+  <p>구글이 과학 연구·공학 문제 해결에 특화된 <strong>Gemini 3 Deep Think</strong> 모델을 공개했다. 불완전한 데이터나 명확한 정답이 없는 복잡한 문제를 다루도록 설계됐다.</p>
 
-    <!-- 흔한 오용 사례 -->
-    <div class="section">
-        <div class="section-label">COMMON MISTAKES</div>
-        <div class="section-title">❌ 자주 혼동하는 용어 오용 사례</div>
+  <h3>벤치마크 성적</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>벤치마크</th><th>Gemini 3 Deep Think</th><th>비교군</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ARC-AGI 2</td><td><strong>84.6점</strong> (압도적 1위)</td><td>Claude Opus 4.6: 68.8점</td></tr>
+      <tr><td>Humanity's Last Exam</td><td><strong>48.4점</strong></td><td>타 모델 대비 최상위권</td></tr>
+      <tr><td>MMU Pro</td><td><strong>81.5점</strong></td><td>—</td></tr>
+      <tr><td>Codeforces</td><td><strong>3,455점</strong> (전 세계 8위)</td><td>상위 7명만 앞섬</td></tr>
+      <tr><td>펠리컨벤치 (SVG)</td><td>자전거 탄 펠리컨 정교 생성</td><td>이전 모델 대비 질적 도약</td></tr>
+    </tbody>
+  </table>
 
-        <div class="misconception-list">
-            <div class="misconception-item">
-                <div class="wrong-label">❌ 잘못된 표현</div>
-                <div class="wrong-text">"재무부의 통화 정책이 달러 가치에 영향을 미친다"</div>
-                <div class="right-label">✅ 올바른 표현</div>
-                <div class="right-text">재무부는 <strong>재정(Fiscal)</strong> 정책을 담당하며, <strong>통화(Monetary)</strong> 정책은 연준의 영역이다. 달러 인쇄는 재무부 산하에서 하지만, 통화량 결정 가이던스는 연준에서 나온다.</div>
-            </div>
+  <div class="highlight-box">
+    <p><strong>특히 주목할 점:</strong> Codeforces에서 전 세계 <strong>8위</strong>를 기록하며, 인간 최상위 코딩 전문가와 직접 경쟁하는 수준에 도달했다. ARC-AGI 2에서는 2위와의 격차가 압도적이다.</p>
+  </div>
 
-            <div class="misconception-item">
-                <div class="wrong-label">❌ 잘못된 표현</div>
-                <div class="wrong-text">"파월 연준 의장은 금융 전문가다"</div>
-                <div class="right-label">✅ 올바른 표현</div>
-                <div class="right-text">파월 의장은 과거 금융 전문가였으나, 연준에 들어온 후에는 <strong>통화 정책 전문가</strong>로 정의해야 한다. 연준의 역할은 금융이 아닌 통화정책이다.</div>
-            </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Alphabet (GOOGL)</span>
+    <span class="ticker-tag">Gemini 3</span>
+    <span class="ticker-impact impact-up">▲ AI 경쟁력 입증</span>
+  </div>
 
-            <div class="misconception-item">
-                <div class="wrong-label">❌ 잘못된 표현</div>
-                <div class="wrong-text">"미국 주식 시장이 하락했다"</div>
-                <div class="right-label">✅ 올바른 표현</div>
-                <div class="right-text">"미국 <strong>증권 시장</strong>이 하락했다"가 정확하다. 주식 외에도 ETF, 채권, 파생상품 등을 아우르기 때문이다.</div>
-            </div>
+  <div class="highlight-box blue">
+    <p><strong>투자 시사점:</strong> Gemini 3 Deep Think의 압도적 벤치마크는 구글의 AI 연구 역량이 여전히 최상위임을 확인시켜준다. GOOGL의 AI 경쟁 리스크 프리미엄이 완화될 수 있으며, 특히 과학·공학 특화 AI는 기업용(B2B) 시장에서 높은 수익 잠재력을 지닌다. 구글은 Gemini 3 해커톤(서울)에서 <strong>2억 원 상당</strong>의 API 크레딧을 제공하며 생태계 확장에도 공격적으로 투자 중이다.</p>
+  </div>
+</section>
 
-            <div class="misconception-item">
-                <div class="wrong-label">❌ 잘못된 표현</div>
-                <div class="wrong-text">"월가에 재정 정책이 영향을 미친다"</div>
-                <div class="right-label">✅ 올바른 표현</div>
-                <div class="right-text">월가(증권시장)는 재정 정책·통화 정책과 <strong>독립적으로 운영</strong>된다. 서로 간접적 영향은 있으나 직접적 관할이 아니다.</div>
-            </div>
-        </div>
-    </div>
+<!-- S6 -->
+<section class="section" id="s6">
+  <span class="section-tag tag-open">🌐 중국 AI·오픈소스</span>
+  <h2>6. 중국 AI 오픈소스 공세 (GLM-5, MiniMax M2.5, Qwen 2.0)</h2>
 
-    <div class="divider"></div>
+  <h3>① GLM-5 (오픈소스, 허깅페이스 공개)</h3>
+  <div class="highlight-box green">
+    <p><strong>• 매개변수:</strong> 7,440억 (활성 400억) — 허깅페이스에서 다운로드 가능</p>
+    <p><strong>• Humanity's Last Exam:</strong> <strong>50.4점</strong> — Gemini 3 Deep Think(48.4점)을 상회!</p>
+    <p><strong>• SWE-bench Verified:</strong> 최상위권 / 디자인 아레나 오픈웨이트 1위</p>
+    <p><strong>• 라이센스:</strong> 오픈소스 — GPU 보유 시 직접 구동 가능</p>
+  </div>
 
-    <!-- 미국 증시 투자 시사점 -->
-    <div class="section">
-        <div class="section-label">INVESTMENT IMPLICATIONS</div>
-        <div class="section-title">🎯 미국 증시 투자 시사점</div>
+  <h3>② MiniMax M2.5 (클로즈드, 중국)</h3>
+  <div class="highlight-box">
+    <p><strong>• SWE-bench Verified:</strong> 80.2점 (Anthropic·OpenAI 모델과 동급)</p>
+    <p><strong>• Multi SWE-bench:</strong> <strong>1위</strong></p>
+    <p><strong>• 성격:</strong> 클로즈드 모델이나 저렴한 가격으로 주목</p>
+  </div>
 
-        <!-- 차트: 미국인 증시 참여율 -->
-        <div class="chart-container">
-            <div class="chart-title">미국 가계의 증시 참여 — 정책과의 연관성</div>
-            <canvas id="chartParticipation" height="220"></canvas>
-            <div class="chart-subtitle">미국인 약 70%가 증시에 투자 → 증시 하락은 정치적 리스크</div>
-        </div>
+  <h3>③ Qwen Image 2.0 (이미지 생성)</h3>
+  <div class="highlight-box">
+    <p><strong>• Arena 순위:</strong> 이미지 생성 모델 <strong>3위</strong> (나노바나나 프로 이하, 일반 나노바나나 상회)</p>
+    <p><strong>• 특징:</strong> 전문가급 인포그래픽, 글씨 표현 정교, 웹에서 무료 사용 가능</p>
+  </div>
 
-        <div class="card" style="border-left: 3px solid var(--accent-emerald);">
-            <div class="card-header">
-                <div class="card-icon icon-financial">🎯</div>
-                <div>
-                    <div class="card-title">투자자가 기억해야 할 5가지</div>
-                </div>
-            </div>
-            <ul class="inline-list">
-                <li><strong>정책 영역 구분의 중요성</strong> — 재정·통화·금융 영역을 혼동하면 시장 논리를 이해하기 어렵다. 뉴스를 볼 때 어떤 영역의 이야기인지 먼저 구분하라.</li>
-                <li><strong>연준 독립성 주시</strong> — 트럼프 행정부의 연준 의장 교체 시도는 통화 정책의 신뢰성을 훼손할 수 있는 최대 리스크다. 연준 독립성 관련 뉴스에 민감하게 반응하라.</li>
-                <li><strong>금리 방향 ≠ 시장 방향</strong> — 금리 인하가 무조건 호재가 아니고, 인상이 무조건 악재가 아니다. 금리 변화의 배경(인플레 수준, 고용 상황)을 함께 봐야 한다.</li>
-                <li><strong>증권 시장의 포괄적 이해</strong> — 주식뿐 아니라 ETF, 채권, 파생상품까지 포함한 전체 증권 시장의 흐름을 파악하라.</li>
-                <li><strong>70% 투자 참여율의 의미</strong> — 미국인 70%가 투자하고 있어, 어떤 정권도 증시를 훼손하는 정책은 장기적으로 유지하기 어렵다. 이는 장기 투자자에게 구조적 안전망이 된다.</li>
-            </ul>
-        </div>
+  <h3>오픈소스 vs 클로즈드 격차 추이</h3>
+  <p>오픈소스(오픈웨이트) 모델과 클로즈드 모델 간 성능 격차가 <strong>급격히 축소</strong>되고 있다. 2025년 말 기준 오픈소스 모델이 이미 최상위권에 진입했으며, 딥시크의 신모델 출시 예고까지 더해져 시장 판도의 추가 변화가 예상된다.</p>
 
-        <div class="highlight-box">
-            <h4>📌 현재 시장에서의 적용</h4>
-            <p>2026년 초 현재, 트럼프 행정부의 재정 정책(관세, 감세)과 연준의 통화 정책(금리 동결/인하 고민) 그리고 증권 시장의 반응이 서로 다른 방향을 가리킬 수 있다. 각 영역의 움직임을 <strong>독립적으로 분석한 후 교차점을 찾는 것</strong>이 올바른 투자 판단의 출발점이다.</p>
-        </div>
-    </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Alibaba (BABA)</span>
+    <span class="ticker-tag">Qwen 시리즈</span>
+    <span class="ticker-impact impact-up">▲ AI 경쟁력</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">NVIDIA (NVDA)</span>
+    <span class="ticker-tag">중국 GPU 수요</span>
+    <span class="ticker-impact impact-neutral">— 제재 변수</span>
+  </div>
 
-    <div class="divider"></div>
+  <div class="highlight-box red">
+    <p><strong>투자 시사점:</strong> 중국 AI 모델의 급격한 추격은 미국 AI 기업의 '기술적 해자(moat)'가 생각보다 좁을 수 있음을 시사한다. 특히 오픈소스 모델의 상용 AI 서비스 대체 가능성이 높아지면서, <strong>프리미엄 구독료에 의존하는 OpenAI·Anthropic의 수익 모델</strong>에 대한 시장 우려가 확대될 수 있다. 반면 GPU·인프라 기업은 오픈소스 확산에 따른 전체 컴퓨팅 수요 증가의 수혜를 받는다. 미·중 AI 패권 경쟁 심화는 반도체 수출 규제 강화 가능성도 내포한다.</p>
+  </div>
+</section>
 
-    <!-- 거시경제 연관성 -->
-    <div class="section">
-        <div class="section-label">MACRO CONTEXT</div>
-        <div class="section-title">🌐 거시경제 및 연준 정책 맥락</div>
+<!-- S7 -->
+<section class="section" id="s7">
+  <span class="section-tag tag-tech">🎙️ 음성 AI</span>
+  <h2>7. 음성 AI — ElevenLabs Expressive Mode & Moss TTS</h2>
 
-        <div class="card">
-            <p>영상에서 제시된 개념 프레임워크를 현재 거시경제 환경에 대입하면 다음과 같은 맥락이 보인다:</p>
+  <h3>ElevenLabs: 표현력 넘치는 모드(Expressive Mode)</h3>
+  <p>음성 AI 유니콘 <strong>ElevenLabs</strong>가 감정 표현 특화 모드를 출시했다. 항공사 고객 상담 시연에서 고객의 분노에 공감하며 부드럽게 대응하고, 현실적 대안을 제시하는 감정 노동 수준의 음성 대화가 가능함을 보여줬다.</p>
 
-            <div class="key-point" style="margin-top: 16px;">
-                <div class="key-point-icon">🔸</div>
-                <p><strong>재정 정책 측면</strong> — 베센트 재무장관 하에서 관세 부과, 재정 지출 구조 변화 등이 진행 중. 이는 Fiscal 영역의 이슈이므로 통화정책과 분리해서 이해해야 한다.</p>
-            </div>
+  <h3>Moss TTS: 오픈소스 음성 복제</h3>
+  <div class="highlight-box">
+    <p><strong>• 기능:</strong> TTS, 실시간 음성 전사, 사운드 이펙트, 음성 복제</p>
+    <p><strong>• 라이센스:</strong> Apache 2.0 (상업적 활용 가능)</p>
+    <p><strong>• 성능:</strong> Qwen3 TTS와 유사한 벤치마크 수준</p>
+    <p><strong>• 특징:</strong> 레퍼런스 오디오 제공 시 목소리 톤까지 정확히 복제</p>
+  </div>
 
-            <div class="key-point">
-                <div class="key-point-icon">🔹</div>
-                <p><strong>통화 정책 측면</strong> — 연준은 인플레이션과 고용 사이의 균형을 찾는 중. 정치적 압력(의장 교체 거론)이 실현되면, 시장은 통화 정책의 예측 가능성 상실을 가장 큰 리스크로 인식할 가능성이 높다.</p>
-            </div>
+  <div class="highlight-box">
+    <p><strong>투자 시사점:</strong> 음성 AI 고도화는 콜센터·고객 서비스 산업의 자동화를 가속화한다. ElevenLabs(비상장, 유니콘)의 성장은 음성 AI 시장의 확대를 반영하며, 기존 콜센터 BPO 기업(TTEC, Teleperformance 등)에는 구조적 위협이 된다. 오픈소스 TTS의 상업적 활용은 중소기업의 AI 도입 장벽을 낮춰 전반적인 AI 채택률을 높인다.</p>
+  </div>
+</section>
 
-            <div class="key-point">
-                <div class="key-point-icon">🔸</div>
-                <p><strong>증권 시장 측면</strong> — 미국인 70%가 투자에 참여한다는 구조는, 정권이 장기적으로 증시 친화적 방향을 취할 수밖에 없는 근본 동인이다. 서학개미 투자자에게는 장기적 관점에서 긍정적 요소다.</p>
-            </div>
-        </div>
-    </div>
+<!-- S8 -->
+<section class="section" id="s8">
+  <span class="section-tag tag-robot">🤖 휴머노이드</span>
+  <h2>8. 휴머노이드 로봇 — 제조업 자동화 가속</h2>
 
-    <!-- Source -->
-    <div class="source-info">
-        <p>📺 출처: <a href="https://www.youtube.com/watch?v=PR5uVYq3jc0&t=41s" target="_blank">10분 투자 아카데미 #3 — NOVA Real Invest</a></p>
-        <p style="margin-top: 8px;">본 문서는 영상 내용을 기반으로 분석·정리한 것이며, 투자 권유가 아닙니다.<br>투자 판단은 본인의 책임 하에 이루어져야 합니다.</p>
-    </div>
+  <h3>이번 주 주요 로봇 소식</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>업체</th><th>모델</th><th>주요 성능</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Engine AI</td><td>최신 모델</td><td>노CGI·노스피드업 — 자연스러운 보행, 넘어져도 즉시 기립, 춤 동작</td></tr>
+      <tr><td>AGIBot (상하이)</td><td>Expedition A3</td><td>강력한 힘(유리·도자기 파괴), 화려한 발차기 시연</td></tr>
+      <tr><td>Kuang 3.0</td><td>—</td><td>윈드밀(풍차 돌리기) 동작 시연</td></tr>
+      <tr><td>로봇 테라</td><td>L7</td><td>사람과 함께 검무(劍舞) 수행</td></tr>
+      <tr><td>Figure AI (미국)</td><td>7세대 손</td><td>정교한 손가락 움직임, 세밀한 조작 능력 향상</td></tr>
+      <tr><td>Tesla</td><td>Optimus (옵티머스)</td><td>인간 수준의 자연스러운 손 움직임 공개</td></tr>
+      <tr><td>Unitree (유니트리)</td><td>공장 투입</td><td><strong>자가 부품 조립</strong> — 자사 모터를 스스로 조립하는 자기 증식 단계 진입</td></tr>
+    </tbody>
+  </table>
 
-    <div class="bottom-space"></div>
+  <div class="highlight-box orange">
+    <p><strong>핵심 이정표:</strong> 유니트리가 자사 공장에서 <strong>자기 부품(모터)을 스스로 조립</strong>하는 모습이 공개됐다. 이는 로봇의 '자가 증식(self-replication)' 가능성을 보여주는 상징적 사건으로, 인간 개입 없이도 방해 시 자동 재시도하는 모습까지 시연됐다.</p>
+  </div>
+
+  <div class="ticker-row">
+    <span class="ticker-name">Tesla (TSLA)</span>
+    <span class="ticker-tag">Optimus</span>
+    <span class="ticker-impact impact-up">▲ 장기 가치</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Figure AI (비상장)</span>
+    <span class="ticker-tag">7세대 손</span>
+    <span class="ticker-impact impact-up">▲ 기술 우위</span>
+  </div>
+  <div class="ticker-row">
+    <span class="ticker-name">Hyundai/Boston Dynamics</span>
+    <span class="ticker-tag">Atlas</span>
+    <span class="ticker-impact impact-up">▲ 경쟁 심화</span>
+  </div>
+
+  <div class="highlight-box">
+    <p><strong>투자 시사점:</strong> 휴머노이드 로봇의 발전 속도가 매주 체감될 정도로 빠르다. 특히 유니트리의 자가 조립은 제조업 자동화의 끝단을 보여주며, 중장기적으로 인건비·생산성에 구조적 영향을 미칠 전망이다. 테슬라(TSLA)의 Optimus 프리미엄, 엔비디아(NVDA)의 로봇 시뮬레이션 플랫폼(Isaac), 관련 센서·액추에이터 기업에 대한 관심이 필요하다.</p>
+  </div>
+</section>
+
+<!-- S9 -->
+<section class="section" id="s9">
+  <span class="section-tag tag-market">💬 시장 이벤트</span>
+  <h2>9. AI 컴패니언 시장 & ChatGPT 한국 마케팅</h2>
+
+  <h3>ChatGPT Pro 카카오 선물하기 대란</h3>
+  <div class="highlight-box">
+    <p><strong>• 정가:</strong> 월 ~30만 원 (약 $200/월)</p>
+    <p><strong>• 프로모션가:</strong> 카카오 선물하기에서 <strong>2.9만 원</strong> (1/10 가격)</p>
+    <p><strong>• 결과:</strong> 급상승 인기 선물 키워드 1위 → 대란 → 판매 중단 → 5개 초과 등록 시 환불 가능 조건 추가</p>
+    <p><strong>• 유효기간:</strong> 93일 / 1인당 5개 사용 가능</p>
+    <p><strong>• 2차 시장:</strong> 중고나라·당근에서 4.5~15만 원에 되파는 현상 발생</p>
+  </div>
+
+  <p>이 사건은 한국 시장에서 ChatGPT의 점유율 확대를 위한 공격적 마케팅으로 해석된다. OpenAI의 적자 구조에서 이 프로모션은 단기적으로 손실을 확대하지만, 신규 사용자 확보 효과는 클 것으로 보인다.</p>
+
+  <h3>AI 컴패니언 — Clawra & Simple Clora</h3>
+  <p>오픈클로(Open Claw) 열풍에 이어, AI 여자친구/남자친구 서비스가 빠르게 확산되고 있다. <strong>Clawra</strong>는 오픈클로를 컴패니언 형태로 재구성한 오픈소스 프로젝트(MIT 라이센스)이며, <strong>Simple Clora</strong>는 독립 인스턴스 기반의 상용 서비스로 텔레그램을 통해 이미지·영상·코드 생성까지 가능하다.</p>
+
+  <div class="highlight-box">
+    <p><strong>참고 — Grok 점유율 급등:</strong> Grok의 이미지 생성 관련 논란 이후 미국 점유율이 <strong>1년 전 대비 9배</strong> 증가했다는 데이터가 공개됐다. 이는 AI 서비스의 점유율 경쟁이 기술 성능뿐 아니라 '규제의 느슨함'으로도 좌우될 수 있음을 시사한다.</p>
+  </div>
+
+  <div class="highlight-box blue">
+    <p><strong>투자 시사점:</strong> AI 컴패니언 시장은 Character.AI 인수(Google) 사례처럼 빅테크의 소비자 AI 전략의 핵심 축이 되고 있다. OpenAI의 한국 마케팅 대란은 글로벌 시장에서의 공격적 점유율 확대 전략을 보여주며, 이는 수익성보다 성장을 우선시하는 벤처적 접근이다. xAI(Grok)의 점유율 급등은 규제 차별화가 경쟁 변수가 될 수 있음을 경고한다.</p>
+  </div>
+</section>
+
+<!-- S10: 종합 -->
+<section class="section" id="s10">
+  <span class="section-tag tag-macro">🎯 종합 전략</span>
+  <h2>10. 종합 투자 시사점 및 전략</h2>
+
+  <div class="conclusion">
+    <h3>🔑 이번 주 핵심 키워드: "AI 가속화의 변곡점"</h3>
+    <p>영상생성(Seedance 2.0), 추론 속도(GPT 5.3 Spark), 과학 연구(Gemini 3 Deep Think), 오픈소스(GLM-5), 음성(ElevenLabs), 로봇(유니트리 자가 조립)까지 — 모든 AI 영역에서 동시다발적 돌파가 일어나고 있다. 맷 슈머의 8,200만 뷰 게시글이 상징하듯, 시장 참여자들은 이 변화의 규모를 실감하고 있다.</p>
+  </div>
+
+  <h3>📌 섹터별 투자 전략 요약</h3>
+  <table class="data-table">
+    <thead>
+      <tr><th>섹터</th><th>방향</th><th>핵심 근거</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>AI 인프라 (GPU·데이터센터)</td><td style="color:var(--green);font-weight:600;">비중 확대</td><td>영상·추론·로봇 등 모든 AI가 GPU 소비 → 수요 구조적 증가</td></tr>
+      <tr><td>AI 플랫폼 빅테크</td><td style="color:var(--green);font-weight:600;">선별적 비중 확대</td><td>GOOGL(Gemini 3), MSFT(OpenAI), META(Llama) 경쟁력 유효</td></tr>
+      <tr><td>AI 칩 스타트업</td><td style="color:var(--green);font-weight:600;">IPO 관심</td><td>셀레브라스, Groq 등 추론 전용 칩 시장 부상</td></tr>
+      <tr><td>전통 미디어·VFX</td><td style="color:var(--red);font-weight:600;">구조적 비중 축소</td><td>Seedance 2.0 충격, 할리우드 IP 가치 재평가 불가피</td></tr>
+      <tr><td>콜센터 BPO</td><td style="color:var(--red);font-weight:600;">비중 축소</td><td>ElevenLabs 등 감정 AI 상담 현실화</td></tr>
+      <tr><td>휴머노이드·로봇</td><td style="color:var(--green);font-weight:600;">장기 관심</td><td>유니트리 자가조립, Figure 7세대 손 등 실용화 가속</td></tr>
+      <tr><td>중국 AI·오픈소스</td><td style="color:var(--orange);font-weight:600;">리스크 모니터링</td><td>미국 AI 기업 해자 축소 가능성, 규제 비대칭 심화</td></tr>
+    </tbody>
+  </table>
+
+  <h3>📊 거시경제 & 연준 정책 시사점</h3>
+  <div class="highlight-box green">
+    <p><strong>① 생산성 혁명 → 비인플레이션적 성장:</strong> AI가 6.6시간 분량의 작업을 대체할 수 있다는 것은 기업의 단위 생산비 절감을 의미한다. 이는 연준이 인플레이션 우려 없이 완화적 기조를 유지할 근거가 될 수 있다.</p>
+    <p><strong>② 고용 구조 변화 리스크:</strong> AI 영상·콘텐츠·코딩·상담 자동화가 동시에 진행되면서, 특정 직군(VFX, 콜센터, 주니어 개발자)의 고용 감소가 현실화될 수 있다. 실업률 데이터의 질적 변화에 주의가 필요하다.</p>
+    <p><strong>③ 미·중 AI 패권 경쟁 격화:</strong> 중국 오픈소스의 빠른 추격, Seedance의 저작권 무시, 바이트댄스의 LLM 경쟁력 부상 등은 미국의 추가 수출 규제를 촉발할 수 있다. 반도체 수출 규제 관련 정책 변화에 예의주시할 필요가 있다.</p>
+  </div>
+
+  <div class="highlight-box orange">
+    <p><strong>⚠️ 리스크 요인:</strong> (1) AI 버블 우려 — 비상장 AI 기업의 밸류에이션 과열, (2) 저작권 규제 강화 시 AI 기업 비용 증가, (3) 오픈소스 확산으로 인한 유료 AI 서비스 마진 압박, (4) 미·중 기술 디커플링 심화 시 글로벌 공급망 교란</p>
+  </div>
+</section>
+
 </div>
 
-<script>
-    // Chart.js Global Config
-    Chart.defaults.color = '#94a3b8';
-    Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
-    Chart.defaults.font.size = 12;
-
-    // Chart 1: 3대 기관 역할 구분 (Radar)
-    new Chart(document.getElementById('chartPillars'), {
-        type: 'radar',
-        data: {
-            labels: ['예산 편성', '세금 징수', '금리 결정', '통화량 조절', '증권 규제', '투자자 보호'],
-            datasets: [
-                {
-                    label: '재무부 (Fiscal)',
-                    data: [95, 95, 5, 10, 10, 5],
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#f59e0b'
-                },
-                {
-                    label: '연준 (Monetary)',
-                    data: [5, 5, 95, 95, 10, 10],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#3b82f6'
-                },
-                {
-                    label: '증권시장/SEC (Financial)',
-                    data: [5, 5, 5, 5, 90, 90],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    borderWidth: 2,
-                    pointBackgroundColor: '#10b981'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' }
-                }
-            },
-            scales: {
-                r: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: { display: false },
-                    grid: { color: 'rgba(148, 163, 184, 0.1)' },
-                    pointLabels: { font: { size: 11 }, color: '#94a3b8' },
-                    angleLines: { color: 'rgba(148, 163, 184, 0.1)' }
-                }
-            }
-        }
-    });
-
-    // Chart 2: 금리 vs 고용·인플레이션 관계
-    new Chart(document.getElementById('chartRate'), {
-        type: 'line',
-        data: {
-            labels: ['고금리', '', '', '중립금리', '', '', '저금리'],
-            datasets: [
-                {
-                    label: '고용 수준',
-                    data: [30, 38, 48, 60, 72, 82, 90],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2.5,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#3b82f6'
-                },
-                {
-                    label: '인플레이션',
-                    data: [20, 28, 38, 50, 64, 78, 92],
-                    borderColor: '#f43f5e',
-                    backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2.5,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#f43f5e'
-                },
-                {
-                    label: '기업 차입 부담',
-                    data: [90, 80, 68, 55, 40, 28, 15],
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245, 158, 11, 0.05)',
-                    fill: false,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    borderDash: [6, 3],
-                    pointRadius: 3,
-                    pointBackgroundColor: '#f59e0b'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { padding: 14, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } }
-                },
-                tooltip: {
-                    backgroundColor: '#1e293b',
-                    titleColor: '#f1f5f9',
-                    bodyColor: '#94a3b8',
-                    borderColor: '#334155',
-                    borderWidth: 1,
-                    cornerRadius: 8
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    grid: { color: 'rgba(148, 163, 184, 0.08)' },
-                    ticks: { callback: v => v + '%' }
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
-        }
-    });
-
-    // Chart 3: 미국 가계 증시 참여
-    new Chart(document.getElementById('chartParticipation'), {
-        type: 'doughnut',
-        data: {
-            labels: ['증시 투자 참여', '미참여'],
-            datasets: [{
-                data: [70, 30],
-                backgroundColor: ['#3b82f6', '#1e293b'],
-                borderColor: ['#3b82f6', '#334155'],
-                borderWidth: 2,
-                hoverOffset: 8
-            }]
-        },
-        options: {
-            responsive: true,
-            cutout: '65%',
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' }
-                },
-                tooltip: {
-                    backgroundColor: '#1e293b',
-                    callbacks: {
-                        label: function(ctx) {
-                            return ctx.label + ': ' + ctx.parsed + '%';
-                        }
-                    }
-                }
-            }
-        },
-        plugins: [{
-            id: 'centerText',
-            beforeDraw: function(chart) {
-                const { width, height, ctx } = chart;
-                ctx.restore();
-                ctx.font = "bold 28px 'Noto Sans KR'";
-                ctx.fillStyle = '#f1f5f9';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('70%', width / 2, height / 2 - 8);
-                ctx.font = "12px 'Noto Sans KR'";
-                ctx.fillStyle = '#64748b';
-                ctx.fillText('투자 참여율', width / 2, height / 2 + 18);
-                ctx.save();
-            }
-        }]
-    });
-</script>
+<footer class="footer">
+  <p>본 문서는 조코딩 채널의 IT뉴스(2026.02.15) 자막을 기반으로<br>미국 증시 및 경제적 관점에서 분석한 자료입니다.</p>
+  <p style="margin-top:8px;">투자 판단의 책임은 본인에게 있으며, 본 자료는 투자 권유가 아닙니다.</p>
+</footer>
 
 </body>
 </html>
