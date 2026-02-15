@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시험문제 10선 | AI 뉴스 미국 증시 분석 (2026.02.15)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e8e8f0;
+  --text-dim: #8888a0;
+  --accent: #6c5ce7;
+  --accent2: #00cec9;
+  --red: #ff6b6b;
+  --green: #51cf66;
+  --orange: #ffa94d;
+  --yellow: #ffd43b;
+  --blue: #4dabf7;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.75;
+  font-size:15px;
+}
+.container { max-width:680px; margin:0 auto; padding:0 16px; }
+
+.page-header {
+  background: linear-gradient(135deg, #1a1040 0%, #0a0a1a 50%, #0a1a2a 100%);
+  padding: 40px 16px 32px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.page-header h1 {
+  font-size: 20px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #fff 0%, #c8c8e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.page-header p { font-size:12px; color:var(--text-dim); }
+
+/* Question Card */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.q-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.q-num {
+  background: var(--accent);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.q-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.q-type, .q-diff {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.q-type { background: rgba(108,92,231,0.15); color: var(--accent); }
+.diff-easy { background: rgba(81,207,102,0.15); color: var(--green); }
+.diff-medium { background: rgba(255,169,77,0.15); color: var(--orange); }
+.diff-hard { background: rgba(255,107,107,0.15); color: var(--red); }
+
+.q-text {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+.q-options {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.q-options li {
+  background: var(--surface2);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 300;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.q-options li:hover {
+  border-color: var(--accent);
+  background: rgba(108,92,231,0.06);
+}
+
+/* Answer Section */
+.divider {
+  text-align: center;
+  padding: 48px 0 16px;
+  position: relative;
+}
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+.divider span {
+  position: relative;
+  background: var(--bg);
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent2);
+  letter-spacing: 2px;
+}
+
+.a-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 10px 0;
+}
+.a-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.a-num {
+  background: var(--accent2);
+  color: #000;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.a-answer {
+  font-weight: 700;
+  color: var(--accent2);
+  font-size: 14px;
+}
+.a-explain {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.footer {
+  text-align:center;
+  padding:32px 16px;
+  font-size:11px;
+  color:var(--text-dim);
+  border-top:1px solid var(--border);
+  margin-top: 24px;
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>📝 시험문제 10선</h1>
+  <p>AI 뉴스 미국 증시 분석 (2026.02.15) 기반 | 쉬움 30% · 보통 50% · 어려움 20%</p>
+</header>
+
+<div class="container">
+
+<!-- ======================== 문제 영역 ======================== -->
+
+<!-- Q1 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">01</span>
+    <div class="q-meta">
+      <span class="q-type">객관식</span>
+      <span class="q-diff diff-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">Seedance 2.0을 개발한 기업은 어디이며, 이 기업은 어떤 글로벌 서비스의 모회사인가?</div>
+  <ol class="q-options">
+    <li>① 알리바바 — 타오바오</li>
+    <li>② 바이트댄스 — 틱톡</li>
+    <li>③ 텐센트 — 위챗</li>
+    <li>④ 미니맥스 — 하이퍼클로바</li>
+  </ol>
+</div>
+
+<!-- Q2 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">02</span>
+    <div class="q-meta">
+      <span class="q-type">OX</span>
+      <span class="q-diff diff-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">Gemini 3 Deep Think의 Codeforces 점수는 3,455점으로, 전 세계에서 이보다 높은 순위의 인간은 단 7명뿐이다.</div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">03</span>
+    <div class="q-meta">
+      <span class="q-type">객관식</span>
+      <span class="q-diff diff-medium">보통</span>
+    </div>
+  </div>
+  <div class="q-text">GPT 5.3 Codex Spark의 초고속 추론을 가능하게 한 AI 칩 스타트업의 핵심 기술은 무엇인가?</div>
+  <ol class="q-options">
+    <li>① TPU(Tensor Processing Unit) 클러스터링</li>
+    <li>② 웨이퍼 스케일 칩(Wafer Scale Chip)</li>
+    <li>③ 양자 컴퓨팅 기반 추론</li>
+    <li>④ FPGA 기반 재구성 가능 칩</li>
+  </ol>
+</div>
+
+<!-- Q4 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">04</span>
+    <div class="q-meta">
+      <span class="q-type">단답형</span>
+      <span class="q-diff diff-easy">쉬움</span>
+    </div>
+  </div>
+  <div class="q-text">맷 슈머의 "Something Big Is Happening" 게시글이 기록한 조회수는 약 몇 만 뷰인가?</div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">05</span>
+    <div class="q-meta">
+      <span class="q-type">객관식</span>
+      <span class="q-diff diff-medium">보통</span>
+    </div>
+  </div>
+  <div class="q-text">GLM-5 모델의 Humanity's Last Exam 점수(50.4점)가 갖는 의미로 가장 정확한 것은?</div>
+  <ol class="q-options">
+    <li>① 모든 클로즈드 모델보다 낮은 수준이다</li>
+    <li>② Gemini 3 Deep Think(48.4점)보다 높아 오픈소스 모델로서 이례적이다</li>
+    <li>③ GPT 5.3과 동일한 점수이다</li>
+    <li>④ 해당 벤치마크에서 역대 최저 기록이다</li>
+  </ol>
+</div>
+
+<!-- Q6 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">06</span>
+    <div class="q-meta">
+      <span class="q-type">OX</span>
+      <span class="q-diff diff-medium">보통</span>
+    </div>
+  </div>
+  <div class="q-text">Seedance 2.0에 대해 디즈니가 사용 중지 및 금지 명령서를 보낸 주된 이유는, AI가 스타워즈·마블 등 디즈니 IP를 저작권 필터링 없이 생성해내기 때문이다.</div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">07</span>
+    <div class="q-meta">
+      <span class="q-type">객관식</span>
+      <span class="q-diff diff-medium">보통</span>
+    </div>
+  </div>
+  <div class="q-text">GPT 5.2 기준, AI가 인간 업무를 대체할 수 있는 시간은 약 얼마로 보고되었는가?</div>
+  <ol class="q-options">
+    <li>① 약 2.5시간</li>
+    <li>② 약 4.2시간</li>
+    <li>③ 약 6.6시간</li>
+    <li>④ 약 10시간</li>
+  </ol>
+</div>
+
+<!-- Q8 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">08</span>
+    <div class="q-meta">
+      <span class="q-type">단답형</span>
+      <span class="q-diff diff-medium">보통</span>
+    </div>
+  </div>
+  <div class="q-text">유니트리 로봇이 자사 공장에서 시연한 '자가 증식'적 성과는 구체적으로 무엇인가? (한 문장으로 답하시오)</div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">09</span>
+    <div class="q-meta">
+      <span class="q-type">객관식</span>
+      <span class="q-diff diff-hard">어려움</span>
+    </div>
+  </div>
+  <div class="q-text">오픈소스 AI 모델의 빠른 추격이 미국 증시에 미칠 수 있는 영향으로 <strong>가장 거리가 먼</strong> 것은?</div>
+  <ol class="q-options">
+    <li>① OpenAI·Anthropic 등 유료 AI 서비스의 마진 압박 우려 증가</li>
+    <li>② GPU·AI 인프라 기업의 전체 컴퓨팅 수요 증가에 따른 수혜</li>
+    <li>③ 미국 정부의 반도체 수출 규제 완화를 통한 중국 AI 지원 가속</li>
+    <li>④ 미국 AI 기업의 기술적 해자(moat) 축소 우려로 밸류에이션 재평가</li>
+  </ol>
+</div>
+
+<!-- Q10 -->
+<div class="q-card">
+  <div class="q-header">
+    <span class="q-num">10</span>
+    <div class="q-meta">
+      <span class="q-type">서술형</span>
+      <span class="q-diff diff-hard">어려움</span>
+    </div>
+  </div>
+  <div class="q-text">이번 주 AI 뉴스 전체를 종합할 때, AI의 급격한 생산성 향상이 <strong>연준(Fed) 통화정책</strong>에 미칠 수 있는 영향을 '비인플레이션적 성장(non-inflationary growth)'과 '고용 구조 변화'의 두 가지 관점에서 서술하시오. (3~5문장)</div>
+</div>
+
+<!-- ======================== 정답·해설 영역 ======================== -->
+
+<div class="divider"><span>📋 정답 및 해설</span></div>
+
+<!-- A1 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">01</span>
+    <span class="a-answer">정답: ② 바이트댄스 — 틱톡</span>
+  </div>
+  <div class="a-explain">Seedance 2.0은 틱톡을 만든 모회사인 바이트댄스(ByteDance)가 개발한 영상생성 AI 모델이다. 바이트댄스는 비상장 기업이지만, 틱톡의 글로벌 영향력과 함께 AI 분야에서도 빠르게 존재감을 확대하고 있다.</div>
+</div>
+
+<!-- A2 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">02</span>
+    <span class="a-answer">정답: O (맞다)</span>
+  </div>
+  <div class="a-explain">Gemini 3 Deep Think는 Codeforces에서 3,455점을 기록하며, 전 세계 코딩 경쟁에서 8등에 해당한다. 이보다 높은 순위에 있는 인간은 단 7명뿐으로, AI가 인간 최상위 코더와 직접 경쟁하는 수준에 도달했음을 보여준다.</div>
+</div>
+
+<!-- A3 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">03</span>
+    <span class="a-answer">정답: ② 웨이퍼 스케일 칩(Wafer Scale Chip)</span>
+  </div>
+  <div class="a-explain">셀레브라스(Cerebras)는 거대한 단일 웨이퍼 크기의 칩을 제조하는 추론 전문 스타트업이다. OpenAI와 협업하여 GPT 5.3 Codex Spark에 초고속 추론 능력을 제공했으며, 일반 모델 대비 극적인 속도 향상(게임 코드 ~10초 완성)을 달성했다.</div>
+</div>
+
+<!-- A4 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">04</span>
+    <span class="a-answer">정답: 약 8,200만 뷰 (82M+)</span>
+  </div>
+  <div class="a-explain">하이퍼라이트 AI 대표 맷 슈머(Matt Shumer)가 작성한 "Something Big Is Happening" 게시글은 8,200만 뷰 이상을 기록하며 AI 가속화에 대한 업계의 공감을 반영했다.</div>
+</div>
+
+<!-- A5 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">05</span>
+    <span class="a-answer">정답: ② Gemini 3 Deep Think(48.4점)보다 높아 오픈소스 모델로서 이례적이다</span>
+  </div>
+  <div class="a-explain">GLM-5는 오픈소스 모델임에도 Humanity's Last Exam에서 50.4점을 기록해, 구글이 막 출시한 Gemini 3 Deep Think(48.4점)마저 상회했다. 이는 오픈소스와 클로즈드 모델 간의 성능 격차가 급격히 축소되고 있음을 보여주는 상징적 사례이다.</div>
+</div>
+
+<!-- A6 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">06</span>
+    <span class="a-answer">정답: O (맞다)</span>
+  </div>
+  <div class="a-explain">디즈니는 Seedance 2.0이 스타워즈, 마블 등 자사 IP를 저작권 필터링 없이 무차별 생성하는 것에 대해 공식적으로 사용 중지 및 금지 명령서를 발송했다. MPA(미국영화협회)와 배우 연합도 유사한 성명을 냈다.</div>
+</div>
+
+<!-- A7 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">07</span>
+    <span class="a-answer">정답: ③ 약 6.6시간</span>
+  </div>
+  <div class="a-explain">GPT 5.2 기준으로 AI가 인간 업무를 대체할 수 있는 작업량은 약 6.6시간 분량으로 보고되었으며, 이는 지금까지 보고된 가장 높은 수치라고 한다.</div>
+</div>
+
+<!-- A8 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">08</span>
+    <span class="a-answer">정답: 유니트리 로봇이 자사 공장에 투입되어 자기 자신의 부품(모터)을 직접 조립하는 데 성공했다.</span>
+  </div>
+  <div class="a-explain">유니트리는 자사 로봇을 자사 공장 생산라인에 투입하여 모터 등 자기 부품을 스스로 조립하는 모습을 시연했다. 인간이 방해해도 자동으로 다시 시도하는 적응력까지 보여줬으며, 이는 로봇 '자가 증식'의 초기 단계를 상징한다.</div>
+</div>
+
+<!-- A9 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">09</span>
+    <span class="a-answer">정답: ③ 미국 정부의 반도체 수출 규제 완화를 통한 중국 AI 지원 가속</span>
+  </div>
+  <div class="a-explain">중국 오픈소스 AI의 급격한 추격은 오히려 미국 정부의 반도체 수출 규제를 <strong>강화</strong>시킬 가능성이 높다. 규제를 '완화'하여 중국 AI를 지원한다는 것은 현재 미·중 기술 패권 경쟁의 맥락과 정반대이다. 나머지 선택지(마진 압박, 컴퓨팅 수요 증가, 해자 축소 우려)는 모두 논리적으로 타당한 영향이다.</div>
+</div>
+
+<!-- A10 -->
+<div class="a-card">
+  <div class="a-header">
+    <span class="a-num">10</span>
+    <span class="a-answer">모범 답안:</span>
+  </div>
+  <div class="a-explain">
+    AI의 급격한 생산성 향상은 기업의 단위 생산비를 절감시켜 비인플레이션적 성장(non-inflationary growth)을 촉진할 잠재력이 있다. 이는 연준이 인플레이션 우려 없이 완화적 통화 기조를 유지하거나, 금리 인하를 고려할 수 있는 근거가 된다. 그러나 동시에 AI가 영상 제작, 코딩, 고객 상담 등 다양한 직군의 자동화를 가속화하면서 특정 분야의 고용이 구조적으로 감소할 수 있다. 이러한 고용 구조 변화는 실업률의 '질적 변화'를 초래하여, 연준이 단순 실업률 수치만으로 경기를 판단하기 어려운 상황을 만들 수 있다. 따라서 연준은 생산성 향상의 디스인플레이션 효과와 고용시장의 구조적 변화를 동시에 모니터링하며 정책 기조를 결정해야 하는 복잡한 환경에 놓이게 된다.
+  </div>
+</div>
+
+</div>
+
+<footer class="footer">
+  <p>시험문제 구성: 쉬움(3문제) · 보통(5문제) · 어려움(2문제)</p>
+  <p style="margin-top:4px;">출제 기반: 조코딩 IT뉴스 (2026.02.15) 미국 증시 분석</p>
+</footer>
+
+</body>
+</html>
