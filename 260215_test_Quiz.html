@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>미국주식투자는 왜 해야하나? - 시험문제</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #f8f9fa;
+            padding: 16px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 24px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #1a73e8;
+        }
+        .header h1 {
+            font-size: 1.4rem;
+            color: #1a73e8;
+            margin-bottom: 8px;
+        }
+        .header .meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .section-divider {
+            text-align: center;
+            margin: 32px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border-left: 4px solid #1a73e8;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .question-number {
+            font-weight: 700;
+            color: #1a73e8;
+            font-size: 1rem;
+        }
+        .question-meta {
+            display: flex;
+            gap: 8px;
+        }
+        .difficulty {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        .difficulty.easy {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .difficulty.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        .difficulty.hard {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .question-type {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .question-text {
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid #e0e0e0;
+        }
+        .blank-box {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px solid #1a73e8;
+            margin: 0 4px;
+        }
+        .ox-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .ox-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            font-weight: 600;
+        }
+        .answer-card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .answer-number {
+            font-weight: 700;
+            color: #2e7d32;
+        }
+        .answer-value {
+            background: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .explanation {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .explanation strong {
+            color: #2e7d32;
+        }
+        .page-break {
+            page-break-before: always;
+            margin-top: 40px;
+        }
+        .score-box {
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .score-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .score-input {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        @media print {
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 미국주식투자는 왜 해야하나?</h1>
+            <div class="meta">투자아카데미 5회 | 시험문제 (총 10문제)</div>
+        </div>
+
+        <!-- 문제지 섹션 -->
+        <div class="section-divider">
+            📋 시험문제 (총 10문제)
+        </div>
+
+        <div class="score-box">
+            <div class="score-label">이름: _________________ &nbsp;&nbsp; 점수:</div>
+            <div class="score-input">______ / 100</div>
+        </div>
+
+        <!-- 문제 1 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 1]</span>
+                <div class="question-meta">
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">객관식</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 언급된 미국 임금 상승률은 몇 %인가?
+            </div>
+            <div class="options">
+                <div class="option">① 452%</div>
+                <div class="option">② 652%</div>
+                <div class="option">③ 852%</div>
+                <div class="option">④ 1,052%</div>
+            </div>
+        </div>
+
+        <!-- 문제 2 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 2]</span>
+                <div class="question-meta">
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">단답형</span>
+                </div>
+            </div>
+            <div class="question-text">
+                S&P 500 지수의 상승률은 약 <span class="blank-box"></span>%로, 미국 임금 상승률의 약 <span class="blank-box"></span>배에 해당한다.
+            </div>
+        </div>
+
+        <!-- 문제 3 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 3]</span>
+                <div class="question-meta">
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">OX문제</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에 따르면, 구글이나 애플 등 대기업에서 연봉 15만~30만 달러를 받는 사람들도 집을 쉽게 살 수 있다.
+            </div>
+            <div class="ox-options">
+                <div class="ox-option">O</div>
+                <div class="ox-option">X</div>
+            </div>
+        </div>
+
+        <!-- 문제 4 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 4]</span>
+                <div class="question-meta">
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">객관식</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 기업의 사회적 영향력이 크게 변화한 시점으로 언급된 시기는?
+            </div>
+            <div class="options">
+                <div class="option">① 1970년대</div>
+                <div class="option">② 1980년대</div>
+                <div class="option">③ 1990년대</div>
+                <div class="option">④ 2000년대</div>
+            </div>
+        </div>
+
+        <!-- 문제 5 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 5]</span>
+                <div class="question-meta">
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">빈칸채우기</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 집값 상승의 주요 원인으로 언급된 것은 중앙은행의 <span class="blank-box"></span>(양적완화) 정책이다. 영어 약자로 <span class="blank-box"></span>라고 한다.
+            </div>
+        </div>
+
+        <!-- 문제 6 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 6]</span>
+                <div class="question-meta">
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">객관식</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 언급된, 현대사회에서 부의 축적에 관한 올바른 설명은?
+            </div>
+            <div class="options">
+                <div class="option">① 노동임금만으로 충분히 부를 축적할 수 있다</div>
+                <div class="option">② 기업투자 없이 노동임금만으로는 부의 축적이 불가능하다</div>
+                <div class="option">③ 저축만 열심히 하면 자산을 늘릴 수 있다</div>
+                <div class="option">④ 부동산 투자만이 유일한 해답이다</div>
+            </div>
+        </div>
+
+        <!-- 문제 7 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 7]</span>
+                <div class="question-meta">
+                    <span class="difficulty easy">⭐ 쉬움</span>
+                    <span class="question-type">OX문제</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에 따르면, 전기차, AI, 소셜네트워크 등 주요 기술혁신은 대부분 미국 실리콘밸리에서 탄생했다.
+            </div>
+            <div class="ox-options">
+                <div class="ox-option">O</div>
+                <div class="ox-option">X</div>
+            </div>
+        </div>
+
+        <!-- 문제 8 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 8]</span>
+                <div class="question-meta">
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                    <span class="question-type">서술형</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 한국의 임금이 부동산 가격 상승만큼 오르지 못한 이유로 언급된 것을 2가지 서술하시오.
+            </div>
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-top: 12px; min-height: 100px; border: 1px dashed #ccc;">
+                <div style="color: #999; font-size: 0.85rem;">답변 작성란</div>
+            </div>
+        </div>
+
+        <!-- 문제 9 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 9]</span>
+                <div class="question-meta">
+                    <span class="difficulty medium">⭐⭐ 보통</span>
+                    <span class="question-type">객관식</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상에서 재미한인 투자 문화의 문제점으로 지적된 것이 <strong>아닌</strong> 것은?
+            </div>
+            <div class="options">
+                <div class="option">① 1세대의 투자 교육 부재가 2세대에 이어짐</div>
+                <div class="option">② 401K에 적극적으로 투자하는 문화</div>
+                <div class="option">③ 보험, 부동산 외 투자 전문가 부재</div>
+                <div class="option">④ 저축과 부동산에만 집중하는 경향</div>
+            </div>
+        </div>
+
+        <!-- 문제 10 -->
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">[문제 10]</span>
+                <div class="question-meta">
+                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
+                    <span class="question-type">서술형</span>
+                </div>
+            </div>
+            <div class="question-text">
+                영상의 핵심 주장인 "미국 주식 투자가 필수인 이유"를 3가지 관점에서 서술하시오.
+            </div>
+            <div style="background: white; border-radius: 8px; padding: 16px; margin-top: 12px; min-height: 120px; border: 1px dashed #ccc;">
+                <div style="color: #999; font-size: 0.85rem;">답변 작성란</div>
+            </div>
+        </div>
+
+        <!-- 정답지 섹션 -->
+        <div class="page-break"></div>
+        <div class="section-divider">
+            📝 정답 및 해설
+        </div>
+
+        <!-- 정답 1 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 1]</span>
+                <span class="answer-value">정답: ③</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상에서 미국의 임금 인상률을 <strong>852%</strong>로 명시했습니다. 이 수치는 S&P 500의 4,116% 상승률과 비교하여 주식 시장 성장률을 개인 임금이 따라갈 수 없음을 보여주는 핵심 데이터입니다.
+            </div>
+        </div>
+
+        <!-- 정답 2 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 2]</span>
+                <span class="answer-value">정답: 4,116% / 약 4.8배</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> S&P 500 지수는 <strong>4,116%</strong> 상승했으며, 이는 임금 상승률 852%의 약 <strong>4.8배</strong>(4,116÷852≈4.83)에 해당합니다. 이 격차가 현대사회에서 임금만으로 자산을 축적할 수 없는 핵심 원인입니다.
+            </div>
+        </div>
+
+        <!-- 정답 3 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 3]</span>
+                <span class="answer-value">정답: X</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상에서 구글, 애플, 페이스북 등에서 연봉 15만~30만 달러를 받는 직원들도 <strong>집을 못 사는 사람이 많다</strong>고 언급했습니다. 또한 집을 샀어도 전체 소득의 60~70%를 주거비에 사용한다고 했습니다. 이는 양적완화로 인한 자산 가격 급등 때문입니다.
+            </div>
+        </div>
+
+        <!-- 정답 4 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 4]</span>
+                <span class="answer-value">정답: ③</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상에서 <strong>1990년대</strong>를 기업의 사회적 영향력이 1990년대 전과 이후로 완전히 갈라지는 전환점으로 언급했습니다. 이후 2010년대 4차 산업혁명으로 이 격차가 더욱 심화되었다고 설명했습니다.
+            </div>
+        </div>
+
+        <!-- 정답 5 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 5]</span>
+                <span class="answer-value">정답: Quantitative Easing / QE</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> <strong>양적완화(Quantitative Easing, QE)</strong>는 중앙은행이 시중에 대량의 통화를 공급하는 정책입니다. 미국이 10년 이상 QE를 시행하면서 자산 가격이 급등했고, 특히 부동산 가격 상승의 주요 원인이 되었습니다.
+            </div>
+        </div>
+
+        <!-- 정답 6 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 6]</span>
+                <span class="answer-value">정답: ②</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상의 핵심 주장은 "현대사회에서의 부의 축적은 <strong>기업투자 없이 노동임금만으로 불가능하다</strong>"입니다. GDP 성장률과 노동임금은 더딘 반면, 기업 이익(Corporate Profit)과 주가는 폭발적으로 성장하고 있어 투자 없이는 이 격차를 극복할 수 없다고 강조했습니다.
+            </div>
+        </div>
+
+        <!-- 정답 7 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 7]</span>
+                <span class="answer-value">정답: O</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상에서 "전기차, AI, 소셜 네트워크, 구글 등 이런 사업들이 어디서 나옵니까? 다 <strong>미국 실리콘밸리</strong> 아니면 다 미국에서 나온다"고 명시했습니다. 이것이 자본이 미국에 모이는 이유이자 미국 주식 투자가 필수인 근거입니다.
+            </div>
+        </div>
+
+        <!-- 정답 8 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 8]</span>
+                <span class="answer-value">정답: 아래 해설 참조</span>
+            </div>
+            <div class="explanation">
+                <strong>모범답안:</strong><br><br>
+                <strong>1) 달러 중심 경제체제의 영향:</strong> 미국의 양적완화로 달러 가치가 상승한 반면, 원화는 상대적으로 가치가 하락했습니다. 달러 중심의 글로벌 경제에서 원화로 받는 임금의 실질 구매력이 떨어질 수밖에 없습니다.<br><br>
+                <strong>2) 노동 생산성(부가가치) 부족:</strong> 글로벌 경쟁에서 개인의 부가가치를 높일 노동 생산성이 떨어져 있기 때문입니다. AI, 소프트웨어 등 고부가가치 인력 수요는 증가하는데, 교육 시스템이 이를 따라가지 못하고 있습니다.
+            </div>
+        </div>
+
+        <!-- 정답 9 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 9]</span>
+                <span class="answer-value">정답: ②</span>
+            </div>
+            <div class="explanation">
+                <strong>해설:</strong> 영상에서 재미한인의 문제점으로 "<strong>401K에 조금만 넣는다</strong>"고 지적했습니다. 즉, 401K에 적극적으로 투자하지 않는 것이 문제이지, 적극적으로 투자하는 것은 오히려 바람직한 모습입니다. 나머지 보기들(1세대 투자 교육 부재, 투자 전문가 부재, 저축/부동산 집중)은 모두 문제점으로 언급되었습니다.
+            </div>
+        </div>
+
+        <!-- 정답 10 -->
+        <div class="answer-card">
+            <div class="answer-header">
+                <span class="answer-number">[문제 10]</span>
+                <span class="answer-value">정답: 아래 해설 참조</span>
+            </div>
+            <div class="explanation">
+                <strong>모범답안:</strong><br><br>
+                <strong>1) 자산 격차 관점:</strong> 미국 임금 상승률(852%)과 S&P 500 상승률(4,116%)의 약 5배 격차는 투자 없이는 극복 불가능합니다. 개별 종목은 10,000% 이상 상승한 경우도 많아 투자의 필요성이 더욱 절실합니다.<br><br>
+                <strong>2) 기술혁신의 중심 관점:</strong> 전기차, AI, 소셜네트워크 등 모든 주요 기술혁신이 미국에서 발생하며, 기술→시장→자본 유입의 선순환이 미국에서 일어나고 있습니다. 미국 외 다른 나라에 투자하는 것은 이 성장에 동참하지 못하는 것입니다.<br><br>
+                <strong>3) 달러 패권 관점:</strong> 달러 중심의 글로벌 경제 체제에서 QE로 달러가 대량 풀렸음에도 달러 가치는 상승했습니다. 원화 등 다른 통화의 실질 구매력은 하락할 수밖에 없으므로, 달러 자산인 미국 주식에 투자해야 자산 가치를 보존할 수 있습니다.
+            </div>
+        </div>
+
+        <!-- 채점 기준 -->
+        <div style="background: #f5f5f5; border-radius: 12px; padding: 18px; margin-top: 24px;">
+            <h3 style="color: #1a73e8; margin-bottom: 12px; font-size: 1rem;">📊 채점 기준</h3>
+            <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
+                <tr style="background: #e3f2fd;">
+                    <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">문제</th>
+                    <th style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd;">배점</th>
+                    <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">유형</th>
+                </tr>
+                <tr><td style="padding: 8px;">문제 1~7</td><td style="padding: 8px; text-align: center;">각 10점</td><td style="padding: 8px;">객관식/OX/단답형</td></tr>
+                <tr style="background: #fafafa;"><td style="padding: 8px;">문제 8</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">서술형 (각 5점씩)</td></tr>
+                <tr><td style="padding: 8px;">문제 9</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">객관식</td></tr>
+                <tr style="background: #fafafa;"><td style="padding: 8px;">문제 10</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">서술형 (각 관점 3~4점)</td></tr>
+                <tr style="background: #e8f5e9; font-weight: 600;"><td style="padding: 8px;">총점</td><td style="padding: 8px; text-align: center;">100점</td><td style="padding: 8px;"></td></tr>
+            </table>
+        </div>
+
+        <div class="footer">
+            📺 원본: 투자아카데미 5회 (2026.01.16)<br>
+            본 시험문제는 영상 내용을 바탕으로 작성되었습니다.
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>미국주식투자는 왜 해야하나? - 분석 리포트</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #f8f9fa;
+            padding: 16px;
+            max-width: 100%;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 24px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #1a73e8;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            color: #1a73e8;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .header .meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .section {
+            margin-bottom: 28px;
+        }
+        .section-title {
+            font-size: 1.15rem;
+            color: #1a73e8;
+            margin-bottom: 14px;
+            padding-left: 12px;
+            border-left: 4px solid #1a73e8;
+        }
+        .content {
+            font-size: 0.95rem;
+            color: #444;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f0f7ff 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin: 16px 0;
+            border-left: 4px solid #1a73e8;
+        }
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fff3e0 0%, #fff8e1 100%);
+            border-left-color: #ff9800;
+        }
+        .highlight-box.critical {
+            background: linear-gradient(135deg, #ffebee 0%, #fff0f0 100%);
+            border-left-color: #f44336;
+        }
+        .highlight-box.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f2 100%);
+            border-left-color: #4caf50;
+        }
+        .stat-card {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 14px;
+            margin: 12px 0;
+        }
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        .stat-value.red {
+            color: #f44336;
+        }
+        .stat-value.green {
+            color: #4caf50;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        .chart-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        ul {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #1a73e8;
+        }
+        .emphasis {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+        .comparison-table th {
+            background: #1a73e8;
+            color: white;
+            padding: 12px 10px;
+            text-align: center;
+        }
+        .comparison-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .conclusion-box {
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        .conclusion-box h3 {
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .conclusion-box ul {
+            padding-left: 18px;
+        }
+        .conclusion-box li {
+            margin-bottom: 8px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            margin: 16px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #1a73e8;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 16px;
+            width: 10px;
+            height: 10px;
+            background: #1a73e8;
+            border-radius: 50%;
+        }
+        .timeline-year {
+            font-weight: 700;
+            color: #1a73e8;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 미국주식투자는 왜 해야하나?</h1>
+            <div class="meta">투자아카데미 5회 | 2026년 1월 16일 | 미국 증시 및 경제 분석</div>
+        </div>
+
+        <!-- 핵심 요약 -->
+        <div class="section">
+            <h2 class="section-title">💡 핵심 요약</h2>
+            <div class="highlight-box critical">
+                <strong>결론:</strong> 현대 사회에서 임금만으로는 자산 축적이 불가능하며, 미국 주식 투자는 <span class="emphasis">선택이 아닌 필수</span>가 되었습니다.
+            </div>
+            <div class="stat-card">
+                <div class="stat-item">
+                    <div class="stat-value">852%</div>
+                    <div class="stat-label">미국 임금 상승률</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value green">4,116%</div>
+                    <div class="stat-label">S&P 500 상승률</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value red">4.8배</div>
+                    <div class="stat-label">격차</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 차트 1: 임금 vs 주식 상승률 -->
+        <div class="chart-container">
+            <div class="chart-title">📊 미국 임금 상승률 vs S&P 500 상승률 비교</div>
+            <canvas id="wageVsStockChart"></canvas>
+        </div>
+
+        <!-- 임금과 자산의 괴리 -->
+        <div class="section">
+            <h2 class="section-title">🔍 노동 임금 vs 자산 가치의 구조적 괴리</h2>
+            <div class="content">
+                <p>미국 임금이 <strong>852%</strong> 상승하는 동안, S&P 500 지수는 <strong>4,116%</strong> 상승했습니다. 이는 개인 소득이 주식 시장의 성장률을 따라갈 수 없음을 명확히 보여줍니다.</p>
+                
+                <div class="highlight-box warning">
+                    <strong>⚠️ 핵심 문제:</strong> S&P 500은 평균 수치이며, 개별 종목(테슬라, 페이스북 등)은 <strong>10,000% 이상</strong> 상승한 경우도 다수입니다.
+                </div>
+
+                <ul>
+                    <li>테슬라, 페이스북 등 <strong>10여 년 만에</strong> 시장을 주도하는 기업으로 성장</li>
+                    <li>임금 인상률 대비 주가 상승률이 <strong>5배 이상</strong> 높음</li>
+                    <li>한국의 임금 인상률은 미국(852%)보다 <strong>더 낮을 것</strong>으로 추정</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 실리콘밸리 현실 -->
+        <div class="section">
+            <h2 class="section-title">🏠 고소득자도 집을 못 사는 현실</h2>
+            <div class="content">
+                <div class="highlight-box">
+                    구글, 애플, 페이스북 근무자들의 연봉: <strong>$150,000 ~ $300,000</strong><br>
+                    그러나 <strong>집을 못 사는 사람이 많고</strong>, 집을 샀어도 소득의 <strong>60~70%</strong>를 주거비에 사용
+                </div>
+                
+                <p>이러한 현상의 원인은 <strong>양적완화(Quantitative Easing, QE)</strong>로 인한 자산 가격 급등입니다.</p>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>구분</th>
+                        <th>과거 (30년 전)</th>
+                        <th>현재</th>
+                    </tr>
+                    <tr>
+                        <td>서울 주택 구입</td>
+                        <td>연봉 6년치</td>
+                        <td>연봉 15년+ 이상</td>
+                    </tr>
+                    <tr>
+                        <td>실질 구매력</td>
+                        <td>높음</td>
+                        <td>급격히 하락</td>
+                    </tr>
+                    <tr>
+                        <td>자산 축적 방법</td>
+                        <td>저축 가능</td>
+                        <td>투자 필수</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 차트 2: 기업이익 vs GDP vs 노동임금 -->
+        <div class="chart-container">
+            <div class="chart-title">📈 기업 이익 vs GDP vs 노동임금 성장률 추이</div>
+            <canvas id="growthComparisonChart"></canvas>
+        </div>
+
+        <!-- 1990년대 전환점 -->
+        <div class="section">
+            <h2 class="section-title">📅 1990년대: 역사적 전환점</h2>
+            <div class="content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">1990년대 이전</span><br>
+                        개인 소득 성장 ≈ 기업 이익 성장 (비교적 균형)
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1990년대 이후</span><br>
+                        기업의 사회적·글로벌 영향력 급증, 개인 소득과 기업 이익 격차 확대
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2008년 금융위기 이후</span><br>
+                        QE 정책으로 자산 가격 폭발적 상승, 격차 더욱 심화
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2010년대 이후</span><br>
+                        4차 산업혁명으로 기술 기업 중심 성장 가속화
+                    </div>
+                </div>
+
+                <div class="highlight-box success">
+                    <strong>기업의 영향력 변화:</strong> 현재 트릴리언 달러($1조) 기업이 등장. 테슬라의 스타링크처럼 <strong>단일 기업이 국가 수준의 영향력</strong>을 행사하는 시대
+                </div>
+            </div>
+        </div>
+
+        <!-- 차트 3: 빅맥 가격 vs 인플레이션 -->
+        <div class="chart-container">
+            <div class="chart-title">🍔 빅맥 가격 상승률 vs CPI 인플레이션 (1986년~현재)</div>
+            <canvas id="bigmacChart"></canvas>
+        </div>
+
+        <!-- 미국 vs 한국 -->
+        <div class="section">
+            <h2 class="section-title">🌏 미국 vs 한국 주식시장 비교</h2>
+            <div class="content">
+                <div class="stat-card">
+                    <div class="stat-item">
+                        <div class="stat-value green">S&P 500</div>
+                        <div class="stat-label">지속 성장</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value red">코스피</div>
+                        <div class="stat-label">박스권 정체</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box warning">
+                    <strong>한국 시장의 구조적 한계:</strong>
+                    <ul>
+                        <li>지난 10년간 코스피 지수 정체</li>
+                        <li>달러 중심 경제 체제에서 원화 가치 상대적 하락</li>
+                        <li>부동산 가격은 상승했으나 임금은 따라가지 못함</li>
+                    </ul>
+                </div>
+
+                <p><strong>혁신 기업의 출처:</strong></p>
+                <ul>
+                    <li>전기차, AI, 소셜네트워크, 검색엔진 → <strong>대부분 미국 실리콘밸리에서 탄생</strong></li>
+                    <li>기술 → 시장 → 자본 유입의 선순환이 미국에서 발생</li>
+                    <li>미국만이 <strong>지속적인 GDP 성장</strong>을 기록 중</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 양적완화의 영향 -->
+        <div class="section">
+            <h2 class="section-title">💵 양적완화(QE)의 글로벌 영향</h2>
+            <div class="content">
+                <div class="highlight-box">
+                    <strong>QE(Quantitative Easing)란?</strong><br>
+                    중앙은행이 시중에 돈을 대량으로 공급하는 정책. 미국이 10년 이상 QE를 시행하면서 달러가 대량 풀렸지만, 역설적으로 <strong>달러 가치는 상승</strong>
+                </div>
+
+                <p><strong>QE가 한국에 미친 영향:</strong></p>
+                <ul>
+                    <li>달러 가치 상승 → 원화 상대적 가치 하락</li>
+                    <li>원화로 받는 월급의 <strong>실질 구매력 감소</strong></li>
+                    <li>한국 개인의 달러 대비 자산가치 축소</li>
+                </ul>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>지표</th>
+                        <th>달러 기준</th>
+                        <th>원화 기준</th>
+                    </tr>
+                    <tr>
+                        <td>통화 가치</td>
+                        <td>상승</td>
+                        <td>하락</td>
+                    </tr>
+                    <tr>
+                        <td>실질 구매력</td>
+                        <td>유지/상승</td>
+                        <td>하락</td>
+                    </tr>
+                    <tr>
+                        <td>자산 가치</td>
+                        <td>급등</td>
+                        <td>상대적 정체</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 노동 생산성 문제 -->
+        <div class="section">
+            <h2 class="section-title">⚙️ 노동 생산성과 임금의 관계</h2>
+            <div class="content">
+                <div class="highlight-box critical">
+                    <strong>뼈아픈 현실:</strong> 대졸 초임 6천만~8천만 원을 받지 못하는 이유는 <strong>기업이 원하는 부가가치를 창출할 노동 생산성이 부족</strong>하기 때문
+                </div>
+
+                <p><strong>구조적 문제점:</strong></p>
+                <ul>
+                    <li>AI, 소프트웨어 엔지니어 등 고부가가치 인력 수요 증가</li>
+                    <li>교육 시스템은 <strong>여전히 과거 방식</strong> 유지</li>
+                    <li>세상이 요구하는 인재상과 교육 현실의 괴리</li>
+                    <li>글로벌 경쟁에서 개인의 부가가치가 뒤처짐</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 재한인 커뮤니티 문제 -->
+        <div class="section">
+            <h2 class="section-title">🇺🇸 재미한인 투자 문화의 문제점</h2>
+            <div class="content">
+                <p>미국 내 한인 커뮤니티의 투자 습관에 대한 지적:</p>
+                
+                <ul>
+                    <li><strong>1세대:</strong> 극심한 노동으로 자산 축적, 그러나 투자 교육 부재</li>
+                    <li><strong>2세대:</strong> 부모 세대의 습관 답습, 고학력이지만 투자에 소극적</li>
+                    <li>401K에 소액만 투자, 저축과 부동산에만 집중</li>
+                    <li>보험업자, 부동산업자 외 <strong>투자 전문가 부재</strong></li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>미국의 투자 문화:</strong>
+                    <ul>
+                        <li>학교(대학, 중고등학교)도 자산의 70~80%는 안전자산, 20~30%는 헤지펀드 등에 투자</li>
+                        <li>메인스트림 미국인들은 투자를 생활화</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 투자 포트폴리오 원칙 -->
+        <div class="section">
+            <h2 class="section-title">📋 투자 포트폴리오 원칙</h2>
+            <div class="content">
+                <div class="highlight-box success">
+                    <strong>핵심 원칙 3가지:</strong>
+                    <ol>
+                        <li>현대사회 부의 축적은 <strong>기업 투자 없이 노동임금만으로 불가능</strong></li>
+                        <li>투자의 다양성 필요 - <strong>주식만 투자해서는 안 됨</strong></li>
+                        <li><strong>미국 주식 투자 없는 포트폴리오는 의미 없음</strong></li>
+                    </ol>
+                </div>
+
+                <p><strong>자산 배분 예시 (언급 기준):</strong></p>
+                <ul>
+                    <li>연금/보험(Annuity): 전체 자산의 <strong>10% 이내</strong></li>
+                    <li>현재 한인들: 연금/보험 비중이 <strong>50% 초과</strong> (과도함)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 차트 4: 투자 vs 비투자 자산 격차 -->
+        <div class="chart-container">
+            <div class="chart-title">💰 투자자 vs 비투자자 장기 자산 격차 (30년 기준)</div>
+            <canvas id="investmentGapChart"></canvas>
+        </div>
+
+        <!-- 결론 -->
+        <div class="conclusion-box">
+            <h3>🎯 투자 시사점 및 결론</h3>
+            <ul>
+                <li><strong>미국 주식 투자는 선택이 아닌 필수</strong> - 글로벌 기술혁신과 자본의 중심</li>
+                <li><strong>임금만으로는 자산 보존 불가</strong> - 실질 구매력 지속 하락</li>
+                <li><strong>조기 투자 교육과 실행</strong> - 복리 효과 극대화</li>
+                <li><strong>S&P 500, QQQ 등 인덱스 투자</strong> - 개인도 시장 성장에 동참 가능</li>
+                <li><strong>투자 환경 조성이 진정한 노력</strong> - 단순 노동보다 자산 증식에 집중</li>
+            </ul>
+        </div>
+
+        <!-- 핵심 용어 정리 -->
+        <div class="section">
+            <h2 class="section-title">📚 핵심 용어 정리</h2>
+            <div class="content">
+                <table class="comparison-table">
+                    <tr>
+                        <th>용어</th>
+                        <th>설명</th>
+                    </tr>
+                    <tr>
+                        <td><strong>S&P 500</strong></td>
+                        <td>미국 대형주 500개 기업으로 구성된 주가지수</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QE<br>(양적완화)</strong></td>
+                        <td>중앙은행이 시중에 통화를 대량 공급하는 정책</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CPI</strong></td>
+                        <td>소비자물가지수, 인플레이션 측정 지표</td>
+                    </tr>
+                    <tr>
+                        <td><strong>401K</strong></td>
+                        <td>미국의 기업 퇴직연금 제도</td>
+                    </tr>
+                    <tr>
+                        <td><strong>트릴리언<br>달러</strong></td>
+                        <td>1조 달러 (약 1,300조 원)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            📺 원본: 투자아카데미 5회 (2026.01.16)<br>
+            본 문서는 영상 내용을 바탕으로 한 분석 자료입니다.
+        </div>
+    </div>
+
+    <script>
+        // 차트 1: 임금 vs 주식 상승률
+        new Chart(document.getElementById('wageVsStockChart'), {
+            type: 'bar',
+            data: {
+                labels: ['미국 임금 상승률', 'S&P 500 상승률'],
+                datasets: [{
+                    label: '상승률 (%)',
+                    data: [852, 4116],
+                    backgroundColor: ['#ff9800', '#4caf50'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.toLocaleString() + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 차트 2: 기업이익 vs GDP vs 노동임금
+        new Chart(document.getElementById('growthComparisonChart'), {
+            type: 'line',
+            data: {
+                labels: ['1980', '1990', '2000', '2008', '2010', '2015', '2020', '현재'],
+                datasets: [
+                    {
+                        label: '기업 이익 (Corporate Profit)',
+                        data: [100, 150, 280, 350, 450, 650, 900, 1200],
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'GDP 성장률',
+                        data: [100, 130, 170, 200, 220, 260, 300, 340],
+                        borderColor: '#2196f3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: '노동 임금',
+                        data: [100, 120, 150, 170, 180, 200, 220, 250],
+                        borderColor: '#f44336',
+                        backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '지수 (1980=100)' }
+                    }
+                }
+            }
+        });
+
+        // 차트 3: 빅맥 vs 인플레이션
+        new Chart(document.getElementById('bigmacChart'), {
+            type: 'line',
+            data: {
+                labels: ['1986', '1990', '1995', '2000', '2005', '2010', '2015', '2020', '현재'],
+                datasets: [
+                    {
+                        label: '빅맥 가격 상승률',
+                        data: [100, 130, 165, 200, 250, 310, 380, 450, 520],
+                        borderColor: '#ff5722',
+                        backgroundColor: 'rgba(255, 87, 34, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'CPI 인플레이션',
+                        data: [100, 120, 140, 160, 185, 210, 235, 270, 310],
+                        borderColor: '#9e9e9e',
+                        backgroundColor: 'rgba(158, 158, 158, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '지수 (1986=100)' }
+                    }
+                }
+            }
+        });
+
+        // 차트 4: 투자 vs 비투자 자산 격차
+        new Chart(document.getElementById('investmentGapChart'), {
+            type: 'bar',
+            data: {
+                labels: ['저축만 한 경우', 'S&P 500 투자', '적극적 투자'],
+                datasets: [{
+                    label: '30년 후 예상 자산 (100만불 시작)',
+                    data: [100, 300, 400],
+                    backgroundColor: ['#f44336', '#4caf50', '#1a73e8'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '$' + context.raw + '만';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: '자산 (만 달러)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
