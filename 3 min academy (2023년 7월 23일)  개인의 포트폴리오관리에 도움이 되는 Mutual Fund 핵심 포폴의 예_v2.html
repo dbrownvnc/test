@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>뮤추얼 펀드 핵심 포트폴리오 전략 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e8e8e8;
+            line-height: 1.7;
+            padding: 16px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.85);
+        }
+        
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .meta-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #fff;
+        }
+        
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+        
+        p {
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            color: #d0d0d0;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-left: 3px solid #667eea;
+            padding: 14px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .highlight-text {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .chart-container {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .chart-title {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        canvas {
+            max-width: 100%;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-top: 4px;
+        }
+        
+        .stock-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.15));
+            border: 1px solid rgba(255, 193, 7, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .warning-title {
+            color: #ffc107;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, rgba(0, 184, 148, 0.15), rgba(0, 206, 201, 0.15));
+            border: 1px solid rgba(0, 184, 148, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .tip-title {
+            color: #00b894;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+        }
+        
+        .list-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .list-content {
+            font-size: 0.9rem;
+            color: #d0d0d0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.85rem;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            padding: 12px 8px;
+            text-align: left;
+        }
+        
+        .comparison-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #d0d0d0;
+        }
+        
+        .comparison-table tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .portfolio-bar {
+            height: 24px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 8px 0;
+            display: flex;
+        }
+        
+        .bar-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
+        }
+        
+        .key-point {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        strong {
+            color: #fff;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📊 뮤추얼 펀드 핵심 포트폴리오</h1>
+            <div class="subtitle">개인 투자자를 위한 분산투자 가이드</div>
+            <div class="meta-info">
+                <span class="meta-badge">📅 2026.01.02</span>
+                <span class="meta-badge">🇺🇸 미국증시 관점</span>
+            </div>
+        </div>
+
+        <!-- 핵심 요약 -->
+        <div class="section">
+            <div class="section-title">핵심 투자 전략 요약</div>
+            
+            <div class="highlight">
+                <p class="highlight-text">💡 "몰빵은 안 된다" - 분산투자의 핵심 원칙</p>
+            </div>
+            
+            <p>이 영상에서는 <strong>BlackRock 등 대형 자산운용사의 Target Date Fund(TDF)</strong>를 벤치마크로 활용하여 개인 포트폴리오를 구성하는 전략을 설명합니다. 특정 리스크에만 노출되지 않도록 <span class="key-point">섹터별 분산</span>이 핵심이며, 자산규모에 따라 리스크 허용도를 조절하는 방법을 제시합니다.</p>
+        </div>
+
+        <!-- 섹터별 배분 비중 -->
+        <div class="section">
+            <div class="section-title">섹터별 자산 배분 현황</div>
+            
+            <p>영상에서 언급된 뮤추얼 펀드의 <strong>섹터별 비중</strong>을 살펴보면, 경기민감주와 기술주가 가장 높은 비중을 차지하고 있어 <span class="key-point">성장 중심의 포트폴리오</span> 구성을 보여줍니다.</p>
+            
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-value">48%</div>
+                    <div class="stat-label">경기민감주 (Cyclical)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">~40%</div>
+                    <div class="stat-label">기술주 (Technology)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">32%</div>
+                    <div class="stat-label">방어주 (Defensive)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">25%</div>
+                    <div class="stat-label">헬스케어 (Healthcare)</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">섹터별 포트폴리오 구성 비율</div>
+                <canvas id="sectorChart"></canvas>
+            </div>
+            
+            <p>참고로 섹터별 비중 합계가 100%를 초과하는 것은 일부 섹터가 중복 분류되거나, 개별 기업이 여러 섹터에 걸쳐 있기 때문입니다. 예를 들어 Microsoft는 기술주이면서 동시에 경기민감주로 분류될 수 있습니다.</p>
+        </div>
+
+        <!-- 주요 종목 분석 -->
+        <div class="section">
+            <div class="section-title">주요 편입 종목 분석</div>
+            
+            <p>영상에서 구체적으로 언급된 종목들은 미국 증시의 <strong>대표적인 우량주</strong>들입니다:</p>
+            
+            <div class="list-item">
+                <div class="list-number">1</div>
+                <div class="list-content">
+                    <strong>UnitedHealth Group (UNH)</strong><br>
+                    헬스케어 섹터 25% 중 핵심 종목. 미국 최대 건강보험사로, 시가총액 약 5,000억 달러 규모. <span class="key-point">방어적 성격</span>과 안정적 현금흐름이 특징입니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">2</div>
+                <div class="list-content">
+                    <strong>Intuitive Surgical (ISRG)</strong><br>
+                    다빈치 수술 로봇으로 유명한 의료기기 기업. 헬스케어 내 <span class="key-point">성장주 성격</span>을 가지며, 기술과 헬스케어의 교집합에 위치합니다.
+                </div>
+            </div>
+            
+            <div style="margin-top: 16px;">
+                <p><strong>언급된 섹터별 대표 종목:</strong></p>
+                <span class="stock-tag">UNH</span>
+                <span class="stock-tag">ISRG</span>
+                <span class="stock-tag">헬스케어 섹터</span>
+                <span class="stock-tag">방어주 섹터</span>
+                <span class="stock-tag">기술주 섹터</span>
+            </div>
+        </div>
+
+        <!-- 분산투자의 원리 -->
+        <div class="section">
+            <div class="section-title">분산투자의 핵심 원리</div>
+            
+            <p>영상에서 강조하는 분산투자의 핵심은 <strong>"지진이 와도 잘 버티는 집"</strong>에 비유됩니다. 건물이 횡적(수평)·종적(수직) 구조로 설계되어 충격을 분산하듯, 포트폴리오도 다양한 섹터에 분산되어야 특정 리스크에 견딜 수 있습니다.</p>
+            
+            <div class="chart-container">
+                <div class="chart-title">섹터별 리스크 반응 특성</div>
+                <canvas id="riskChart"></canvas>
+            </div>
+            
+            <div class="highlight">
+                <p class="highlight-text">🏗️ 포트폴리오 구조화 원칙</p>
+                <p style="margin-bottom: 0; margin-top: 8px;">섹터별로 시장 리스크에 반응하는 <strong>속도와 변동성이 다릅니다</strong>. 기술 섹터에 문제가 발생해도 다른 섹터는 변동성이 적어 전체 포트폴리오를 보호할 수 있습니다.</p>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-title">⚠️ 핵심 경고</div>
+                <p style="margin-bottom: 0;">특정 섹터에만 <strong>"몰빵"</strong>하면 해당 섹터의 리스크가 발생했을 때 전체 자산이 위험에 노출됩니다. 어떤 리스크가 들어와도 한 곳에만 노출되어 있으면 안 됩니다.</p>
+            </div>
+        </div>
+
+        <!-- 자산규모별 전략 -->
+        <div class="section">
+            <div class="section-title">자산규모별 투자 전략</div>
+            
+            <p>영상에서는 <strong>자산규모 10억 원 이상</strong>인 투자자에게 특별한 전략을 제시합니다. 자산이 커질수록 더 정교한 포트폴리오 구성이 필요하며, 동시에 일정 비율의 <span class="key-point">고위험 투자가 가능</span>해집니다.</p>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>자산규모</th>
+                    <th>보수적 비중</th>
+                    <th>고위험 비중</th>
+                </tr>
+                <tr>
+                    <td>10억 미만</td>
+                    <td>90% 이상</td>
+                    <td>10% 미만</td>
+                </tr>
+                <tr>
+                    <td>10억 이상</td>
+                    <td>70~80%</td>
+                    <td>10~20%</td>
+                </tr>
+            </table>
+            
+            <div class="chart-container">
+                <div class="chart-title">자산규모별 권장 포트폴리오 구성</div>
+                <canvas id="assetChart"></canvas>
+            </div>
+            
+            <div class="tip-box">
+                <div class="tip-title">💡 핵심 인사이트</div>
+                <p style="margin-bottom: 0;"><strong>"돈이 커지면 커질수록 성장성은 더 커진다"</strong> - 자산규모가 클수록 10% 정도는 리스크를 크게 걸어 높은 수익을 노릴 수 있습니다. 이는 전체 자산 대비 손실 허용 범위가 넓어지기 때문입니다.</p>
+            </div>
+        </div>
+
+        <!-- Target Date Fund 활용법 -->
+        <div class="section">
+            <div class="section-title">Target Date Fund 활용 전략</div>
+            
+            <p>영상에서 제안하는 핵심 전략 중 하나는 <strong>BlackRock 등 대형 운용사의 Target Date Fund</strong>를 개인 포트폴리오의 <span class="key-point">벤치마크</span>로 활용하는 것입니다.</p>
+            
+            <div class="list-item">
+                <div class="list-number">1</div>
+                <div class="list-content">
+                    <strong>변화 감지 도구로 활용</strong><br>
+                    TDF의 자산배분 변화를 모니터링하여 시장 상황 변화를 간접적으로 파악합니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">2</div>
+                <div class="list-content">
+                    <strong>적용 가이드로 활용</strong><br>
+                    전문가들이 운용하는 펀드의 섹터 배분을 참고하여 개인 포트폴리오에 적용합니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">3</div>
+                <div class="list-content">
+                    <strong>주요 TDF 예시</strong><br>
+                    BlackRock LifePath, Vanguard Target Retirement, Fidelity Freedom 등
+                </div>
+            </div>
+        </div>
+
+        <!-- 미국 증시 시사점 -->
+        <div class="section">
+            <div class="section-title">미국 증시 투자 시사점</div>
+            
+            <p>현재 미국 증시 상황에서 이 포트폴리오 전략이 갖는 의미를 분석합니다:</p>
+            
+            <div class="highlight">
+                <p class="highlight-text">📈 기술주 비중 40%의 의미</p>
+                <p style="margin-bottom: 0; margin-top: 8px;">S&P 500에서 기술섹터가 약 30%를 차지하는 것에 비해 높은 비중입니다. 이는 <strong>AI, 클라우드 등 성장 테마</strong>에 대한 긍정적 전망을 반영합니다.</p>
+            </div>
+            
+            <div class="highlight">
+                <p class="highlight-text">🛡️ 경기방어주 32%의 의미</p>
+                <p style="margin-bottom: 0; margin-top: 8px;">헬스케어(UNH, ISRG)를 포함한 방어주 비중은 <strong>금리 변동성과 경기 불확실성</strong>에 대한 헤지 역할을 합니다.</p>
+            </div>
+            
+            <div class="highlight">
+                <p class="highlight-text">🔄 경기민감주 48%의 의미</p>
+                <p style="margin-bottom: 0; margin-top: 8px;">경기민감주 비중이 높다는 것은 <strong>경기 회복 및 소비 증가</strong>에 대한 기대를 반영합니다. 다만 경기 침체 시 변동성이 커질 수 있어 주의가 필요합니다.</p>
+            </div>
+        </div>
+
+        <!-- 연준 정책과의 연관성 -->
+        <div class="section">
+            <div class="section-title">연준(Fed) 정책 영향</div>
+            
+            <p>이러한 섹터 배분은 <strong>연준의 통화정책 방향</strong>에 따라 성과가 달라질 수 있습니다:</p>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>정책 방향</th>
+                    <th>수혜 섹터</th>
+                    <th>주의 섹터</th>
+                </tr>
+                <tr>
+                    <td>금리 인하</td>
+                    <td>기술주, 경기민감주</td>
+                    <td>금융주</td>
+                </tr>
+                <tr>
+                    <td>금리 동결</td>
+                    <td>헬스케어, 방어주</td>
+                    <td>고성장주</td>
+                </tr>
+                <tr>
+                    <td>금리 인상</td>
+                    <td>금융주, 가치주</td>
+                    <td>기술주</td>
+                </tr>
+            </table>
+            
+            <p>현재 2026년 초 시점에서 연준이 금리 인하 사이클을 진행 중이라면, 영상에서 제시한 <strong>기술주 40% 비중</strong>은 유리한 포지셔닝이 될 수 있습니다.</p>
+        </div>
+
+        <!-- 실전 적용 가이드 -->
+        <div class="section">
+            <div class="section-title">실전 포트폴리오 적용 가이드</div>
+            
+            <p>영상의 내용을 바탕으로 개인 투자자가 <strong>실제로 적용할 수 있는 단계</strong>를 정리합니다:</p>
+            
+            <div class="list-item">
+                <div class="list-number">1</div>
+                <div class="list-content">
+                    <strong>자산규모 확인</strong><br>
+                    투자 가능 자산이 10억 원 이상인지 확인하고, 그에 맞는 리스크 허용 비중을 설정합니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">2</div>
+                <div class="list-content">
+                    <strong>TDF 벤치마크 선정</strong><br>
+                    BlackRock, Vanguard 등의 Target Date Fund를 선정하여 정기적으로 자산배분 변화를 모니터링합니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">3</div>
+                <div class="list-content">
+                    <strong>섹터별 분산</strong><br>
+                    기술주, 헬스케어, 방어주, 경기민감주 등 최소 4개 이상의 섹터에 분산 투자합니다.
+                </div>
+            </div>
+            
+            <div class="list-item">
+                <div class="list-number">4</div>
+                <div class="list-content">
+                    <strong>리밸런싱 주기 설정</strong><br>
+                    분기별 또는 반기별로 포트폴리오 비중을 점검하고 조정합니다.
+                </div>
+            </div>
+            
+            <div class="portfolio-bar">
+                <div class="bar-segment" style="width: 40%; background: linear-gradient(135deg, #667eea, #764ba2);">기술 40%</div>
+                <div class="bar-segment" style="width: 25%; background: linear-gradient(135deg, #00b894, #00cec9);">헬스 25%</div>
+                <div class="bar-segment" style="width: 20%; background: linear-gradient(135deg, #fdcb6e, #f39c12);">방어 20%</div>
+                <div class="bar-segment" style="width: 15%; background: linear-gradient(135deg, #e17055, #d63031);">기타 15%</div>
+            </div>
+        </div>
+
+        <!-- 결론 -->
+        <div class="section">
+            <div class="section-title">투자 전략 결론</div>
+            
+            <div class="tip-box">
+                <div class="tip-title">✅ 핵심 메시지</div>
+                <p>뮤추얼 펀드의 포트폴리오 구성을 참고하여 <strong>섹터별 분산투자</strong>를 실천하고, 자산규모에 맞는 <strong>리스크 관리</strong>를 통해 시장의 변동성에 대응하는 것이 핵심입니다.</p>
+                <p style="margin-bottom: 0;">특히 "집을 횡적·종적으로 짓듯" 포트폴리오를 다각도로 구성하면, 특정 섹터의 충격이 전체 자산에 미치는 영향을 최소화할 수 있습니다.</p>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-title">⚠️ 투자 유의사항</div>
+                <p style="margin-bottom: 0;">본 분석은 교육 목적의 정보 제공이며, 특정 종목이나 섹터에 대한 투자 권유가 아닙니다. 실제 투자 결정은 개인의 투자 목표, 리스크 허용도, 재정 상황을 고려하여 전문가와 상담 후 진행하시기 바랍니다.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📺 원본: 3 min academy</p>
+            <p>분석일: 2026년 1월 2일</p>
+            <p style="margin-top: 8px; color: #888;">본 문서는 미국 증시 관점의 교육용 분석입니다</p>
+        </div>
+    </div>
+
+    <script>
+        // 섹터별 포트폴리오 구성 도넛 차트
+        const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+        new Chart(sectorCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['경기민감주', '기술주', '방어주', '헬스케어', '기타'],
+                datasets: [{
+                    data: [48, 40, 32, 25, 10],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(0, 184, 148, 0.8)',
+                        'rgba(253, 203, 110, 0.8)',
+                        'rgba(99, 110, 114, 0.8)'
+                    ],
+                    borderColor: 'rgba(26, 26, 46, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a0a0a0',
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 섹터별 리스크 반응 특성 레이더 차트
+        const riskCtx = document.getElementById('riskChart').getContext('2d');
+        new Chart(riskCtx, {
+            type: 'radar',
+            data: {
+                labels: ['변동성', '금리 민감도', '경기 민감도', '성장성', '방어력'],
+                datasets: [{
+                    label: '기술주',
+                    data: [90, 85, 70, 95, 30],
+                    backgroundColor: 'rgba(118, 75, 162, 0.2)',
+                    borderColor: 'rgba(118, 75, 162, 0.8)',
+                    pointBackgroundColor: 'rgba(118, 75, 162, 1)'
+                }, {
+                    label: '헬스케어',
+                    data: [50, 40, 40, 70, 85],
+                    backgroundColor: 'rgba(0, 184, 148, 0.2)',
+                    borderColor: 'rgba(0, 184, 148, 0.8)',
+                    pointBackgroundColor: 'rgba(0, 184, 148, 1)'
+                }, {
+                    label: '경기민감주',
+                    data: [80, 60, 95, 75, 40],
+                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    borderColor: 'rgba(102, 126, 234, 0.8)',
+                    pointBackgroundColor: 'rgba(102, 126, 234, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255,255,255,0.1)' },
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        pointLabels: { color: '#a0a0a0', font: { size: 10 } },
+                        ticks: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a0a0a0',
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 자산규모별 포트폴리오 구성 바 차트
+        const assetCtx = document.getElementById('assetChart').getContext('2d');
+        new Chart(assetCtx, {
+            type: 'bar',
+            data: {
+                labels: ['10억 미만', '10억 이상'],
+                datasets: [{
+                    label: '보수적 투자',
+                    data: [90, 75],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderRadius: 4
+                }, {
+                    label: '고위험 투자',
+                    data: [10, 25],
+                    backgroundColor: 'rgba(225, 112, 85, 0.8)',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        stacked: true,
+                        grid: { display: false },
+                        ticks: { color: '#a0a0a0' }
+                    },
+                    y: {
+                        stacked: true,
+                        max: 100,
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        ticks: { 
+                            color: '#a0a0a0',
+                            callback: function(value) { return value + '%'; }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a0a0a0',
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

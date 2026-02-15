@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>재정(Fiscal)·통화(Monetary)·금융(Financial) 개념 정리 | 10분 투자 아카데미</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-card: #111827;
+            --bg-card-alt: #1a2235;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-violet: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --glow-blue: rgba(59, 130, 246, 0.15);
+            --glow-cyan: rgba(6, 182, 212, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 48px 20px 40px;
+            text-align: center;
+            overflow: hidden;
+            background: linear-gradient(180deg, #0f1729 0%, var(--bg-primary) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            position: relative;
+            padding: 6px 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            position: relative;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-meta {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .hero-meta span { display: flex; align-items: center; gap: 4px; }
+
+        /* Section Styles */
+        .section {
+            padding: 32px 0;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--accent-cyan);
+        }
+
+        .section-title {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .card-fiscal::before { background: linear-gradient(90deg, var(--accent-amber), var(--accent-rose)); }
+        .card-monetary::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
+        .card-financial::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
+        .card-sec::before { background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue)); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .icon-fiscal { background: rgba(245, 158, 11, 0.15); }
+        .icon-monetary { background: rgba(59, 130, 246, 0.15); }
+        .icon-financial { background: rgba(16, 185, 129, 0.15); }
+        .icon-sec { background: rgba(139, 92, 246, 0.15); }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .card p, .card li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.9;
+        }
+
+        .card strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Tag */
+        .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+
+        .tag-fiscal { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+        .tag-monetary { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .tag-financial { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+        .tag-danger { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+        .tag-info { background: rgba(139, 92, 246, 0.15); color: var(--accent-violet); }
+
+        /* Key Point */
+        .key-point {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-card-alt);
+            border-radius: 10px;
+            margin: 12px 0;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .key-point-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .key-point p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .highlight-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.08), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-rose);
+            margin-bottom: 10px;
+        }
+
+        .warning-box p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            font-size: 13px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-table thead th {
+            background: var(--bg-card-alt);
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table tbody td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: top;
+            line-height: 1.6;
+        }
+
+        .comparison-table tbody tr:last-child td { border-bottom: none; }
+        .comparison-table tbody tr:hover { background: rgba(59, 130, 246, 0.03); }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 16px 16px;
+            margin: 20px 0;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .chart-subtitle {
+            font-size: 12px;
+            text-align: center;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: '↓';
+            position: absolute;
+            bottom: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .flow-item:last-child::after { display: none; }
+
+        .flow-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .flow-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .flow-text strong { color: var(--text-primary); }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 8px 0;
+        }
+
+        /* Bottom spacing */
+        .bottom-space { height: 60px; }
+
+        /* Inline list */
+        .inline-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .inline-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .inline-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+
+        /* Securities Grid */
+        .securities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .security-item {
+            padding: 14px;
+            background: var(--bg-card-alt);
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .security-item .emoji { font-size: 24px; margin-bottom: 6px; }
+        .security-item .name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+        .security-item .desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+        /* Timeline */
+        .misconception-list {
+            margin: 16px 0;
+        }
+
+        .misconception-item {
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .wrong-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-rose);
+            margin-bottom: 6px;
+        }
+
+        .wrong-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            text-decoration-color: rgba(244, 63, 94, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .right-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-emerald);
+            margin-bottom: 6px;
+        }
+
+        .right-text {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Source */
+        .source-info {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 32px;
+        }
+
+        .source-info a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .hero h1 { font-size: 22px; }
+            .section-title { font-size: 19px; }
+            .card { padding: 20px 16px; }
+            .securities-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="container">
+        <div class="hero-badge">📚 10분 투자 아카데미 #3</div>
+        <h1>혼동하면 안 되는<br>재정 · 통화 · 금융 · 증권<br>핵심 개념 정리</h1>
+        <div class="hero-meta">
+            <span>📅 2026.02.02</span>
+            <span>📺 NOVA Real Invest</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- 핵심 요약 -->
+    <div class="section">
+        <div class="section-label">OVERVIEW</div>
+        <div class="section-title">💡 핵심 요약</div>
+
+        <div class="highlight-box">
+            <h4>이 영상에서 다루는 것</h4>
+            <p>미국 경제를 이해하는 데 가장 기본이 되는 세 가지 영역 — <strong>재정(Fiscal)</strong>, <strong>통화(Monetary)</strong>, <strong>금융(Financial/Securities)</strong> — 의 정확한 의미와 각 담당 기관을 정리한다. 한국 언론과 투자자들이 이 용어를 혼용하는 문제점을 지적하며, 올바른 개념 이해가 미국 투자의 출발점임을 강조한다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 3대 기관 & 정책 영역 -->
+    <div class="section">
+        <div class="section-label">CORE CONCEPTS</div>
+        <div class="section-title">🏛️ 미국 경제 3대 정책 영역</div>
+
+        <!-- 차트: 3대 기관 구조 -->
+        <div class="chart-container">
+            <div class="chart-title">미국 경제 정책 3대 축 — 역할 구분</div>
+            <canvas id="chartPillars" height="260"></canvas>
+            <div class="chart-subtitle">각 기관은 독립적으로 운영되며 서로 다른 정책 영역을 담당</div>
+        </div>
+
+        <!-- Card 1: Fiscal -->
+        <div class="card card-fiscal">
+            <div class="card-header">
+                <div class="card-icon icon-fiscal">🏦</div>
+                <div>
+                    <div class="card-title">재정 정책 (Fiscal Policy)</div>
+                    <div class="card-subtitle">담당기관: 재무부 (U.S. Treasury)</div>
+                </div>
+            </div>
+            <p><span class="tag tag-fiscal">FISCAL</span> 재무부 장관(현 스콧 베센트)이 이끄는 기관으로, <strong>예산 편성</strong>과 <strong>세금 징수</strong>가 핵심 기능이다.</p>
+
+            <ul class="inline-list">
+                <li><strong>예산 편성 및 집행</strong> — 정부 재정 운용의 중심</li>
+                <li><strong>세금 징수 (IRS)</strong> — 법인세, 양도소득세(Capital Gains Tax), 탈세 단속 등</li>
+                <li><strong>달러 인쇄</strong> — 물리적 화폐 발행은 재무부 산하 기관에서 담당하지만, <strong>통화량 결정은 연준의 가이던스에 따름</strong></li>
+            </ul>
+
+            <div class="key-point">
+                <div class="key-point-icon">⚠️</div>
+                <p>재무부는 현 정권(캐비닛)에 소속된 기관이다. 정권의 공약과 정책을 재정적으로 뒷받침하는 역할이므로, <strong>통화 정책과는 명확히 구분</strong>해야 한다.</p>
+            </div>
+        </div>
+
+        <!-- Card 2: Monetary -->
+        <div class="card card-monetary">
+            <div class="card-header">
+                <div class="card-icon icon-monetary">🏛️</div>
+                <div>
+                    <div class="card-title">통화 정책 (Monetary Policy)</div>
+                    <div class="card-subtitle">담당기관: 연방준비제도 (Federal Reserve)</div>
+                </div>
+            </div>
+            <p><span class="tag tag-monetary">MONETARY</span> 연준(Fed)은 <strong>독립 기관</strong>으로서 미국의 통화량과 금리를 조절한다. 핵심 목표는 두 가지다:</p>
+
+            <div class="highlight-box" style="margin-top: 16px;">
+                <h4>연준의 이중 책무 (Dual Mandate)</h4>
+                <p>① <strong>완전 고용</strong> (Full Employment) — 실업률 약 3%대 수준<br>
+                ② <strong>물가 안정</strong> (Price Stability) — 적정 인플레이션 유지</p>
+            </div>
+
+            <ul class="inline-list">
+                <li><strong>금리(이자율) 조정</strong>으로 통화량(M1, M2) 관리</li>
+                <li><strong>대차대조표(Balance Sheet) 운용</strong> — 국채 매입·매각을 통한 유동성 조절</li>
+                <li>금리 인하 → 통화량 증가 → 기업 차입 비용 감소 → 고용 증가 (↔ 인플레이션 상승 리스크)</li>
+                <li>금리 인상 → 통화량 감소 → 인플레이션 억제 (↔ 기업 부담 증가)</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>🚨 정치적 개입의 위험</h4>
+                <p>트럼프 대통령이 자신의 정책에 우호적인 인물(예: 케빈 워시 거론)을 연준 의장에 앉히려는 시도가 있다. 통화 정책에 정치적 목적이 개입되면 <strong>통화 정책 자체가 와해될 수 있으며</strong>, 이것이 현재 가장 큰 리스크라고 영상은 경고한다.</p>
+            </div>
+        </div>
+
+        <!-- Card 3: Financial/Securities -->
+        <div class="card card-financial">
+            <div class="card-header">
+                <div class="card-icon icon-financial">📈</div>
+                <div>
+                    <div class="card-title">금융·증권 시장 (Financial Markets)</div>
+                    <div class="card-subtitle">월가 (Wall Street) / 증권 거래</div>
+                </div>
+            </div>
+            <p><span class="tag tag-financial">FINANCIAL</span> 월가(Wall Street)는 <strong>증권 거래(Securities Trading)</strong>를 의미한다. 재정 정책이나 통화 정책과는 <strong>독립적으로 운영</strong>되는 시장이다.</p>
+
+            <div class="key-point">
+                <div class="key-point-icon">📌</div>
+                <p><strong>"미국 주식 시장"이 아니라 "미국 증권 시장"</strong>이 정확한 표현이다. 주식뿐 아니라 ETF, 채권(Bond), 뮤추얼펀드, 파생상품(Futures) 등 매매 가능한 모든 금융상품을 포괄하기 때문이다.</p>
+            </div>
+
+            <p style="margin-top: 12px;">미국인의 약 <strong>70%</strong>가 증시에 투자하고 있어, 증시 하락은 정권의 재임에 직접적 영향을 미친다. 따라서 재무부와 연준 모두 증시에 우호적인 방향으로 정책을 운영하려는 경향이 있다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 증권의 의미 -->
+    <div class="section">
+        <div class="section-label">SECURITIES</div>
+        <div class="section-title">📊 증권(Securities)의 정확한 의미</div>
+
+        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">
+            증권(Securities)이란 <strong>매매 가능한 가치가 있는 금융 상품</strong>의 총칭이다. 흔히 "주식 시장"이라 부르지만, 실제로는 다양한 상품이 포함되어 있으므로 <strong>"증권 시장"</strong>이 정확한 표현이다.
+        </p>
+
+        <div class="securities-grid">
+            <div class="security-item">
+                <div class="emoji">📃</div>
+                <div class="name">주식 (Stocks)</div>
+                <div class="desc">기업 소유권 지분</div>
+            </div>
+            <div class="security-item">
+                <div class="emoji">📦</div>
+                <div class="name">ETF</div>
+                <div class="desc">상장지수펀드 (상품)</div>
+            </div>
+            <div class="security-item">
+                <div class="emoji">💰</div>
+                <div class="name">채권 (Bonds)</div>
+                <div class="desc">국채·회사채 등 채무증서</div>
+            </div>
+            <div class="security-item">
+                <div class="emoji">🔄</div>
+                <div class="name">파생상품 (Derivatives)</div>
+                <div class="desc">선물·옵션 등</div>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <div class="key-point-icon">💡</div>
+            <p>ETF와 뮤추얼펀드는 주식이 아니라 <strong>'상품(Product)'</strong>으로 분류된다. "ETF가 올랐다 = 증시가 올랐다"고 말하는 것은 부정확하며, 증권 시장 전체의 흐름으로 이해해야 한다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 비교표 -->
+    <div class="section">
+        <div class="section-label">COMPARISON</div>
+        <div class="section-title">📋 3대 영역 비교표</div>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>재정 (Fiscal)</th>
+                    <th>통화 (Monetary)</th>
+                    <th>금융 (Financial)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>담당기관</strong></td>
+                    <td>재무부 (Treasury)</td>
+                    <td>연준 (Fed)</td>
+                    <td>증권시장 (Wall Street)</td>
+                </tr>
+                <tr>
+                    <td><strong>성격</strong></td>
+                    <td>정부 기관 (캐비닛)</td>
+                    <td>독립 기관</td>
+                    <td>민간 시장</td>
+                </tr>
+                <tr>
+                    <td><strong>핵심 기능</strong></td>
+                    <td>예산 편성, 세금 징수</td>
+                    <td>금리·통화량 조절</td>
+                    <td>증권 거래·투자</td>
+                </tr>
+                <tr>
+                    <td><strong>목표</strong></td>
+                    <td>정부 정책 재정 지원</td>
+                    <td>완전고용 + 물가안정</td>
+                    <td>자본배분·수익 창출</td>
+                </tr>
+                <tr>
+                    <td><strong>수장</strong></td>
+                    <td>재무장관 (베센트)</td>
+                    <td>연준의장 (파월)</td>
+                    <td>SEC 위원장 / 시장 자율</td>
+                </tr>
+                <tr>
+                    <td><strong>영어 키워드</strong></td>
+                    <td>Fiscal, Tax, Budget</td>
+                    <td>Monetary, Interest Rate</td>
+                    <td>Securities, Financial</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 규제 기관 -->
+    <div class="section">
+        <div class="section-label">REGULATORS</div>
+        <div class="section-title">🛡️ 증권시장 규제 기관</div>
+
+        <div class="card card-sec">
+            <div class="card-header">
+                <div class="card-icon icon-sec">⚖️</div>
+                <div>
+                    <div class="card-title">SEC (증권거래위원회)</div>
+                    <div class="card-subtitle">Securities and Exchange Commission</div>
+                </div>
+            </div>
+            <p><span class="tag tag-info">독립기관</span> 대통령의 직접적 간섭을 받지 않는 독립 규제기관으로, 1933~1940년대에 제정된 다양한 증권법을 기반으로 투자자 보호와 시장 감독을 담당한다.</p>
+            <ul class="inline-list">
+                <li>증권법 집행 및 가이던스 제정</li>
+                <li>투자자 보호, 시장 공정성 유지</li>
+                <li>사기·내부거래·사이버범죄 단속</li>
+                <li>미국의 징벌적 제재: 재산 환수 + 10배 이상 배상 + 10년 이상 실형</li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-left: 3px solid var(--accent-cyan);">
+            <div class="card-header">
+                <div class="card-icon" style="background: rgba(6, 182, 212, 0.15);">🔍</div>
+                <div>
+                    <div class="card-title">FINRA (금융산업규제청)</div>
+                    <div class="card-subtitle">Financial Industry Regulatory Authority</div>
+                </div>
+            </div>
+            <p><span class="tag" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">자율규제</span> SEC를 보완하는 민간 자율규제기관. 마치 자체 경찰처럼 증권업계 내부의 사이버범죄, 고객 자산 유용, 사기 행위 등을 감시·단속한다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 통화정책 메커니즘 -->
+    <div class="section">
+        <div class="section-label">MECHANISM</div>
+        <div class="section-title">⚙️ 통화정책의 작동 원리</div>
+
+        <!-- 차트: 금리 vs 효과 -->
+        <div class="chart-container">
+            <div class="chart-title">금리 변동에 따른 경제 효과 관계도</div>
+            <canvas id="chartRate" height="280"></canvas>
+            <div class="chart-subtitle">금리 인하 시 고용↑·인플레↑ / 금리 인상 시 고용↓·인플레↓</div>
+        </div>
+
+        <div class="flow-diagram">
+            <div class="flow-item">
+                <div class="flow-number" style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue);">1</div>
+                <div class="flow-text"><strong>연준이 기준금리 결정</strong> — 경제 데이터(고용, 물가 등) 기반 판단</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-number" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan);">2</div>
+                <div class="flow-text"><strong>통화량(M1/M2) 조절</strong> — 국채 매입(확장) 또는 매각(긴축)</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-number" style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald);">3</div>
+                <div class="flow-text"><strong>시중 유동성 변화</strong> — 기업 차입비용 및 소비에 영향</div>
+            </div>
+            <div class="flow-item">
+                <div class="flow-number" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber);">4</div>
+                <div class="flow-text"><strong>고용·물가에 반영</strong> — 두 목표 간 균형점(적정선) 추구</div>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h4>💡 핵심 인사이트: "두 마리 토끼"의 딜레마</h4>
+            <p>완전 고용과 물가 안정은 <strong>서로 반비례(Inverse) 경향</strong>이 있지만 절대적인 관계는 아니다. 다양한 경제 데이터와 통계를 종합해 판단해야 하며, 무조건 금리를 내리는 것이 좋은 것은 아니다. <strong>적정선을 찾는 것이 통화정책의 핵심</strong>이다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 흔한 오용 사례 -->
+    <div class="section">
+        <div class="section-label">COMMON MISTAKES</div>
+        <div class="section-title">❌ 자주 혼동하는 용어 오용 사례</div>
+
+        <div class="misconception-list">
+            <div class="misconception-item">
+                <div class="wrong-label">❌ 잘못된 표현</div>
+                <div class="wrong-text">"재무부의 통화 정책이 달러 가치에 영향을 미친다"</div>
+                <div class="right-label">✅ 올바른 표현</div>
+                <div class="right-text">재무부는 <strong>재정(Fiscal)</strong> 정책을 담당하며, <strong>통화(Monetary)</strong> 정책은 연준의 영역이다. 달러 인쇄는 재무부 산하에서 하지만, 통화량 결정 가이던스는 연준에서 나온다.</div>
+            </div>
+
+            <div class="misconception-item">
+                <div class="wrong-label">❌ 잘못된 표현</div>
+                <div class="wrong-text">"파월 연준 의장은 금융 전문가다"</div>
+                <div class="right-label">✅ 올바른 표현</div>
+                <div class="right-text">파월 의장은 과거 금융 전문가였으나, 연준에 들어온 후에는 <strong>통화 정책 전문가</strong>로 정의해야 한다. 연준의 역할은 금융이 아닌 통화정책이다.</div>
+            </div>
+
+            <div class="misconception-item">
+                <div class="wrong-label">❌ 잘못된 표현</div>
+                <div class="wrong-text">"미국 주식 시장이 하락했다"</div>
+                <div class="right-label">✅ 올바른 표현</div>
+                <div class="right-text">"미국 <strong>증권 시장</strong>이 하락했다"가 정확하다. 주식 외에도 ETF, 채권, 파생상품 등을 아우르기 때문이다.</div>
+            </div>
+
+            <div class="misconception-item">
+                <div class="wrong-label">❌ 잘못된 표현</div>
+                <div class="wrong-text">"월가에 재정 정책이 영향을 미친다"</div>
+                <div class="right-label">✅ 올바른 표현</div>
+                <div class="right-text">월가(증권시장)는 재정 정책·통화 정책과 <strong>독립적으로 운영</strong>된다. 서로 간접적 영향은 있으나 직접적 관할이 아니다.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 미국 증시 투자 시사점 -->
+    <div class="section">
+        <div class="section-label">INVESTMENT IMPLICATIONS</div>
+        <div class="section-title">🎯 미국 증시 투자 시사점</div>
+
+        <!-- 차트: 미국인 증시 참여율 -->
+        <div class="chart-container">
+            <div class="chart-title">미국 가계의 증시 참여 — 정책과의 연관성</div>
+            <canvas id="chartParticipation" height="220"></canvas>
+            <div class="chart-subtitle">미국인 약 70%가 증시에 투자 → 증시 하락은 정치적 리스크</div>
+        </div>
+
+        <div class="card" style="border-left: 3px solid var(--accent-emerald);">
+            <div class="card-header">
+                <div class="card-icon icon-financial">🎯</div>
+                <div>
+                    <div class="card-title">투자자가 기억해야 할 5가지</div>
+                </div>
+            </div>
+            <ul class="inline-list">
+                <li><strong>정책 영역 구분의 중요성</strong> — 재정·통화·금융 영역을 혼동하면 시장 논리를 이해하기 어렵다. 뉴스를 볼 때 어떤 영역의 이야기인지 먼저 구분하라.</li>
+                <li><strong>연준 독립성 주시</strong> — 트럼프 행정부의 연준 의장 교체 시도는 통화 정책의 신뢰성을 훼손할 수 있는 최대 리스크다. 연준 독립성 관련 뉴스에 민감하게 반응하라.</li>
+                <li><strong>금리 방향 ≠ 시장 방향</strong> — 금리 인하가 무조건 호재가 아니고, 인상이 무조건 악재가 아니다. 금리 변화의 배경(인플레 수준, 고용 상황)을 함께 봐야 한다.</li>
+                <li><strong>증권 시장의 포괄적 이해</strong> — 주식뿐 아니라 ETF, 채권, 파생상품까지 포함한 전체 증권 시장의 흐름을 파악하라.</li>
+                <li><strong>70% 투자 참여율의 의미</strong> — 미국인 70%가 투자하고 있어, 어떤 정권도 증시를 훼손하는 정책은 장기적으로 유지하기 어렵다. 이는 장기 투자자에게 구조적 안전망이 된다.</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h4>📌 현재 시장에서의 적용</h4>
+            <p>2026년 초 현재, 트럼프 행정부의 재정 정책(관세, 감세)과 연준의 통화 정책(금리 동결/인하 고민) 그리고 증권 시장의 반응이 서로 다른 방향을 가리킬 수 있다. 각 영역의 움직임을 <strong>독립적으로 분석한 후 교차점을 찾는 것</strong>이 올바른 투자 판단의 출발점이다.</p>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 거시경제 연관성 -->
+    <div class="section">
+        <div class="section-label">MACRO CONTEXT</div>
+        <div class="section-title">🌐 거시경제 및 연준 정책 맥락</div>
+
+        <div class="card">
+            <p>영상에서 제시된 개념 프레임워크를 현재 거시경제 환경에 대입하면 다음과 같은 맥락이 보인다:</p>
+
+            <div class="key-point" style="margin-top: 16px;">
+                <div class="key-point-icon">🔸</div>
+                <p><strong>재정 정책 측면</strong> — 베센트 재무장관 하에서 관세 부과, 재정 지출 구조 변화 등이 진행 중. 이는 Fiscal 영역의 이슈이므로 통화정책과 분리해서 이해해야 한다.</p>
+            </div>
+
+            <div class="key-point">
+                <div class="key-point-icon">🔹</div>
+                <p><strong>통화 정책 측면</strong> — 연준은 인플레이션과 고용 사이의 균형을 찾는 중. 정치적 압력(의장 교체 거론)이 실현되면, 시장은 통화 정책의 예측 가능성 상실을 가장 큰 리스크로 인식할 가능성이 높다.</p>
+            </div>
+
+            <div class="key-point">
+                <div class="key-point-icon">🔸</div>
+                <p><strong>증권 시장 측면</strong> — 미국인 70%가 투자에 참여한다는 구조는, 정권이 장기적으로 증시 친화적 방향을 취할 수밖에 없는 근본 동인이다. 서학개미 투자자에게는 장기적 관점에서 긍정적 요소다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Source -->
+    <div class="source-info">
+        <p>📺 출처: <a href="https://www.youtube.com/watch?v=PR5uVYq3jc0&t=41s" target="_blank">10분 투자 아카데미 #3 — NOVA Real Invest</a></p>
+        <p style="margin-top: 8px;">본 문서는 영상 내용을 기반으로 분석·정리한 것이며, 투자 권유가 아닙니다.<br>투자 판단은 본인의 책임 하에 이루어져야 합니다.</p>
+    </div>
+
+    <div class="bottom-space"></div>
+</div>
+
+<script>
+    // Chart.js Global Config
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+    Chart.defaults.font.size = 12;
+
+    // Chart 1: 3대 기관 역할 구분 (Radar)
+    new Chart(document.getElementById('chartPillars'), {
+        type: 'radar',
+        data: {
+            labels: ['예산 편성', '세금 징수', '금리 결정', '통화량 조절', '증권 규제', '투자자 보호'],
+            datasets: [
+                {
+                    label: '재무부 (Fiscal)',
+                    data: [95, 95, 5, 10, 10, 5],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#f59e0b'
+                },
+                {
+                    label: '연준 (Monetary)',
+                    data: [5, 5, 95, 95, 10, 10],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#3b82f6'
+                },
+                {
+                    label: '증권시장/SEC (Financial)',
+                    data: [5, 5, 5, 5, 90, 90],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#10b981'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: { display: false },
+                    grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                    pointLabels: { font: { size: 11 }, color: '#94a3b8' },
+                    angleLines: { color: 'rgba(148, 163, 184, 0.1)' }
+                }
+            }
+        }
+    });
+
+    // Chart 2: 금리 vs 고용·인플레이션 관계
+    new Chart(document.getElementById('chartRate'), {
+        type: 'line',
+        data: {
+            labels: ['고금리', '', '', '중립금리', '', '', '저금리'],
+            datasets: [
+                {
+                    label: '고용 수준',
+                    data: [30, 38, 48, 60, 72, 82, 90],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2.5,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#3b82f6'
+                },
+                {
+                    label: '인플레이션',
+                    data: [20, 28, 38, 50, 64, 78, 92],
+                    borderColor: '#f43f5e',
+                    backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2.5,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#f43f5e'
+                },
+                {
+                    label: '기업 차입 부담',
+                    data: [90, 80, 68, 55, 40, 28, 15],
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                    fill: false,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    borderDash: [6, 3],
+                    pointRadius: 3,
+                    pointBackgroundColor: '#f59e0b'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 14, usePointStyle: true, pointStyle: 'circle', font: { size: 11 } }
+                },
+                tooltip: {
+                    backgroundColor: '#1e293b',
+                    titleColor: '#f1f5f9',
+                    bodyColor: '#94a3b8',
+                    borderColor: '#334155',
+                    borderWidth: 1,
+                    cornerRadius: 8
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: 'rgba(148, 163, 184, 0.08)' },
+                    ticks: { callback: v => v + '%' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+
+    // Chart 3: 미국 가계 증시 참여
+    new Chart(document.getElementById('chartParticipation'), {
+        type: 'doughnut',
+        data: {
+            labels: ['증시 투자 참여', '미참여'],
+            datasets: [{
+                data: [70, 30],
+                backgroundColor: ['#3b82f6', '#1e293b'],
+                borderColor: ['#3b82f6', '#334155'],
+                borderWidth: 2,
+                hoverOffset: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '65%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' }
+                },
+                tooltip: {
+                    backgroundColor: '#1e293b',
+                    callbacks: {
+                        label: function(ctx) {
+                            return ctx.label + ': ' + ctx.parsed + '%';
+                        }
+                    }
+                }
+            }
+        },
+        plugins: [{
+            id: 'centerText',
+            beforeDraw: function(chart) {
+                const { width, height, ctx } = chart;
+                ctx.restore();
+                ctx.font = "bold 28px 'Noto Sans KR'";
+                ctx.fillStyle = '#f1f5f9';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('70%', width / 2, height / 2 - 8);
+                ctx.font = "12px 'Noto Sans KR'";
+                ctx.fillStyle = '#64748b';
+                ctx.fillText('투자 참여율', width / 2, height / 2 + 18);
+                ctx.save();
+            }
+        }]
+    });
+</script>
+
+</body>
+</html>

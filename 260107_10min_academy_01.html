@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>10년 국채 금리 현황 분석 | 2026년 1월</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 12px;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .header .date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .content {
+            padding: 24px 18px;
+        }
+        
+        .section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title .icon {
+            font-size: 1.3rem;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            text-align: justify;
+            font-size: 0.95rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 4px solid #f39c12;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+            border-left: 4px solid #e74c3c;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
+            border-left: 4px solid #3498db;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left: 4px solid #28a745;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        
+        .key-point {
+            font-weight: 600;
+            color: #c0392b;
+        }
+        
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 24px 0;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .flow-diagram {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-radius: 16px;
+            padding: 20px 12px;
+            margin: 24px 0;
+        }
+        
+        .flow-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            margin: 10px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            margin: 8px 0;
+        }
+        
+        .flow-item.danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .flow-item.warning {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+        }
+        
+        .flow-item.primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.88rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .data-table th {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 14px 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            text-align: center;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .data-table tr:hover {
+            background: #e8f4fd;
+        }
+        
+        .signal-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 24px 0;
+        }
+        
+        .signal-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .signal-dot.yellow {
+            background: #f1c40f;
+            box-shadow: 0 0 20px #f1c40f;
+        }
+        
+        .signal-dot.red {
+            background: #e74c3c;
+            box-shadow: 0 0 20px #e74c3c;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        
+        .metric-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 12px;
+            border-radius: 14px;
+            text-align: center;
+        }
+        
+        .metric-card .value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .metric-card .label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+        
+        .metric-card.danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .metric-card.warning {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .impact-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .impact-list li {
+            padding: 14px 16px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.92rem;
+        }
+        
+        .impact-list .num {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 24px 18px;
+            border-radius: 16px;
+            margin: 24px 0;
+        }
+        
+        .summary-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .summary-box li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.92rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .summary-box li:last-child {
+            border-bottom: none;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .correlation-visual {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+        
+        .correlation-row {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            font-size: 0.88rem;
+        }
+        
+        .correlation-label {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .correlation-bar {
+            flex: 2;
+            height: 24px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .correlation-fill {
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .tag-danger {
+            background: #ffe6e6;
+            color: #c0392b;
+        }
+        
+        .tag-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .tag-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 10년 국채 금리 현황<br>미국 증시 영향 분석</h1>
+            <span class="date">📅 2026년 1월 7일 기준</span>
+        </div>
+        
+        <div class="content">
+            <!-- 핵심 지표 카드 -->
+            <div class="metric-cards">
+                <div class="metric-card">
+                    <div class="value">4.1~4.2%</div>
+                    <div class="label">현재 10년 국채 금리</div>
+                </div>
+                <div class="metric-card warning">
+                    <div class="value">6.6%</div>
+                    <div class="label">현재 모기지 금리</div>
+                </div>
+                <div class="metric-card danger">
+                    <div class="value">4.3%</div>
+                    <div class="label">⚠️ 경고 시그널 기준</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value">113%</div>
+                    <div class="label">미국 GDP 대비 부채</div>
+                </div>
+            </div>
+            
+            <!-- 현재 시장 신호 -->
+            <div class="signal-indicator">
+                <span class="signal-dot yellow"></span>
+                <span><strong>현재 시장 신호:</strong> 주의 관찰 단계 (4.3% 도달 시 경고)</span>
+            </div>
+            
+            <!-- 섹션 1: 핵심 개요 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">🎯</span>핵심 개요</h2>
+                
+                <p><strong class="key-point">10년 국채 금리</strong>는 현재 미국 증시에서 가장 중요한 시그널 중 하나입니다. 이 금리는 연준(Fed)이 직접 조정하는 것이 아니라, <strong class="key-point">철저히 수요와 공급(Supply and Demand)</strong>에 의해 결정됩니다.</p>
+                
+                <div class="highlight-box">
+                    <strong>💡 핵심 원리:</strong><br>
+                    • 국채 수요 증가(Supply↑) → 금리 하락<br>
+                    • 국채 수요 감소(Supply↓) → 금리 상승<br><br>
+                    현재 미국 국채에 대한 국제 수요가 줄어들면서 금리가 상승 압력을 받고 있는 상황입니다.
+                </div>
+                
+                <p>10년 국채 금리가 <strong class="key-point">4.3%</strong>를 넘어서면 본격적인 위험 시그널로 받아들여야 합니다. 이 경우 <strong>대규모 조정(Correction)</strong>이 발생할 가능성이 높아지며, 조정폭도 상당히 클 것으로 예상됩니다.</p>
+            </div>
+            
+            <!-- 차트: 금리 상관관계 -->
+            <div class="chart-container">
+                <div class="chart-title">📈 10년 국채 금리와 모기지 금리 상관관계</div>
+                <canvas id="rateChart" height="220"></canvas>
+            </div>
+            
+            <!-- 섹션 2: 첫 번째 이슈 - 부동산 시장 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">🏠</span>이슈 1: 부동산 시장 영향</h2>
+                
+                <p>10년 국채 금리는 <strong class="key-point">모기지 금리</strong>와 가장 밀접하게 연동되어 있습니다. 현재 10년 국채가 <strong>4.1%</strong>일 때 모기지 금리는 약 <strong>6.6%</strong> 수준입니다.</p>
+                
+                <div class="flow-diagram">
+                    <div class="flow-item primary">10년 국채 금리 상승 (4.1% → 4.5%)</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item warning">모기지 금리 상승 (6.6% → 7%+)</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item danger">부동산 경기 위축</div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>10년 국채</th>
+                            <th>예상 모기지</th>
+                            <th>시장 영향</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>4.1%</td>
+                            <td>~6.6%</td>
+                            <td><span class="tag tag-warning">주의</span></td>
+                        </tr>
+                        <tr>
+                            <td>4.3%</td>
+                            <td>~6.8%</td>
+                            <td><span class="tag tag-danger">경고</span></td>
+                        </tr>
+                        <tr>
+                            <td>4.5%</td>
+                            <td>7%+</td>
+                            <td><span class="tag tag-danger">위험</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="warning-box">
+                    <strong>⚠️ 파급 효과:</strong><br>
+                    부동산 경기가 나빠지면 개인 주택뿐만 아니라 <strong>상업용 부동산(Commercial Property)</strong>, <strong>리츠(REITs)</strong>까지 영향을 받습니다. 대부분 대출을 통해 투자하기 때문에, 금리 상승은 부실 채권 증가와 파산(Bankruptcy) 위험을 높입니다.
+                </div>
+            </div>
+            
+            <!-- 섹션 3: 두 번째 이슈 - 기관 투자자 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">🏦</span>이슈 2: 기관 투자자 자금 이동</h2>
+                
+                <p>10년 국채 금리가 상승하면 은행과 투자사들은 자동으로 <strong class="key-point">자산 재배분</strong>을 실행합니다. 특히 요즘은 <strong>AI 기반 자동 매매 시스템</strong>이 도입되어 있어, 이러한 움직임이 더욱 빠르고 대규모로 발생합니다.</p>
+                
+                <div class="flow-diagram">
+                    <div class="flow-item primary">10년 국채 금리 상승 (예: 4.3%+)</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item">기관 투자자 자동 리밸런싱 트리거</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item warning">고위험 자산(주식) 매도</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item">저위험 자산(채권/국채)으로 이동</div>
+                    <div class="flow-arrow">⬇️</div>
+                    <div class="flow-item danger">주식시장 폭락 가능성</div>
+                </div>
+                
+                <div class="info-box">
+                    <strong>🤖 AI 매매의 영향:</strong><br>
+                    과거에는 20만 주 단위로 거래되던 것이 AI 시스템 도입 후 <strong>50만~100만 주</strong> 단위로 거래됩니다. 이로 인해 <strong>폭락장과 폭등장의 변동성</strong>이 더욱 커졌습니다.
+                </div>
+                
+                <p>투자자들의 심리 변화 근거는 합리적입니다. 국채가 <strong>4.5%</strong> 수익을 보장하고, 회사채가 <strong>8~9%</strong>를 제공한다면, 굳이 <strong>10% 수익</strong>을 위해 훨씬 큰 리스크를 감수할 이유가 없기 때문입니다.</p>
+            </div>
+            
+            <!-- 차트: 자산 이동 흐름 -->
+            <div class="chart-container">
+                <div class="chart-title">💰 금리 상승 시 자금 흐름 변화</div>
+                <canvas id="flowChart" height="200"></canvas>
+            </div>
+            
+            <!-- 섹션 4: 세 번째 이슈 - 하이테크 기업 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">💻</span>이슈 3: 하이테크 기업 타격</h2>
+                
+                <p><strong class="key-point">CAPEX(자본적 지출)</strong>가 높은 하이테크 기업들이 가장 큰 피해를 입습니다. 현재 블랙웰 칩 구매, 데이터센터 건설, 소프트웨어 개발 등에 막대한 자금이 필요한 상황입니다.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ 하이테크 기업 리스크:</strong><br><br>
+                    <strong>1. 자금 조달 비용 증가</strong><br>
+                    → 기존 8% 이자로 조달하던 것이 12%로 상승<br><br>
+                    <strong>2. 마진율 압박</strong><br>
+                    → 66%에서 64%로만 떨어져도 시장에서 "멘붕"<br><br>
+                    <strong>3. 주가 급락</strong><br>
+                    → 마진 감소 발표 시 10%+ 하락 가능
+                </div>
+                
+                <p>심지어 <strong>마이크로소프트</strong> 같은 우량 기업도 자체 자금으로 감당이 안 되어 <strong>우선주(Preferred Stock)</strong>를 발행해서 자금을 조달했습니다. 이는 기존 주주 가치의 희석(Dilution)을 의미합니다.</p>
+                
+                <div class="correlation-visual">
+                    <div style="text-align:center; font-weight:600; margin-bottom:16px;">영향받는 섹터별 리스크 수준</div>
+                    <div class="correlation-row">
+                        <span class="correlation-label">AI/반도체</span>
+                        <div class="correlation-bar">
+                            <div class="correlation-fill" style="width:90%; background: linear-gradient(90deg, #e74c3c, #c0392b);">높음</div>
+                        </div>
+                    </div>
+                    <div class="correlation-row">
+                        <span class="correlation-label">소프트웨어</span>
+                        <div class="correlation-bar">
+                            <div class="correlation-fill" style="width:75%; background: linear-gradient(90deg, #f39c12, #e67e22);">중상</div>
+                        </div>
+                    </div>
+                    <div class="correlation-row">
+                        <span class="correlation-label">부동산/REITs</span>
+                        <div class="correlation-bar">
+                            <div class="correlation-fill" style="width:85%; background: linear-gradient(90deg, #e74c3c, #c0392b);">높음</div>
+                        </div>
+                    </div>
+                    <div class="correlation-row">
+                        <span class="correlation-label">가치주</span>
+                        <div class="correlation-bar">
+                            <div class="correlation-fill" style="width:40%; background: linear-gradient(90deg, #27ae60, #2ecc71);">낮음</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 섹션 5: 네 번째 이슈 - 정부 재정 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">🏛️</span>이슈 4: 미국 정부 재정 부담</h2>
+                
+                <p>미국의 부채는 현재 <strong class="key-point">GDP의 113%</strong>에 달합니다. 이미 과도한 수준인데, 국채 금리까지 올라가면 이자 비용이 급증하여 재정 부담이 가중됩니다.</p>
+                
+                <div class="highlight-box">
+                    <strong>💡 "카드 돌려막기" 구조:</strong><br>
+                    현재 미국 정부는 빚을 갚기 위해 새로운 빚을 내는 구조입니다. 트럼프 행정부가 <strong>관세 정책</strong>을 강조하는 이유 중 하나도 관세 수입으로 부채를 줄이려는 의도입니다.
+                </div>
+                
+                <p>부채가 계속 증가하면 <strong class="key-point">미국의 신용등급</strong>이 하락할 수 있고, 이는 전체 금융시장에 치명적인 영향을 미칩니다.</p>
+            </div>
+            
+            <!-- 섹션 6: 연준 독립성 이슈 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">⚖️</span>추가 리스크: 연준 독립성</h2>
+                
+                <p>가장 우려되는 시나리오 중 하나는 <strong class="key-point">연준(Fed)의 독립성</strong>에 대한 신뢰 하락입니다.</p>
+                
+                <div class="warning-box">
+                    <strong>⚠️ 독립성 훼손 시나리오:</strong><br><br>
+                    만약 새로운 연준 의장이 정치적 압력에 따라 금리를 인위적으로 인하한다고 국제사회가 판단하면:<br><br>
+                    <strong>→ 미국 국채 신뢰도 하락</strong><br>
+                    <strong>→ 국채 수요 감소</strong><br>
+                    <strong>→ 10년 국채 금리 급등</strong><br>
+                    <strong>→ 대규모 조정(Correction) 발생</strong>
+                </div>
+                
+                <p>연준이 "금리를 4~5번 더 내려도 된다"고 발언하면, 이것이 독립적 판단인지 정치적 압력인지를 국제사회가 주시하게 됩니다. 독립성이 의심받으면 국채 금리는 더 올라갈 수밖에 없습니다.</p>
+            </div>
+            
+            <!-- 차트: 시장 시나리오 -->
+            <div class="chart-container">
+                <div class="chart-title">📊 10년 국채 금리별 시장 영향 시나리오</div>
+                <canvas id="scenarioChart" height="220"></canvas>
+            </div>
+            
+            <!-- 섹션 7: 투자 시사점 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">📈</span>투자 시사점</h2>
+                
+                <ul class="impact-list">
+                    <li>
+                        <span class="num">1</span>
+                        <div><strong>10년 국채 4.3% = 경고 시그널</strong><br>이 수준에 도달하면 기관들이 먼저 매도에 나서고, 며칠 후 개인투자자들이 영향을 받아 급락장이 올 수 있습니다.</div>
+                    </li>
+                    <li>
+                        <span class="num">2</span>
+                        <div><strong>성장주 → 가치주 로테이션</strong><br>다우존스가 다른 지수 대비 강세를 보이는 것은 시장이 보수적인 가치주로 이동 중이라는 신호입니다.</div>
+                    </li>
+                    <li>
+                        <span class="num">3</span>
+                        <div><strong>엔비디아 비중 조절</strong><br>신규 진입자는 엔비디아 비중을 30% 이상 유지하지 않는 것이 바람직합니다. 기존 보유자는 이미 줄인 상태라면 추가 조정 불필요.</div>
+                    </li>
+                    <li>
+                        <span class="num">4</span>
+                        <div><strong>테슬라 포지션 재검토</strong><br>올해는 테슬라가 적합하지 않다는 판단. 줄이거나 제외하는 것을 고려할 필요가 있습니다.</div>
+                    </li>
+                    <li>
+                        <span class="num">5</span>
+                        <div><strong>마이크론 긍정적 전망</strong><br>연초 대비 22% 상승했지만 여전히 저평가 상태. 장기 투자 관점에서 유효합니다.</div>
+                    </li>
+                </ul>
+                
+                <div class="success-box">
+                    <strong>✅ 현재 권장 포트폴리오 방향:</strong><br>
+                    • 마이크론(MU) - 보유 유지<br>
+                    • 마이크로소프트(MSFT) - 보유 유지<br>
+                    • 테슬라(TSLA) - 비중 축소 또는 제외<br>
+                    • 엔비디아(NVDA) - 과도한 집중 지양 (30% 미만)
+                </div>
+            </div>
+            
+            <!-- 섹션 8: 모니터링 포인트 -->
+            <div class="section">
+                <h2 class="section-title"><span class="icon">👁️</span>향후 모니터링 포인트</h2>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>지표</th>
+                            <th>기준</th>
+                            <th>의미</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10년 국채</td>
+                            <td>4.3% 이상</td>
+                            <td><span class="tag tag-danger">매도 시그널</span></td>
+                        </tr>
+                        <tr>
+                            <td>다우존스</td>
+                            <td>지속 강세</td>
+                            <td><span class="tag tag-warning">로테이션</span></td>
+                        </tr>
+                        <tr>
+                            <td>연준 발언</td>
+                            <td>독립성 의심</td>
+                            <td><span class="tag tag-danger">위험 증가</span></td>
+                        </tr>
+                        <tr>
+                            <td>1월 15일</td>
+                            <td>특별 이벤트</td>
+                            <td><span class="tag tag-info">주목 필요</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 핵심 요약 -->
+            <div class="summary-box">
+                <h3>📋 핵심 요약</h3>
+                <ul>
+                    <li>✓ 10년 국채 금리는 연준이 아닌 <strong>수요·공급</strong>이 결정</li>
+                    <li>✓ 현재 <strong>4.1~4.2%</strong>, <strong>4.3% 도달 시 경고 시그널</strong></li>
+                    <li>✓ 금리 상승 → 부동산 침체, 하이테크 타격, 기관 매도</li>
+                    <li>✓ AI 자동매매로 변동성 확대, 폭락장 가능성 상존</li>
+                    <li>✓ 연준 독립성 의심 시 국채 금리 추가 상승 우려</li>
+                    <li>✓ 성장주 → 가치주 로테이션 진행 중</li>
+                    <li>✓ <strong>1월 15일</strong> 중요 이벤트 예정, 주목 필요</li>
+                </ul>
+            </div>
+            
+            <!-- 면책 조항 -->
+            <div class="info-box" style="font-size:0.85rem;">
+                <strong>📌 참고사항:</strong><br>
+                본 분석은 'NOVA 투자 아카데미' 영상 내용을 기반으로 정리한 것입니다. 투자 결정은 개인의 판단과 책임 하에 이루어져야 하며, 본 자료는 투자 권유가 아닌 정보 제공 목적입니다.
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>📺 원본 영상: NOVA Real Invest</p>
+            <p>📅 분석 기준일: 2026년 1월 7일</p>
+        </div>
+    </div>
+    
+    <script>
+        // 금리 상관관계 차트
+        const rateCtx = document.getElementById('rateChart').getContext('2d');
+        new Chart(rateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['현재 (4.1%)', '주의 (4.3%)', '위험 (4.5%)', '고위험 (4.7%)'],
+                datasets: [{
+                    label: '10년 국채 금리 (%)',
+                    data: [4.1, 4.3, 4.5, 4.7],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }, {
+                    label: '예상 모기지 금리 (%)',
+                    data: [6.6, 6.8, 7.2, 7.6],
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 11 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 3,
+                        max: 9,
+                        ticks: { font: { size: 10 } }
+                    },
+                    x: {
+                        ticks: { font: { size: 10 } }
+                    }
+                }
+            }
+        });
+        
+        // 자금 흐름 차트
+        const flowCtx = document.getElementById('flowChart').getContext('2d');
+        new Chart(flowCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['주식(고위험)', '회사채', '국채(저위험)', '현금'],
+                datasets: [{
+                    label: '금리 상승 전',
+                    data: [60, 20, 15, 5],
+                    backgroundColor: [
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(243, 156, 18, 0.8)',
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(149, 165, 166, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 10 } }
+                    },
+                    title: {
+                        display: true,
+                        text: '금리 상승 시 자금 배분 변화 예상',
+                        font: { size: 12 }
+                    }
+                }
+            }
+        });
+        
+        // 시나리오 차트
+        const scenarioCtx = document.getElementById('scenarioChart').getContext('2d');
+        new Chart(scenarioCtx, {
+            type: 'line',
+            data: {
+                labels: ['4.0%', '4.1%', '4.2%', '4.3%', '4.4%', '4.5%'],
+                datasets: [{
+                    label: '시장 리스크 수준',
+                    data: [30, 40, 55, 75, 85, 95],
+                    fill: true,
+                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: 'rgba(231, 76, 60, 1)'
+                }, {
+                    label: '기관 매도 가능성',
+                    data: [10, 20, 35, 70, 85, 95],
+                    fill: false,
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: 'rgba(102, 126, 234, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 10 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: '위험도 (%)',
+                            font: { size: 10 }
+                        },
+                        ticks: { font: { size: 9 } }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '10년 국채 금리',
+                            font: { size: 10 }
+                        },
+                        ticks: { font: { size: 9 } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>완성도 높은 미국 주식 포트폴리오 구성 전략 | 미국 증시 분석</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #1a237e;
+            --primary-light: #3949ab;
+            --secondary: #ff6f00;
+            --accent: #00897b;
+            --bg-dark: #0d1421;
+            --bg-card: #1a2332;
+            --bg-card-alt: #232f42;
+            --text-primary: #ffffff;
+            --text-secondary: #b0bec5;
+            --border-color: #2d3a4f;
+            --success: #4caf50;
+            --warning: #ffc107;
+            --danger: #f44336;
+            --gradient-1: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+            --gradient-2: linear-gradient(135deg, #ff6f00 0%, #ff8f00 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 16px;
+            padding-bottom: 60px;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 0 16px;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--gradient-1);
+            padding: 32px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.85);
+        }
+        
+        .header-tag {
+            background: rgba(255,255,255,0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-card);
+            margin: 20px 16px;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .toc-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toc-list {
+            list-style: none;
+        }
+        
+        .toc-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .toc-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        
+        .toc-list a:hover {
+            color: var(--secondary);
+        }
+        
+        .toc-num {
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Section */
+        .section {
+            margin: 24px 16px;
+        }
+        
+        .section-header {
+            background: var(--gradient-1);
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-num {
+            background: var(--secondary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+        
+        .section-content {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 0 0 12px 12px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+        }
+        
+        /* Subsection */
+        .subsection {
+            margin: 24px 0;
+        }
+        
+        .subsection:first-child {
+            margin-top: 0;
+        }
+        
+        .subsection-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary);
+            display: inline-block;
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--bg-card-alt);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        @media (min-width: 480px) {
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        /* Comparison Cards */
+        .compare-card {
+            background: var(--bg-card-alt);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .compare-card.highlight {
+            border-left-color: var(--secondary);
+        }
+        
+        .compare-card h4 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .compare-card ul {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+        
+        .compare-card li {
+            padding: 4px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .compare-card li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* Key Point */
+        .key-point {
+            background: linear-gradient(135deg, rgba(255,111,0,0.15) 0%, rgba(255,143,0,0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .key-point-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .key-point p {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, rgba(244,67,54,0.15) 0%, rgba(244,67,54,0.1) 100%);
+            border-left: 4px solid var(--danger);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .warning-box-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--danger);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Success Box */
+        .success-box {
+            background: linear-gradient(135deg, rgba(76,175,80,0.15) 0%, rgba(76,175,80,0.1) 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .success-box-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, rgba(0,137,123,0.15) 0%, rgba(0,137,123,0.1) 100%);
+            border-left: 4px solid var(--accent);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 16px 0;
+        }
+        
+        .info-box-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card-alt);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .chart-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .chart-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .bar-label {
+            width: 80px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: var(--bg-dark);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            transition: width 0.5s ease;
+        }
+        
+        .bar-fill.primary {
+            background: var(--gradient-1);
+        }
+        
+        .bar-fill.secondary {
+            background: var(--gradient-2);
+        }
+        
+        .bar-fill.accent {
+            background: linear-gradient(135deg, #00897b 0%, #26a69a 100%);
+        }
+        
+        /* Pie Chart Legend */
+        .pie-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .pie-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin: 16px 0;
+        }
+        
+        .data-table th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+        
+        .data-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+        
+        .data-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .data-table tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+        
+        .data-table tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: var(--bg-card-alt);
+        }
+        
+        /* Highlight Text */
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .highlight-success {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .highlight-danger {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        /* Step Flow */
+        .step-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 16px 0;
+        }
+        
+        .step-item {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .step-line {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 32px;
+        }
+        
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .step-connector {
+            width: 2px;
+            flex: 1;
+            background: var(--border-color);
+            min-height: 20px;
+        }
+        
+        .step-content {
+            flex: 1;
+            padding-bottom: 20px;
+        }
+        
+        .step-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Code Block */
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+        
+        .code-block code {
+            color: #e6edf3;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: 12px 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .check-icon::after {
+            content: '✓';
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        .x-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .x-icon::after {
+            content: '✕';
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        
+        /* Quote */
+        .quote {
+            background: var(--bg-card-alt);
+            border-left: 4px solid var(--primary-light);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* Paragraph */
+        p {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+        }
+        
+        p:last-child {
+            margin-bottom: 0;
+        }
+        
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 24px 0;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            padding: 24px 16px;
+            margin-top: 32px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .footer-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        
+        /* Analysis Badge */
+        .analysis-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        /* Pyramid Chart */
+        .pyramid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 0;
+        }
+        
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            margin: 16px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 2px solid var(--bg-card);
+        }
+        
+        .timeline-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .badge-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        /* Account Type Comparison Visual */
+        .account-visual {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px 0;
+        }
+        
+        .account-box {
+            background: var(--bg-card-alt);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .account-box.taxable {
+            border-color: var(--secondary);
+        }
+        
+        .account-box.retirement {
+            border-color: var(--accent);
+        }
+        
+        .account-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .account-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .account-risk {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Risk Meter */
+        .risk-meter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+        }
+        
+        .risk-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .risk-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .risk-fill.low {
+            background: var(--success);
+        }
+        
+        .risk-fill.medium {
+            background: var(--warning);
+        }
+        
+        .risk-fill.high {
+            background: var(--danger);
+        }
+        
+        .risk-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>📊 완성도 높은 미국 주식 포트폴리오 구성 전략</h1>
+            <div class="header-meta">
+                <span class="header-tag">투자는인생TV 아카데미 제3회</span>
+                <span class="header-tag">미국 증시 분석</span>
+                <span class="header-tag">2026.01.03</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Table of Contents -->
+    <nav class="toc">
+        <div class="toc-title">📋 목차</div>
+        <ol class="toc-list">
+            <li><a href="#section1"><span class="toc-num">1</span> 핵심 요약 - 투자 시사점</a></li>
+            <li><a href="#section2"><span class="toc-num">2</span> 투자 계좌 vs 은퇴 계좌 전략</a></li>
+            <li><a href="#section3"><span class="toc-num">3</span> 리스크 프로파일링과 자산 배분</a></li>
+            <li><a href="#section4"><span class="toc-num">4</span> 포트폴리오 구성의 4가지 목적</a></li>
+            <li><a href="#section5"><span class="toc-num">5</span> 자산 규모별 확장 전략</a></li>
+            <li><a href="#section6"><span class="toc-num">6</span> 미국 은퇴 계좌 활용법</a></li>
+            <li><a href="#section7"><span class="toc-num">7</span> 세금 전략 - Tax Loss Harvesting</a></li>
+            <li><a href="#section8"><span class="toc-num">8</span> 실전 체크리스트 및 결론</a></li>
+        </ol>
+    </nav>
+    
+    <!-- Section 1: Executive Summary -->
+    <section class="section" id="section1">
+        <div class="section-header">
+            <span class="section-num">1</span>
+            <h2 class="section-title">핵심 요약 - 투자 시사점</h2>
+        </div>
+        <div class="section-content">
+            <div class="analysis-badge">🎯 US Market Perspective</div>
+            
+            <p>이 강의는 <strong>미국 증시의 120년 이상의 투자 역사</strong>를 기반으로 한 포트폴리오 구성 전략을 다룹니다. 미국 시장에 투자하는 투자자라면 반드시 이해해야 할 핵심 원칙들을 제시하고 있으며, 특히 <strong class="highlight">계좌 유형별 차별화된 전략</strong>과 <strong class="highlight">리스크 관리의 일관성</strong>을 강조합니다.</p>
+            
+            <div class="key-point">
+                <div class="key-point-title">💡 핵심 투자 시사점</div>
+                <p><strong>"무엇을 사느냐"</strong>보다 <strong>"어떻게 구성하느냐"</strong>가 더 중요합니다. 포트폴리오의 중심축(70%)을 먼저 완성하고, 그 후에 외곽(30%)으로 확장하는 것이 성공적인 투자의 핵심입니다.</p>
+            </div>
+            
+            <!-- Key Principles Chart -->
+            <div class="chart-container">
+                <div class="chart-title">📈 완성도 높은 포트폴리오의 3대 핵심 원칙</div>
+                <div class="bar-chart">
+                    <div class="bar-item">
+                        <span class="bar-label">일관성</span>
+                        <div class="bar-track">
+                            <div class="bar-fill primary" style="width: 100%">리스크 관리의 일관성 유지</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">중심축</span>
+                        <div class="bar-track">
+                            <div class="bar-fill secondary" style="width: 70%">70% 핵심 포트폴리오 먼저</div>
+                        </div>
+                    </div>
+                    <div class="bar-item">
+                        <span class="bar-label">확장</span>
+                        <div class="bar-track">
+                            <div class="bar-fill accent" style="width: 100%">중심 → 외곽으로 확장</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ 투자자들이 가장 많이 저지르는 실수</div>
+                <p>소액으로 100개 종목을 분산하거나, 중심축이 완성되기 전에 고위험 종목에 투자하는 것은 <strong class="highlight-danger">포트폴리오 붕괴</strong>의 지름길입니다.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 2: Account Types -->
+    <section class="section" id="section2">
+        <div class="section-header">
+            <span class="section-num">2</span>
+            <h2 class="section-title">투자 계좌 vs 은퇴 계좌 전략</h2>
+        </div>
+        <div class="section-content">
+            <p>미국 투자 시스템의 가장 기본적인 구분은 <strong>투자 계좌(Taxable Account)</strong>와 <strong>은퇴 계좌(Retirement Account)</strong>입니다. 한국과 달리 미국은 이 두 계좌가 법적으로 명확히 구분되어 있으며, 각각 다른 투자 전략이 필요합니다.</p>
+            
+            <!-- Account Type Visual Comparison -->
+            <div class="account-visual">
+                <div class="account-box taxable">
+                    <div class="account-icon">💼</div>
+                    <div class="account-name">투자 계좌</div>
+                    <div class="account-risk">Taxable Account</div>
+                    <div class="risk-meter">
+                        <span class="risk-label">리스크</span>
+                        <div class="risk-bar">
+                            <div class="risk-fill high" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="account-box retirement">
+                    <div class="account-icon">🏦</div>
+                    <div class="account-name">은퇴 계좌</div>
+                    <div class="account-risk">IRA / 401(k)</div>
+                    <div class="risk-meter">
+                        <span class="risk-label">리스크</span>
+                        <div class="risk-bar">
+                            <div class="risk-fill low" style="width: 40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="compare-card highlight">
+                    <h4>💼 투자 계좌 (Taxable)</h4>
+                    <ul>
+                        <li>투자 제한이 거의 없음</li>
+                        <li>매매 차익에 즉시 과세</li>
+                        <li>더 공격적인 투자 가능</li>
+                        <li>리스크 수준: <strong class="highlight">50-100</strong></li>
+                    </ul>
+                </div>
+                <div class="compare-card">
+                    <h4>🏦 은퇴 계좌 (Retirement)</h4>
+                    <ul>
+                        <li>법적 제약이 존재</li>
+                        <li>세금 혜택 제공</li>
+                        <li>보수적 운용 필요</li>
+                        <li>리스크 수준: <strong class="highlight-success">30-50</strong></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-box-title">📊 미국 시장에서의 의미</div>
+                <p>미국에서는 <strong>401(k)</strong>와 <strong>IRA</strong> 같은 은퇴 계좌가 세금 혜택을 제공하기 때문에, 이 계좌들을 최대한 활용하는 것이 장기 자산 형성에 유리합니다. 단, 은퇴 계좌는 고위험 투자에 제한이 있어 보수적으로 운용해야 합니다.</p>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">리스크 일관성의 중요성</h3>
+                <p><strong class="highlight">일관성 있는 리스크 관리</strong>가 포트폴리오 성공의 핵심입니다. 투자 계좌에서 리스크를 50으로 설정했다면, 은퇴 계좌에서는 30으로 낮추는 식으로 일관성을 유지해야 합니다.</p>
+                
+                <div class="code-block">
+                    <code>❌ 일관성 없는 투자의 결과:
+┌─────────────────────────────────────┐
+│ 장이 좋을 때: 고위험 → 큰 수익 ↑    │
+│ 장이 나쁠 때: 고위험 유지 → 70% 손실 │
+└─────────────────────────────────────┘
+→ 롤러코스터 투자 = 장기적 실패</code>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 3: Risk Profiling -->
+    <section class="section" id="section3">
+        <div class="section-header">
+            <span class="section-num">3</span>
+            <h2 class="section-title">리스크 프로파일링과 자산 배분</h2>
+        </div>
+        <div class="section-content">
+            <p>자산 규모에 따라 감당할 수 있는 리스크 수준이 달라집니다. <strong>"돈이 돈을 번다"</strong>는 원리가 여기에 적용됩니다. 자산 규모가 크면 일부를 고위험 투자에 배분해도 전체 포트폴리오의 안정성을 유지할 수 있습니다.</p>
+            
+            <!-- Asset Size Risk Chart -->
+            <div class="chart-container">
+                <div class="chart-title">💰 자산 규모별 리스크 허용 수준</div>
+                <svg class="chart-svg" viewBox="0 0 350 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background Grid -->
+                    <defs>
+                        <linearGradient id="riskGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4caf50"/>
+                            <stop offset="50%" style="stop-color:#ffc107"/>
+                            <stop offset="100%" style="stop-color:#f44336"/>
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Axis -->
+                    <line x1="50" y1="160" x2="320" y2="160" stroke="#2d3a4f" stroke-width="2"/>
+                    <line x1="50" y1="160" x2="50" y2="30" stroke="#2d3a4f" stroke-width="2"/>
+                    
+                    <!-- Labels -->
+                    <text x="185" y="190" fill="#b0bec5" font-size="11" text-anchor="middle">자산 규모</text>
+                    <text x="25" y="95" fill="#b0bec5" font-size="11" text-anchor="middle" transform="rotate(-90, 25, 95)">리스크</text>
+                    
+                    <!-- X-axis labels -->
+                    <text x="80" y="175" fill="#b0bec5" font-size="9" text-anchor="middle">소액</text>
+                    <text x="150" y="175" fill="#b0bec5" font-size="9" text-anchor="middle">중간</text>
+                    <text x="220" y="175" fill="#b0bec5" font-size="9" text-anchor="middle">중대형</text>
+                    <text x="290" y="175" fill="#b0bec5" font-size="9" text-anchor="middle">대규모</text>
+                    
+                    <!-- Y-axis labels -->
+                    <text x="45" y="155" fill="#b0bec5" font-size="9" text-anchor="end">낮음</text>
+                    <text x="45" y="95" fill="#b0bec5" font-size="9" text-anchor="end">중간</text>
+                    <text x="45" y="40" fill="#b0bec5" font-size="9" text-anchor="end">높음</text>
+                    
+                    <!-- Line Chart -->
+                    <polyline 
+                        fill="none" 
+                        stroke="url(#riskGradient)" 
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        points="80,140 150,110 220,80 290,55"/>
+                    
+                    <!-- Data Points -->
+                    <circle cx="80" cy="140" r="6" fill="#4caf50"/>
+                    <circle cx="150" cy="110" r="6" fill="#ffc107"/>
+                    <circle cx="220" cy="80" r="6" fill="#ff9800"/>
+                    <circle cx="290" cy="55" r="6" fill="#f44336"/>
+                    
+                    <!-- Annotations -->
+                    <text x="80" y="128" fill="#4caf50" font-size="8" text-anchor="middle">대형주만</text>
+                    <text x="150" y="98" fill="#ffc107" font-size="8" text-anchor="middle">성장주 일부</text>
+                    <text x="220" y="68" fill="#ff9800" font-size="8" text-anchor="middle">다양화</text>
+                    <text x="290" y="43" fill="#f44336" font-size="8" text-anchor="middle">고위험 가능</text>
+                </svg>
+            </div>
+            
+            <div class="card-grid">
+                <div class="compare-card">
+                    <h4>📉 소액 자산일 때</h4>
+                    <ul>
+                        <li>리스크를 적게 가져가야 함</li>
+                        <li>대형주(Large Cap) 중심</li>
+                        <li>안정적인 성장에 집중</li>
+                        <li>2-4개 종목 집중 투자</li>
+                    </ul>
+                </div>
+                <div class="compare-card highlight">
+                    <h4>📈 대규모 자산일 때</h4>
+                    <ul>
+                        <li>리스크를 더 크게 가져갈 수 있음</li>
+                        <li>전체의 10-20% 고위험 배분</li>
+                        <li>30-40% 수익률 기대 가능</li>
+                        <li>10-20개 종목 다양화</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">포트폴리오 황금비율: 70-30 법칙</h3>
+                
+                <!-- Portfolio Allocation Pie Chart -->
+                <div class="chart-container">
+                    <div class="chart-title">🥧 포트폴리오 구성의 황금비율</div>
+                    <svg class="chart-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="coreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#1a237e"/>
+                                <stop offset="100%" style="stop-color:#3949ab"/>
+                            </linearGradient>
+                            <linearGradient id="satGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ff6f00"/>
+                                <stop offset="100%" style="stop-color:#ff8f00"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Pie Chart -->
+                        <g transform="translate(100, 100)">
+                            <!-- 70% Core -->
+                            <path d="M 0 0 L 0 -80 A 80 80 0 1 1 -76.08 24.72 Z" fill="url(#coreGradient)"/>
+                            <!-- 30% Satellite -->
+                            <path d="M 0 0 L -76.08 24.72 A 80 80 0 0 1 0 -80 Z" fill="url(#satGradient)"/>
+                        </g>
+                        
+                        <!-- Labels -->
+                        <text x="130" y="115" fill="white" font-size="14" font-weight="bold">70%</text>
+                        <text x="55" y="55" fill="white" font-size="14" font-weight="bold">30%</text>
+                        
+                        <!-- Legend -->
+                        <rect x="200" y="70" width="16" height="16" rx="3" fill="url(#coreGradient)"/>
+                        <text x="222" y="82" fill="#b0bec5" font-size="11">핵심 포트폴리오</text>
+                        <text x="222" y="95" fill="#b0bec5" font-size="9">대형 가치주 중심</text>
+                        
+                        <rect x="200" y="110" width="16" height="16" rx="3" fill="url(#satGradient)"/>
+                        <text x="222" y="122" fill="#b0bec5" font-size="11">위성 포트폴리오</text>
+                        <text x="222" y="135" fill="#b0bec5" font-size="9">성장주, 기회 포착</text>
+                    </svg>
+                </div>
+                
+                <div class="warning-box">
+                    <div class="warning-box-title">⚠️ 절대 금지</div>
+                    <p><strong>70%가 완성되지 않은 상태에서</strong> 30%로 30개 종목을 사는 것은 <strong class="highlight-danger">재앙</strong>입니다. 반드시 중심축을 먼저 완성하세요.</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">비중 조절의 중요성</h3>
+                <p>메타(Meta)를 예로 들면, 메타는 <strong>슈퍼 대형주(Super Large Cap)</strong>입니다. 포트폴리오의 중간 어깨에 위치해야 하며, <strong class="highlight">최소 10% 정도는 보유</strong>해야 의미가 있습니다. 1-2%만 보유하는 것은 무의미합니다.</p>
+                
+                <div class="code-block">
+                    <code>❌ 100개 종목 보유의 함정 (1억 원 기준)
+┌──────────────────────────────────────┐
+│ 종목당 평균: 100만 원                 │
+│ 어떤 종목 +50% → 전체 수익률 0.5%     │
+│ 관리 불가능 + 퍼포먼스 전혀 안 나옴    │
+└──────────────────────────────────────┘</code>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 4: Four Investment Purposes -->
+    <section class="section" id="section4">
+        <div class="section-header">
+            <span class="section-num">4</span>
+            <h2 class="section-title">포트폴리오 구성의 4가지 목적</h2>
+        </div>
+        <div class="section-content">
+            <p>투자자마다 포트폴리오를 구성하는 목적이 다릅니다. 자신의 목적을 명확히 하고 그에 맞는 전략을 세워야 합니다.</p>
+            
+            <!-- Four Purposes Chart -->
+            <div class="chart-container">
+                <div class="chart-title">🎯 투자 목적별 포트폴리오 전략</div>
+                <svg class="chart-svg" viewBox="0 0 350 280" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="safetyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4caf50"/>
+                            <stop offset="100%" style="stop-color:#66bb6a"/>
+                        </linearGradient>
+                        <linearGradient id="incomeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#2196f3"/>
+                            <stop offset="100%" style="stop-color:#42a5f5"/>
+                        </linearGradient>
+                        <linearGradient id="growthGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ff9800"/>
+                            <stop offset="100%" style="stop-color:#ffb74d"/>
+                        </linearGradient>
+                        <linearGradient id="taxGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#9c27b0"/>
+                            <stop offset="100%" style="stop-color:#ba68c8"/>
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Safety Box -->
+                    <rect x="20" y="20" width="150" height="110" rx="10" fill="url(#safetyGrad)" opacity="0.9"/>
+                    <text x="95" y="45" fill="white" font-size="11" font-weight="bold" text-anchor="middle">1. 안정성 (Safety)</text>
+                    <text x="95" y="65" fill="white" font-size="9" text-anchor="middle">• T-Bill, CD</text>
+                    <text x="95" y="80" fill="white" font-size="9" text-anchor="middle">• AAA급 채권</text>
+                    <text x="95" y="95" fill="white" font-size="9" text-anchor="middle">• Commercial Paper</text>
+                    <text x="95" y="115" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">목표: 자산 보존</text>
+                    
+                    <!-- Income Box -->
+                    <rect x="180" y="20" width="150" height="110" rx="10" fill="url(#incomeGrad)" opacity="0.9"/>
+                    <text x="255" y="45" fill="white" font-size="11" font-weight="bold" text-anchor="middle">2. 정기 수익 (Income)</text>
+                    <text x="255" y="65" fill="white" font-size="9" text-anchor="middle">• 채권 (Bonds)</text>
+                    <text x="255" y="80" fill="white" font-size="9" text-anchor="middle">• 배당주</text>
+                    <text x="255" y="95" fill="white" font-size="9" text-anchor="middle">• REITs</text>
+                    <text x="255" y="115" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">목표: 현금흐름 확보</text>
+                    
+                    <!-- Growth Box - Highlighted -->
+                    <rect x="20" y="145" width="150" height="120" rx="10" fill="url(#growthGrad)" opacity="0.95"/>
+                    <rect x="20" y="145" width="150" height="120" rx="10" fill="none" stroke="#fff" stroke-width="2"/>
+                    <text x="95" y="170" fill="white" font-size="11" font-weight="bold" text-anchor="middle">3. 자산 성장 ⭐</text>
+                    <text x="95" y="190" fill="white" font-size="9" text-anchor="middle">• Blue Chip Stocks</text>
+                    <text x="95" y="205" fill="white" font-size="9" text-anchor="middle">• Growth Stocks</text>
+                    <text x="95" y="220" fill="white" font-size="9" text-anchor="middle">• Dividend Growth</text>
+                    <text x="95" y="250" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">대부분 투자자의 목표</text>
+                    
+                    <!-- Tax Box -->
+                    <rect x="180" y="145" width="150" height="120" rx="10" fill="url(#taxGrad)" opacity="0.9"/>
+                    <text x="255" y="170" fill="white" font-size="11" font-weight="bold" text-anchor="middle">4. 세금 절감 (Tax)</text>
+                    <text x="255" y="190" fill="white" font-size="9" text-anchor="middle">• Trust Account</text>
+                    <text x="255" y="205" fill="white" font-size="9" text-anchor="middle">• Nonprofit Org</text>
+                    <text x="255" y="220" fill="white" font-size="9" text-anchor="middle">• 자선 기부</text>
+                    <text x="255" y="250" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">고자산가 전용</text>
+                </svg>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">현금 보유의 숨겨진 위험</h3>
+                <p>많은 투자자들이 <strong>"현금이 가장 안전하다"</strong>고 생각하지만, 현금도 리스크가 있습니다. 인플레이션으로 인해 현금의 구매력이 지속적으로 감소합니다.</p>
+                
+                <div class="chart-container">
+                    <div class="chart-title">💸 인플레이션으로 인한 현금 구매력 손실</div>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <span class="bar-label">10억 원</span>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: 33%; background: linear-gradient(135deg, #f44336 0%, #e57373 100%);">연 1억 원 손실</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">100억 원</span>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: 66%; background: linear-gradient(135deg, #f44336 0%, #e57373 100%);">연 10억 원 손실</div>
+                            </div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">300억 원</span>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: 100%; background: linear-gradient(135deg, #f44336 0%, #e57373 100%);">연 30억 원 손실</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 12px; font-size: 0.85rem; color: var(--text-secondary);">※ 인플레이션 10% 가정 시</p>
+                </div>
+                
+                <div class="key-point">
+                    <div class="key-point-title">💡 적정 현금 보유량</div>
+                    <p><strong class="highlight">6개월치 생활비</strong>만 현금으로 보유하고, 그 이상은 반드시 투자해야 합니다. 최소한 CD(양도성 예금증서)에라도 투자하세요.</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">목표 시점과 리스크 조절</h3>
+                <p><strong class="highlight">목표 시점이 가까워질수록 보수적으로</strong> 전환해야 합니다. 마지막에 큰 수익을 위해 리스크를 증가시키면 타이밍이 나쁠 경우 반토막날 수 있습니다.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">연도 1-2: 공격적 투자 가능</div>
+                        <div class="timeline-desc">성장주 비중을 높여 수익률 극대화 추구</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">연도 3-4: 점진적 보수화</div>
+                        <div class="timeline-desc">성장주 비중 축소, 가치주 비중 확대</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">연도 5: 대형 가치주 중심</div>
+                        <div class="timeline-desc">중소형주 최소화, 안정적 자산 확보</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 5: Portfolio Expansion Strategy -->
+    <section class="section" id="section5">
+        <div class="section-header">
+            <span class="section-num">5</span>
+            <h2 class="section-title">자산 규모별 확장 전략</h2>
+        </div>
+        <div class="section-content">
+            <div class="key-point">
+                <div class="key-point-title">🏛️ 포트폴리오 확장의 황금 원칙</div>
+                <p><strong>"항상 중심축에서 시작해서 양옆으로 확장"</strong> - 이것은 절대적인 원칙입니다. 이를 어기면 포트폴리오가 무너집니다.</p>
+            </div>
+            
+            <!-- Portfolio Expansion Visual -->
+            <div class="chart-container">
+                <div class="chart-title">📊 자산 규모별 포트폴리오 확장 단계</div>
+                <svg class="chart-svg" viewBox="0 0 350 320" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Stage 1 -->
+                    <text x="175" y="25" fill="#ff6f00" font-size="12" font-weight="bold" text-anchor="middle">Stage 1: 소액 자산 (4개 종목)</text>
+                    <rect x="100" y="35" width="70" height="50" rx="6" fill="#1a237e"/>
+                    <text x="135" y="55" fill="white" font-size="9" text-anchor="middle">Meta</text>
+                    <text x="135" y="70" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">중심축</text>
+                    
+                    <rect x="180" y="35" width="70" height="50" rx="6" fill="#1a237e"/>
+                    <text x="215" y="55" fill="white" font-size="9" text-anchor="middle">Google</text>
+                    <text x="215" y="70" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">중심축</text>
+                    
+                    <rect x="260" y="35" width="70" height="50" rx="6" fill="#ff6f00" opacity="0.7"/>
+                    <text x="295" y="55" fill="white" font-size="9" text-anchor="middle">SMCI</text>
+                    <text x="295" y="70" fill="rgba(255,255,255,0.7)" font-size="8" text-anchor="middle">외곽</text>
+                    
+                    <!-- Divider -->
+                    <line x1="50" y1="105" x2="300" y2="105" stroke="#2d3a4f" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Stage 2 -->
+                    <text x="175" y="125" fill="#ff6f00" font-size="12" font-weight="bold" text-anchor="middle">Stage 2: 중간 자산 (확장)</text>
+                    <rect x="50" y="135" width="60" height="45" rx="6" fill="#1a237e"/>
+                    <text x="80" y="162" fill="white" font-size="9" text-anchor="middle">NVIDIA</text>
+                    
+                    <rect x="115" y="135" width="60" height="45" rx="6" fill="#1a237e"/>
+                    <text x="145" y="162" fill="white" font-size="9" text-anchor="middle">Google</text>
+                    
+                    <rect x="180" y="135" width="60" height="45" rx="6" fill="#1a237e"/>
+                    <text x="210" y="162" fill="white" font-size="9" text-anchor="middle">Visa</text>
+                    
+                    <rect x="245" y="135" width="60" height="45" rx="6" fill="#ff6f00" opacity="0.7"/>
+                    <text x="275" y="162" fill="white" font-size="9" text-anchor="middle">ASMAN</text>
+                    
+                    <!-- Divider -->
+                    <line x1="50" y1="200" x2="300" y2="200" stroke="#2d3a4f" stroke-width="1" stroke-dasharray="5,5"/>
+                    
+                    <!-- Stage 3 -->
+                    <text x="175" y="220" fill="#ff6f00" font-size="12" font-weight="bold" text-anchor="middle">Stage 3: 대규모 자산 (완전 확장)</text>
+                    
+                    <!-- Value Stocks -->
+                    <rect x="30" y="230" width="80" height="75" rx="6" fill="#4caf50" opacity="0.8"/>
+                    <text x="70" y="248" fill="white" font-size="9" font-weight="bold" text-anchor="middle">가치주 30%</text>
+                    <text x="70" y="265" fill="white" font-size="8" text-anchor="middle">UNH</text>
+                    <text x="70" y="280" fill="white" font-size="8" text-anchor="middle">JNJ</text>
+                    <text x="70" y="295" fill="white" font-size="8" text-anchor="middle">PG</text>
+                    
+                    <!-- Core Large Cap -->
+                    <rect x="120" y="230" width="110" height="75" rx="6" fill="#1a237e"/>
+                    <text x="175" y="248" fill="white" font-size="9" font-weight="bold" text-anchor="middle">중심 대형주 40%</text>
+                    <text x="175" y="265" fill="white" font-size="8" text-anchor="middle">NVIDIA • Meta</text>
+                    <text x="175" y="280" fill="white" font-size="8" text-anchor="middle">Google • MSFT</text>
+                    <text x="175" y="295" fill="white" font-size="8" text-anchor="middle">Apple</text>
+                    
+                    <!-- Growth Stocks -->
+                    <rect x="240" y="230" width="80" height="75" rx="6" fill="#ff6f00" opacity="0.8"/>
+                    <text x="280" y="248" fill="white" font-size="9" font-weight="bold" text-anchor="middle">성장주 30%</text>
+                    <text x="280" y="265" fill="white" font-size="8" text-anchor="middle">Okta</text>
+                    <text x="280" y="280" fill="white" font-size="8" text-anchor="middle">SMCI</text>
+                    <text x="280" y="295" fill="white" font-size="8" text-anchor="middle">CrowdStrike</text>
+                </svg>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-box-title">⚠️ 절대 금지되는 포트폴리오 구성</div>
+                <div class="code-block">
+                    <code>❌ 잘못된 구성 (중심축에 고위험 종목 배치)
+┌─────────────┬─────────────┐
+│   외곽       │   중심축     │
+├─────────────┼─────────────┤
+│   Okta      │   Meta      │
+│   SMCI      │   Google    │
+└─────────────┴─────────────┘
+→ 중심축에 Okta, SMCI 배치는 절대 금지!</code>
+                </div>
+            </div>
+            
+            <!-- Asset Size Strategy Table -->
+            <div class="subsection">
+                <h3 class="subsection-title">자산 규모별 권장 전략</h3>
+                <div style="overflow-x: auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>자산 규모</th>
+                                <th>종목 수</th>
+                                <th>중심축</th>
+                                <th>리스크</th>
+                                <th>주요 투자</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>~$50K</strong></td>
+                                <td>2-4개</td>
+                                <td>100%</td>
+                                <td><span class="badge badge-success">낮음</span></td>
+                                <td>대형주만</td>
+                            </tr>
+                            <tr>
+                                <td><strong>$50K-$500K</strong></td>
+                                <td>5-10개</td>
+                                <td>70-80%</td>
+                                <td><span class="badge badge-secondary">중간</span></td>
+                                <td>대형주 + 일부 성장주</td>
+                            </tr>
+                            <tr>
+                                <td><strong>$500K+</strong></td>
+                                <td>10-20개</td>
+                                <td>60-70%</td>
+                                <td><span class="badge badge-danger">중상</span></td>
+                                <td>다양화 + 고위험 소량</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-box-title">📌 소액 투자자를 위한 조언</div>
+                <p>소액일 때는 <strong class="highlight">Meta, Google 같은 대형주의 안정적 성장</strong>이 훨씬 빠르고 안전합니다. Okta, 코인 등 고위험 자산은 절대 금지입니다. 분산 과다도 금지입니다.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 6: US Retirement Accounts -->
+    <section class="section" id="section6">
+        <div class="section-header">
+            <span class="section-num">6</span>
+            <h2 class="section-title">미국 은퇴 계좌 활용법</h2>
+        </div>
+        <div class="section-content">
+            <p>미국의 은퇴 계좌 시스템은 세금 혜택을 통해 장기 자산 형성을 지원합니다. <strong>401(k)</strong>와 <strong>IRA</strong>를 제대로 활용하면 복리 효과를 극대화할 수 있습니다.</p>
+            
+            <!-- 401k Matching Visual -->
+            <div class="chart-container">
+                <div class="chart-title">💰 401(k) 회사 매칭의 위력</div>
+                <svg class="chart-svg" viewBox="0 0 350 180" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect x="40" y="30" width="270" height="100" rx="10" fill="#1a2332"/>
+                    
+                    <!-- Left Side - Your Contribution -->
+                    <rect x="55" y="50" width="100" height="60" rx="8" fill="#1a237e"/>
+                    <text x="105" y="75" fill="white" font-size="10" font-weight="bold" text-anchor="middle">본인 기여</text>
+                    <text x="105" y="95" fill="#4caf50" font-size="14" font-weight="bold" text-anchor="middle">$30,000</text>
+                    
+                    <!-- Plus Sign -->
+                    <text x="175" y="85" fill="#ff6f00" font-size="24" font-weight="bold" text-anchor="middle">+</text>
+                    
+                    <!-- Right Side - Company Match -->
+                    <rect x="195" y="50" width="100" height="60" rx="8" fill="#ff6f00"/>
+                    <text x="245" y="75" fill="white" font-size="10" font-weight="bold" text-anchor="middle">회사 매칭 50%</text>
+                    <text x="245" y="95" fill="white" font-size="14" font-weight="bold" text-anchor="middle">$15,000</text>
+                    
+                    <!-- Result -->
+                    <rect x="100" y="140" width="150" height="35" rx="8" fill="#4caf50"/>
+                    <text x="175" y="162" fill="white" font-size="12" font-weight="bold" text-anchor="middle">연간 총 $45,000 투자</text>
+                    
+                    <!-- Arrow -->
+                    <path d="M 175 130 L 175 140" stroke="#4caf50" stroke-width="2" fill="none"/>
+                    <polygon points="175,140 170,135 180,135" fill="#4caf50"/>
+                </svg>
+            </div>
+            
+            <div class="code-block">
+                <code>📈 10년 401(k) 매칭 효과 (50% 매칭 가정)
+┌────────────────────────────────────┐
+│ 연간 본인 기여: $30,000            │
+│ 연간 회사 매칭: $15,000            │
+│ 연간 총 투자:   $45,000            │
+├────────────────────────────────────┤
+│ 10년 근무 시: $450,000 자동 축적    │
+│ (수익률 제외 원금만)                │
+└────────────────────────────────────┘</code>
+            </div>
+            
+            <div class="card-grid">
+                <div class="compare-card">
+                    <h4>🏛️ Traditional IRA</h4>
+                    <ul>
+                        <li>세전 납입 (소득세 절감)</li>
+                        <li>투자 수익 과세 이연</li>
+                        <li>출금 시 소득세 부과</li>
+                        <li>현재 세율 높을 때 유리</li>
+                    </ul>
+                </div>
+                <div class="compare-card highlight">
+                    <h4>🌟 Roth IRA</h4>
+                    <ul>
+                        <li>세후 납입</li>
+                        <li>투자 수익 비과세</li>
+                        <li>출금 시 비과세</li>
+                        <li>미래 세율 높을 때 유리</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">은퇴 계좌 액티브 매니지먼트</h3>
+                <p><strong>"액티브 매니지먼트 = 리스크 증가"</strong>가 아닙니다. 은퇴 계좌에서의 액티브 매니지먼트는 <strong class="highlight">빈번한 매매로 리스크를 감소</strong>시키는 전략입니다.</p>
+                
+                <div class="success-box">
+                    <div class="success-box-title">✅ 은퇴 계좌 액티브 전략</div>
+                    <ul class="checklist">
+                        <li><span class="check-icon"></span>하락 시 즉시 매도하여 손실 최소화</li>
+                        <li><span class="check-icon"></span>상승 종목으로 교체 매수</li>
+                        <li><span class="check-icon"></span>세금이 없으므로 자유로운 매매 가능</li>
+                        <li><span class="check-icon"></span>단, 대형주 가치주 70% 이상 유지</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 7: Tax Strategy -->
+    <section class="section" id="section7">
+        <div class="section-header">
+            <span class="section-num">7</span>
+            <h2 class="section-title">세금 전략 - Tax Loss Harvesting</h2>
+        </div>
+        <div class="section-content">
+            <p><strong>Tax Loss Harvesting(세금 손실 수확)</strong>은 미국 투자자의 필수 전략입니다. 손실 종목과 수익 종목을 동시에 매도하여 과세 소득을 상쇄하는 기법입니다.</p>
+            
+            <!-- Tax Loss Harvesting Visual -->
+            <div class="chart-container">
+                <div class="chart-title">📊 Tax Loss Harvesting 작동 원리</div>
+                <svg class="chart-svg" viewBox="0 0 350 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- NVIDIA Profit Box -->
+                    <rect x="30" y="40" width="130" height="70" rx="10" fill="#4caf50" opacity="0.9"/>
+                    <text x="95" y="65" fill="white" font-size="11" font-weight="bold" text-anchor="middle">NVIDIA</text>
+                    <text x="95" y="85" fill="white" font-size="16" font-weight="bold" text-anchor="middle">+$50,000</text>
+                    <text x="95" y="100" fill="rgba(255,255,255,0.8)" font-size="9" text-anchor="middle">수익</text>
+                    
+                    <!-- Plus Sign -->
+                    <text x="175" y="80" fill="#b0bec5" font-size="24" font-weight="bold" text-anchor="middle">+</text>
+                    
+                    <!-- Coinbase Loss Box -->
+                    <rect x="190" y="40" width="130" height="70" rx="10" fill="#f44336" opacity="0.9"/>
+                    <text x="255" y="65" fill="white" font-size="11" font-weight="bold" text-anchor="middle">Coinbase</text>
+                    <text x="255" y="85" fill="white" font-size="16" font-weight="bold" text-anchor="middle">-$50,000</text>
+                    <text x="255" y="100" fill="rgba(255,255,255,0.8)" font-size="9" text-anchor="middle">손실</text>
+                    
+                    <!-- Arrow -->
+                    <path d="M 175 120 L 175 140" stroke="#ff6f00" stroke-width="3" fill="none"/>
+                    <polygon points="175,145 168,135 182,135" fill="#ff6f00"/>
+                    
+                    <!-- Result Box -->
+                    <rect x="85" y="150" width="180" height="40" rx="10" fill="#1a237e"/>
+                    <text x="175" y="175" fill="white" font-size="12" font-weight="bold" text-anchor="middle">과세 소득: $0 → 세금: $0</text>
+                </svg>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-title">💡 손실 종목 판매 결정 기준</div>
+                <p>손실 종목을 계속 보유할지 결정할 때는 두 가지를 비교하세요:</p>
+                <ol style="margin: 12px 0; padding-left: 20px; color: var(--text-secondary);">
+                    <li style="margin: 8px 0;">이 종목이 20-30% 회복할 가능성?</li>
+                    <li style="margin: 8px 0;">다른 종목으로 갈아타면 20-30% 상승 가능성?</li>
+                </ol>
+                <p><strong class="highlight">2번이 더 높으면 즉시 매도 후 갈아타기!</strong></p>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-box-title">📌 Tax Loss Harvesting 주의사항</div>
+                <p><strong>Wash Sale Rule</strong>: 매도 후 30일 이내에 동일 또는 실질적으로 동일한 증권을 재매수하면 손실 공제가 불인정됩니다. 다른 섹터나 유사하지만 다른 종목으로 교체해야 합니다.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Section 8: Checklist & Conclusion -->
+    <section class="section" id="section8">
+        <div class="section-header">
+            <span class="section-num">8</span>
+            <h2 class="section-title">실전 체크리스트 및 결론</h2>
+        </div>
+        <div class="section-content">
+            <div class="subsection">
+                <h3 class="subsection-title">포트폴리오 구성 체크리스트</h3>
+                <ul class="checklist">
+                    <li><span class="check-icon"></span>투자 계좌 vs 은퇴 계좌 구분 완료</li>
+                    <li><span class="check-icon"></span>리스크 프로파일 설정 (일관성 유지)</li>
+                    <li><span class="check-icon"></span>자산 규모 평가 완료</li>
+                    <li><span class="check-icon"></span>투자 목적 명확화 (4가지 중 선택)</li>
+                    <li><span class="check-icon"></span>70% 중심축 완성</li>
+                    <li><span class="check-icon"></span>중심에서 외곽으로 확장 원칙 준수</li>
+                    <li><span class="check-icon"></span>종목당 적정 비율 유지</li>
+                    <li><span class="check-icon"></span>리밸런싱 주기 설정</li>
+                </ul>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card" style="border-left: 4px solid var(--danger);">
+                    <div class="card-title" style="color: var(--danger);">❌ 절대 하지 말아야 할 것</div>
+                    <ul class="checklist">
+                        <li><span class="x-icon"></span>소액으로 100개 종목 보유</li>
+                        <li><span class="x-icon"></span>중심축에 고위험 종목 배치</li>
+                        <li><span class="x-icon"></span>목표 시점 임박 시 리스크 증가</li>
+                        <li><span class="x-icon"></span>현금 과다 보유 (6개월치 초과)</li>
+                        <li><span class="x-icon"></span>일관성 없는 투자 전략</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-left: 4px solid var(--success);">
+                    <div class="card-title" style="color: var(--success);">✅ 반드시 해야 할 것</div>
+                    <ul class="checklist">
+                        <li><span class="check-icon"></span>중심축 70% 먼저 완성</li>
+                        <li><span class="check-icon"></span>대형주 중심 안정적 포트폴리오</li>
+                        <li><span class="check-icon"></span>정기적 리밸런싱</li>
+                        <li><span class="check-icon"></span>세금 전략 활용 (미국 거주자)</li>
+                        <li><span class="check-icon"></span>일관된 리스크 관리</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">가치주 vs 성장주의 역할</h3>
+                
+                <!-- Value vs Growth Chart -->
+                <div class="chart-container">
+                    <div class="chart-title">⚖️ 포트폴리오에서의 역할 분담</div>
+                    <svg class="chart-svg" viewBox="0 0 350 150" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Value Stock -->
+                        <rect x="30" y="30" width="140" height="100" rx="12" fill="#1a237e"/>
+                        <text x="100" y="55" fill="#4caf50" font-size="12" font-weight="bold" text-anchor="middle">가치주 (Value)</text>
+                        <text x="100" y="75" fill="white" font-size="10" text-anchor="middle">✓ 사업의 안정성</text>
+                        <text x="100" y="92" fill="white" font-size="10" text-anchor="middle">✓ 낮은 변동성</text>
+                        <text x="100" y="109" fill="#b0bec5" font-size="9" text-anchor="middle">역할: 포트폴리오의 "허리"</text>
+                        <text x="100" y="122" fill="#4caf50" font-size="9" text-anchor="middle">든든한 힘</text>
+                        
+                        <!-- Growth Stock -->
+                        <rect x="180" y="30" width="140" height="100" rx="12" fill="#ff6f00"/>
+                        <text x="250" y="55" fill="white" font-size="12" font-weight="bold" text-anchor="middle">성장주 (Growth)</text>
+                        <text x="250" y="75" fill="white" font-size="10" text-anchor="middle">✓ 높은 성장성</text>
+                        <text x="250" y="92" fill="white" font-size="10" text-anchor="middle">✗ 높은 변동성</text>
+                        <text x="250" y="109" fill="rgba(255,255,255,0.8)" font-size="9" text-anchor="middle">역할: 포트폴리오의 "엔진"</text>
+                        <text x="250" y="122" fill="white" font-size="9" text-anchor="middle">수익 창출</text>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="quote">
+                <p>"6천만 원으로 30억을 만든 극소수의 사례를 따라하려 하지 마십시오. 99.999%의 사람들에게는 완성도 있는 포트폴리오를 통한 꾸준한 성장이 유일한 성공 방법입니다."</p>
+            </div>
+            
+            <div class="key-point">
+                <div class="key-point-title">🎯 최종 투자 시사점</div>
+                <p>미국 투자 역사 <strong class="highlight">120-130년</strong>의 경험이 만든 원칙들입니다. 선진 투자 기법을 배우고 적용하는 것이 여러분의 자산을 지키고 늘리는 가장 확실한 방법입니다. <strong>"무엇을 사느냐"</strong>보다 <strong>"어떻게 구성하느냐"</strong>가 더 중요합니다.</p>
+            </div>
+            
+            <div class="success-box">
+                <div class="success-box-title">💪 행동 지침 요약</div>
+                <p><strong>1)</strong> 계좌 유형별 리스크 차등 적용 <strong>2)</strong> 70% 중심축 먼저 완성 <strong>3)</strong> 중심→외곽 확장 원칙 준수 <strong>4)</strong> 자산 규모에 맞는 종목 수 유지 <strong>5)</strong> Tax Loss Harvesting 활용</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>📺 원본: 투자는인생TV 아카데미 제3회</p>
+        <a href="https://www.youtube.com/watch?v=M9SbbrB94Jc&t=1642s" class="footer-link" target="_blank">YouTube 원본 보기 →</a>
+        <p style="margin-top: 16px; font-size: 0.75rem; color: #666;">본 문서는 미국 증시 분석 관점에서 재구성되었습니다.<br>투자 결정 시 개인의 상황을 고려하시기 바랍니다.</p>
+    </footer>
+</body>
+</html>
