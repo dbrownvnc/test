@@ -4,551 +4,579 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>미국주식투자는 왜 해야하나? - 시험문제</title>
+    <title>시험문제 | 재정·통화·금융·증권 개념 정리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-card: #111827;
+            --bg-card-alt: #1a2235;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-violet: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
-            line-height: 1.7;
-            color: #333;
-            background: #f8f9fa;
-            padding: 16px;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
         }
+
         .container {
-            max-width: 600px;
+            max-width: 640px;
             margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 24px 20px;
+            padding: 0 16px;
         }
+
+        /* Header */
         .header {
+            padding: 40px 20px 32px;
             text-align: center;
-            margin-bottom: 28px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid #1a73e8;
+            background: linear-gradient(180deg, #0f1729 0%, var(--bg-primary) 100%);
+            position: relative;
         }
-        .header h1 {
-            font-size: 1.4rem;
-            color: #1a73e8;
-            margin-bottom: 8px;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 60%);
         }
-        .header .meta {
-            font-size: 0.85rem;
-            color: #666;
-        }
-        .section-divider {
-            text-align: center;
-            margin: 32px 0;
-            padding: 16px;
-            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
-            color: white;
-            border-radius: 12px;
-            font-size: 1.1rem;
+
+        .header-badge {
+            display: inline-block;
+            position: relative;
+            padding: 5px 14px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
+            color: var(--accent-violet);
+            letter-spacing: 1px;
+            margin-bottom: 16px;
         }
-        .question-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border-left: 4px solid #1a73e8;
-        }
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .header h1 {
+            position: relative;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.4;
             margin-bottom: 12px;
         }
-        .question-number {
-            font-weight: 700;
-            color: #1a73e8;
-            font-size: 1rem;
+
+        .header-info {
+            position: relative;
+            font-size: 13px;
+            color: var(--text-muted);
         }
-        .question-meta {
+
+        /* Navigation Tabs */
+        .tab-nav {
             display: flex;
-            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 16px;
         }
-        .difficulty {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: #e3f2fd;
-            color: #1565c0;
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 8px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
         }
-        .difficulty.easy {
-            background: #e8f5e9;
-            color: #2e7d32;
+
+        .tab-btn.active {
+            color: var(--accent-violet);
+            border-bottom-color: var(--accent-violet);
         }
-        .difficulty.medium {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-        .difficulty.hard {
-            background: #ffebee;
-            color: #c62828;
-        }
-        .question-type {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-        .question-text {
-            font-size: 0.95rem;
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Question Card */
+        .q-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 22px 18px;
             margin-bottom: 14px;
-            line-height: 1.6;
+            position: relative;
         }
-        .options {
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .q-number {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .q-type {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        .type-mc { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .type-sa { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+        .type-ox { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+        .type-fb { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .type-es { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+
+        .difficulty {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .q-text {
+            font-size: 15px;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .q-options {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+
         .option {
-            background: white;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            border: 1px solid #e0e0e0;
+            padding: 11px 14px;
+            background: var(--bg-card-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            transition: all 0.15s;
         }
-        .blank-box {
+
+        .option:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .blank-space {
             display: inline-block;
             min-width: 100px;
-            border-bottom: 2px solid #1a73e8;
+            border-bottom: 2px dashed var(--accent-cyan);
             margin: 0 4px;
+            padding: 0 8px;
         }
-        .ox-options {
+
+        /* Answer Card */
+        .a-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 22px 18px;
+            margin-bottom: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .a-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue));
+        }
+
+        .a-header {
             display: flex;
-            gap: 16px;
-            margin-top: 8px;
-        }
-        .ox-option {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            font-weight: 600;
-        }
-        .answer-card {
-            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4caf50;
-        }
-        .answer-header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 12px;
         }
-        .answer-number {
-            font-weight: 700;
-            color: #2e7d32;
+
+        .a-number {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-primary);
         }
-        .answer-value {
-            background: #4caf50;
-            color: white;
+
+        .a-answer {
+            display: inline-block;
             padding: 4px 12px;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        .explanation {
-            font-size: 0.9rem;
-            color: #555;
-            line-height: 1.6;
-            padding: 12px;
-            background: white;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 8px;
-            margin-top: 10px;
-        }
-        .explanation strong {
-            color: #2e7d32;
-        }
-        .page-break {
-            page-break-before: always;
-            margin-top: 40px;
-        }
-        .score-box {
-            text-align: center;
-            padding: 20px;
-            background: #f5f5f5;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-        .score-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
-        .score-input {
-            font-size: 2rem;
+            font-size: 14px;
             font-weight: 700;
-            color: #1a73e8;
+            color: var(--accent-emerald);
         }
+
+        .a-explanation {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            padding: 14px 16px;
+            background: var(--bg-card-alt);
+            border-radius: 10px;
+            border-left: 3px solid var(--accent-violet);
+        }
+
+        .a-explanation strong {
+            color: var(--text-primary);
+        }
+
+        /* Separator */
+        .section-sep {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 24px 0;
+        }
+
+        /* Footer */
         .footer {
+            padding: 24px 16px;
             text-align: center;
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 0.8rem;
-            color: #888;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 32px;
         }
-        @media print {
-            .container {
-                box-shadow: none;
-                padding: 0;
-            }
-            .page-break {
-                page-break-before: always;
-            }
+
+        .bottom-space { height: 40px; }
+
+        @media (max-width: 380px) {
+            .header h1 { font-size: 20px; }
+            .q-card, .a-card { padding: 18px 14px; }
         }
     </style>
 </head>
 <body>
+
+<!-- Header -->
+<div class="header">
     <div class="container">
-        <div class="header">
-            <h1>📝 미국주식투자는 왜 해야하나?</h1>
-            <div class="meta">투자아카데미 5회 | 시험문제 (총 10문제)</div>
-        </div>
+        <div class="header-badge">📝 QUIZ</div>
+        <h1>재정 · 통화 · 금융 · 증권<br>개념 정리 시험문제</h1>
+        <div class="header-info">10분 투자 아카데미 #3 | 총 10문제</div>
+    </div>
+</div>
 
-        <!-- 문제지 섹션 -->
-        <div class="section-divider">
-            📋 시험문제 (총 10문제)
-        </div>
+<!-- Tab Navigation -->
+<div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('questions')">📋 문제지</button>
+    <button class="tab-btn" onclick="showTab('answers')">📝 정답 및 해설</button>
+</div>
 
-        <div class="score-box">
-            <div class="score-label">이름: _________________ &nbsp;&nbsp; 점수:</div>
-            <div class="score-input">______ / 100</div>
-        </div>
+<div class="container">
 
-        <!-- 문제 1 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 1]</span>
-                <div class="question-meta">
-                    <span class="difficulty easy">⭐ 쉬움</span>
-                    <span class="question-type">객관식</span>
+    <!-- ==================== 문제지 ==================== -->
+    <div id="questions" class="tab-content active">
+        <div style="padding-top: 24px;">
+
+            <!-- 문제 1 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 1] <span class="difficulty">⭐ 쉬움</span></div>
+                    <span class="q-type type-mc">객관식</span>
+                </div>
+                <div class="q-text">미국 재무부(U.S. Treasury)가 담당하는 정책 영역을 올바르게 표현하는 영어 단어는?</div>
+                <div class="q-options">
+                    <div class="option">① Monetary</div>
+                    <div class="option">② Financial</div>
+                    <div class="option">③ Fiscal</div>
+                    <div class="option">④ Securities</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에서 언급된 미국 임금 상승률은 몇 %인가?
-            </div>
-            <div class="options">
-                <div class="option">① 452%</div>
-                <div class="option">② 652%</div>
-                <div class="option">③ 852%</div>
-                <div class="option">④ 1,052%</div>
-            </div>
-        </div>
 
-        <!-- 문제 2 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 2]</span>
-                <div class="question-meta">
-                    <span class="difficulty easy">⭐ 쉬움</span>
-                    <span class="question-type">단답형</span>
+            <!-- 문제 2 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 2] <span class="difficulty">⭐ 쉬움</span></div>
+                    <span class="q-type type-ox">OX 문제</span>
+                </div>
+                <div class="q-text">연방준비제도(Fed)는 현 정권의 캐비닛(내각)에 소속된 기관이다.</div>
+                <div class="q-options">
+                    <div class="option">⭕ O</div>
+                    <div class="option">❌ X</div>
                 </div>
             </div>
-            <div class="question-text">
-                S&P 500 지수의 상승률은 약 <span class="blank-box"></span>%로, 미국 임금 상승률의 약 <span class="blank-box"></span>배에 해당한다.
-            </div>
-        </div>
 
-        <!-- 문제 3 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 3]</span>
-                <div class="question-meta">
-                    <span class="difficulty medium">⭐⭐ 보통</span>
-                    <span class="question-type">OX문제</span>
+            <!-- 문제 3 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 3] <span class="difficulty">⭐⭐ 보통</span></div>
+                    <span class="q-type type-mc">객관식</span>
+                </div>
+                <div class="q-text">연준(Fed)의 이중 책무(Dual Mandate)에 해당하는 두 가지 목표의 올바른 조합은?</div>
+                <div class="q-options">
+                    <div class="option">① 완전 고용 + 달러 가치 안정</div>
+                    <div class="option">② 완전 고용 + 물가 안정</div>
+                    <div class="option">③ 경제 성장 + 물가 안정</div>
+                    <div class="option">④ 재정 건전성 + 완전 고용</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에 따르면, 구글이나 애플 등 대기업에서 연봉 15만~30만 달러를 받는 사람들도 집을 쉽게 살 수 있다.
-            </div>
-            <div class="ox-options">
-                <div class="ox-option">O</div>
-                <div class="ox-option">X</div>
-            </div>
-        </div>
 
-        <!-- 문제 4 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 4]</span>
-                <div class="question-meta">
-                    <span class="difficulty medium">⭐⭐ 보통</span>
-                    <span class="question-type">객관식</span>
+            <!-- 문제 4 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 4] <span class="difficulty">⭐ 쉬움</span></div>
+                    <span class="q-type type-sa">단답형</span>
+                </div>
+                <div class="q-text">미국에서 "완전 고용"이라 할 때, 실업률이 0%가 아니라 보통 몇 %대를 의미하는가?</div>
+            </div>
+
+            <!-- 문제 5 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 5] <span class="difficulty">⭐⭐ 보통</span></div>
+                    <span class="q-type type-fb">빈칸채우기</span>
+                </div>
+                <div class="q-text">재무부 산하에서 물리적으로 달러를 인쇄하지만, 실제 통화량 결정의 가이던스는 <span class="blank-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>에서 나온다.</div>
+            </div>
+
+            <!-- 문제 6 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 6] <span class="difficulty">⭐⭐ 보통</span></div>
+                    <span class="q-type type-mc">객관식</span>
+                </div>
+                <div class="q-text">다음 중 증권(Securities)에 포함되지 <strong>않는</strong> 것은?</div>
+                <div class="q-options">
+                    <div class="option">① 주식 (Stocks)</div>
+                    <div class="option">② ETF</div>
+                    <div class="option">③ 채권 (Bonds)</div>
+                    <div class="option">④ 예금 (Bank Deposits)</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에서 기업의 사회적 영향력이 크게 변화한 시점으로 언급된 시기는?
-            </div>
-            <div class="options">
-                <div class="option">① 1970년대</div>
-                <div class="option">② 1980년대</div>
-                <div class="option">③ 1990년대</div>
-                <div class="option">④ 2000년대</div>
-            </div>
-        </div>
 
-        <!-- 문제 5 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 5]</span>
-                <div class="question-meta">
-                    <span class="difficulty medium">⭐⭐ 보통</span>
-                    <span class="question-type">빈칸채우기</span>
+            <!-- 문제 7 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 7] <span class="difficulty">⭐⭐ 보통</span></div>
+                    <span class="q-type type-mc">객관식</span>
+                </div>
+                <div class="q-text">연준이 보유 국채를 시장에 매각할 경우 나타나는 효과의 올바른 조합은?</div>
+                <div class="q-options">
+                    <div class="option">① 통화량 증가 → 인플레이션 상승</div>
+                    <div class="option">② 통화량 감소 → 인플레이션 하락</div>
+                    <div class="option">③ 통화량 증가 → 금리 하락</div>
+                    <div class="option">④ 통화량 감소 → 고용 증가</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에서 집값 상승의 주요 원인으로 언급된 것은 중앙은행의 <span class="blank-box"></span>(양적완화) 정책이다. 영어 약자로 <span class="blank-box"></span>라고 한다.
-            </div>
-        </div>
 
-        <!-- 문제 6 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 6]</span>
-                <div class="question-meta">
-                    <span class="difficulty medium">⭐⭐ 보통</span>
-                    <span class="question-type">객관식</span>
+            <!-- 문제 8 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 8] <span class="difficulty">⭐⭐ 보통</span></div>
+                    <span class="q-type type-ox">OX 문제</span>
+                </div>
+                <div class="q-text">파월 연준 의장은 과거 금융 전문가였지만, 연준에서의 역할은 "통화 정책 전문가"로 정의하는 것이 정확하다.</div>
+                <div class="q-options">
+                    <div class="option">⭕ O</div>
+                    <div class="option">❌ X</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에서 언급된, 현대사회에서 부의 축적에 관한 올바른 설명은?
-            </div>
-            <div class="options">
-                <div class="option">① 노동임금만으로 충분히 부를 축적할 수 있다</div>
-                <div class="option">② 기업투자 없이 노동임금만으로는 부의 축적이 불가능하다</div>
-                <div class="option">③ 저축만 열심히 하면 자산을 늘릴 수 있다</div>
-                <div class="option">④ 부동산 투자만이 유일한 해답이다</div>
-            </div>
-        </div>
 
-        <!-- 문제 7 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 7]</span>
-                <div class="question-meta">
-                    <span class="difficulty easy">⭐ 쉬움</span>
-                    <span class="question-type">OX문제</span>
+            <!-- 문제 9 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 9] <span class="difficulty">⭐⭐⭐ 어려움</span></div>
+                    <span class="q-type type-es">서술형</span>
+                </div>
+                <div class="q-text">영상에서 "통화 정책에 정치적 목적이 개입되면 위험하다"고 경고하고 있다. 연준의 독립성이 훼손될 경우, 미국 증권 시장에 어떤 영향이 나타날 수 있는지 재정·통화·금융의 관계를 포함하여 서술하시오.</div>
+            </div>
+
+            <!-- 문제 10 -->
+            <div class="q-card">
+                <div class="q-header">
+                    <div class="q-number">[문제 10] <span class="difficulty">⭐⭐⭐ 어려움</span></div>
+                    <span class="q-type type-mc">객관식</span>
+                </div>
+                <div class="q-text">다음 중 미국 경제 정책 영역과 담당 기관 및 핵심 키워드의 연결이 <strong>모두 올바른</strong> 것은?</div>
+                <div class="q-options">
+                    <div class="option">① 재정–연준–Budget / 통화–재무부–Interest Rate / 금융–SEC–Securities</div>
+                    <div class="option">② 재정–재무부–Tax / 통화–연준–M1·M2 / 금융–월가–Securities</div>
+                    <div class="option">③ 재정–재무부–Monetary / 통화–연준–Fiscal / 금융–SEC–Financial</div>
+                    <div class="option">④ 재정–IRS–Securities / 통화–SEC–Interest Rate / 금융–연준–Budget</div>
                 </div>
             </div>
-            <div class="question-text">
-                영상에 따르면, 전기차, AI, 소셜네트워크 등 주요 기술혁신은 대부분 미국 실리콘밸리에서 탄생했다.
-            </div>
-            <div class="ox-options">
-                <div class="ox-option">O</div>
-                <div class="ox-option">X</div>
-            </div>
-        </div>
 
-        <!-- 문제 8 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 8]</span>
-                <div class="question-meta">
-                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
-                    <span class="question-type">서술형</span>
-                </div>
-            </div>
-            <div class="question-text">
-                영상에서 한국의 임금이 부동산 가격 상승만큼 오르지 못한 이유로 언급된 것을 2가지 서술하시오.
-            </div>
-            <div style="background: white; border-radius: 8px; padding: 16px; margin-top: 12px; min-height: 100px; border: 1px dashed #ccc;">
-                <div style="color: #999; font-size: 0.85rem;">답변 작성란</div>
-            </div>
-        </div>
-
-        <!-- 문제 9 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 9]</span>
-                <div class="question-meta">
-                    <span class="difficulty medium">⭐⭐ 보통</span>
-                    <span class="question-type">객관식</span>
-                </div>
-            </div>
-            <div class="question-text">
-                영상에서 재미한인 투자 문화의 문제점으로 지적된 것이 <strong>아닌</strong> 것은?
-            </div>
-            <div class="options">
-                <div class="option">① 1세대의 투자 교육 부재가 2세대에 이어짐</div>
-                <div class="option">② 401K에 적극적으로 투자하는 문화</div>
-                <div class="option">③ 보험, 부동산 외 투자 전문가 부재</div>
-                <div class="option">④ 저축과 부동산에만 집중하는 경향</div>
-            </div>
-        </div>
-
-        <!-- 문제 10 -->
-        <div class="question-card">
-            <div class="question-header">
-                <span class="question-number">[문제 10]</span>
-                <div class="question-meta">
-                    <span class="difficulty hard">⭐⭐⭐ 어려움</span>
-                    <span class="question-type">서술형</span>
-                </div>
-            </div>
-            <div class="question-text">
-                영상의 핵심 주장인 "미국 주식 투자가 필수인 이유"를 3가지 관점에서 서술하시오.
-            </div>
-            <div style="background: white; border-radius: 8px; padding: 16px; margin-top: 12px; min-height: 120px; border: 1px dashed #ccc;">
-                <div style="color: #999; font-size: 0.85rem;">답변 작성란</div>
-            </div>
-        </div>
-
-        <!-- 정답지 섹션 -->
-        <div class="page-break"></div>
-        <div class="section-divider">
-            📝 정답 및 해설
-        </div>
-
-        <!-- 정답 1 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 1]</span>
-                <span class="answer-value">정답: ③</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상에서 미국의 임금 인상률을 <strong>852%</strong>로 명시했습니다. 이 수치는 S&P 500의 4,116% 상승률과 비교하여 주식 시장 성장률을 개인 임금이 따라갈 수 없음을 보여주는 핵심 데이터입니다.
-            </div>
-        </div>
-
-        <!-- 정답 2 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 2]</span>
-                <span class="answer-value">정답: 4,116% / 약 4.8배</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> S&P 500 지수는 <strong>4,116%</strong> 상승했으며, 이는 임금 상승률 852%의 약 <strong>4.8배</strong>(4,116÷852≈4.83)에 해당합니다. 이 격차가 현대사회에서 임금만으로 자산을 축적할 수 없는 핵심 원인입니다.
-            </div>
-        </div>
-
-        <!-- 정답 3 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 3]</span>
-                <span class="answer-value">정답: X</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상에서 구글, 애플, 페이스북 등에서 연봉 15만~30만 달러를 받는 직원들도 <strong>집을 못 사는 사람이 많다</strong>고 언급했습니다. 또한 집을 샀어도 전체 소득의 60~70%를 주거비에 사용한다고 했습니다. 이는 양적완화로 인한 자산 가격 급등 때문입니다.
-            </div>
-        </div>
-
-        <!-- 정답 4 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 4]</span>
-                <span class="answer-value">정답: ③</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상에서 <strong>1990년대</strong>를 기업의 사회적 영향력이 1990년대 전과 이후로 완전히 갈라지는 전환점으로 언급했습니다. 이후 2010년대 4차 산업혁명으로 이 격차가 더욱 심화되었다고 설명했습니다.
-            </div>
-        </div>
-
-        <!-- 정답 5 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 5]</span>
-                <span class="answer-value">정답: Quantitative Easing / QE</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> <strong>양적완화(Quantitative Easing, QE)</strong>는 중앙은행이 시중에 대량의 통화를 공급하는 정책입니다. 미국이 10년 이상 QE를 시행하면서 자산 가격이 급등했고, 특히 부동산 가격 상승의 주요 원인이 되었습니다.
-            </div>
-        </div>
-
-        <!-- 정답 6 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 6]</span>
-                <span class="answer-value">정답: ②</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상의 핵심 주장은 "현대사회에서의 부의 축적은 <strong>기업투자 없이 노동임금만으로 불가능하다</strong>"입니다. GDP 성장률과 노동임금은 더딘 반면, 기업 이익(Corporate Profit)과 주가는 폭발적으로 성장하고 있어 투자 없이는 이 격차를 극복할 수 없다고 강조했습니다.
-            </div>
-        </div>
-
-        <!-- 정답 7 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 7]</span>
-                <span class="answer-value">정답: O</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상에서 "전기차, AI, 소셜 네트워크, 구글 등 이런 사업들이 어디서 나옵니까? 다 <strong>미국 실리콘밸리</strong> 아니면 다 미국에서 나온다"고 명시했습니다. 이것이 자본이 미국에 모이는 이유이자 미국 주식 투자가 필수인 근거입니다.
-            </div>
-        </div>
-
-        <!-- 정답 8 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 8]</span>
-                <span class="answer-value">정답: 아래 해설 참조</span>
-            </div>
-            <div class="explanation">
-                <strong>모범답안:</strong><br><br>
-                <strong>1) 달러 중심 경제체제의 영향:</strong> 미국의 양적완화로 달러 가치가 상승한 반면, 원화는 상대적으로 가치가 하락했습니다. 달러 중심의 글로벌 경제에서 원화로 받는 임금의 실질 구매력이 떨어질 수밖에 없습니다.<br><br>
-                <strong>2) 노동 생산성(부가가치) 부족:</strong> 글로벌 경쟁에서 개인의 부가가치를 높일 노동 생산성이 떨어져 있기 때문입니다. AI, 소프트웨어 등 고부가가치 인력 수요는 증가하는데, 교육 시스템이 이를 따라가지 못하고 있습니다.
-            </div>
-        </div>
-
-        <!-- 정답 9 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 9]</span>
-                <span class="answer-value">정답: ②</span>
-            </div>
-            <div class="explanation">
-                <strong>해설:</strong> 영상에서 재미한인의 문제점으로 "<strong>401K에 조금만 넣는다</strong>"고 지적했습니다. 즉, 401K에 적극적으로 투자하지 않는 것이 문제이지, 적극적으로 투자하는 것은 오히려 바람직한 모습입니다. 나머지 보기들(1세대 투자 교육 부재, 투자 전문가 부재, 저축/부동산 집중)은 모두 문제점으로 언급되었습니다.
-            </div>
-        </div>
-
-        <!-- 정답 10 -->
-        <div class="answer-card">
-            <div class="answer-header">
-                <span class="answer-number">[문제 10]</span>
-                <span class="answer-value">정답: 아래 해설 참조</span>
-            </div>
-            <div class="explanation">
-                <strong>모범답안:</strong><br><br>
-                <strong>1) 자산 격차 관점:</strong> 미국 임금 상승률(852%)과 S&P 500 상승률(4,116%)의 약 5배 격차는 투자 없이는 극복 불가능합니다. 개별 종목은 10,000% 이상 상승한 경우도 많아 투자의 필요성이 더욱 절실합니다.<br><br>
-                <strong>2) 기술혁신의 중심 관점:</strong> 전기차, AI, 소셜네트워크 등 모든 주요 기술혁신이 미국에서 발생하며, 기술→시장→자본 유입의 선순환이 미국에서 일어나고 있습니다. 미국 외 다른 나라에 투자하는 것은 이 성장에 동참하지 못하는 것입니다.<br><br>
-                <strong>3) 달러 패권 관점:</strong> 달러 중심의 글로벌 경제 체제에서 QE로 달러가 대량 풀렸음에도 달러 가치는 상승했습니다. 원화 등 다른 통화의 실질 구매력은 하락할 수밖에 없으므로, 달러 자산인 미국 주식에 투자해야 자산 가치를 보존할 수 있습니다.
-            </div>
-        </div>
-
-        <!-- 채점 기준 -->
-        <div style="background: #f5f5f5; border-radius: 12px; padding: 18px; margin-top: 24px;">
-            <h3 style="color: #1a73e8; margin-bottom: 12px; font-size: 1rem;">📊 채점 기준</h3>
-            <table style="width: 100%; font-size: 0.85rem; border-collapse: collapse;">
-                <tr style="background: #e3f2fd;">
-                    <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">문제</th>
-                    <th style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd;">배점</th>
-                    <th style="padding: 8px; text-align: left; border-bottom: 1px solid #ddd;">유형</th>
-                </tr>
-                <tr><td style="padding: 8px;">문제 1~7</td><td style="padding: 8px; text-align: center;">각 10점</td><td style="padding: 8px;">객관식/OX/단답형</td></tr>
-                <tr style="background: #fafafa;"><td style="padding: 8px;">문제 8</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">서술형 (각 5점씩)</td></tr>
-                <tr><td style="padding: 8px;">문제 9</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">객관식</td></tr>
-                <tr style="background: #fafafa;"><td style="padding: 8px;">문제 10</td><td style="padding: 8px; text-align: center;">10점</td><td style="padding: 8px;">서술형 (각 관점 3~4점)</td></tr>
-                <tr style="background: #e8f5e9; font-weight: 600;"><td style="padding: 8px;">총점</td><td style="padding: 8px; text-align: center;">100점</td><td style="padding: 8px;"></td></tr>
-            </table>
-        </div>
-
-        <div class="footer">
-            📺 원본: 투자아카데미 5회 (2026.01.16)<br>
-            본 시험문제는 영상 내용을 바탕으로 작성되었습니다.
         </div>
     </div>
+
+    <!-- ==================== 정답지 ==================== -->
+    <div id="answers" class="tab-content">
+        <div style="padding-top: 24px;">
+
+            <!-- 정답 1 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 1]</span>
+                    <span class="a-answer">정답: ③ Fiscal</span>
+                </div>
+                <div class="a-explanation">
+                    재무부(Treasury)가 담당하는 정책 영역은 <strong>재정 정책(Fiscal Policy)</strong>이다. 예산 편성과 세금 징수가 핵심 기능이며, "Fiscal"이라는 단어가 이를 정확히 표현한다. Monetary는 통화(연준), Financial은 금융(증권시장), Securities는 증권을 의미한다.
+                </div>
+            </div>
+
+            <!-- 정답 2 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 2]</span>
+                    <span class="a-answer">정답: ❌ X</span>
+                </div>
+                <div class="a-explanation">
+                    연준(Fed)은 정부 캐비닛에 소속되지 않은 <strong>독립 기관</strong>이다. 캐비닛에 소속된 것은 재무부(Treasury)이며, 연준의 독립성은 통화 정책의 정치적 중립을 보장하기 위한 핵심 원칙이다.
+                </div>
+            </div>
+
+            <!-- 정답 3 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 3]</span>
+                    <span class="a-answer">정답: ② 완전 고용 + 물가 안정</span>
+                </div>
+                <div class="a-explanation">
+                    연준의 이중 책무(Dual Mandate)는 <strong>완전 고용(Full Employment)</strong>과 <strong>물가 안정(Price Stability)</strong>이다. 이 두 목표는 서로 반비례 경향이 있어 적정선을 찾는 것이 연준의 핵심 과제다. 달러 가치, 경제 성장, 재정 건전성은 연준의 직접적 책무가 아니다.
+                </div>
+            </div>
+
+            <!-- 정답 4 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 4]</span>
+                    <span class="a-answer">정답: 3%대 (약 3%)</span>
+                </div>
+                <div class="a-explanation">
+                    미국에서 "완전 고용"이란 실업률 0%를 의미하지 않으며, 보통 <strong>3%대</strong>를 의미한다. 미국은 고용과 해고가 자유로운 노동시장(Hire & Fire) 구조이므로, 이직 등 자연적 실업률이 항상 존재한다. 이를 자연실업률(Natural Rate of Unemployment)이라 한다.
+                </div>
+            </div>
+
+            <!-- 정답 5 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 5]</span>
+                    <span class="a-answer">정답: 연준(Fed / 연방준비제도)</span>
+                </div>
+                <div class="a-explanation">
+                    물리적 달러 인쇄는 재무부 산하 기관에서 수행하지만, <strong>통화량 결정 가이던스는 연준(Fed)</strong>에서 내린다. 재무부가 마음대로 달러를 찍을 수 없으며, 연준의 통화 정책 방향에 맞추어 인쇄하는 구조다. 이 점을 혼동하여 재무부에 '통화'라는 말을 붙이는 것은 잘못이다.
+                </div>
+            </div>
+
+            <!-- 정답 6 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 6]</span>
+                    <span class="a-answer">정답: ④ 예금 (Bank Deposits)</span>
+                </div>
+                <div class="a-explanation">
+                    증권(Securities)은 <strong>매매 가능한 가치가 있는 금융 상품</strong>으로, 주식, ETF, 채권, 뮤추얼펀드, 파생상품(선물·옵션) 등이 포함된다. 은행 예금은 증권 시장에서 거래되는 금융 상품이 아니므로 증권에 포함되지 않는다.
+                </div>
+            </div>
+
+            <!-- 정답 7 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 7]</span>
+                    <span class="a-answer">정답: ② 통화량 감소 → 인플레이션 하락</span>
+                </div>
+                <div class="a-explanation">
+                    연준이 보유 국채를 <strong>매각</strong>하면 시중의 돈이 연준으로 회수되어 <strong>통화량이 감소</strong>한다. 통화량이 줄면 시중 유동성이 줄어 <strong>인플레이션이 하락</strong>한다. 반대로 국채를 매입하면 통화량이 증가하여 인플레이션 상승 압력이 생긴다.
+                </div>
+            </div>
+
+            <!-- 정답 8 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 8]</span>
+                    <span class="a-answer">정답: ⭕ O</span>
+                </div>
+                <div class="a-explanation">
+                    파월 의장은 연준 합류 이전에는 금융 전문가로 활동했지만, <strong>연준에서의 역할은 통화 정책 수립</strong>이므로 "통화 정책 전문가"로 정의하는 것이 정확하다. 연준에다 "금융"이라는 말을 붙이고, 재정을 담당하는 재무부에 "통화"라는 말을 쓰는 것은 용어의 잘못된 혼용이다.
+                </div>
+            </div>
+
+            <!-- 정답 9 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 9]</span>
+                    <span class="a-answer">정답: 서술형 (모범답안)</span>
+                </div>
+                <div class="a-explanation">
+                    <strong>[모범답안]</strong><br><br>
+                    연준의 독립성이 훼손되면, 통화 정책이 경제 데이터가 아닌 정치적 목적에 따라 결정될 수 있다. 예를 들어, 재선을 위해 무리한 금리 인하를 단행하면 단기적으로 경기는 부양되나, 인플레이션이 급등하여 물가 안정이라는 연준의 핵심 목표가 훼손된다.<br><br>
+                    이 경우 증권 시장에서는 ① 통화 정책의 예측 가능성이 사라져 <strong>시장 불확실성(리스크 프리미엄)이 급증</strong>하고, ② 장기 인플레이션 기대가 높아져 <strong>국채 금리가 상승</strong>하며, ③ 달러 가치 하락 우려로 <strong>외국인 투자 자금이 이탈</strong>할 수 있다.<br><br>
+                    재정 정책(재무부)은 정권의 정책을 집행하고, 통화 정책(연준)은 독립적으로 경제 균형을 유지하며, 금융·증권 시장은 이 둘의 신뢰성을 기반으로 가격을 형성한다. 세 영역 중 통화 정책의 독립성이 무너지면 나머지 두 영역도 정상 작동하기 어렵다.
+                </div>
+            </div>
+
+            <!-- 정답 10 -->
+            <div class="a-card">
+                <div class="a-header">
+                    <span class="a-number">[문제 10]</span>
+                    <span class="a-answer">정답: ② 재정–재무부–Tax / 통화–연준–M1·M2 / 금융–월가–Securities</span>
+                </div>
+                <div class="a-explanation">
+                    올바른 연결은 다음과 같다:<br>
+                    • <strong>재정(Fiscal)</strong> → 재무부(Treasury) → 핵심 키워드: Tax, Budget<br>
+                    • <strong>통화(Monetary)</strong> → 연준(Fed) → 핵심 키워드: M1·M2, Interest Rate<br>
+                    • <strong>금융(Financial)</strong> → 월가/증권시장 → 핵심 키워드: Securities<br><br>
+                    ①은 재정과 통화의 담당 기관이 바뀌어 있고, ③은 키워드가 뒤바뀌어 있으며, ④는 기관과 키워드가 모두 잘못 연결되어 있다.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>📺 출처: 10분 투자 아카데미 #3 — NOVA Real Invest</p>
+        <p style="margin-top: 6px;">본 시험문제는 영상 내용을 기반으로 출제되었습니다.</p>
+    </div>
+
+    <div class="bottom-space"></div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
 </body>
 </html>
