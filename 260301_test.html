@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>이란의 호르무즈 해협 봉쇄 — 에너지 시장 분석</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* HEADER */
+    .mag-header {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 40px 20px 32px;
+      text-align: center;
+    }
+    .mag-header .category {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #e11d48;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .mag-header h1 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+    .mag-header h1 span { color: #e11d48; }
+    .mag-header .meta {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 4px;
+      background: linear-gradient(90deg, #e11d48, #f43f5e 50%, #e11d48);
+    }
+
+    /* BREAKING BANNER */
+    .breaking {
+      background: #e11d48;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .breaking .tag {
+      background: #fff;
+      color: #e11d48;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+
+    /* CONTAINER */
+    .container { max-width: 600px; margin: 0 auto; padding: 0 18px; }
+
+    /* SECTION */
+    .section { padding: 28px 0 20px; border-bottom: 1px solid #e5e5e5; }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e11d48;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .section h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .section p { color: #1a1a1a; margin-bottom: 10px; }
+
+    /* QUOTE BOX */
+    .quote-box {
+      background: #fafafa;
+      border-left: 4px solid #e11d48;
+      padding: 16px 18px;
+      margin: 18px 0;
+      font-size: 13px;
+      font-style: italic;
+      color: #333;
+      line-height: 1.6;
+    }
+    .quote-box .source {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #777;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: #fff5f7;
+      border: 1px solid #fecdd3;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+    .highlight-box .hl-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #e11d48;
+      margin-bottom: 8px;
+    }
+    .highlight-box p { font-size: 14px; color: #1a1a1a; margin: 0; }
+
+    /* STAT CARDS */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .stat-card {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+    .stat-card .num {
+      font-size: 28px;
+      font-weight: 900;
+      color: #e11d48;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-card .label {
+      font-size: 12px;
+      color: #777;
+      line-height: 1.4;
+    }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; margin: 18px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th {
+      background: #e11d48;
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    tbody tr { background: #fafafa; }
+    tbody tr:nth-child(even) { background: #fff; }
+    tbody td { padding: 9px 12px; border-bottom: 1px solid #e5e5e5; color: #1a1a1a; }
+    tbody td strong { color: #e11d48; }
+
+    /* CHART */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+
+    /* TIMELINE */
+    .timeline { margin: 18px 0; }
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .tl-dot {
+      width: 10px;
+      height: 10px;
+      background: #e11d48;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .tl-time { font-size: 11px; color: #777; font-weight: 700; margin-bottom: 2px; }
+    .tl-text { font-size: 13px; color: #1a1a1a; }
+
+    /* VERDICT */
+    .verdict {
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 10px;
+      padding: 22px 20px;
+      margin: 20px 0;
+    }
+    .verdict .v-title {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #e11d48;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .verdict ul { padding-left: 18px; }
+    .verdict ul li { font-size: 14px; margin-bottom: 8px; line-height: 1.5; }
+    .verdict ul li::marker { color: #e11d48; }
+
+    /* SHIP INFO */
+    .ship-card {
+      background: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+    .ship-card .ship-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ship-card .ship-title span { color: #e11d48; font-size: 13px; }
+    .ship-card table td { background: transparent; }
+
+    /* FADE */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* FOOTER */
+    .footer {
+      background: #fafafa;
+      border-top: 3px solid #e11d48;
+      padding: 22px 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* TAG BADGE */
+    .badge {
+      display: inline-block;
+      background: #e11d48;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 3px;
+      margin-right: 6px;
+      letter-spacing: 0.5px;
+    }
+    .badge.gray { background: #6b7280; }
+    .badge.dark { background: #1a1a1a; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="mag-header">
+  <div class="category">Energy · Geopolitics · 2026.03.01</div>
+  <h1>이란이 <span>호르무즈 해협</span>을 막으면<br>에너지에는 무슨 일이 생기나</h1>
+  <div class="meta">원유 · 천연가스 · 한국 에너지 안보 분석</div>
+</div>
+<div class="divider"></div>
+
+<!-- BREAKING -->
+<div class="breaking">
+  <span class="tag">BREAKING</span>
+  2026년 2월 28일, 이란 혁명수비대가 호르무즈 해협 '통항 불가' 통보 발령
+</div>
+
+<div class="container">
+
+  <!-- SECTION 1: 현재 상황 -->
+  <div class="section fade-in">
+    <div class="section-label">현재 상황</div>
+    <h2>이란 혁명수비대의 경고 — 무슨 일이 벌어지고 있나</h2>
+
+    <div class="quote-box">
+      "여기는 이란 이슬람 혁명수비대 해군이다. 지금 이 시각부터 호르무즈 해협을 통과하는 모든 항행은 금지된다. 어떤 종류의 선박도 추후 공지가 있을 때까지 호르무즈 해협을 통과할 수 없다."
+      <div class="source">— 이란 혁명수비대 해군 VHF 초단파 방송, 2026.02.28</div>
+    </div>
+
+    <p>EU의 아스피데스(해상 안전 작전)와 영국해사기구(UKMTO)가 이 메시지를 수신·확인했다. 미국은 호르무즈 해협 인근 상선들에게 걸프 지역 회피를 권고했다.</p>
+
+    <div class="highlight-box fade-in">
+      <div class="hl-title">⚠️ 핵심 구분 — 혁명수비대 vs 이란 정부</div>
+      <p>현재는 <strong>혁명수비대 차원의 위협</strong>일 뿐, 이란 정부의 공식 발표는 없다. 법적 효력을 가진 해협 봉쇄는 <strong>이란 정부의 공식 선언</strong>이 있어야 성립한다. 아직 실제 선박 공격 단계는 아니다.</p>
+    </div>
+
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-time">2026.02.28</div>
+          <div class="tl-text">이란 혁명수비대, VHF로 호르무즈 해협 '통항 불가' 방송 시작</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-time">2026.02.28</div>
+          <div class="tl-text">EU 아스피데스·영국 UKMTO 메시지 수신 확인, 미국 회피 권고</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-time">2026.03.01 새벽</div>
+          <div class="tl-text">마린 트래픽 실시간 확인 — 해협 입출구에 선박 대기, 이란 영해 쪽 항행 공백</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div>
+          <div class="tl-time">2026.03.01 현재</div>
+          <div class="tl-text">이란 정부 공식 발표 없음 — 봉쇄 법적 효력 미발생 상태</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 호르무즈 해협 지정학 -->
+  <div class="section fade-in">
+    <div class="section-label">지정학</div>
+    <h2>왜 대형 유조선은 이란 영해를 꼭 통과해야 하나</h2>
+
+    <p>호르무즈 해협의 <strong>위쪽 절반은 이란의 영해</strong>다. 이란 입장에서는 자국 영해의 통행을 제한하는 것이다.</p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="num">33km</div>
+        <div class="label">호르무즈 해협<br>최협부 폭</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">2개</div>
+        <div class="label">대형 선박 통행<br>가능 항로</div>
+      </div>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <div class="hl-title">🛢️ 이란 영해 통과가 불가피한 이유</div>
+      <p>겉으로는 아래쪽(오만 영해)으로 붙어 항해하면 될 것 같지만, <strong>원유를 가득 실은 30만 톤급 초대형 유조선(VLCC)은 수심이 깊은 이란 영해를 통과할 수밖에 없다.</strong> 수심 문제로 우회 자체가 물리적으로 불가능하다.</p>
+    </div>
+
+    <p>마린 트래픽 실시간 데이터(3월 1일 오전 2시 기준)에서도 이란 영해 구역의 항행 공백이 확인됐다. 삼각형(운항 중) 선박은 해협 밖에 있고, 동그라미(정박·대기) 선박들이 입출구에 집결한 상태다.</p>
+  </div>
+
+  <!-- SECTION 3: 에너지 의존도 차트 -->
+  <div class="section fade-in">
+    <div class="section-label">한국 에너지 안보</div>
+    <h2>한국의 에너지, 얼마나 호르무즈에 의존하나</h2>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="num">72%</div>
+        <div class="label">원유 수입 중<br>호르무즈 통과 비중</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">35%</div>
+        <div class="label">천연가스 수입 중<br>호르무즈 통과 비중</div>
+      </div>
+    </div>
+
+    <!-- 차트 1: 에너지 의존도 -->
+    <div class="chart-container fade-in">
+      <canvas id="chart1" height="230"></canvas>
+    </div>
+
+    <!-- 차트 2: 비축량 현황 -->
+    <div class="chart-container fade-in">
+      <canvas id="chart2" height="220"></canvas>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr><th>에너지원</th><th>의무 비축량</th><th>호르무즈 의존도</th><th>위험도</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>원유</td><td>90일분</td><td><strong>72%</strong></td><td><strong>매우 높음</strong></td></tr>
+          <tr><td>천연가스</td><td>9일분</td><td><strong>35%</strong></td><td><strong>극히 높음</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>원유 의무 비축량은 90일분이지만, <strong>천연가스는 9일분에 불과</strong>하다. 봉쇄가 장기화될 경우 천연가스 수급이 먼저 위기에 봉착할 수 있다.</p>
+  </div>
+
+  <!-- SECTION 4: 한국행 유조선 실사례 -->
+  <div class="section fade-in">
+    <div class="section-label">실사례 추적</div>
+    <h2>'베리 러키'호 — 한국행 유조선의 전속력 탈출</h2>
+
+    <div class="ship-card fade-in">
+      <div class="ship-title">🚢 Landbridge Horizon → <span>Very Lucky (개명)</span></div>
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>선종</td><td><strong>VLCC (초대형 유조선)</strong></td></tr>
+            <tr><td>제원</td><td>길이 332m, 폭 60m, 30만 톤급</td></tr>
+            <tr><td>화물</td><td><strong>원유 200만 배럴</strong></td></tr>
+            <tr><td>용선사</td><td>글로벌 에너지 기업 셸(Shell)</td></tr>
+            <tr><td>목적지</td><td>한국 대산항 (충남 서산)</td></tr>
+            <tr><td>입항 예정</td><td><strong>2026년 3월 17일</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p>셸이 용선한 초대형 유조선이 호르무즈 해협을 <strong>최고 속도로 통과</strong>해 현재 안전 거리를 확보한 상태다. 셸 용선 유조선 4척 중 1척은 아라비아만, 2척은 이라크 해역에서 대기 중이다.</p>
+
+    <div class="highlight-box fade-in">
+      <div class="hl-title">📍 대산항이란?</div>
+      <p>충남 서산에 위치한 석유화학 전문 항만. 원유가 접안 후 대형 파이프라인을 통해 저장탱크로 이송되고, 인근 <strong>현대오일뱅크·롯데케미칼·LG화학</strong> 등 대규모 정유·석유화학 단지에 공급된다.</p>
+    </div>
+
+    <!-- 차트 3: 200만 배럴 vs 한국 하루 소비 -->
+    <div class="chart-container fade-in">
+      <canvas id="chart3" height="220"></canvas>
+    </div>
+
+    <p>한국의 하루 원유 소비량은 약 280만 배럴. 이 초대형 유조선 한 척의 적재량(200만 배럴)은 <strong>하루치에도 미치지 못한다.</strong> 한국 경제가 돌아가려면 이런 VLCC가 한 달에 40~50척씩 입항해야 한다.</p>
+  </div>
+
+  <!-- SECTION 5: 글로벌 영향 -->
+  <div class="section fade-in">
+    <div class="section-label">글로벌 에너지 시장</div>
+    <h2>호르무즈 봉쇄 시 에너지 시장 충격 경로</h2>
+
+    <!-- 차트 4: 충격 시나리오 -->
+    <div class="chart-container fade-in">
+      <canvas id="chart4" height="240"></canvas>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>단기 (1~4주)</th><th>중기 (1~3개월)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>유가</strong></td><td>급등 (공포 프리미엄)</td><td>대체 루트 확보 여부에 따라 결정</td></tr>
+          <tr><td><strong>천연가스</strong></td><td>LNG 현물가 폭등</td><td>비축량 소진, 배급 가능성</td></tr>
+          <tr><td><strong>한국 산업</strong></td><td>정유·석화 원가 급등</td><td>가동률 하락, 에너지 배급 우려</td></tr>
+          <tr><td><strong>해운 시장</strong></td><td>VLCC 운임 폭등</td><td>희망봉 우회 루트 전환</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>호르무즈 해협이 완전 봉쇄될 경우 대안 루트는 사우디아라비아의 동서 파이프라인 또는 아프리카 희망봉 우회인데, 둘 다 물량 한계·비용 급등이라는 문제가 있다.</p>
+  </div>
+
+  <!-- SECTION 6: 최종 정리 -->
+  <div class="section fade-in">
+    <div class="section-label">핵심 요약</div>
+    <h2>지금 당장 무엇을 봐야 하는가</h2>
+
+    <div class="verdict fade-in">
+      <div class="v-title">WATCH POINTS</div>
+      <ul>
+        <li><strong>이란 정부의 공식 선언 여부</strong> — 혁명수비대 위협과 달리, 정부 공식 발표가 나오면 법적 봉쇄 효력이 발생한다.</li>
+        <li><strong>천연가스 비축량</strong> — 의무 비축 9일분으로 원유(90일)보다 훨씬 취약하다. 봉쇄 장기화 시 가장 먼저 위기가 온다.</li>
+        <li><strong>미국·이스라엘 vs 이란 긴장</strong> — 이 분쟁은 한국에게도 직접적 에너지 안보 문제다.</li>
+        <li><strong>마린 트래픽 실시간 모니터링</strong> — 선박 이동 패턴이 실제 봉쇄 여부의 가장 빠른 지표다.</li>
+      </ul>
+    </div>
+
+    <p style="font-size:13px; color:#777; margin-top:12px;">※ 이 분석은 2026년 3월 1일 기준 공개 정보를 바탕으로 작성되었습니다. 상황은 급변할 수 있으며, 이란 정부의 공식 입장이 가장 중요한 변수입니다.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>이란 · 호르무즈 해협 · 한국 에너지 안보 분석</strong><br>
+  2026.03.01 | 원본 출처: 네이버 블로그 · 헤럴드경제 · 한국경제
+</div>
+
+<script>
+// ── Observer 1: 일반 fade-in ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── Chart configs (정의만, 직접 호출 금지) ──
+const chartConfigs = {};
+
+// 차트 1: 원유 vs 천연가스 호르무즈 의존도
+chartConfigs['chart1'] = () => {
+  new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+      labels: ['원유 수입', '천연가스 수입'],
+      datasets: [
+        {
+          label: '호르무즈 통과 비중',
+          data: [72, 35],
+          backgroundColor: ['#e11d48', '#f43f5e'],
+          borderRadius: 5,
+        },
+        {
+          label: '기타 루트',
+          data: [28, 65],
+          backgroundColor: ['#e5e5e5', '#e5e5e5'],
+          borderRadius: 5,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 12 } } },
+        title: { display: true, text: '한국 에너지 수입 중 호르무즈 통과 비중 (%)', font: { size: 13, weight: 'bold' }, color: '#1a1a1a' }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, max: 100, ticks: { callback: v => v + '%' } }
+      }
+    }
+  });
+};
+
+// 차트 2: 비축량 비교 (원유 90일 vs 천연가스 9일)
+chartConfigs['chart2'] = () => {
+  new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+      labels: ['원유', '천연가스'],
+      datasets: [{
+        label: '의무 비축량 (일)',
+        data: [90, 9],
+        backgroundColor: ['#1a1a1a', '#e11d48'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      animations: { x: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '한국 에너지 의무 비축량 비교 (일)', font: { size: 13, weight: 'bold' }, color: '#1a1a1a' }
+      },
+      scales: {
+        x: { ticks: { callback: v => v + '일' }, grid: { color: '#f0f0f0' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// 차트 3: 200만 배럴 vs 한국 하루 소비 280만 배럴
+chartConfigs['chart3'] = () => {
+  new Chart(document.getElementById('chart3'), {
+    type: 'bar',
+    data: {
+      labels: ['베리 러키호\n적재 원유', '한국 하루\n원유 소비'],
+      datasets: [{
+        label: '원유량 (만 배럴)',
+        data: [200, 280],
+        backgroundColor: ['#2563eb', '#e11d48'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '유조선 1척 적재량 vs 한국 하루 소비량 (만 배럴)', font: { size: 13, weight: 'bold' }, color: '#1a1a1a' }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { ticks: { callback: v => v + '만' }, grid: { color: '#f0f0f0' } }
+      }
+    }
+  });
+};
+
+// 차트 4: 봉쇄 기간별 유가 충격 시나리오 (라인차트)
+chartConfigs['chart4'] = () => {
+  new Chart(document.getElementById('chart4'), {
+    type: 'line',
+    data: {
+      labels: ['현재', '1주', '2주', '4주', '8주', '12주'],
+      datasets: [
+        {
+          label: '완전 봉쇄 시나리오',
+          data: [75, 95, 115, 130, 145, 140],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.1)',
+          tension: 0.4, fill: true,
+        },
+        {
+          label: '부분 제한 시나리오',
+          data: [75, 85, 90, 95, 92, 90],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          tension: 0.4, fill: true,
+        },
+        {
+          label: '위협만(현 상황)',
+          data: [75, 80, 82, 80, 78, 77],
+          borderColor: '#6b7280',
+          backgroundColor: 'rgba(107,114,128,0.06)',
+          tension: 0.4, fill: true,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 } } },
+        title: { display: true, text: '호르무즈 봉쇄 시나리오별 유가 예상 ($/배럴, 가상)', font: { size: 13, weight: 'bold' }, color: '#1a1a1a' }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' } },
+        y: { ticks: { callback: v => '$' + v }, grid: { color: '#f0f0f0' } }
+      }
+    }
+  });
+};
+
+// ── Observer 2: 차트 전용 ──
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
