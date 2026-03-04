@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>이란 전쟁이 장기전이 될 수밖에 없는 이유</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* HEADER */
+    .cover {
+      border-bottom: 3px solid var(--accent);
+      padding: 48px 0 32px;
+      margin-bottom: 36px;
+    }
+    .cover-label {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      margin-bottom: 18px;
+    }
+    .cover-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(26px, 7vw, 38px);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .cover-title em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .cover-sub {
+      font-size: 14px;
+      color: var(--text2);
+      border-left: 3px solid var(--accent);
+      padding-left: 12px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 18px;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.5px;
+    }
+    .cover-meta span::before {
+      content: '▪ ';
+      color: var(--accent);
+    }
+
+    /* SECTION */
+    section { margin-bottom: 44px; }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .section-num {
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    p { color: var(--text); margin-bottom: 14px; }
+    strong { color: var(--accent); font-weight: 700; }
+
+    /* HIGHLIGHT BOX */
+    .highlight {
+      background: #fff5f7;
+      border-left: 4px solid var(--accent);
+      padding: 16px 18px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .highlight p { margin-bottom: 0; color: var(--text); font-size: 14px; }
+    .highlight-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* KEY POINT */
+    .key-box {
+      background: var(--text);
+      color: #fff;
+      padding: 20px 22px;
+      margin: 24px 0;
+      border-radius: 4px;
+    }
+    .key-box .key-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: var(--accent2);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .key-box p { color: #e8e8e8; font-size: 14px; margin-bottom: 0; }
+
+    /* TERM BOX */
+    .term {
+      display: inline;
+      background: #ffeef2;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 22px 0;
+      font-size: 13px;
+    }
+    thead th {
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: var(--bg2); }
+    tbody td { padding: 10px 12px; color: var(--text); vertical-align: top; }
+
+    /* TIMELINE */
+    .timeline { margin: 22px 0; }
+    .tl-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .tl-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 17px; top: 32px;
+      width: 2px;
+      height: calc(100% + 4px);
+      background: var(--border);
+    }
+    .tl-dot {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      flex-shrink: 0; z-index: 1;
+    }
+    .tl-content { padding-top: 6px; }
+    .tl-year { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+    .tl-text { font-size: 13.5px; color: var(--text); }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 22px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      padding: 16px 14px;
+      border-radius: 4px;
+    }
+    .stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 12px; color: var(--text2); }
+
+    /* CHART */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      margin: 22px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text2);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+    .divider-accent {
+      border-top: 2px solid var(--accent);
+      margin: 36px 0;
+    }
+
+    /* CONCLUSION */
+    .conclusion {
+      background: var(--text);
+      color: #fff;
+      padding: 28px 24px;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+    .conclusion h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 18px;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .conclusion p { color: #d0d0d0; font-size: 14px; margin-bottom: 10px; }
+    .conclusion p:last-child { margin-bottom: 0; }
+    .conclusion strong { color: #fff; }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text2);
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    /* scenario arrows */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .scenario-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px;
+      background: var(--bg2);
+    }
+    .scenario-card .sc-head {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .sc-short .sc-head { color: #2563eb; }
+    .sc-long .sc-head { color: var(--accent); }
+    .scenario-card ul { padding-left: 14px; }
+    .scenario-card li { font-size: 12.5px; color: var(--text); margin-bottom: 4px; }
+
+    @media (max-width: 400px) {
+      .stat-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<header class="cover fade-in">
+  <div class="cover-label">지정학 분석</div>
+  <h1 class="cover-title">이란 전쟁이 <em>장기전</em>이 될<br>수밖에 없는 이유</h1>
+  <p class="cover-sub">트럼프의 실리적 계산, 네타냐후의 30년 빌드업,<br>그리고 워싱턴 기득권 해체 — 이제 시작일 뿐</p>
+  <div class="cover-meta">
+    <span>2026년 3월 5일</span>
+    <span>지정학 · 에너지 · 국제정치</span>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">1</div>
+    <h2 class="section-title">핵심 요약</h2>
+  </div>
+
+  <p>현재 이란을 둘러싼 군사·외교적 긴장은 단순한 중동 분쟁이 아니다. <strong>30년에 걸친 이스라엘의 외교 전략</strong>, 냉전 유산인 <span class="term">카터 독트린</span>의 붕괴, 그리고 트럼프 행정부의 다중 목표가 한꺼번에 맞물린 복합 구조다.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-val">13%</div>
+      <div class="stat-label">중국 전체 석유 수입 중 이란산 비중</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">25%</div>
+      <div class="stat-label">산둥성 정유사의 이란산 의존도</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">20%</div>
+      <div class="stat-label">호르무즈 해협 통과 세계 원유 비중</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">3km</div>
+      <div class="stat-label">유조선 실제 항행 가능 폭</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 네타냐후 전략 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">2</div>
+    <h2 class="section-title">네타냐후의 30년 빌드업</h2>
+  </div>
+
+  <p>영상에서 가장 강조되는 포인트는 <strong>이스라엘 네타냐후 총리가 미국을 끌어들이기 위해 수십 년에 걸쳐 전략적 환경을 조성</strong>했다는 분석이다. 단순한 음모론이 아니라 정치적 맥락에서 추적 가능한 일련의 행동 패턴으로 설명된다.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">①</div>
+      <div class="tl-content">
+        <div class="tl-year">수십 년 전 ~ 최근</div>
+        <div class="tl-text">미국 내 친이스라엘 네트워크를 꾸준히 구축. <strong>이스라엘 안보 문제는 초당적(좌우 불문) 합의 사안</strong>으로 고착화.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">②</div>
+      <div class="tl-content">
+        <div class="tl-year">가자 전쟁 개시</div>
+        <div class="tl-text">표면적 목적 너머의 진짜 목표: <strong>바이든을 이러지도 저러지도 못하는 상황에 몰아 정치적 몰락 유도.</strong> 이란과의 긴장을 전쟁 직전 수준까지 끌어올림.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">③</div>
+      <div class="tl-content">
+        <div class="tl-year">트럼프 복귀 후</div>
+        <div class="tl-text">이란이 절대 수용 불가한 조건 제시 → 이란의 반격 유도 → <strong>전쟁 명분을 "협상 실패"로 포장.</strong> 트럼프에게 "중동의 암덩어리를 제거할 유일한 구원자" 서사 제공.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-box">
+    <div class="key-label">핵심 포인트</div>
+    <p>결과적으로 네타냐후는 밥상을 차려줬고, 트럼프는 그 밥상을 낚여 준 셈. 영상은 이를 두고 "서로 낚인 것"에 가깝다고 표현한다.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 카터 독트린 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">3</div>
+    <h2 class="section-title">카터 독트린과 워싱턴 기득권</h2>
+  </div>
+
+  <div class="highlight">
+    <div class="highlight-title">용어 설명</div>
+    <p><strong>카터 독트린 (Carter Doctrine, 1980)</strong>: 지미 카터 미국 대통령이 선언한 지정학적 원칙. "어떤 세력이 중동의 통제권을 장악하려는 시도는 미국에 대한 공격으로 간주하며 모든 수단으로 격퇴한다"는 내용. 소련의 아프가니스탄 침공에 대응해 나왔으며, 미국이 중동에 군사적으로 개입하는 법적·정치적 근거가 됐다.</p>
+  </div>
+
+  <p>냉전 시대 생존 전략으로 탄생한 카터 독트린은 소련 붕괴 이후에도 살아남았다. 왜냐하면 <strong>이를 유지해야 이득을 보는 세력</strong>이 형성됐기 때문이다.</p>
+
+  <table>
+    <thead>
+      <tr><th>세력</th><th>카터 독트린에서 얻는 이익</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="term">네오콘</span><br>(신보수주의자)</td>
+        <td>중동 개입의 정당성 유지, 국방 예산 증액 명분 확보</td>
+      </tr>
+      <tr>
+        <td>방위산업체</td>
+        <td>전쟁·분쟁 지속 시 무기 수요 보장, 로비 영향력 유지</td>
+      </tr>
+      <tr>
+        <td>워싱턴 정치권</td>
+        <td>안보 이슈를 활용한 정치적 영향력 극대화</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>셰일 혁명으로 미국이 세계 최대 산유국이 되면서 "중동 석유 보호"라는 명분은 사실상 소멸했다. 그러나 기득권의 저항으로 카터 독트린은 지속됐다. 특히 <strong>바이든 정부가 예멘 후티 사태에 항모전단을 파견(2023)하며 사실상 카터 독트린을 부활</strong>시켰다는 비판이 나온다.</p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">미국 중동 개입의 역사적 흐름 (개념도)</div>
+    <canvas id="timelineChart" height="230"></canvas>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 트럼프의 다중 목표 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">4</div>
+    <h2 class="section-title">트럼프의 다중 목표 구조</h2>
+  </div>
+
+  <p>영상은 트럼프가 단순한 명예욕이나 이스라엘과의 동맹 의리 때문만이 아니라 <strong>실리적 다중 목표</strong>를 위해 이 전쟁에 개입했다고 분석한다.</p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">트럼프의 이란 전쟁 기대 효과 (레이더 분석)</div>
+    <canvas id="radarChart" height="240"></canvas>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>목표</th><th>내용</th><th>효과</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>대중국 압박</strong></td>
+        <td>이란산 원유 공급 차단</td>
+        <td>중국 제조업·국방 타격 (산둥성 정유 25% 위협)</td>
+      </tr>
+      <tr>
+        <td><strong>워싱턴 기득권 해체</strong></td>
+        <td>카터 독트린 완전 종식</td>
+        <td>네오콘·방위산업 로비 카르텔 붕괴</td>
+      </tr>
+      <tr>
+        <td><strong>에너지 패권</strong></td>
+        <td>호르무즈 봉쇄 → 유가 급등 명분</td>
+        <td>환경 규제 철폐, 미국 본토 석유 생산 극대화</td>
+      </tr>
+      <tr>
+        <td><strong>정치적 서사</strong></td>
+        <td>47년 이란 위협 종식</td>
+        <td>역대 어떤 대통령도 못 한 일 → 중간선거 유리</td>
+      </tr>
+      <tr>
+        <td><strong>민주당 규제 해체</strong></td>
+        <td>전쟁 장기화 → 에너지 위기</td>
+        <td>친환경 정책의 정치적 정당성 소멸</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="key-box">
+    <div class="key-label">분석 포인트</div>
+    <p>단기전으로 끝나면 "구원자 서사 완성 + 친미 이란 정권 수립 + 중국 원유 차단".<br>장기전이 되면 "환경 규제 철폐 + 미국 석유 생산 극대화 + 민주당 기득권 약화". <strong>어느 쪽이든 트럼프에게 남는 장사</strong>라는 구조다.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 호르무즈 해협 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">5</div>
+    <h2 class="section-title">호르무즈 해협 봉쇄와 장기전 가능성</h2>
+  </div>
+
+  <p>이란의 핵심 비대칭 전략은 <strong>호르무즈 해협 봉쇄</strong>다. 전면전 대신 해협을 통한 게릴라식 압박으로 미군을 소모전에 끌어들이는 것이다.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-val">39km</div>
+      <div class="stat-label">호르무즈 해협 가장 좁은 폭</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">3km</div>
+      <div class="stat-label">유조선 실제 항행 가능 항로 폭</div>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <div class="highlight-title">비대칭 전술</div>
+    <p>이란은 <strong>3km 항로에 기뢰를 부설하고 고속정(스피드보트) 다수를 투입</strong>하는 방식으로 미군을 소모시킬 수 있다. 수백 척의 소형 고속정을 미군이 하나하나 처리하는 것은 현실적으로 극히 어렵다. 전면전 없이도 사실상 봉쇄 효과를 낼 수 있는 것이다.</p>
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">호르무즈 봉쇄 시 경제적 파급 효과 (예상)</div>
+    <canvas id="impactChart" height="220"></canvas>
+  </div>
+
+  <p>호르무즈 해협이 봉쇄되면 <strong>유가가 배럴당 150달러를 돌파</strong>하고 전 세계 물류 대란이 예상된다. 이는 곧 인플레이션 폭발로 이어지며, 아이러니하게도 "경제를 살리겠다"는 트럼프의 지지 기반을 흔들 수 있다.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 시나리오 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">6</div>
+    <h2 class="section-title">단기전 vs 장기전 시나리오</h2>
+  </div>
+
+  <p>영상은 <strong>"8월까지는 전쟁이 무조건 끝나야 한다"</strong>는 트럼프의 정치 일정 제약을 강조한다. 중간선거 전 구원자 서사를 완성해야 하기 때문이다. 그러나 이란이 협상에 응하지 않을 경우 장기전 불가피 구조가 된다.</p>
+
+  <div class="scenario-grid">
+    <div class="scenario-card sc-short">
+      <div class="sc-head">🔵 단기전 (조기 종결)</div>
+      <ul>
+        <li>트럼프 "구원자 서사" 완성</li>
+        <li>친미 이란 정권 수립 가능성</li>
+        <li>중국 원유 공급망 차단</li>
+        <li>카터 독트린 공식 종식</li>
+        <li>중간선거 압승 기반 확보</li>
+      </ul>
+    </div>
+    <div class="scenario-card sc-long">
+      <div class="sc-head">🔴 장기전 (교착 지속)</div>
+      <ul>
+        <li>유가 폭등 → 인플레이션</li>
+        <li>트럼프 지지 기반 이탈 위험</li>
+        <li>환경 규제 철폐 명분 확보</li>
+        <li>민주당 기득권 타격</li>
+        <li>탄핵 가능성 상승 리스크</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">시나리오별 트럼프 정치적 손익 (개념도)</div>
+    <canvas id="scenarioChart" height="220"></canvas>
+  </div>
+
+  <p>영상 저자는 "타임라인이 너무 뻔하다"며 <strong>답 없는 장기전은 되지 않을 것이고, 길어봤자 석 달 수준</strong>으로 본다. 8월 이전 종전을 트럼프 정치 생명의 마지노선으로 제시한다.</p>
+</section>
+
+<hr class="divider">
+
+<!-- 한국 영향 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">7</div>
+    <h2 class="section-title">한국에 대한 영향</h2>
+  </div>
+
+  <p>한국은 에너지 수입 의존도가 높고 수출 중심 경제 구조를 가진 만큼, 이란 사태와 호르무즈 봉쇄는 <strong>직접적인 경제 충격</strong>으로 이어질 수 있다.</p>
+
+  <table>
+    <thead>
+      <tr><th>분야</th><th>리스크 요인</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>에너지</strong></td>
+        <td>원유·가스 수입 단가 급등 → 에너지 비용 상승</td>
+      </tr>
+      <tr>
+        <td><strong>물류</strong></td>
+        <td>호르무즈 경유 선박 운임 폭등, 공급망 차질</td>
+      </tr>
+      <tr>
+        <td><strong>물가</strong></td>
+        <td>에너지·물류 비용 상승 → 소비자 물가 상승</td>
+      </tr>
+      <tr>
+        <td><strong>수출</strong></td>
+        <td>글로벌 경기 위축 → 반도체·자동차 수요 감소</td>
+      </tr>
+      <tr>
+        <td><strong>금융</strong></td>
+        <td>지정학적 불확실성 → 환율 변동성 확대</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- 향후 전망 -->
+<section class="fade-in">
+  <div class="section-label">
+    <div class="section-num">8</div>
+    <h2 class="section-title">전망: 새로운 안보 패러다임</h2>
+  </div>
+
+  <p>영상은 이 전쟁의 최종 결과물로 <strong>카터 독트린의 완전 붕괴와 새로운 안보 체제의 등장</strong>을 예고한다. 구체적으로는 <strong>AI 중심의 데이터 국방 체계</strong>로의 전환이 제시된다.</p>
+
+  <div class="highlight">
+    <div class="highlight-title">구조적 변화 예상</div>
+    <p>① 미국의 중동 군사 주둔 대폭 축소<br>
+    ② 네오콘·방위산업 로비 카르텔 약화<br>
+    ③ 화석연료 중심 에너지 패권 재편<br>
+    ④ 중국 제조업 경쟁력에 장기적 타격<br>
+    ⑤ AI·드론·사이버 중심의 차세대 국방 체계</p>
+  </div>
+</section>
+
+<hr class="divider-accent">
+
+<!-- CONCLUSION -->
+<section class="fade-in">
+  <div class="conclusion">
+    <h3>📌 종합 시사점</h3>
+    <p>현재 이란 사태는 <strong>단순한 군사 충돌이 아니라 미국 내부 정치 구조의 재편</strong>을 목표로 한 복합적 게임이다. 네타냐후의 30년 외교 전략, 트럼프의 다중 이익 계산, 카터 독트린의 역사적 유산이 한꺼번에 교차하고 있다.</p>
+    <p>영상의 핵심 결론은 <strong>"단기전이든 장기전이든 트럼프에게 남는 장사"</strong>이며, 카터 독트린의 붕괴는 어떤 경우에도 불가피하다는 것이다.</p>
+    <p>한국 입장에서는 <strong>예측 가능한 타임라인(8월 이전 종전 가능성)을 전제로 에너지·물류·금융 리스크에 대한 선제적 대응</strong>이 필요하다. 전쟁은 어느 편이든 민간인과 경제에 최악의 결과를 낳는다는 사실은 변하지 않는다.</p>
+  </div>
+</section>
+
+<footer>
+  본 분석은 유튜브 영상 자막 내용을 기반으로 작성되었습니다.<br>
+  수치 및 통계는 원본 영상 그대로 반영하였으며, 투자·정책 판단의 근거로 활용 시 추가 검증을 권장합니다.<br>
+  출처: 이란 전쟁이 장기전이 될 수밖에 없는 이유 | 이제 시작일 뿐.. (2026.03.05)
+</footer>
+
+<script>
+// ─── FADE OBSERVER ───
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ─── CHART CONFIGS (정의만, 직접 호출 금지) ───
+const chartConfigs = {};
+
+// 1. 미국 중동 개입 역사 흐름 (라인 차트)
+chartConfigs['timelineChart'] = () => {
+  new Chart(document.getElementById('timelineChart'), {
+    type: 'line',
+    data: {
+      labels: ['1980\n카터독트린', '1991\n걸프전', '2001\n9·11이후', '2003\n이라크전', '2011\n오바마', '2020\n트럼프1기', '2023\n바이든', '2025\n트럼프2기'],
+      datasets: [{
+        label: '미국 중동 개입 강도 (개념)',
+        data: [60, 85, 95, 100, 75, 45, 70, 90],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 5,
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => '개입 강도: ' + ctx.raw
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { size: 10 }, color: '#777' },
+          grid: { color: '#f0f0f0' }
+        },
+        y: {
+          min: 0, max: 120,
+          ticks: { font: { size: 10 }, color: '#777' },
+          grid: { color: '#f0f0f0' }
+        }
+      }
+    }
+  });
+};
+
+// 2. 레이더 차트 — 트럼프 기대 효과
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['대중국 압박', '워싱턴 기득권\n해체', '에너지 패권', '정치적 서사', '민주당 규제\n해체'],
+      datasets: [{
+        label: '단기전',
+        data: [85, 70, 60, 100, 50],
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37,99,235,0.12)',
+        borderWidth: 2,
+        pointBackgroundColor: '#2563eb'
+      }, {
+        label: '장기전',
+        data: [70, 90, 95, 60, 90],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.10)',
+        borderWidth: 2,
+        pointBackgroundColor: '#e11d48'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, color: '#1a1a1a' }
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          pointLabels: { font: { size: 11 }, color: '#1a1a1a' },
+          grid: { color: '#e5e5e5' },
+          angleLines: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+// 3. 호르무즈 봉쇄 파급 효과 (가로 바)
+chartConfigs['impactChart'] = () => {
+  new Chart(document.getElementById('impactChart'), {
+    type: 'bar',
+    data: {
+      labels: ['유가 상승\n(배럴당)', '해운 운임\n상승', '글로벌 인플레\n상승', '한국 에너지\n비용 증가'],
+      datasets: [{
+        label: '봉쇄 시 예상 상승률 (%)',
+        data: [70, 85, 40, 55],
+        backgroundColor: ['#e11d48', '#f43f5e', '#6b7280', '#2563eb'],
+        borderRadius: 4,
+        barThickness: 28
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => '예상 상승: ≈' + ctx.raw + '%' }
+        }
+      },
+      scales: {
+        x: {
+          max: 100,
+          ticks: { font: { size: 10 }, color: '#777', callback: v => v + '%' },
+          grid: { color: '#f0f0f0' }
+        },
+        y: {
+          ticks: { font: { size: 11 }, color: '#1a1a1a' },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+};
+
+// 4. 시나리오 손익 (바 차트)
+chartConfigs['scenarioChart'] = () => {
+  new Chart(document.getElementById('scenarioChart'), {
+    type: 'bar',
+    data: {
+      labels: ['구원자 서사', '워싱턴 기득권\n해체', '대중국 압박', '에너지 패권', '중간선거\n유리'],
+      datasets: [
+        {
+          label: '단기전',
+          data: [95, 70, 80, 55, 90],
+          backgroundColor: '#2563eb',
+          borderRadius: 3
+        },
+        {
+          label: '장기전',
+          data: [40, 90, 65, 90, 30],
+          backgroundColor: '#e11d48',
+          borderRadius: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, color: '#1a1a1a' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { size: 10 }, color: '#1a1a1a' },
+          grid: { display: false }
+        },
+        y: {
+          max: 100,
+          ticks: { font: { size: 10 }, color: '#777' },
+          grid: { color: '#f0f0f0' }
+        }
+      }
+    }
+  });
+};
+
+// ─── CHART OBSERVER ───
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
