@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>위기의 엔비디아? 루빈 CPX의 전략 분석</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    /* ─── HEADER ─── */
+    .magazine-header {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .magazine-header::before {
+      content: 'NVIDIA';
+      position: absolute;
+      top: -10px; right: -10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .header-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-eyebrow::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+    }
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .header-title em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+    .header-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+    .header-meta {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+    .meta-item span {
+      color: rgba(255,255,255,0.8);
+      display: block;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ─── SECTION ─── */
+    .section {
+      padding: 40px 0 0;
+    }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    /* ─── DIVIDER ─── */
+    .rule {
+      border: none;
+      height: 1px;
+      background: var(--border);
+      margin: 36px 0;
+    }
+    .rule-accent {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+      margin: 36px 0;
+    }
+
+    /* ─── BODY TEXT ─── */
+    p {
+      font-size: 15.5px;
+      line-height: 1.82;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    p:last-child { margin-bottom: 0; }
+    strong { font-weight: 600; color: var(--text); }
+    em { font-style: italic; color: var(--accent); font-weight: 600; }
+
+    /* ─── PULL QUOTE ─── */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      margin: 28px 0;
+      background: var(--bg2);
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ─── CALLOUT BOX ─── */
+    .callout {
+      background: var(--text);
+      color: #fff;
+      padding: 24px;
+      margin: 28px 0;
+    }
+    .callout-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+    .callout p {
+      color: rgba(255,255,255,0.85);
+      font-size: 14.5px;
+      margin: 0;
+    }
+
+    /* ─── STAT GRID ─── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 28px 0;
+      border: 1px solid var(--border);
+    }
+    .stat-item {
+      background: var(--bg);
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+
+    /* ─── TABLE ─── */
+    .table-wrap {
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+    thead tr {
+      background: var(--table-header);
+      color: #fff;
+    }
+    thead th {
+      padding: 11px 13px;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr:nth-child(even) { background: var(--bg2); }
+    tbody td {
+      padding: 10px 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    tbody td:first-child { font-weight: 600; }
+    .highlight-row { background: #fff3f5 !important; }
+    .highlight-row td:first-child { color: var(--accent); }
+
+    /* ─── CHART ─── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 28px 0;
+      background: var(--bg2);
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 12px;
+    }
+
+    /* ─── PHASE TIMELINE ─── */
+    .timeline {
+      margin: 28px 0;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .timeline-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 40px;
+    }
+    .timeline-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      min-height: 24px;
+    }
+    .timeline-content {
+      padding-bottom: 28px;
+      flex: 1;
+    }
+    .timeline-phase {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .timeline-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .timeline-body {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+    .timeline-body strong { color: var(--text); }
+
+    /* ─── INFERENCE SPLIT ─── */
+    .inference-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin: 28px 0;
+    }
+    .inf-panel {
+      background: var(--bg);
+      padding: 20px 16px;
+    }
+    .inf-panel.accent { background: var(--accent); color: #fff; }
+    .inf-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .inf-panel.accent .inf-label { color: rgba(255,255,255,0.65); }
+    .inf-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .inf-chip {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .inf-panel.accent .inf-chip {
+      background: rgba(255,255,255,0.2);
+    }
+    .inf-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text2);
+    }
+    .inf-panel.accent .inf-desc { color: rgba(255,255,255,0.8); }
+
+    /* ─── FADE-IN ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--bg2);
+      border-top: 2px solid var(--accent);
+      padding: 28px 24px;
+      margin-top: 56px;
+      text-align: center;
+    }
+    .footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin: 0;
+    }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+    .badge.dark {
+      background: var(--text);
+    }
+    .badge.gray {
+      background: var(--c3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="magazine-header">
+  <div class="header-eyebrow">AI 가속기 전략 분석 · 2026.03.05</div>
+  <h1 class="header-title">
+    위기의 엔비디아?<br>
+    젠슨황이 준비한<br>
+    <em>루빈 CPX의 무기</em>
+  </h1>
+  <p class="header-sub">ASIC의 도전과 추론 시장 전환 속<br>엔비디아의 비밀 카드를 해부한다</p>
+  <div class="header-meta">
+    <div class="meta-item">출처<span>NOVA Real Invest</span></div>
+    <div class="meta-item">주제<span>AI 가속기 / 반도체</span></div>
+    <div class="meta-item">핵심 제품<span>Rubin CPX</span></div>
+  </div>
+</header>
+
+<!-- ── BODY ── -->
+<div class="container">
+
+  <!-- OVERVIEW -->
+  <section class="section">
+    <div class="section-label fade-in">핵심 요약</div>
+    <h2 class="section-title fade-in">챔피언이 직면한 두 가지 위협</h2>
+
+    <p class="fade-in">
+      AI 시장의 무게 중심이 <strong>훈련(Training)에서 추론(Inference)으로</strong> 이동하고 있다. 이 전환이 중요한 이유는, 엔비디아의 강력한 해자(競爭 優位)를 지탱해온 여러 조건들이 추론 시장에서는 상대적으로 힘을 잃기 때문이다.
+    </p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-item">
+        <div class="stat-number">>60%</div>
+        <div class="stat-label">엔비디아<br>영업이익률</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">1/4</div>
+        <div class="stat-label">중국 시장<br>전체 비중</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">50 PF</div>
+        <div class="stat-label">루빈 GPU<br>최대 성능</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3.6 EF</div>
+        <div class="stat-label">베라루빈 NVL144<br>랙 성능</div>
+      </div>
+    </div>
+
+    <p class="fade-in">
+      엔비디아를 향해 날아오는 화살은 두 방향에서 동시에 날아온다. 첫째는 <em>추론 워크로드로의 전환</em>이고, 둘째는 <em>하이퍼스케일러들의 자체칩(ASIC) 독립</em>이다.
+    </p>
+
+    <div class="pull-quote fade-in">
+      <p>"엔비디아의 60% 영업이익은 하이퍼스케일러에게는 그대로 비용이다. 이것은 규모의 문제를 넘어 정도의 문제가 됐다."</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ASIC CHALLENGERS -->
+  <section class="section">
+    <div class="section-label fade-in">경쟁 지형</div>
+    <h2 class="section-title fade-in">ASIC 도전자들의 등장</h2>
+
+    <p class="fade-in">
+      구글, 아마존, 마이크로소프트, 메타는 2016년부터 자체 AI 가속기 개발에 본격 착수했다. 이들의 전략은 엔비디아에 지불하던 <strong>프리미엄 60%</strong>를 자체칩 개발·운영 효율 향상에 재투자하는 것이다.
+    </p>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>기업</th>
+            <th>자체칩</th>
+            <th>전략 포인트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Google</td>
+            <td>TPU</td>
+            <td>클라우드 시장에서 놀라운 추격전, 가장 앞선 성숙도</td>
+          </tr>
+          <tr>
+            <td>Amazon AWS</td>
+            <td>Trainium</td>
+            <td>훈련 전용 칩으로 비용 절감 추구</td>
+          </tr>
+          <tr>
+            <td>Microsoft</td>
+            <td>Maia</td>
+            <td>Azure 인프라 자체 최적화 목표</td>
+          </tr>
+          <tr>
+            <td>Meta</td>
+            <td>MTIA</td>
+            <td>추론 특화 자체칩, 소셜 AI 워크로드에 집중</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>중국 전체</td>
+            <td>다수</td>
+            <td>전체 시장의 약 1/4, 미국 제재 속 독자 노선 추구 중</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout fade-in">
+      <div class="callout-label">숏(Bear) 시나리오 논리</div>
+      <p>추론 전환 → 미국 점유율 하락 + 중국 시장(전체 1/4)의 장기 이탈 → 엔비디아 매출 구조 약화. JP모건 등 일부 기관은 ASIC 비중이 상당히 클 것으로 추정하고 있다.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- INFERENCE ARCHITECTURE -->
+  <section class="section">
+    <div class="section-label fade-in">기술 심층</div>
+    <h2 class="section-title fade-in">추론의 두 얼굴: 프리필 vs 디코드</h2>
+
+    <p class="fade-in">
+      CPX를 이해하려면 먼저 AI 추론이 기술적으로 어떻게 작동하는지 알아야 한다. 추론은 본질적으로 성격이 다른 두 단계로 구성된다.
+    </p>
+
+    <div class="inference-card fade-in">
+      <div class="inf-panel">
+        <div class="inf-label">Stage 1</div>
+        <div class="inf-title">프리필(Prefill)</div>
+        <div class="inf-chip">CPX 전담</div>
+        <div class="inf-desc">
+          KV 캐시(모델 중간 활성화값)를 사전에 계산·준비하는 작업. <strong>GPU 연산 성능</strong>이 병목이며, HBM보다 처리 능력이 핵심.
+        </div>
+      </div>
+      <div class="inf-panel accent">
+        <div class="inf-label">Stage 2</div>
+        <div class="inf-title">디코드(Decode)</div>
+        <div class="inf-chip">루빈 GPU 전담</div>
+        <div class="inf-desc">
+          준비된 KV 캐시를 읽어 토큰을 생성. <strong>HBM의 고용량 + 초고대역폭</strong>이 최대 성능을 결정.
+        </div>
+      </div>
+    </div>
+
+    <p class="fade-in">
+      기존 가속기(블랙웰 포함 현세대 대부분)는 <strong>프리필과 디코드를 하나의 칩에서 모두 처리</strong>한다. 베라루빈 CPX는 이 두 단계를 서로 다른 칩이 분담하는, 완전히 새로운 아키텍처를 제시한다. 베라 CPU는 패키징당 최대 <strong>1.5TB에 달하는 메모리</strong>로 KV 캐시를 담고 최적 배분을 책임진다.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- RUBIN CPX ANATOMY -->
+  <section class="section">
+    <div class="section-label fade-in">제품 분석</div>
+    <h2 class="section-title fade-in">루빈 CPX란 무엇인가</h2>
+
+    <p class="fade-in">
+      CPX(Compute-Prefill eXtension의 약칭으로 추정)는 루빈의 기본 설계를 활용하되, 여러 핵심 사양을 의도적으로 단순화한 칩이다.
+    </p>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>루빈 GPU</th>
+            <th>루빈 CPX</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>다이 구성</td>
+            <td>2개 다이 패키징</td>
+            <td>1개 다이 (단순화)</td>
+          </tr>
+          <tr>
+            <td>메모리</td>
+            <td>HBM (고대역폭)</td>
+            <td>GDDR (일반 그래픽 메모리)</td>
+          </tr>
+          <tr>
+            <td>성능</td>
+            <td>최대 50 페타플롭스</td>
+            <td>약 30 페타플롭스 (60%)</td>
+          </tr>
+          <tr>
+            <td>제조 단가</td>
+            <td>기준 (100%)</td>
+            <td>약 25% 수준</td>
+          </tr>
+          <tr>
+            <td>병목 요인</td>
+            <td>HBM 공급 + CoWoS 패키징</td>
+            <td>두 병목 모두 회피</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>역할</td>
+            <td>디코드 단계</td>
+            <td>프리필 단계 전담 최적화</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CHART: Performance vs Cost -->
+  <div class="container">
+    <div class="chart-title fade-in">— 루빈 vs CPX: 성능·비용 비교 (루빈=100 기준)</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart1" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- RACK MATH -->
+  <section class="section">
+    <div class="section-label fade-in">경제성 계산</div>
+    <h2 class="section-title fade-in">절반 비용, 두 배 성능의 비밀</h2>
+
+    <p class="fade-in">
+      단순히 CPX 하나의 스펙만 보면 성능이 떨어져 보인다. 그러나 <strong>랙 시스템 단위</strong>로 계산하면 완전히 다른 그림이 나온다.
+    </p>
+
+    <div class="callout fade-in">
+      <div class="callout-label">베라루빈 NVL144 구조</div>
+      <p>루빈 GPU × 4개 / 트레이 → 트레이 18개 × 4 = <strong>72패키지(144다이)</strong>로 구성. '144'는 패키지가 아닌 다이 기준 명칭으로 변경된 것.</p>
+    </div>
+
+    <p class="fade-in">
+      루빈 트레이 1개에는 루빈 패키지 4개가 들어간다. CPX 트레이에는 <strong>8개의 CPX 패키지</strong>가 들어간다. 즉, 패키지당 비용이 루빈의 1/4 수준 × 2배 수량 = <strong>트레이 비용 절반</strong>. 베라루빈 CPX는 기존 루빈 백본을 거의 그대로 유지하고 CPX 모듈 + 커넥트-9 칩 비용만 추가되므로, <strong>전체 랙 시스템 기준으로 절반 이하 비용에 두 배 이상의 성능</strong>을 달성한다.
+    </p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-item">
+        <div class="stat-number">25%</div>
+        <div class="stat-label">CPX 단일<br>제조 비용</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">8개</div>
+        <div class="stat-label">CPX 트레이당<br>패키지 수</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">120%</div>
+        <div class="stat-label">추론 기준<br>추가 성능</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">1.5TB</div>
+        <div class="stat-label">베라 CPU<br>KV 캐시 메모리</div>
+      </div>
+    </div>
+
+    <p class="fade-in">
+      CPX 8개를 병렬 배치하면 프리필의 순차 연산 병목이 해소된다. 결론적으로 단순 스펙상 60% 성능이 아닌, 실제 추론 작업 기준으로 <em>120%의 추가 성능</em>을 달성할 수 있다는 것이 엔비디아의 설명이다.
+    </p>
+  </section>
+
+  <!-- CHART: Rack-level cost-performance -->
+  <div class="container">
+    <div class="chart-title fade-in">— 랙 시스템 단위 비용 대비 추론 성능 효율</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart2" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- PHASE STRATEGY -->
+  <section class="section">
+    <div class="section-label fade-in">제품 로드맵</div>
+    <h2 class="section-title fade-in">3단계 페이즈 전략</h2>
+
+    <p class="fade-in">
+      엔비디아는 CPX를 독립 제품이 아닌, 정교하게 설계된 <strong>징검다리 전략</strong>의 일환으로 포지셔닝하고 있다.
+    </p>
+
+    <div class="timeline fade-in">
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 1 · 2025 하반기</div>
+          <div class="timeline-heading">베라루빈 NVL144</div>
+          <div class="timeline-body">
+            <span class="badge">3.6 엑사플롭스</span><br>
+            <strong>목표: 최대 성능 증명.</strong> AMD 등 GPU 경쟁자에 대한 명확한 서열 정리. 블랙웰 시대에 일부 흔들렸던 기준을 루빈 세대에서 다시 확고히 함.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 2 · 2026~2027년 초</div>
+          <div class="timeline-heading">베라루빈 CPX 추가</div>
+          <div class="timeline-body">
+            <span class="badge">효율 극대화</span><span class="badge gray">생산 확대</span><br>
+            <strong>목표: ASIC의 효율 어젠다에 대한 답변.</strong> 기존 루빈 구매자는 하단부 CPX 모듈 추가만으로 단숨에 2배 이상 성능 확장 가능. 루빈 울트라 등장 전 공백을 메우며 락인 효과 강화.
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="timeline-dot">3</div>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 3 · 2027년 이후</div>
+          <div class="timeline-heading">루빈 울트라</div>
+          <div class="timeline-body">
+            <span class="badge dark">성능 4배 점프</span><br>
+            <strong>목표: 최대 성능 경쟁 종결.</strong> NVL144 대비 성능이 4배 퀀텀 점프 예상. 제론의 여지 없는 엔비디아 시대 공고화.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHART: Roadmap performance -->
+  <div class="container">
+    <div class="chart-title fade-in">— 엔비디아 제품 세대별 추론 성능 지수 (NVL144=100 기준)</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart3" height="220"></canvas>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- STRATEGIC IMPLICATIONS -->
+  <section class="section">
+    <div class="section-label fade-in">전략적 함의</div>
+    <h2 class="section-title fade-in">마진 룸과 결정권</h2>
+
+    <p class="fade-in">
+      CPX의 진짜 의미는 성능 수치가 아니라 <strong>비용 구조의 재설계</strong>에 있다. HBM과 CoWoS(고급 패키징) 두 가지 생산 병목을 모두 우회함으로써 엔비디아는 훨씬 더 자유롭게 생산량을 확대할 수 있게 된다.
+    </p>
+
+    <div class="pull-quote fade-in">
+      <p>"더 거대해진 마진의 룸을 어떻게 활용할지에 대한 결정권은 젠슨황의 손에 있다."</p>
+    </div>
+
+    <p class="fade-in">
+      엔비디아는 이 마진 룸을 두 가지 방향으로 활용할 수 있다: ① 기울기를 더하는 수익 곡선(마진 극대화), 또는 ② 가격 인하를 통한 ASIC 진영의 TCO 경쟁 방어. 어느 쪽을 택하든 주도권은 엔비디아에게 있다는 것이 핵심이다.
+    </p>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>CPX의 전략적 효과</th>
+            <th>내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>생산 확대</td>
+            <td>HBM·CoWoS 병목 회피 → 공급 부족 현상 해소 가능</td>
+          </tr>
+          <tr>
+            <td>락인 강화</td>
+            <td>기존 루빈 구매자가 모듈 추가로 성능 2배 → 생태계 이탈 비용 증가</td>
+          </tr>
+          <tr>
+            <td>점유율 방어</td>
+            <td>단기간 폭발적 시장 보급 → 가속기 품귀 현상 해소</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>ASIC 대응</td>
+            <td>추론 효율 어젠다에 대한 직접적 기술 답변 제시</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CHART: Radar - NVIDIA vs ASIC -->
+  <div class="container">
+    <div class="chart-title fade-in">— 베라루빈 CPX vs ASIC: 경쟁력 레이더</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart4" height="240"></canvas>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- CONCLUSION -->
+  <section class="section">
+    <div class="section-label fade-in">결론</div>
+    <h2 class="section-title fade-in">방심하지 않는 챔피언</h2>
+
+    <p class="fade-in">
+      게임용 그래픽 카드 제조사에서 시대의 패권 전쟁을 벌이는 기업으로 성장해온 지난 30여 년. 엔비디아는 하이퍼 밸류에이션 속에서도 방심하지 않는 모습이다.
+    </p>
+
+    <p class="fade-in">
+      루빈 CPX는 단순한 저가형 제품이 아니다. <strong>추론의 두 단계(프리필/디코드)를 분리</strong>해 각각 최적화하는 새로운 아키텍처이자, 생산 병목 해소·생태계 락인·ASIC 대응을 동시에 달성하는 정교한 전략의 집약체다. GTC 2026에서 구체적인 사양과 가격이 공개될 예정이며, 가격 정책에 따라 AI 가속기 시장의 경쟁 구도가 크게 달라질 것으로 전망된다.
+    </p>
+
+    <div class="callout fade-in">
+      <div class="callout-label">핵심 관전 포인트</div>
+      <p>엔비디아가 CPX의 가격을 어떻게 설정하느냐에 따라 TCO(총소유비용) 경쟁력이 결정되고, ASIC 전환의 당위성도 달라진다. GTC 2026 발표가 핵심 변수.</p>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>원본 영상: NOVA Real Invest · 위기의 엔비디아? ASIC의 도전을 막기 위해 젠슨황이 준비한 무기 · 2026.03.05</p>
+    <p style="margin-top:8px">본 문서는 교육·정보 목적으로 작성되었으며 투자 권유가 아닙니다</p>
+  </div>
+</footer>
+
+<!-- ── SCRIPTS ── -->
+<script>
+// ── Observer 1: 일반 fade-in
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── Chart configs (정의만, 직접 호출 금지)
+const chartConfigs = {};
+
+// Chart 1: 루빈 vs CPX 성능/비용
+chartConfigs['chart1'] = () => {
+  new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+      labels: ['루빈 GPU', '루빈 CPX'],
+      datasets: [
+        {
+          label: '성능 (페타플롭스)',
+          data: [50, 30],
+          backgroundColor: ['#e11d48', '#f43f5e'],
+          borderWidth: 0,
+        },
+        {
+          label: '단일 제조 비용 지수 (루빈=100)',
+          data: [100, 25],
+          backgroundColor: ['#1a1a1a', '#6b7280'],
+          borderWidth: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Mono', size: 10 }, color: '#777' }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' } },
+        y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' } }
+      }
+    }
+  });
+};
+
+// Chart 2: 랙 단위 비용 대비 추론 성능
+chartConfigs['chart2'] = () => {
+  new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+      labels: ['베라루빈 NVL144\n(Phase 1)', '베라루빈 CPX\n(Phase 2)'],
+      datasets: [
+        {
+          label: '랙 비용 지수 (루빈=100)',
+          data: [100, 50],
+          backgroundColor: '#6b7280',
+          borderWidth: 0,
+        },
+        {
+          label: '추론 성능 지수',
+          data: [100, 220],
+          backgroundColor: '#e11d48',
+          borderWidth: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Mono', size: 10 }, color: '#777' }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' } },
+        y: {
+          grid: { color: '#e5e5e5' },
+          ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' },
+          max: 250
+        }
+      }
+    }
+  });
+};
+
+// Chart 3: 로드맵 성능 라인
+chartConfigs['chart3'] = () => {
+  new Chart(document.getElementById('chart3'), {
+    type: 'line',
+    data: {
+      labels: ['블랙웰', '베라루빈\nNVL144', '베라루빈\nCPX', '루빈\n울트라'],
+      datasets: [{
+        label: '추론 성능 지수',
+        data: [30, 100, 220, 400],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 6,
+        pointHoverRadius: 8,
+        fill: true,
+        tension: 0.4,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Mono', size: 10 }, color: '#777' }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' } },
+        y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Mono', size: 10 }, color: '#777' } }
+      }
+    }
+  });
+};
+
+// Chart 4: 레이더 — 베라루빈 CPX vs ASIC
+chartConfigs['chart4'] = () => {
+  new Chart(document.getElementById('chart4'), {
+    type: 'radar',
+    data: {
+      labels: ['추론 효율', '생산 확장성', '생태계 통합', '가격 경쟁력', '소프트웨어(CUDA)', '훈련 성능'],
+      datasets: [
+        {
+          label: '베라루빈 CPX',
+          data: [88, 90, 95, 72, 98, 75],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.12)',
+          pointBackgroundColor: '#e11d48',
+          borderWidth: 2
+        },
+        {
+          label: 'ASIC (구글 TPU 기준)',
+          data: [82, 65, 60, 85, 45, 70],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          pointBackgroundColor: '#2563eb',
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1800,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 120
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Mono', size: 10 }, color: '#777' }
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          grid: { color: '#e5e5e5' },
+          pointLabels: { font: { family: 'Source Serif 4', size: 11 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// ── Observer 2: 차트 전용
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
