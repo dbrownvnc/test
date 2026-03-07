@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>17년 만에 환율 1500원 돌파 — 미국 증시 분석 Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --bg2: #141820;
+      --bg3: #1a2030;
+      --card: #1e2535;
+      --border: #2a3348;
+      --accent: #e8a020;
+      --accent2: #f0c050;
+      --red: #e84040;
+      --green: #30c878;
+      --blue: #4899e8;
+      --text: #d8dde8;
+      --muted: #7888a0;
+      --heading: #f0f4ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, #0d1220 0%, #14203a 50%, #0d0f14 100%);
+      padding: 48px 24px 36px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%);
+    }
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--heading);
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .badge {
+      background: rgba(232,160,32,0.12);
+      border: 1px solid rgba(232,160,32,0.3);
+      color: var(--accent2);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.06em;
+    }
+    .badge.red {
+      background: rgba(232,64,64,0.12);
+      border-color: rgba(232,64,64,0.3);
+      color: #f08080;
+    }
+    .badge.green {
+      background: rgba(48,200,120,0.12);
+      border-color: rgba(48,200,120,0.3);
+      color: var(--green);
+    }
+
+    /* SECTION */
+    section {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      color: var(--heading);
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--heading);
+      margin: 18px 0 8px;
+      letter-spacing: 0.04em;
+    }
+    p { margin-bottom: 10px; color: var(--text); }
+    strong { color: var(--heading); font-weight: 600; }
+    em { color: var(--accent2); font-style: normal; font-weight: 600; }
+
+    /* HIGHLIGHT BOX */
+    .highlight {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding: 14px 16px;
+      margin: 14px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+    }
+    .highlight.red { border-left-color: var(--red); }
+    .highlight.green { border-left-color: var(--green); }
+    .highlight.blue { border-left-color: var(--blue); }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .stat-value { font-size: 22px; font-family: 'Playfair Display', serif; color: var(--heading); }
+    .stat-value.red { color: var(--red); }
+    .stat-value.green { color: var(--green); }
+    .stat-change { font-size: 11px; margin-top: 2px; color: var(--muted); }
+
+    /* TABLE */
+    .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: var(--bg3);
+      color: var(--muted);
+      font-weight: 600;
+      text-align: left;
+      padding: 9px 12px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    .up { color: var(--green); font-weight: 600; }
+    .dn { color: var(--red); font-weight: 600; }
+
+    /* CHART */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 16px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+
+    /* TIMELINE */
+    .timeline { margin: 14px 0; }
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .tl-dot {
+      width: 32px; height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--accent);
+    }
+    .tl-dot.red { border-color: var(--red); color: var(--red); }
+    .tl-dot.green { border-color: var(--green); color: var(--green); }
+    .tl-content { flex: 1; }
+    .tl-title { font-weight: 600; color: var(--heading); font-size: 13px; margin-bottom: 3px; }
+    .tl-desc { font-size: 13px; color: var(--text); }
+
+    /* TAG LIST */
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+    .tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .tag.warn { border-color: rgba(232,64,64,0.4); color: #f08080; background: rgba(232,64,64,0.08); }
+    .tag.ok { border-color: rgba(48,200,120,0.4); color: var(--green); background: rgba(48,200,120,0.08); }
+
+    /* DIVIDER */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 18px 0;
+      font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .quote-block {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 14px 0;
+      background: var(--card);
+      position: relative;
+    }
+    .quote-block::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      color: var(--accent);
+      opacity: 0.25;
+      position: absolute;
+      top: -12px; left: 12px;
+      line-height: 1;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: var(--heading);
+      font-style: italic;
+      margin-left: 12px;
+    }
+    .quote-source { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: right; }
+
+    /* NUMBERED LIST */
+    .num-list { list-style: none; padding: 0; margin: 12px 0; }
+    .num-list li {
+      display: flex; gap: 12px; margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .num-list li .n {
+      width: 24px; height: 24px; min-width: 24px;
+      background: var(--accent);
+      color: #000; font-weight: 700; font-size: 12px;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+
+    .chip-strip { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+    .chip {
+      padding: 3px 10px; border-radius: 20px; font-size: 12px;
+      background: var(--bg3); border: 1px solid var(--border); color: var(--muted);
+    }
+    .chip.red { background: rgba(232,64,64,0.1); border-color: rgba(232,64,64,0.3); color:#f08080; }
+    .chip.green { background: rgba(48,200,120,0.1); border-color: rgba(48,200,120,0.3); color: var(--green); }
+    .chip.amber { background: rgba(232,160,32,0.1); border-color: rgba(232,160,32,0.3); color: var(--accent2); }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-label">Market Weekly · 2026년 3월 8일</div>
+  <h1>17년 만에 환율 1,500원 돌파<br>— 위기인가, 기회인가?</h1>
+  <p class="hero-sub">미국·이란 전쟁 리스크 · 유가 급등 · AI 칩 수출 규제 · 스태그플레이션 공포<br>ft. 전쟁별 S&amp;P 500 수익률 분석 (Morgan Stanley)</p>
+  <div class="hero-badges">
+    <span class="badge red">S&amp;P 500 −2%</span>
+    <span class="badge red">SOX −7.8%</span>
+    <span class="badge red">KRW 1,503원</span>
+    <span class="badge">WTI $90.9</span>
+    <span class="badge green">팔란티어 +14.5%</span>
+    <span class="badge green">AI 소프트웨어 ↑</span>
+  </div>
+</div>
+
+<!-- 1. 주간 지수 동향 -->
+<section>
+  <div class="section-label fade-in">01 · Weekly Market Snapshot</div>
+  <h2 class="fade-in">이번 주 미국 4대 지수 성과</h2>
+
+  <p class="fade-in">전쟁 뉴스와 고용 충격이 맞물리며 주식·채권 동반 하락. 특이점은 <strong>가치주(다우 −3%)가 성장주(나스닥 −1.2%)보다 더 크게 빠졌다</strong>는 것으로, 에너지 비용에 민감한 전통 산업 대비 소프트웨어·AI 섹터의 상대적 방어력이 부각됐습니다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="indexChart" height="220"></canvas>
+  </div>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-label">다우존스</div>
+      <div class="stat-value red">−3.0%</div>
+      <div class="stat-change">가치주 중심 하락</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">S&amp;P 500</div>
+      <div class="stat-value red">−2.0%</div>
+      <div class="stat-change">대부분 종목 하락</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">나스닥</div>
+      <div class="stat-value red">−1.2%</div>
+      <div class="stat-change">상대적 방어 성공</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">장기 채권</div>
+      <div class="stat-value red">−2.6%</div>
+      <div class="stat-change">주식·채권 동반 약세</div>
+    </div>
+  </div>
+
+  <div class="highlight fade-in">
+    💡 <strong>주식과 채권이 함께 내리는 국면</strong>은 시장이 단순 경기침체가 아닌 <em>인플레이션 충격</em>을 반영하고 있다는 신호입니다. 안전자산인 채권으로도 도망갈 곳이 없는 상황.
+  </div>
+</section>
+
+<!-- 2. 섹터별 성과 -->
+<section>
+  <div class="section-label fade-in">02 · Sector Rotation</div>
+  <h2 class="fade-in">섹터 분화 — 전쟁이 가른 승자와 패자</h2>
+
+  <div class="chart-container fade-in">
+    <canvas id="sectorChart" height="250"></canvas>
+  </div>
+
+  <div class="divider fade-in">이번 주 주목 종목</div>
+
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-dot green">+</div>
+      <div class="tl-content">
+        <div class="tl-title">팔란티어 (PLTR) +14.5%</div>
+        <div class="tl-desc">전쟁 리스크 확대 → AI 방산 대장주로 자금 집결. 미국 정보기관에 실제 납품 중인 유일한 민간 기업. <strong>쌍바닥 형성 후 상승 추세선 돌파 시도 중</strong>. 하락 추세선 돌파 여부가 다음 모멘텀 분기점.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green">+</div>
+      <div class="tl-content">
+        <div class="tl-title">브로드컴 (AVGO) — 실적 반등</div>
+        <div class="tl-desc">AI 매출 <strong>전년 대비 2배 폭증</strong>. 2분기 추가 성장 자신감 표명. 엔비디아 vs 브로드컴 AI 반도체 경쟁 구도에서 재평가 요인 발생.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green">+</div>
+      <div class="tl-content">
+        <div class="tl-title">AI 소프트웨어 섹터 강세</div>
+        <div class="tl-desc">설비·원유 불필요 → 유가 상승 직접 영향 없음. 최근 조정폭 컸던 만큼 바닥 확인 랠리. 전쟁이 오히려 AI 수요를 자극하는 역설적 수혜.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red">−</div>
+      <div class="tl-content">
+        <div class="tl-title">홈디포 (HD) −5.2%</div>
+        <div class="tl-desc">하락 채널 하단부에서 지지 테스트 중. <strong>미국 주택 경기 직결 기업</strong>으로 소비 심리 위축 직격. 단, 모기지 금리 하락 시 바람 전환 가능 — 지지선 확인이 관건.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">✓</div>
+      <div class="tl-content">
+        <div class="tl-title">신고가 경신 고배당주</div>
+        <div class="tl-desc">엑손모빌, 알트리아, 록히드마틴 — 에너지·방산 중심으로 신고가. 방어주 성격 고배당주 SCHD도 신고가 후 −2.6% 마감.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight red fade-in">
+    ⚠️ <strong>방산 ETF 하락 경고</strong> — 전쟁 중인데 방산주가 빠진 이유: <em>이미 선반영 완료</em>. 호재 뉴스에 주가가 빠지는 건 "시장이 이미 알고 있었다"는 신호. 지금은 뉴스가 아니라 주가 방향을 먼저 봐야 합니다.
+  </div>
+</section>
+
+<!-- 3. 환율 -->
+<section>
+  <div class="section-label fade-in">03 · FX · Exchange Rate</div>
+  <h2 class="fade-in">원달러 1,500원 돌파 — 17년 만의 사건</h2>
+
+  <p class="fade-in">새벽 시간에 <strong>1,503원</strong>을 터치. 이 레벨을 넘긴 것은 역사상 세 번뿐입니다.</p>
+
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-dot red">98</div>
+      <div class="tl-content">
+        <div class="tl-title">1998년 IMF 외환위기</div>
+        <div class="tl-desc">외환보유액 고갈 → 국가 신용 붕괴. 한국 자체의 위기.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red">08</div>
+      <div class="tl-content">
+        <div class="tl-title">2008년 글로벌 금융위기</div>
+        <div class="tl-desc">리먼 사태 → 미국 부동산 붕괴 여파. 달러 강세로 최고 <strong>1,570원</strong>까지 상승.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot amber">26</div>
+      <div class="tl-content">
+        <div class="tl-title">2026년 현재 — 구조적 압박</div>
+        <div class="tl-desc">뚜렷한 단일 위기 없이 돌파. <strong>이것이 더 무서운 이유</strong>: 구조적 달러 강세가 고착화될 수 있다는 신호.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="fxChart" height="220"></canvas>
+  </div>
+
+  <h3 class="fade-in">같은 날 주요 통화 낙폭 비교</h3>
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>통화</th><th>달러 대비 변화</th><th>환율</th></tr></thead>
+      <tbody>
+        <tr><td>🇰🇷 원화 (KRW)</td><td class="dn">−3.1%</td><td class="dn">1,503원</td></tr>
+        <tr><td>🇪🇺 유로 (EUR)</td><td class="dn">−1.2%</td><td>—</td></tr>
+        <tr><td>🇯🇵 엔화 (JPY)</td><td class="dn">−0.9%</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight fade-in">
+    📌 <strong>원화가 유독 더 크게 빠지는 이유</strong><br>
+    ① 2015년 이후 미국 GDP 성장률이 한국을 역전 → 자본 미국 집중<br>
+    ② 한미 금리 격차 지속 → 달러 수익률 우위<br>
+    ③ 2014년 이후 환율이 구조적 우상향 추세 전환<br>
+    → 환전 기준선: <em>직전 3년 평균(1,350원) → 직전 1년 평균으로 상향 조정 필요</em>
+  </div>
+
+  <div class="highlight red fade-in">
+    🚨 <strong>고환율 장기화 가능성 요인</strong><br>
+    달러 안전자산 선호 / 호르무즈 해협 봉쇄 / 외국인 자금 유출 / 한미 금리차 / 1,500원 레벨 심리적 문이 열림
+  </div>
+</section>
+
+<!-- 4. 고용·스태그플레이션 -->
+<section>
+  <div class="section-label fade-in">04 · Macro · Stagflation Risk</div>
+  <h2 class="fade-in">2월 고용 충격 + 유가 급등 = 스태그플레이션 공포</h2>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-label">2월 비농업 고용</div>
+      <div class="stat-value red">−92K</div>
+      <div class="stat-change">예상치 하회 · 냉각 신호</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">실업률</div>
+      <div class="stat-value red">4.4%</div>
+      <div class="stat-change">상승 추세 진입</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">WTI 유가</div>
+      <div class="stat-value red">$90.9</div>
+      <div class="stat-change">2주 만에 $65→$90 폭등</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">호르무즈 봉쇄</div>
+      <div class="stat-value" style="font-size:16px; color:var(--accent)">위기</div>
+      <div class="stat-change">글로벌 공급망 타격</div>
+    </div>
+  </div>
+
+  <div class="highlight red fade-in">
+    ⚡ <strong>스태그플레이션(Stagflation)</strong> = 경기침체(Stagnation) + 인플레이션(Inflation)<br><br>
+    전쟁 → 유가 상승 → 전반적 물가 상승 → 소비 둔화 → 고용 감소<br>
+    <strong>연준 딜레마</strong>: 금리 올리면 경기 더 악화 / 금리 내리면 물가 재급등. 어느 선택도 상처가 남는 구조.
+  </div>
+
+  <h3 class="fade-in">호르무즈 해협 의존도 — 봉쇄 시 피해 국가 순위</h3>
+
+  <div class="chart-container fade-in">
+    <canvas id="hormuzChart" height="220"></canvas>
+  </div>
+
+  <p class="fade-in" style="font-size:13px; color:var(--muted);">한국은 12% 비중으로 세계 3위 피해국. 아시아 전체가 에너지 공급망 취약성에 노출.</p>
+
+  <div class="highlight blue fade-in">
+    🚢 <strong>봉쇄 수혜 ETF</strong>: 유조선 해운 ETF <em>BWET</em> — 연초 대비 +198% 급등. 에너지 섹터(XLE)도 강세 지속. 단, 급등 후 추격 매수 시 리스크 관리 필수.
+  </div>
+</section>
+
+<!-- 5. 유가 상승 피해 산업 -->
+<section>
+  <div class="section-label fade-in">05 · Oil Impact</div>
+  <h2 class="fade-in">유가 상승이 산업에 전달되는 4단계 충격</h2>
+
+  <ul class="num-list fade-in">
+    <li>
+      <span class="n">1</span>
+      <div>
+        <strong>연료비 의존 산업 — 즉각 직격탄</strong><br>
+        <span style="font-size:13px">항공사·운송업체: 연료비 = 전체 비용의 30%+. 유가 오르면 티켓가 인상 or 마진 포기. 다음 분기 실적 발표 시 악화 반영 예정.</span>
+        <div class="chip-strip" style="margin-top:6px">
+          <span class="chip red">항공사</span><span class="chip red">해운·트럭</span><span class="chip red">택배</span>
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="n">2</span>
+      <div>
+        <strong>수요 감소 민간 산업</strong><br>
+        <span style="font-size:13px">항공권 비싸지면 여행 예약 감소 → 호텔·관광·레저 연쇄 둔화. 유가 충격이 교통 문제를 넘어 소비 전체를 위축.</span>
+        <div class="chip-strip" style="margin-top:6px">
+          <span class="chip red">항공권 예약</span><span class="chip red">호텔</span><span class="chip red">관광</span>
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="n">3</span>
+      <div>
+        <strong>소비 위축 내수 산업</strong><br>
+        <span style="font-size:13px">운송비 상승 → 물가 상승 → 소비 둔화 → 유통·소비재 실적 타격. 당장 체감 안 되지만 올해 실적에 조용히 반영.</span>
+        <div class="chip-strip" style="margin-top:6px">
+          <span class="chip red">유통</span><span class="chip red">소비재</span><span class="chip red">홈디포</span>
+        </div>
+      </div>
+    </li>
+    <li>
+      <span class="n">4</span>
+      <div>
+        <strong>구조적 피해 산업</strong><br>
+        <span style="font-size:13px">원가는 오르는데 제품가 인상 불가 → 마진 압착 → 실적 붕괴. 화학·산업재가 대표적.</span>
+        <div class="chip-strip" style="margin-top:6px">
+          <span class="chip red">화학</span><span class="chip red">산업재·소재</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="highlight green fade-in">
+    ✅ <strong>유가 상승 수혜 섹터</strong>: 에너지(XLE), 유조선 해운(BWET), AI 소프트웨어(설비·원유 불필요), 방산(팔란티어·록히드)
+  </div>
+</section>
+
+<!-- 6. 전쟁별 S&P500 분석 -->
+<section>
+  <div class="section-label fade-in">06 · War &amp; S&amp;P 500 — Morgan Stanley</div>
+  <h2 class="fade-in">과거 전쟁은 S&amp;P 500을 어떻게 움직였나?</h2>
+
+  <p class="fade-in">Morgan Stanley가 정리한 1950~2022년 전쟁별 S&amp;P 500 수익률 데이터. 같은 중동 전쟁이라도 결과는 정반대였습니다. <strong>핵심 변수는 유가 충격의 깊이와 지속 시간.</strong></p>
+
+  <div class="chart-container fade-in">
+    <canvas id="warChart" height="250"></canvas>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>전쟁/사건</th><th>배경</th><th>12개월 수익률</th></tr></thead>
+      <tbody>
+        <tr><td>욤키푸르 전쟁 (1973)</td><td>오일쇼크 동반</td><td class="dn">−43.2%</td></tr>
+        <tr><td>이란·이라크 전쟁</td><td>유가 충격 제한적</td><td class="up">+25.9%</td></tr>
+        <tr><td>걸프전 (1991)</td><td>단기 유가 급등 후 안정</td><td class="up">+12.5%</td></tr>
+        <tr><td>이라크전 (2003)</td><td>공급 안정 유지</td><td class="up">+18.4%</td></tr>
+        <tr><td>러시아·우크라이나 (2022)</td><td>에너지 제재</td><td class="dn">−6.8%</td></tr>
+        <tr><td style="font-weight:700">전체 평균</td><td>1950~2022</td><td class="up" style="font-weight:700">+8.4%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight green fade-in">
+    📊 <strong>역사적 결론</strong>: 전쟁 발발 12개월 후 평균 수익률 <em>+8.4%</em>. 전쟁 자체보다 유가와 기업 실적이 시장 방향을 결정. <strong>지금 유가($90)가 얼마나 오래, 얼마나 높이 유지되느냐</strong>가 가장 중요한 변수.
+  </div>
+
+  <div class="quote-block fade-in">
+    <p class="quote-text">100년간 S&amp;P 500 차트는 2차 세계대전부터 러·우 전쟁까지 단 한 번도 방향이 바뀌지 않았다. 전쟁은 지나갔고, 시장은 계속 올랐다.</p>
+    <div class="quote-source">— 수페티, 2026년 3월 8일</div>
+  </div>
+</section>
+
+<!-- 7. AI 칩 수출 규제 -->
+<section>
+  <div class="section-label fade-in">07 · AI Chip Export Controls</div>
+  <h2 class="fade-in">AI 칩 수출 규제 — 반도체 급락의 배경</h2>
+
+  <p class="fade-in">미국 정부가 정부 승인 없이 AI 칩 해외 판매를 금지하는 방안을 검토. <strong>아직 확정은 아닌 검토 단계.</strong></p>
+
+  <h3 class="fade-in">금요일 반도체 관련주 하루 낙폭</h3>
+
+  <div class="chart-container fade-in">
+    <canvas id="semiDropChart" height="220"></canvas>
+  </div>
+
+  <div class="highlight fade-in">
+    🔑 <strong>미·중 AI 패권 경쟁 핵심 지표</strong><br><br>
+    • AI 논문 점유율: 중국 <em>약 23%</em> — 미국 추월<br>
+    • AI 특허: 중국 <em>60%+</em> 보유<br>
+    • 하이퍼스케일 데이터센터: 미국 <em>160개</em> vs 중국 60개<br>
+    → 연구 속도는 중국이 앞서지만, 인프라 격차는 미국이 유지 중
+  </div>
+
+  <h3 class="fade-in">AI 데이터센터 전력 사용량 전망 (GW)</h3>
+
+  <div class="chart-container fade-in">
+    <canvas id="aiPowerChart" height="220"></canvas>
+  </div>
+
+  <p class="fade-in">중국·인도가 미국보다 빠른 성장률 예고 → 미국이 수출 통제로 타국 AI 인프라 성장을 견제하는 구조적 이유.</p>
+
+  <div class="highlight red fade-in">
+    ⚠️ <strong>투자자 주의</strong>: 규제 <em>확정 전까지</em> 반도체 섣불리 매매 금물. 규제 현실화 시 추가 하락 / 완화·무산 시 빠른 되돌림 가능. 3월 중순 NVIDIA GTC 행사(젠슨 황 직접 발표) — GPU 로드맵·AI 인프라 계획 공개 예정. <strong>다음 방향의 분기점.</strong>
+  </div>
+</section>
+
+<!-- 8. 버크셔 해서웨이 -->
+<section>
+  <div class="section-label fade-in">08 · Berkshire Hathaway</div>
+  <h2 class="fade-in">그레그 아벨 CEO — 첫 주주 서한, 철학은 그대로</h2>
+
+  <p class="fade-in">버핏 후계자 그레그 아벨이 취임 후 첫 주주 서한 발표. 22개월 만에 자사주 매입 재개 선언 + <strong>연봉 1,500만 달러 전액 자사주 매입 활용</strong>.</p>
+
+  <div class="highlight fade-in">
+    📋 <strong>버크셔 투자 방향 요약</strong><br>
+    • 50년 넘은 가치투자 원칙 유지<br>
+    • 보험 사업 = 핵심 뿌리<br>
+    • 애플·코카콜라·아메리칸 익스프레스·무디스 = 4대 핵심 유지<br>
+    • 스타일 변화: 버핏의 "전화 한 통 수십조 베팅" → 아벨의 "운영 다듬고 리스크 관리". <em>같은 악보, 연주자가 바뀌었다.</em>
+  </div>
+
+  <h3 class="fade-in">핵심 4종목 포트폴리오 분석</h3>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>종목</th><th>비중</th><th>특징</th></tr></thead>
+      <tbody>
+        <tr><td>애플 (AAPL)</td><td>~40%+</td><td>최대 보유, 생태계 독점</td></tr>
+        <tr><td>아메리칸 익스프레스 (AXP)</td><td>포함</td><td>프리미엄 소비 경제 지표</td></tr>
+        <tr><td>코카콜라 (KO)</td><td>포함</td><td>배당 성장의 교과서</td></tr>
+        <tr><td>무디스 (MCO)</td><td>포함</td><td>데이터·신용평가 독점</td></tr>
+        <tr><td style="font-weight:700" colspan="2">4종목 합산 비중</td><td class="up" style="font-weight:700">56%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight green fade-in">
+    💰 <strong>버크셔 4종목 환산 배당률: 14.6%</strong> — 아무것도 안 해도 S&amp;P 500 배당 수익률을 초과. 코카콜라의 경우 버핏 취득 단가 기준 실질 배당률 <em>50%+</em> (1990년 $0.1 → 2025년 $2.04, 35년간 20배 성장).
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="kokeChart" height="220"></canvas>
+  </div>
+</section>
+
+<!-- 9. 다음 주 일정 -->
+<section>
+  <div class="section-label fade-in">09 · Calendar · Next Week</div>
+  <h2 class="fade-in">다음 주 주요 일정 &amp; 배당 체크</h2>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>날짜</th><th>이벤트</th><th>중요도</th></tr></thead>
+      <tbody>
+        <tr><td>월 3/9</td><td>HP 실적 발표 — PC·기업 IT 수요</td><td>★★☆</td></tr>
+        <tr><td>화 3/10</td><td>오라클 실적 (클라우드), 에어로 바이로먼트 (방산)</td><td>★★☆</td></tr>
+        <tr><td>수 3/11</td><td style="color:var(--accent2); font-weight:600">CPI 발표 — 물가 방향 금리 전망 핵심</td><td>★★★</td></tr>
+        <tr><td>목 3/12</td><td>어도비, 도큐사인, 울타뷰티 실적</td><td>★★☆</td></tr>
+        <tr><td>3월 중순</td><td style="color:var(--green); font-weight:600">NVIDIA GTC — 젠슨 황 GPU 로드맵 발표</td><td>★★★</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="fade-in">3/9~3/20 배당락 예정 종목</h3>
+  <div class="chip-strip fade-in">
+    <span class="chip amber">옥시덴탈 (OXY)</span>
+    <span class="chip amber">홈디포 (HD)</span>
+    <span class="chip amber">도미노 피자 (DPZ)</span>
+    <span class="chip amber">코카콜라 (KO)</span>
+  </div>
+
+  <div class="highlight blue fade-in">
+    🕙 <strong>서머타임 시작</strong>: 다음 주부터 미국 증시 정규장 오후 10:30 시작 (기존 11:30).
+  </div>
+</section>
+
+<!-- 10. 투자 시사점 -->
+<section>
+  <div class="section-label fade-in">10 · Investment Takeaways</div>
+  <h2 class="fade-in">지금 시장에서 확인해야 할 것들</h2>
+
+  <ul class="num-list fade-in">
+    <li>
+      <span class="n">①</span>
+      <div><strong>유가 $90 돌파 — WTI 추이 최우선 모니터링</strong><br>
+      <span style="font-size:13px">전쟁 충격의 크기는 결국 유가가 결정. $100 돌파 시 스태그플레이션 공포 심화. 역사적 전쟁 S&amp;P 500 평균 수익률 +8.4%도 유가 안정이 전제.</span></div>
+    </li>
+    <li>
+      <span class="n">②</span>
+      <div><strong>3/11 CPI — 금리 방향 최대 변수</strong><br>
+      <span style="font-size:13px">유가 급등 직후 CPI. 예상치 상회 시 연준 금리 동결·인상 압박 → 증시 추가 조정. 하회 시 완화 기대 회복.</span></div>
+    </li>
+    <li>
+      <span class="n">③</span>
+      <div><strong>반도체 50일 이동평균선 회복 여부</strong><br>
+      <span style="font-size:13px">SOX 50일선 아래 위치. 회복 실패 시 추가 하락 / 회복 성공 시 장기 상승 채널 유지. GTC 행사가 트리거 될 수 있음.</span></div>
+    </li>
+    <li>
+      <span class="n">④</span>
+      <div><strong>레버리지 상품 리스크 관리 필수</strong><br>
+      <span style="font-size:13px">SOXL 매수·매도 동시 급증 = 방향성 혼재. 지금 같은 변동성 구간에서는 방향보다 리스크 관리가 우선.</span></div>
+    </li>
+    <li>
+      <span class="n">⑤</span>
+      <div><strong>환율 기준선 재설정</strong><br>
+      <span style="font-size:13px">환전 기준을 직전 3년 평균(1,350원)에서 직전 1년 평균으로 상향 조정. 1,500원 레벨 재돌파 가능성 열려 있음.</span></div>
+    </li>
+  </ul>
+
+  <div class="quote-block fade-in">
+    <p class="quote-text">예측보다 중요한 것은 준비이다.</p>
+    <div class="quote-source">— 워런 버핏</div>
+  </div>
+</section>
+
+<footer>
+  <p>📺 원본: <strong>수페티</strong> · 2026년 3월 8일 방영</p>
+  <p style="margin-top:6px">본 문서는 투자 참고용이며 투자 권유가 아닙니다. 투자 결정은 본인의 판단과 책임 하에 이루어져야 합니다.</p>
+</footer>
+
+<script>
+// ===== OBSERVER 1: FADE-IN =====
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ===== CHART CONFIGS =====
+const chartConfigs = {};
+
+// 1. 주간 지수
+chartConfigs['indexChart'] = () => {
+  new Chart(document.getElementById('indexChart'), {
+    type: 'bar',
+    data: {
+      labels: ['다우존스', 'S&P 500', '나스닥', '장기채권'],
+      datasets: [{
+        label: '주간 수익률 (%)',
+        data: [-3.0, -2.0, -1.2, -2.6],
+        backgroundColor: ['#e84040cc','#e84040cc','#e05050cc','#e84040cc'],
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { ticks: { color: '#7888a0', font: { size: 11 } }, grid: { color: '#2a3348' } },
+        y: {
+          ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + '%' },
+          grid: { color: '#2a3348' },
+          suggestedMin: -4, suggestedMax: 0
+        }
+      }
+    }
+  });
+};
+
+// 2. 섹터 성과
+chartConfigs['sectorChart'] = () => {
+  new Chart(document.getElementById('sectorChart'), {
+    type: 'bar',
+    data: {
+      labels: ['원자력', 'SOX 반도체', '소재', '중형가치', '장기채권', 'S&P500', 'SCHD배당', 'AI소프트웨어', '팔란티어'],
+      datasets: [{
+        label: '주간 수익률 (%)',
+        data: [-9.0, -7.8, -6.6, -3.6, -2.6, -2.0, -2.6, 4.5, 14.5],
+        backgroundColor: ctx => ctx.raw < 0 ? '#e84040bb' : '#30c878bb',
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 100 },
+      animations: { x: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
+      scales: {
+        x: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#d8dde8', font: { size: 11 } }, grid: { color: '#2a3348' } }
+      }
+    }
+  });
+};
+
+// 3. 환율 역사
+chartConfigs['fxChart'] = () => {
+  new Chart(document.getElementById('fxChart'), {
+    type: 'line',
+    data: {
+      labels: ['1995','1997','1998\nIMF','2000','2002','2004','2006','2008\n리먼','2010','2012','2014','2016','2018','2020','2022','2024','2026\n현재'],
+      datasets: [{
+        label: 'USD/KRW',
+        data: [770, 890, 1695, 1130, 1330, 1145, 950, 1570, 1130, 1070, 1050, 1200, 1100, 1190, 1450, 1380, 1503],
+        borderColor: '#e8a020',
+        backgroundColor: 'rgba(232,160,32,0.08)',
+        tension: 0.4,
+        fill: true,
+        pointRadius: ctx => [2,2,6,2,2,2,2,6,2,2,2,2,2,2,2,2,6][ctx.dataIndex],
+        pointBackgroundColor: ctx => [2,2,6,2,2,2,2,6,2,2,2,2,2,2,2,2,6][ctx.dataIndex] > 2 ? '#e84040' : '#e8a020',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ₩${ctx.raw}` } }
+      },
+      scales: {
+        x: { ticks: { color: '#7888a0', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => '₩'+v }, grid: { color: '#2a3348' }, suggestedMin: 700 }
+      }
+    }
+  });
+};
+
+// 4. 호르무즈
+chartConfigs['hormuzChart'] = () => {
+  new Chart(document.getElementById('hormuzChart'), {
+    type: 'bar',
+    data: {
+      labels: ['중국', '인도', '한국', '일본'],
+      datasets: [{
+        label: '호르무즈 해협 무역 의존도 (%)',
+        data: [37.7, 14.7, 12.0, 10.9],
+        backgroundColor: ['#e84040cc','#e05050cc','#d08030cc','#c07040cc'],
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { ticks: { color: '#d8dde8', font: { size: 12 } }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#2a3348' } }
+      }
+    }
+  });
+};
+
+// 5. 전쟁별 S&P500
+chartConfigs['warChart'] = () => {
+  new Chart(document.getElementById('warChart'), {
+    type: 'bar',
+    data: {
+      labels: ['욤키푸르\n(1973)', '이란·이라크\n전쟁', '걸프전\n(1991)', '이라크전\n(2003)', '러·우크라\n(2022)', '전체평균'],
+      datasets: [{
+        label: '12개월 수익률 (%)',
+        data: [-43.2, 25.9, 12.5, 18.4, -6.8, 8.4],
+        backgroundColor: ctx => ctx.raw < 0 ? '#e84040cc' : '#30c878cc',
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { ticks: { color: '#d8dde8', font: { size: 10 } }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#2a3348' } }
+      }
+    }
+  });
+};
+
+// 6. 반도체 낙폭
+chartConfigs['semiDropChart'] = () => {
+  new Chart(document.getElementById('semiDropChart'), {
+    type: 'bar',
+    data: {
+      labels: ['램리서치', '샌디스크', '마이크론', 'AMD', 'NVIDIA'],
+      datasets: [{
+        label: '금요일 하락률 (%)',
+        data: [-7.2, -6.8, -6.7, -3.5, -3.0],
+        backgroundColor: '#e84040cc',
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } }
+      },
+      scales: {
+        x: { ticks: { color: '#d8dde8', font: { size: 11 } }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + '%' }, grid: { color: '#2a3348' }, suggestedMax: 0 }
+      }
+    }
+  });
+};
+
+// 7. AI 전력 사용
+chartConfigs['aiPowerChart'] = () => {
+  new Chart(document.getElementById('aiPowerChart'), {
+    type: 'bar',
+    data: {
+      labels: ['미국 (현재)', '중국 (현재)', '인도 (현재)', '미국 (2030)', '중국 (2030)', '인도 (2030)'],
+      datasets: [{
+        label: '전력 사용량 (GW)',
+        data: [90, 60, 12, 170, 130, 35],
+        backgroundColor: ['#4899e8bb','#e84040bb','#30c878bb','#4899e8','#e84040','#30c878'],
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 100 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} GW` } }
+      },
+      scales: {
+        x: { ticks: { color: '#d8dde8', font: { size: 10 }, maxRotation: 30 }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => v + ' GW' }, grid: { color: '#2a3348' } }
+      }
+    }
+  });
+};
+
+// 8. 코카콜라 배당 성장
+chartConfigs['kokeChart'] = () => {
+  new Chart(document.getElementById('kokeChart'), {
+    type: 'line',
+    data: {
+      labels: ['1990','1995','2000','2005','2010','2015','2020','2025'],
+      datasets: [{
+        label: '코카콜라 연간 배당 ($/주)',
+        data: [0.10, 0.22, 0.68, 1.06, 1.76, 1.96, 1.68, 2.04],
+        borderColor: '#e8a020',
+        backgroundColor: 'rgba(232,160,32,0.1)',
+        tension: 0.4,
+        fill: true,
+        pointRadius: 5,
+        pointBackgroundColor: '#e8a020',
+        borderWidth: 2.5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` $${ctx.raw}` } }
+      },
+      scales: {
+        x: { ticks: { color: '#7888a0', font: { size: 11 } }, grid: { color: '#2a3348' } },
+        y: { ticks: { color: '#7888a0', font: { size: 11 }, callback: v => '$'+v }, grid: { color: '#2a3348' } }
+      }
+    }
+  });
+};
+
+// ===== OBSERVER 2: CHART TRIGGER =====
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
