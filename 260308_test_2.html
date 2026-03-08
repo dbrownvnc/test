@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Private Credit Is Cracking — Eric Rosen Analysis</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --chart1: #e11d48;
+      --chart2: #1a1a1a;
+      --chart3: #6b7280;
+      --chart4: #2563eb;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+      --border: #e5e5e5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .masthead {
+      background: var(--text);
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .masthead-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+    .masthead-date {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      opacity: .5;
+    }
+
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(225,29,72,.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-category {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(26px, 6vw, 40px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      letter-spacing: -.5px;
+    }
+    .hero-title span { color: var(--accent2); }
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,.65);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .hero-meta {
+      margin-top: 28px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-meta-item strong {
+      color: rgba(255,255,255,.85);
+      font-weight: 500;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── SECTION ── */
+    .section { padding: 36px 0 0; }
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 36px 0 0;
+    }
+
+    /* ── PROSE ── */
+    p {
+      color: var(--text);
+      margin-bottom: 14px;
+      font-size: 15.5px;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--text); font-weight: 600; }
+    em { color: var(--accent); font-style: italic; }
+
+    /* ── PULL QUOTE ── */
+    .pullquote {
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      margin: 24px 0;
+      background: var(--bg2);
+      border-radius: 0 6px 6px 0;
+    }
+    .pullquote p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .pullquote cite {
+      display: block;
+      margin-top: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: var(--text);
+      color: #fff;
+      padding: 24px 20px;
+      border-radius: 8px;
+      margin: 24px 0;
+    }
+    .highlight-box-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+    .highlight-box p {
+      color: rgba(255,255,255,.85);
+      font-size: 14.5px;
+      line-height: 1.65;
+    }
+    .highlight-box ul {
+      padding-left: 0;
+      list-style: none;
+    }
+    .highlight-box li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: rgba(255,255,255,.8);
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .highlight-box li:last-child { border-bottom: none; }
+    .highlight-box li::before {
+      content: '▸';
+      color: var(--accent2);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── WARNING BOX ── */
+    .warning-box {
+      border: 1.5px solid var(--accent);
+      padding: 18px 20px;
+      border-radius: 8px;
+      margin: 24px 0;
+      background: #fff5f7;
+    }
+    .warning-box-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .warning-box p {
+      font-size: 14.5px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ── STAT GRID ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-card.accent {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .stat-card.accent .stat-value { color: #fff; }
+    .stat-card.accent .stat-label { color: rgba(255,255,255,.7); }
+    .stat-value {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.3;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 24px 0; border-radius: 8px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; background: var(--table-bg); }
+    thead th {
+      background: var(--table-header);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 14px;
+      text-align: left;
+    }
+    tbody td {
+      padding: 11px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(odd) td { background: #fff; }
+    tbody tr:nth-child(even) td { background: var(--bg2); }
+
+    .badge {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .badge-red { background: #fef2f4; color: var(--accent); }
+    .badge-gray { background: #f3f4f6; color: #374151; }
+    .badge-blue { background: #eff6ff; color: #2563eb; }
+
+    /* ── CHART ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 24px 0;
+      background: var(--bg2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 16px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── THREE RISK BOXES ── */
+    .risk-list { margin: 20px 0; display: flex; flex-direction: column; gap: 14px; }
+    .risk-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 18px;
+    }
+    .risk-item-num {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .risk-item-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .risk-item p {
+      font-size: 13.5px;
+      color: #444;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ── CHECKLIST ── */
+    .checklist { margin: 16px 0; list-style: none; padding: 0; }
+    .checklist li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .icon {
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--text);
+      color: rgba(255,255,255,.45);
+      text-align: center;
+      padding: 28px 20px;
+      margin-top: 48px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+    .footer a { color: rgba(255,255,255,.6); }
+  </style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <span class="masthead-title">The Investment Memo · Market Analysis</span>
+  <span class="masthead-date">March 8, 2026</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-category">⚠ Private Credit · Risk Analysis</div>
+  <h1 class="hero-title">Private Credit Is<br><span>Cracking</span></h1>
+  <p class="hero-sub">2008 위기를 예측한 월스트리트 베테랑 Eric Rosen이 말하는 프라이빗 크레딧 시장의 균열 — 구조적 위험, 소프트웨어 익스포저, AI 충격</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">🎙 <strong>Eric Rosen</strong> — Former JPMorgan MD, Reefroad Capital</div>
+    <div class="hero-meta-item">📺 <strong>The Investment Memo</strong> Podcast</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+  <!-- ABOUT SPEAKER -->
+  <div class="section">
+    <div class="section-label fade-in">게스트 프로필</div>
+    <h2 class="section-title fade-in">2008 위기를 예측한 남자</h2>
+    <p class="fade-in">Eric Rosen은 1992년 Continental Bank에서 커리어를 시작해 1994년 트레이딩 데스크로 전환했다. University of Chicago 야간 MBA를 마친 뒤 1997년 Chase(후 JPMorgan)에 합류, 당시 <strong>최연소 Managing Director(27세)</strong>로 승진하며 Credit Trading을 이끌었다.</p>
+    <p class="fade-in"><strong>2007년 7월</strong>, 그는 서브프라임 모기지 시장의 붕괴를 정확히 예측하고 모든 포지션을 숏으로 전환했다. 2008년 다른 크레딧 비즈니스들이 수백억 달러를 잃는 동안 그의 비즈니스는 <em>수십억 달러를 벌었다.</em></p>
+    <p class="fade-in">현재는 플로리다에서 패밀리 오피스를 운영하며 The Rosen Report를 통해 시장·정치·부동산 분석을 제공하고 있다.</p>
+
+    <div class="pullquote fade-in">
+      <p>"Stan Druckenmiller이 내 투자 영웅이다. 30년간 연 32% 수익률, 손실 연도 없음. 그것은 불가능에 가깝다."</p>
+      <cite>— Eric Rosen</cite>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAIN THESIS -->
+  <div class="section">
+    <div class="section-label fade-in">핵심 주제</div>
+    <h2 class="section-title fade-in">프라이빗 크레딧 시장에 균열이 생기고 있다</h2>
+    <p class="fade-in">Blue Owl (AUM $300B+)의 환매 중단과 함께 주요 알트 자산운용사 주가가 최근 고점 대비 <strong>26~54% 급락</strong>하고 있다. JP Morgan 레버리지 파이낸스 컨퍼런스에서도 이 주제가 가장 뜨거운 화두였다고 Rosen은 전한다.</p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card accent">
+        <div class="stat-value">54%</div>
+        <div class="stat-label">Blue Owl 주가 하락<br>(최근 고점 대비)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">$300B+</div>
+        <div class="stat-label">Blue Owl AUM<br>(환매 중단 발생)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">21%</div>
+        <div class="stat-label">프라이빗 크레딧의<br>소프트웨어 익스포저</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">10×</div>
+        <div class="stat-label">S&P 500 상승<br>(2009년 3월 이후 16년)</div>
+      </div>
+    </div>
+
+    <!-- CHART 1: Stock decline -->
+    <div class="chart-title fade-in">주요 프라이빗 크레딧 운용사 주가 낙폭 (최근 고점 대비, %)</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart1" height="240"></canvas>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- THREE RISK FACTORS -->
+  <div class="section">
+    <div class="section-label fade-in">구조적 위험</div>
+    <h2 class="section-title fade-in">펀드를 무너뜨리는 세 가지 요인</h2>
+    <p class="fade-in">Rosen은 프라이빗 크레딧 펀드를 위협하는 구조적 위험으로 세 가지를 꼽는다.</p>
+
+    <div class="risk-list">
+      <div class="risk-item fade-in">
+        <div class="risk-item-num">위험 요인 01</div>
+        <div class="risk-item-title">레버리지 (Leverage)</div>
+        <p>과도한 차입이 시스템을 붕괴시킨다. 다만 Rosen은 <strong>현재 프라이빗 크레딧 위기는 2007~08년 같은 레버리지 문제가 아니다</strong>고 강조한다. 대부분의 프라이빗 크레딧 펀드는 장기 락업(lock-up) 구조여서 자산과 부채 만기가 일치한다.</p>
+      </div>
+      <div class="risk-item fade-in">
+        <div class="risk-item-num">위험 요인 02</div>
+        <div class="risk-item-title">자산-부채 만기 불일치 (Asset-Liability Mismatch)</div>
+        <p><strong>지금 터지고 있는 핵심 문제.</strong> 일부 펀드는 분기·월 단위 단기 환매를 허용하면서 실제 자산은 장기 비유동성 사모 대출에 묶여 있다. 환매 요청이 몰리면 펀드는 "가장 팔기 쉬운 우량 자산"부터 매각하게 되어 포트폴리오 질이 점점 저하된다.</p>
+      </div>
+      <div class="risk-item fade-in">
+        <div class="risk-item-num">위험 요인 03</div>
+        <div class="risk-item-title">위임 범위 이탈 (Mandate Creep)</div>
+        <p>수익률을 좇다 보면 전문 분야를 벗어나 투자하게 된다. 2008년 한 US 크레딧 펀드가 아시아 PE까지 손댔다가 초토화된 사례처럼, 자신이 잘하는 일에 집중하지 않으면 반드시 문제가 생긴다.</p>
+      </div>
+      <div class="risk-item fade-in">
+        <div class="risk-item-num">위험 요인 04 (추가)</div>
+        <div class="risk-item-title">집중도 리스크 (Concentration)</div>
+        <p>크레딧 투자는 주식과 달리 <strong>상방이 없다</strong>. 원금 + 이자가 최선이다. 따라서 대규모 집중 포지션을 취해야 할 이유가 없다. 그런데 프라이빗 크레딧은 소프트웨어 섹터에 21%가 몰려 있다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOFTWARE EXPOSURE -->
+  <div class="section">
+    <div class="section-label fade-in">소프트웨어 익스포저</div>
+    <h2 class="section-title fade-in">소프트웨어 집중도 비교</h2>
+    <p class="fade-in">소프트웨어 주가는 <strong>30~65% 폭락</strong>했지만 프라이빗 크레딧은 이 섹터에 과도하게 노출되어 있다.</p>
+
+    <div class="chart-title fade-in">시장별 소프트웨어 섹터 익스포저 비중 (%)</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart2" height="220"></canvas>
+    </div>
+
+    <div class="warning-box fade-in">
+      <div class="warning-box-title">⚠ 소프트웨어 하락의 두 가지 원인</div>
+      <p><strong>① AI 대체 효과:</strong> Block社는 직원을 10,000명→6,000명으로 줄이겠다고 발표. 인력이 줄면 소프트웨어 라이선스 수요도 감소 → 매출 타격.</p>
+      <br>
+      <p><strong>② Vibe Coding 등 AI 기반 개발 민주화:</strong> 코딩 경험이 없는 50대 CEO도 몇 주 만에 앱을 직접 개발 가능. 기업들이 외부 소프트웨어 구매를 줄이고 내재화할 수 있다는 공포.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MARKING PROBLEM -->
+  <div class="section">
+    <div class="section-label fade-in">가치 평가 문제</div>
+    <h2 class="section-title fade-in">과연 제대로 평가되고 있는가?</h2>
+    <p class="fade-in">프라이빗 크레딧의 가장 큰 문제 중 하나는 <strong>평가(marking)</strong>의 불투명성이다. 거래소에서 실시간 가격이 형성되는 공개 채권·주식과 달리, 프라이빗 대출은 운용사가 자체적으로 가격을 산정한다.</p>
+
+    <div class="pullquote fade-in">
+      <p>"소프트웨어 주가가 65% 떨어졌는데 당신들은 대출을 98센트로 평가하고 있다. 진짜 가치는 75센트 아닌가?"</p>
+      <cite>— Eric Rosen이 LP에게 물어야 할 핵심 질문</cite>
+    </div>
+
+    <p class="fade-in">예를 들어, 소프트웨어 기업에 <strong>대출 당시 LTV(Loan-to-Value) 30%</strong>로 10억 달러를 빌려줬는데, 그 기업 주식이 50% 폭락하면 LTV는 <strong>60%로 뛴다.</strong> 대출은 여전히 이자를 내고 있지만, 시장에서 팔려면 할인을 감수해야 한다. 그러나 운용사는 여전히 98센트로 장부에 기록할 수 있다.</p>
+
+    <div class="highlight-box fade-in">
+      <div class="highlight-box-title">📋 LP가 운용사에게 물어야 할 핵심 질문 (Eric Rosen 제안)</div>
+      <ul>
+        <li>상위 10개 포지션을 구체적으로 어떻게 평가하고 있는가? 딜러(dealer)에게 독립적으로 확인해 보겠다.</li>
+        <li>부실 채권 처리(workout) 경험이 있는 매니저인가? 구조조정·파산법 전문성을 갖추고 있는가?</li>
+        <li>환매 요청에 대응하기 위해 어떤 자산을 팔고 있는가? 우량 자산이 먼저 빠져나가고 있는 것 아닌가?</li>
+        <li>투자 위임 범위(mandate)를 벗어난 섹터에 투자한 포지션이 있는가?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- REDEMPTION DYNAMICS -->
+  <div class="section">
+    <div class="section-label fade-in">환매 역학</div>
+    <h2 class="section-title fade-in">환매의 악순환 구조</h2>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>단계</th>
+            <th>발생 상황</th>
+            <th>결과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-blue">1단계</span></td>
+            <td>투자자 환매 요청 증가</td>
+            <td>펀드가 유동성 확보 필요</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-gray">2단계</span></td>
+            <td>우량 자산부터 매각</td>
+            <td>비유동 저품질 자산만 남음</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">3단계</span></td>
+            <td>포트폴리오 질 저하</td>
+            <td>추가 환매 및 게이팅(gating) 발생</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-red">4단계</span></td>
+            <td>게이팅으로 환매 불가</td>
+            <td>투자자 신뢰 붕괴, 악순환</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="fade-in">Blackstone의 경우 최근 환매 요청이 전체 자산의 약 <strong>7.9%</strong>로 평소보다 높았으나 전부 충족했다고 알려졌다. 그러나 이 과정에서 팔 수 있는 좋은 자산을 매각해야 했다는 점이 우려된다.</p>
+
+    <div class="warning-box fade-in">
+      <div class="warning-box-title">⚠ 핵심 구조적 문제</div>
+      <p>프라이빗 크레딧은 미국 국채나 상장 주식처럼 즉시 팔 수 있는 자산이 아니다. 3개 대주단이 20억 달러를 나눠 갖고 있다면, 내일 당장 600~700만 달러짜리 지분을 처분하는 것은 사실상 불가능하다. <strong>비유동성이 곧 리스크다.</strong></p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- IS THIS 2008? -->
+  <div class="section">
+    <div class="section-label fade-in">2008과의 비교</div>
+    <h2 class="section-title fade-in">지금이 2008년의 반복인가?</h2>
+    <p class="fade-in">Goldman Sachs 전 CEO Lloyd Blankfein도 "2008년 위기의 재연인가?"라는 질문을 던졌다. Rosen의 답변은 신중하다.</p>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>2008년</th>
+            <th>현재 (2026)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>핵심 원인</td>
+            <td>과도한 레버리지, 서브프라임 NINJA 론</td>
+            <td>자산-부채 만기 불일치, 소프트웨어 집중</td>
+          </tr>
+          <tr>
+            <td>레버리지 수준</td>
+            <td>시스템 전체 과잉</td>
+            <td>대부분 펀드는 정상 수준</td>
+          </tr>
+          <tr>
+            <td>전파 경로</td>
+            <td>MBS→CDO→전 금융시스템</td>
+            <td>SW주가→LTV악화→환매압력</td>
+          </tr>
+          <tr>
+            <td>Rosen 판단</td>
+            <td>완전 붕괴</td>
+            <td><span class="badge badge-gray">주시 필요, 2008 재연은 아님</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="fade-in">주요 근거: 대부분의 프라이빗 크레딧 대출의 <strong>평균 잔존 만기가 2.8년</strong>이다. "수십 억 달러 기업들이 2년 안에 사라지겠냐"는 반론도 있다. 다만 Tri-Color, First Brands 등이 이미 파산했고, 소프트웨어 기업들도 흔들리고 있어 주의가 필요하다.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AI IMPACT -->
+  <div class="section">
+    <div class="section-label fade-in">AI 충격파</div>
+    <h2 class="section-title fade-in">AI가 크레딧 시장에 미치는 영향</h2>
+    <p class="fade-in">AI 혁명은 단순히 기술 섹터 주가의 문제가 아니라 <strong>고용→소프트웨어 수요→크레딧 자산 가치</strong>로 이어지는 연쇄 충격을 일으키고 있다.</p>
+
+    <div class="chart-title fade-in">AI 충격 파급 경로</div>
+    <div class="chart-container fade-in">
+      <canvas id="chart3" height="220"></canvas>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <div class="highlight-box-title">📊 AI 고용 대체 전망 — 논쟁 구도</div>
+      <ul>
+        <li><strong>강경론:</strong> AI가 18~24개월 내 화이트·블루칼라 일자리의 50%를 대체 (CNBC에서 수천만 뷰 기록)</li>
+        <li><strong>반론 (Citadel):</strong> 그 속도로 진행되지 않는다. 대체는 점진적.</li>
+        <li><strong>Rosen의 견해:</strong> 진실은 중간 어딘가. 주니어 뱅커 업무는 이미 AI로 대체 가능. 창고 로봇 1대가 직원 3명 대체하며 비용은 수배 낮다.</li>
+      </ul>
+    </div>
+
+    <p class="fade-in">Rosen은 현재 대학교 1학년인 아들, 고3인 딸이 <strong>3~4년 후 취업 시장에서 겪을 어려움</strong>을 걱정한다. 뱅킹 신입이 하는 딜 메모 작성 같은 업무는 이미 AI가 충분히 수행 가능하다고 말한다.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- HYPERSCALER CAPEX -->
+  <div class="section">
+    <div class="section-label fade-in">AI 인프라 투자</div>
+    <h2 class="section-title fade-in">하이퍼스케일러 CapEx: 성장 신호인가, 거품인가?</h2>
+    <p class="fade-in">Bank of America는 클라우드 CapEx가 전년 대비 <strong>45% 증가해 $1,800억</strong>에 달할 것으로 전망한다. 팟캐스트에서 논의가 시작되었지만 이 주제는 별도의 심층 분석이 필요한 수준이다.</p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card accent">
+        <div class="stat-value">$180B</div>
+        <div class="stat-label">클라우드 CapEx 전망<br>(BofA, YoY +45%)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">+45%</div>
+        <div class="stat-label">하이퍼스케일러<br>설비투자 증가율</div>
+      </div>
+    </div>
+
+    <div class="warning-box fade-in">
+      <div class="warning-box-title">⚠ 투자자 시각의 핵심 질문</div>
+      <p>이 막대한 CapEx가 <strong>실제 수요를 앞선 공급 과잉</strong>은 아닌가? 수요가 따라오지 못할 경우, AI 인프라 투자 열풍은 또 다른 거품이 될 수 있다. Rosen은 이를 다음 주요 점검 포인트로 제시했다.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- INVESTMENT PHILOSOPHY -->
+  <div class="section">
+    <div class="section-label fade-in">투자 철학</div>
+    <h2 class="section-title fade-in">Eric Rosen의 2007년 예측 방법론</h2>
+
+    <div class="highlight-box fade-in">
+      <div class="highlight-box-title">💡 비대칭 페이오프 전략 (Stan Druckenmiller 철학)</div>
+      <p style="margin-bottom:12px;">좋은 트레이드의 조건: <strong>하방은 작고, 상방은 크다.</strong></p>
+      <ul>
+        <li>2007년 채권 쇼트: 110센트짜리 채권이 130센트로 갈 리 없다. 손실 상한이 명확하다.</li>
+        <li>틀렸을 때의 비용이 낮으면 → 과감하게 사이징할 수 있다.</li>
+        <li>작은 신호(카드, 자동차, 모기지)들을 취합해 큰 그림을 그렸다.</li>
+        <li>NINJA 론 (무소득·무직·무자산 대출)처럼 말이 안 되는 현상이 신호다.</li>
+      </ul>
+    </div>
+
+    <ul class="checklist">
+      <li><span class="icon">1</span><span><strong>확신(Conviction)</strong>: 데이터에서 출발한 논리적 확신. 직관 + 데이터의 결합.</span></li>
+      <li><span class="icon">2</span><span><strong>비대칭 리스크/리워드</strong>: 틀릴 때 손실은 제한적, 맞을 때 이익은 막대해야 한다.</span></li>
+      <li><span class="icon">3</span><span><strong>적절한 포지션 사이징</strong>: 비대칭이 확보될 때 과감하게 키운다.</span></li>
+      <li><span class="icon">4</span><span><strong>전문 영역 고수</strong>: 잘하는 것에만 집중. 수익률 욕심에 영역을 벗어나지 않는다.</span></li>
+      <li><span class="icon">5</span><span><strong>과도한 레버리지 금지</strong>: 어떤 상황에서도 레버리지는 절제.</span></li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SUMMARY -->
+  <div class="section">
+    <div class="section-label fade-in">종합 판단</div>
+    <h2 class="section-title fade-in">지금 무엇을 해야 하는가</h2>
+
+    <div class="highlight-box fade-in">
+      <div class="highlight-box-title">📌 Eric Rosen 종합 시각 요약</div>
+      <ul>
+        <li>프라이빗 크레딧은 <strong>2008년 재연이 아니다</strong>. 레버리지 위기가 아닌 구조적 불일치·집중도 문제다.</li>
+        <li>그러나 <strong>무시할 수 없는 균열</strong>이다. 주가 하락, 환매 요청 급증, 게이팅이 동시에 나타나고 있다.</li>
+        <li>소프트웨어 섹터 집중(21%)은 AI 충격으로 현실화되고 있다.</li>
+        <li>LP라면 지금 당장 <strong>운용사에게 평가 방식과 상위 10개 포지션을 물어봐야</strong> 한다.</li>
+        <li>리스크 관리 능력(부실 채권 처리, 구조조정 경험)이 없는 운용사는 피하라.</li>
+        <li>AI발 고용 충격은 생각보다 빠르게 올 것이다. 직종별 취약성 점검 필요.</li>
+      </ul>
+    </div>
+  </div>
+
+  <br><br>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div>원본 출처: The Investment Memo Podcast — "Private Credit Is Cracking" (2026.03.08)</div>
+  <div>Guest: Eric Rosen (Former JPMorgan Managing Director · Reefroad Capital Founder)</div>
+  <div style="margin-top:8px;font-size:10px;">본 문서는 교육 목적으로 작성된 분석 자료입니다. 투자 권유가 아닙니다.</div>
+</div>
+
+<script>
+// ── FADE OBSERVER ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── CHART CONFIGS ──
+const chartConfigs = {};
+
+// Chart 1: Stock declines
+chartConfigs['chart1'] = () => {
+  new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+      labels: ['Blue Owl', 'Aries', 'Blackstone', 'KKR', 'TPG', 'Apollo', 'Carlyle'],
+      datasets: [{
+        label: '주가 낙폭 (%)',
+        data: [-54, -42, -42, -41, -37, -32, -26],
+        backgroundColor: [
+          '#e11d48', '#f43f5e', '#f43f5e', '#fb7185',
+          '#fb7185', '#fda4af', '#fecdd3'
+        ],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      animations: { x: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: -60, max: 0,
+          grid: { color: '#f0f0f0' },
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#777',
+            callback: v => v + '%'
+          }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { family: 'DM Sans', size: 12 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// Chart 2: Software exposure
+chartConfigs['chart2'] = () => {
+  new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+      labels: ['하이일드 채권\n(High Yield)', '레버리지 론\n(Leveraged Loan)', '프라이빗 크레딧\n(Private Credit)'],
+      datasets: [{
+        label: '소프트웨어 익스포저 (%)',
+        data: [5, 13, 21],
+        backgroundColor: ['#6b7280', '#2563eb', '#e11d48'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.raw}%` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 30,
+          grid: { color: '#f0f0f0' },
+          ticks: {
+            font: { family: 'DM Sans', size: 11 },
+            color: '#777',
+            callback: v => v + '%'
+          }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { family: 'DM Sans', size: 11 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// Chart 3: AI impact chain (radar-style horizontal bar)
+chartConfigs['chart3'] = () => {
+  new Chart(document.getElementById('chart3'), {
+    type: 'bar',
+    data: {
+      labels: [
+        'AI 도입 가속화',
+        '기업 고용 감소',
+        '소프트웨어 라이선스 수요↓',
+        'SW 기업 매출 하락',
+        '프라이빗 크레딧 LTV 악화',
+        '환매 압력 증가'
+      ],
+      datasets: [{
+        label: '충격 강도 (상대적)',
+        data: [95, 75, 70, 65, 55, 50],
+        backgroundColor: [
+          '#1a1a1a', '#374151', '#6b7280',
+          '#e11d48', '#f43f5e', '#fb7185'
+        ],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      animation: { duration: 1600, easing: 'easeInOutQuart' },
+      animations: { x: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` 충격 강도: ${ctx.raw}` }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { family: 'DM Sans', size: 11 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// ── CHART OBSERVER ──
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
