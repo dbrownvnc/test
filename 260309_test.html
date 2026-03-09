@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>트럼프의 충격 폭로 — 오바마와 이란의 진실</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --muted: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --blue: #2563eb;
+      --gray: #6b7280;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.75;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* HEADER */
+    .mag-header {
+      border-top: 4px solid var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0 10px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mag-brand {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .mag-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* HERO */
+    .hero {
+      margin-bottom: 40px;
+    }
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-tag::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.3;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 7vw, 44px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      font-style: italic;
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .hero-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 40px 0 24px;
+    }
+    .section-divider span {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    /* BODY TEXT */
+    p {
+      margin-bottom: 18px;
+      color: var(--text);
+      font-size: 15.5px;
+    }
+    p strong { color: var(--text); font-weight: 600; }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      background: var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 20px 22px;
+      margin: 28px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text);
+      margin: 0;
+    }
+    .pull-quote cite {
+      display: block;
+      margin-top: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      padding: 20px 22px;
+      margin: 24px 0;
+      border-radius: 4px;
+    }
+    .highlight-box .box-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .highlight-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .highlight-box ul li {
+      font-size: 14.5px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--text);
+    }
+    .highlight-box ul li:last-child { border-bottom: none; }
+    .highlight-box ul li::before {
+      content: '▸';
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    /* STAT CARD ROW */
+    .stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-card .stat-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-card .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      background: var(--bg2);
+    }
+    thead th {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(even) td { background: #f5f5f5; }
+
+    /* CHART */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 24px 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 16px 10px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      margin: 24px 0;
+      position: relative;
+      padding-left: 28px;
+      border-left: 2px solid var(--border);
+    }
+    .tl-item {
+      margin-bottom: 22px;
+      position: relative;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -35px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .tl-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .tl-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .tl-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TAG BADGE */
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .badge.gray { background: var(--gray); }
+    .badge.blue { background: var(--blue); }
+
+    /* CONCLUSION */
+    .conclusion-box {
+      background: var(--text);
+      color: #fff;
+      padding: 28px 24px;
+      border-radius: 4px;
+      margin: 32px 0;
+    }
+    .conclusion-box .box-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .conclusion-box p {
+      color: #e5e5e5;
+      font-size: 14.5px;
+      margin-bottom: 12px;
+    }
+    .conclusion-box p:last-child { margin-bottom: 0; }
+    .conclusion-box strong { color: #fff; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 48px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 420px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="mag-header">
+    <span class="mag-brand">지정학 브리핑</span>
+    <span class="mag-date">2026년 3월 8일</span>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero fade-in">
+    <div class="hero-tag">심층 분석 · 중동 · 미국 외교</div>
+    <h1>오바마는 <em>이란을</em> 키웠는가</h1>
+    <div class="hero-sub">
+      트럼프의 오랜 주장, 핵협정의 이면, 그리고 워싱턴 기득권의 '영원한 전쟁' 구조까지 — 빙산의 일각이라 불리는 이유
+    </div>
+    <div class="hero-meta">출처: 박종훈의 지식한방 YouTube · 분석일: 2026.03.08</div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-divider fade-in"><span>01 · 트럼프의 예언</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">15년 전 트위터부터 시작된 집착</h2>
+    <p>
+      트럼프가 오바마와 이란을 엮는 것은 최근의 일이 아니다. <strong>15년 전 트위터</strong>에 이미 "오바마는 재선을 위해 이란과 전쟁을 일으킬 것"이라는 예언을 남겼다. 당시엔 틀린 분석처럼 보였다 — 오바마는 오히려 전쟁을 막는 방향을 선택했기 때문이다.
+    </p>
+    <p>
+      언론은 트럼프의 오바마 비판을 <strong>'질투심'</strong>으로 해석하기도 한다. 오바마는 취임 초기에 노벨 평화상을 수상했지만, 트럼프는 끝내 받지 못했다는 점이 배경으로 거론된다. 그러나 이 해석은 표면적이다. 오바마의 노벨상 수상 자체가 이란 정책과 연결되어 있고, 그 정책의 결과가 지금의 중동 위기와 맞닿아 있다는 것이 이 분석의 핵심이다.
+    </p>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"오바마는 당선되기 위해 이란과 전쟁을 할 것이다."</p>
+    <cite>— 트럼프, 約 2011년경 트위터 (현 X)</cite>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-divider fade-in"><span>02 · 이란 핵협정의 실체</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">대화로 막은 핵무기 — 그러나 일몰 조항</h2>
+    <p>
+      오바마 임기 최대 업적 중 하나로 꼽히는 <strong>이란 핵협정(JCPOA, 2015)</strong>. 협정 당시 이란은 단 3개월 안에 핵무기용 우라늄을 확보할 수 있는 상태였다. 일촉즉발의 위기를 협상 테이블로 끌어낸 것은 분명히 외교적 성과였다.
+    </p>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-label">핵협정 주요 조건</div>
+    <ul>
+      <li>이란 보유 농축 우라늄 대부분 폐기</li>
+      <li>24시간 국제 감시 체제 가동</li>
+      <li>플루토늄 생산 시설 차단</li>
+      <li><strong>일몰 조항:</strong> 약 10년 후(2025~2030) 제한 해제 — 이란 합법적 핵보유국 가능</li>
+      <li>미국, 이란에 동결 자산 약 1,000억 달러(≈140조 원) 해제</li>
+      <li>추가 현금 17억 달러(≈2조 5,000억 원)를 <em>현금 비행기</em>로 전달</li>
+    </ul>
+  </div>
+
+  <div class="fade-in">
+    <p>
+      협정 설계 자체는 정교했다. 일몰 조항이 있더라도 핵개발 재기가 매우 어려운 구조를 만들어 놓은 것이다. 오바마의 논리는 이른바 <strong>'맥도날드 평화론'</strong> — 이란이 자본주의의 경제적 혜택을 맛보면 스스로 변한다는 것이었다.
+    </p>
+    <p>
+      그러나 트럼프는 1기 집권 시 협정을 일방적으로 파기했다. 당시엔 "긁어 부스럼"이라는 비판도 많았다. 결과는 어떠했는가?
+    </p>
+  </div>
+
+  <!-- STAT ROW -->
+  <div class="stat-row fade-in">
+    <div class="stat-card">
+      <div class="stat-num">$1,000억</div>
+      <div class="stat-label">동결 자산 해제<br>(≈ 140조 원)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$17억</div>
+      <div class="stat-label">현금 지급<br>(≈ 2조 5,000억 원)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">+30%</div>
+      <div class="stat-label">이란 군사 예산 증가<br>핵협정 이후</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$8억</div>
+      <div class="stat-label">헤즈볼라 연간 지원금<br>2015년~ 매년</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-divider fade-in"><span>03 · 뒤통수 — 돈의 행방</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">평화 자금이 무기가 되다</h2>
+    <p>
+      오바마의 예측은 빗나갔다. 이란은 풀린 자금으로 <strong>핵 대신 군비를 강화</strong>했다. 탄도 미사일 개발, 군사 활동비 증가, 그리고 결정적으로 헤즈볼라에 매년 8억 달러를 지원하기 시작했다.
+    </p>
+    <p>
+      이 자금은 예멘 후티 반군, 하마스로도 흘러갔다. 역설적이게도 <strong>오바마가 풀어준 돈이 이스라엘 공격에 쓰인 것</strong>이다. 트럼프가 "미국인의 세금이 미사일이 되어 날아왔다"고 주장할 수 있는 근거가 바로 여기에 있다.
+    </p>
+  </div>
+
+  <!-- 차트 1: 이란 군사 예산 추이 (개략적) -->
+  <div class="fade-in">
+    <div class="chart-title">이란 군사 관련 지표 변화 (핵협정 전후, 추정치 기반)</div>
+  </div>
+  <div class="chart-container fade-in">
+    <canvas id="iranMilChart" height="240"></canvas>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-divider fade-in"><span>04 · 사우디 반발과 군비 경쟁</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">중동의 도미노 공포</h2>
+    <p>
+      이란에 유리한 협정은 사우디아라비아를 비롯한 친미 수니파 국가들의 강한 반발을 샀다. 숙적 이란이 미국의 지원을 받는 상황에 안보 불안을 느낀 사우디를 달래기 위해, 오바마 행정부는 역대 최대 규모의 무기를 중동에 판매했다.
+    </p>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-label">오바마 임기 중 대외 무기 판매 기록</div>
+    <ul>
+      <li>사우디에 판매한 무기 패키지: <strong>약 1,150억 달러(≈ 160조 원)</strong> — 최첨단 전투기·헬기·미사일 포함</li>
+      <li>오바마 재임 기간 전체 대외 무기 판매: <strong>약 2,600억 달러(≈ 360조 원)</strong></li>
+      <li>부시 행정부 대비 <strong>약 2배</strong> 규모 — 2차 대전 이후 역대 어느 정권보다 높은 수치</li>
+      <li>2015년 기준, 미국이 전 세계 무기 계약의 <strong>50% 이상</strong> 차지</li>
+    </ul>
+  </div>
+
+  <!-- 차트 2: 오바마 vs 부시 무기판매 비교 -->
+  <div class="fade-in">
+    <div class="chart-title">미국 대외 무기 판매 비교 (조 원, 추정치)</div>
+  </div>
+  <div class="chart-container fade-in">
+    <canvas id="weaponSalesChart" height="230"></canvas>
+  </div>
+
+  <div class="fade-in">
+    <p>
+      사우디가 미국 무기로 예멘을 폭격하면서 병원·학교까지 파괴하는 사태가 벌어졌다. 국경 없는 의사회 시설도 피해를 입었다. 오바마 행정부는 사우디를 달래야 했기 때문에 이 폭격을 지원했다. 결과적으로 <strong>이란 포용 정책이 중동 전체의 군비 경쟁을 촉발</strong>한 셈이다.
+    </p>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-divider fade-in"><span>05 · 딥스테이트 구조</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">'더블럽(Deep Blob)' — 영원히 돌아가는 시스템</h2>
+    <p>
+      이 분석에서 가장 핵심적인 개념은 <strong>'더블럽(Deep Blob)'</strong>이다. 기존 네오콘(보수 강경파)이 민주당과 결합하며 완성된 워싱턴 기득권 카르텔이다. 네오콘의 '민주주의 확산' 논리에 민주당의 '인권 보호' 명분을 더해, 초당적 전쟁 개입의 정당성을 확보했다.
+    </p>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"이란은 절대 없어야 할 악이 아니라, 영원히 헤쳐먹을 수 있는 최고의 꿀단지다."</p>
+    <cite>— 영상 분석 중 워싱턴 기득권 논리 요약</cite>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="box-label">더블럽의 작동 구조</div>
+    <ul>
+      <li><span class="badge">정부</span> 국방부 관료 퇴직 후 방산업체·싱크탱크로 이직</li>
+      <li><span class="badge gray">언론</span> 싱크탱크에서 "개입 필요" 여론 형성</li>
+      <li><span class="badge blue">방산</span> 긴장 고조 → 무기 판매 증가 → 수익 극대화</li>
+      <li><span class="badge">정부</span> 정권 교체 후 관료로 재기용 → 순환 반복</li>
+    </ul>
+  </div>
+
+  <div class="fade-in">
+    <p>
+      이 구조의 핵심은 <strong>"평화를 위해 노력하는 척하면서, 진짜 평화는 막는 것"</strong>이다. 평화가 오면 수천억 달러짜리 전투기를 살 나라가 없어지고, 수만 명의 중동 전문가·로비스트·관료가 실직한다. 따라서 자잘한 분쟁이 끊이지 않도록 긴장을 관리하는 것이 '시스템'의 목적이다.
+    </p>
+    <p>
+      네오콘과 달리 더블럽이 더 무서운 이유는 <strong>특정 인물이 아닌 시스템이기 때문</strong>이다. 사람이 바뀌어도 시스템은 알아서 굴러간다.
+    </p>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section-divider fade-in"><span>06 · 오바마의 진짜 의도</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">이미지 세탁과 폭탄 돌리기</h2>
+    <p>
+      영상에서 제시하는 핵심 주장은 오바마의 1차 목표가 평화가 아니었다는 것이다. 오바마 1기의 실적을 살펴보면:
+    </p>
+  </div>
+
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-year">2009~2013 · 1기</div>
+      <div class="tl-title">드론 전쟁의 아버지</div>
+      <p class="tl-desc">임기 첫 해에만 58회 출격, 총 563회 드론 공습. 파키스탄·예멘·소말리아 대상. 민간인 사상자 800명 이상. 부시 정권보다 더 많은 폭격.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2011</div>
+      <div class="tl-title">리비아 붕괴 개입</div>
+      <p class="tl-desc">인권 명분으로 나토군 동원, 리비아 무차별 폭격. 단일 정부 해체, 사실상 두 나라로 분열. 알카에다 등 극단주의 세력의 테러 양성소화.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2013~2015 · 2기</div>
+      <div class="tl-title">이란 핵협정 추진 — 이미지 세탁</div>
+      <p class="tl-desc">재선 직후 이란과 협상 시작. 임기말 극적 타결로 '평화의 대통령' 이미지 확보. 10년 뒤 결과는 후임에게 위임 — 폭탄 돌리기.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2015~</div>
+      <div class="tl-title">이란의 뒤통수 — 군비 강화</div>
+      <p class="tl-desc">풀린 자금으로 군사 예산 30% 증가, 헤즈볼라·하마스·후티 지원. 협정 자체는 유지하며 실질적 군사력 키우기.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2018</div>
+      <div class="tl-title">트럼프 1기 — 핵협정 파기</div>
+      <p class="tl-desc">"긁어 부스럼"이라는 비판 속 일방적 탈퇴. 이후 이란 제재 복원 및 '최대 압박' 전략.</p>
+    </div>
+  </div>
+
+  <!-- 차트 3: 오바마 드론 공습 vs 부시 비교 -->
+  <div class="fade-in">
+    <div class="chart-title">드론 공습 횟수 비교 (부시 vs 오바마)</div>
+  </div>
+  <div class="chart-container fade-in">
+    <canvas id="droneChart" height="220"></canvas>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section-divider fade-in"><span>07 · 트럼프의 전략</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">이란 전쟁 = 기득권 심판의 무대</h2>
+    <p>
+      트럼프의 대이란 강경책은 단순한 외교 정책이 아니다. 이 분석에 따르면 이란 전쟁은 <strong>오바마·민주당·워싱턴 기득권을 공개 재판하는 무대</strong>로 설계된 것이다.
+    </p>
+    <p>
+      전쟁이 길어질수록 "이란이 미국인 세금으로 만든 미사일을 쏘고 있다"는 내러티브는 강화된다. 트럼프의 최우선 과제는 중간선거이며, 이란 문제는 민주당의 위선을 고발할 최적의 소재가 된다. 트럼프는 <strong>"앞으로 흥미로운 시간이 될 것"</strong>이라고 직접 말했다.
+    </p>
+  </div>
+
+  <div class="table-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>오바마 접근법</th>
+          <th>트럼프 접근법</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>이란 전략</strong></td>
+          <td>대화·경제 유인 → 점진적 변화 기대</td>
+          <td>최대 압박 → 정권 교체 유도</td>
+        </tr>
+        <tr>
+          <td><strong>실질 목적</strong></td>
+          <td>이미지 세탁, 임기말 레거시 확보</td>
+          <td>기득권 카르텔 해체, 중간선거 유리</td>
+        </tr>
+        <tr>
+          <td><strong>중동 무기 판매</strong></td>
+          <td>역대 최대 (≈360조 원)</td>
+          <td>축소 기조, '세계 경찰' 역할 거부</td>
+        </tr>
+        <tr>
+          <td><strong>부작용</strong></td>
+          <td>군비 경쟁·테러 확산·헤즈볼라 강화</td>
+          <td>이란 핵개발 가속화, 지역 불안정 심화</td>
+        </tr>
+        <tr>
+          <td><strong>장기 비전</strong></td>
+          <td>다자 외교, 국제 협력</td>
+          <td>친미 이란 정권 수립, 더블럽 해체</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section-divider fade-in"><span>08 · 빅 사이클 전환점</span></div>
+
+  <div class="fade-in">
+    <h2 class="section-title">새로운 세계 질서의 교체기</h2>
+    <p>
+      영상은 현재의 혼란이 우발적 사건이 아닌 <strong>쌓이고 쌓인 모순의 폭발</strong>이라고 진단한다. 미국 중심의 세계 안보 체제가 근본적으로 재편되는 빅 사이클의 전환점이라는 것이다.
+    </p>
+    <p>
+      투자자에게는 특히 중요한 메시지가 담겨 있다: <strong>지금은 수익을 낼 때가 아니라 생존에 집중할 때</strong>다. 거대한 해일이 몰려올 때는 노를 젓는 게 아니라 배의 무게 중심을 낮춰야 한다. 표면적 사건에 집착하기보다 큰 흐름의 맥락을 이해하는 것이 핵심이다.
+    </p>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"큰 사건들이 왜, 어떻게 전개되었는지 이해해야 한다. 지금 우리가 목격하는 건 우발적인 전쟁이 아니다. 쌓이고 쌓인 모순이 폭발하는 것이다."</p>
+    <cite>— 영상 결론부</cite>
+  </div>
+
+  <!-- 차트 4: 중동 관련국 군사비 구조 (개략적 비교) -->
+  <div class="fade-in">
+    <div class="chart-title">이란·사우디·이스라엘 군사비 상대 규모 비교 (2023년 기준, 억 달러)</div>
+  </div>
+  <div class="chart-container fade-in">
+    <canvas id="mideastMilChart" height="230"></canvas>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="conclusion-box fade-in">
+    <div class="box-label">핵심 요약 — 5가지 포인트</div>
+    <p><strong>① 핵협정의 역설:</strong> 오바마의 이란 핵협정은 핵을 막는 데 단기 성공했지만, 풀린 자금이 헤즈볼라·하마스·후티의 군비 강화로 이어졌다.</p>
+    <p><strong>② 이미지 세탁 가설:</strong> 드론 전쟁·리비아 개입으로 얼룩진 1기를 덮기 위해 임기말 극적 협정 타결로 '평화 대통령' 레거시를 구축했다는 해석이다.</p>
+    <p><strong>③ 더블럽 시스템:</strong> 네오콘+민주당의 결합으로 완성된 워싱턴 기득권 카르텔. 사람이 바뀌어도 자동으로 작동하며, 이란은 그들의 '꿀단지'다.</p>
+    <p><strong>④ 트럼프의 전략:</strong> 이란 전쟁을 오바마·민주당 심판의 무대로 활용. 중간선거를 겨냥한 정치적 무기화.</p>
+    <p><strong>⑤ 투자자 조언:</strong> 빅 사이클 전환기에 수익보다 생존 우선. 표면이 아닌 구조적 맥락을 읽어야 한다.</p>
+  </div>
+
+  <footer>
+    본 문서는 YouTube 영상 자막 분석을 기반으로 작성되었으며,<br>
+    영상 내 발언자의 주장을 정리한 것입니다. 투자 조언이 아닙니다.<br><br>
+    출처: 박종훈의 지식한방 · <a href="https://youtu.be/ANHGD_Agg_g" style="color:var(--accent);text-decoration:none;">youtu.be/ANHGD_Agg_g</a>
+  </footer>
+
+  <script>
+    // ─── OBSERVER 1: fade-in ───────────────────────────────
+    const fadeObs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          fadeObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+    // ─── CHART CONFIGS ────────────────────────────────────
+    const chartConfigs = {};
+
+    // Chart 1: 이란 군사 지표 (핵협정 전후)
+    chartConfigs['iranMilChart'] = () => {
+      new Chart(document.getElementById('iranMilChart'), {
+        type: 'bar',
+        data: {
+          labels: ['핵협정 이전\n(2013~2015)', '핵협정 이후\n(2016~2018)', '트럼프 탈퇴 후\n(2019~2021)'],
+          datasets: [
+            {
+              label: '군사 예산 지수 (상대값)',
+              data: [100, 130, 145],
+              backgroundColor: '#e11d48',
+              borderRadius: 3,
+            },
+            {
+              label: '헤즈볼라 지원금 (억 달러)',
+              data: [0, 8, 8],
+              backgroundColor: '#2563eb',
+              borderRadius: 3,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+          animations: { y: { from: 0 } },
+          plugins: {
+            legend: { labels: { font: { size: 11 }, color: '#1a1a1a' } },
+            tooltip: { mode: 'index' }
+          },
+          scales: {
+            x: { ticks: { color: '#777', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#777', font: { size: 10 } }, grid: { color: '#e5e5e5' } }
+          }
+        }
+      });
+    };
+
+    // Chart 2: 무기 판매 비교
+    chartConfigs['weaponSalesChart'] = () => {
+      new Chart(document.getElementById('weaponSalesChart'), {
+        type: 'bar',
+        data: {
+          labels: ['부시 행정부\n(2001~2009)', '오바마 행정부\n(2009~2017)'],
+          datasets: [{
+            label: '대외 무기 판매 (조 원)',
+            data: [180, 360],
+            backgroundColor: ['#6b7280', '#e11d48'],
+            borderRadius: 4,
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          animations: { x: { from: 0, duration: 1500, easing: 'easeInOutQuart' } },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.raw}조 원` } }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#777', font: { size: 10 }, callback: v => v + '조' },
+              grid: { color: '#e5e5e5' }
+            },
+            y: { ticks: { color: '#1a1a1a', font: { size: 11 } }, grid: { display: false } }
+          }
+        }
+      });
+    };
+
+    // Chart 3: 드론 공습 비교
+    chartConfigs['droneChart'] = () => {
+      new Chart(document.getElementById('droneChart'), {
+        type: 'bar',
+        data: {
+          labels: ['부시 (2001~2009)\n파키스탄 등', '오바마 1기 (2009~2013)', '오바마 2기 (2013~2017)'],
+          datasets: [{
+            label: '드론 공습 횟수',
+            data: [57, 330, 233],
+            backgroundColor: ['#6b7280', '#e11d48', '#f43f5e'],
+            borderRadius: 3,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+          animations: { y: { from: 0 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.raw}회` } }
+          },
+          scales: {
+            x: { ticks: { color: '#777', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#777', font: { size: 10 } }, grid: { color: '#e5e5e5' } }
+          }
+        }
+      });
+    };
+
+    // Chart 4: 중동 군사비 비교
+    chartConfigs['mideastMilChart'] = () => {
+      new Chart(document.getElementById('mideastMilChart'), {
+        type: 'bar',
+        data: {
+          labels: ['사우디아라비아', '이란', '이스라엘'],
+          datasets: [{
+            label: '군사비 (억 달러, 2023년 추정)',
+            data: [756, 102, 236],
+            backgroundColor: ['#2563eb', '#e11d48', '#6b7280'],
+            borderRadius: 3,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 180 },
+          animations: { y: { from: 0 } },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ` ${ctx.raw}억 달러` } }
+          },
+          scales: {
+            x: { ticks: { color: '#1a1a1a', font: { size: 11 } }, grid: { display: false } },
+            y: {
+              ticks: { color: '#777', font: { size: 10 }, callback: v => v + '억' },
+              grid: { color: '#e5e5e5' }
+            }
+          }
+        }
+      });
+    };
+
+    // ─── OBSERVER 2: chart trigger ────────────────────────
+    const chartObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const canvas = entry.target.querySelector('canvas');
+          if (canvas && chartConfigs[canvas.id]) {
+            setTimeout(() => {
+              chartConfigs[canvas.id]();
+              entry.target.classList.add('chart-ready');
+              delete chartConfigs[canvas.id];
+            }, 200);
+          }
+          chartObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+
+    document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+  </script>
+</body>
+</html>
