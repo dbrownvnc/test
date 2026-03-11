@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>How to Trade Cracks in the Markets — AI, Risks & Vols 분석</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── HEADER ── */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.08;
+    }
+    .hero-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 6vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 20px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .meta-chip {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── CONTENT ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+    .section { padding: 36px 0 0; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .divider {
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      margin-bottom: 20px;
+    }
+
+    p { margin-bottom: 14px; color: var(--text); font-size: 15px; }
+    p:last-child { margin-bottom: 0; }
+
+    strong, b { color: var(--text); font-weight: 600; }
+    em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+    /* ── QUOTE ── */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      background: var(--bg2);
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-block p {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-size: 15px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 20px 0;
+    }
+    .highlight-box .hb-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    /* ── KEY STAT ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-card .stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-card .stat-label {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead tr { background: var(--accent); color: #fff; }
+    thead th { padding: 10px 12px; text-align: left; font-weight: 500; font-size: 12px; letter-spacing: 0.05em; }
+    tbody tr { background: var(--bg2); border-bottom: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: #fff; }
+    tbody td { padding: 9px 12px; }
+
+    /* ── CHART ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+
+    /* ── RISK METER ── */
+    .risk-meter {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .risk-meter .rm-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+    .risk-bar-bg {
+      background: var(--border);
+      border-radius: 4px;
+      height: 10px;
+      margin-bottom: 6px;
+      overflow: hidden;
+    }
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(to right, #22c55e, #f59e0b, var(--accent));
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+      width: 0;
+    }
+    .risk-bar-fill.animated { width: var(--target-width); }
+    .risk-item { margin-bottom: 14px; }
+    .risk-item:last-child { margin-bottom: 0; }
+    .risk-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+
+    /* ── LIST STYLE ── */
+    .styled-list { list-style: none; padding: 0; margin: 0 0 14px; }
+    .styled-list li {
+      padding: 8px 0 8px 20px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .styled-list li:last-child { border-bottom: none; }
+    .styled-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 17px;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 60px;
+      background: var(--text);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 24px;
+      font-size: 11px;
+    }
+
+    /* ── SEPARATOR ── */
+    .sep { height: 1px; background: var(--border); margin: 32px 0 0; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-tag">Market Analysis · Investment Memo Podcast</div>
+    <h1>시장의 균열을 포착하는 법<br><em style="color:#f43f5e;font-style:italic;">AI, 리스크, 그리고 변동성</em></h1>
+    <div class="hero-sub">How to Trade Cracks in the Markets — AI, Risks, and Vols</div>
+    <div class="hero-meta">
+      <span class="meta-chip">📅 2026.03.11</span>
+      <span class="meta-chip">🎙 The Investment Memo</span>
+      <span class="meta-chip">💡 Eric Rosen × Han</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- 1. 개요 -->
+  <div class="section fade-in">
+    <div class="section-label">Overview</div>
+    <div class="section-title">핵심 요약</div>
+    <div class="divider"></div>
+    <p>이 팟캐스트는 크레딧 시장 베테랑 <strong>Eric Rosen</strong>과 AI 분석 플랫폼 <em>Terminal X</em> 창업자 <strong>Han</strong>의 대화다. 두 사람은 AI의 고용 파괴력, 하이퍼스케일러의 대규모 설비투자(CapEx) 지속 가능성, 그리고 현재 미국 증시의 밸류에이션 과열 여부를 심층 분석한다.</p>
+    <div class="highlight-box fade-in">
+      <div class="hb-title">⚡ 핵심 메시지 3가지</div>
+      <ul class="styled-list">
+        <li>AI는 단순 반복 업무부터 시작해 금융·법률까지 점진적으로 잠식하며, <strong>인력 효율은 8명→0.5명/백만달러 매출</strong> 수준으로 수렴 중</li>
+        <li>하이퍼스케일러의 클라우드 CapEx는 <strong>YoY +45%</strong> 예상되며 단기 과잉 가능성은 낮지만 5년 후 오버빌드 가능성은 배제 불가</li>
+        <li>S&P 500 선행 PER 22배, CAPE 40배 등 모든 밸류에이션 지표가 역사적 평균을 <strong>크게 상회</strong> — 투자자는 오류 여지(Margin of Error)가 좁다</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 2. AI 고용 파괴 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 1</div>
+    <div class="section-title">AI의 고용 파괴 — 어디까지 왔나</div>
+    <div class="divider"></div>
+
+    <p>최근 몇 주 사이 발표된 두 편의 보고서가 상반된 전망을 내놨다. 하나는 <strong>"18~24개월 내 사무·생산직의 50%가 AI로 대체"</strong>된다는 충격적 예측이었고, 다른 하나는 씨타델(Citadel)이 반박하며 "그렇게 빠르지는 않다"고 주장했다.</p>
+
+    <div class="quote-block fade-in">
+      <p>"주니어 뱅커로서 내가 했던 일은 이제 봇이 할 수 있다. 딜 메모 작성은 그리 어렵지 않다."</p>
+    </div>
+
+    <p>Eric은 자신의 아들(대학 신입생)과 딸(고교 시니어)의 취업 전망을 걱정하며 현실감 있게 상황을 설명했다. 특히 물류 창고의 경우 <strong>로봇 1대가 직원 3명을 대체</strong>하고 비용은 그 일부에 불과하다고 지적했다.</p>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="stat-val">8→0.5</div>
+        <div class="stat-label">백만 달러 매출 창출에<br>필요한 인원 변화</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">1→5+</div>
+        <div class="stat-label">주니어 뱅커 1인의<br>주간 딜메모 처리 능력</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">3→1</div>
+        <div class="stat-label">로봇 1대로<br>대체 가능한 직원 수</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">4,000</div>
+        <div class="stat-label">Block의 전체 1만 명 중<br>감원 규모</div>
+      </div>
+    </div>
+
+    <p><strong>Han</strong>은 법률과 금융의 AI 수용 속도 차이를 지적했다. 법률은 텍스트 기반 판례 연구이므로 LLM에 최적화되어 있는 반면, 금융은 수치·모델·엣지케이스 검증 등 복잡한 정량 작업이 필요해 AI 대체가 더 어렵다고 분석했다.</p>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>직종/업무</th>
+            <th>AI 대체 난이도</th>
+            <th>근거</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>세무·회계·감사</td><td>🟢 낮음 (빠른 대체)</td><td>규칙 기반 반복 작업</td></tr>
+          <tr><td>법률 리서치·계약서</td><td>🟡 중간</td><td>텍스트 기반, LLM에 최적</td></tr>
+          <tr><td>딜 메모·IB 분석</td><td>🟡 중간</td><td>80% 자동화 후 인간 검토</td></tr>
+          <tr><td>알고 트레이딩 (주식·채권)</td><td>🟢 낮음</td><td>유동성 확보 시 급속 확산</td></tr>
+          <tr><td>세일즈·관계 관리</td><td>🔴 높음 (느린 대체)</td><td>신뢰·정서·컬러 제공 불가</td></tr>
+          <tr><td>물류·배달 드라이버</td><td>🟢 낮음</td><td>자율주행·로봇 대체 중</td></tr>
+          <tr><td>프라이빗 크레딧 트레이딩</td><td>🔴 높음</td><td>유동성 없어 알고 불가</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 3. AI 채용 S커브 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 2</div>
+    <div class="section-title">AI 도입의 S커브 — 기술이 아니라 조직의 문제</div>
+    <div class="divider"></div>
+
+    <p>Han은 AI 도입 속도를 결정짓는 것이 기술 자체가 아니라 <strong>기업 내부의 레거시 인프라</strong>라고 강조했다. Terminal X를 바이사이드(Buy-side) 운용사에 배포할 때 실제 장벽은 모델 성능이 아니었다.</p>
+
+    <ul class="styled-list fade-in">
+      <li>거대한 IT 레거시 인프라와 기존 캘린더 사이클</li>
+      <li>데이터 보안 장벽과 컴플라이언스·법무 승인 절차</li>
+      <li>수십 년간 개인 인박스·스프레드시트에 분산된 기관 기억(Institutional Memory)</li>
+    </ul>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">📐 S커브의 실제 의미</div>
+      <p style="font-size:14px;color:var(--text);">자산운용사가 AI 도입을 결정한 시점부터 실제 프로덕션 워크플로우로 실행하기까지 <strong>"수개월, 길면 1년"</strong>의 간격이 존재한다. S커브의 기울기는 기술 혁신이 아닌 조직 변화 속도에 의해 결정된다.</p>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 4. 하이퍼스케일러 CapEx -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 3</div>
+    <div class="section-title">하이퍼스케일러 CapEx — 과잉 투자인가 성장의 신호인가</div>
+    <div class="divider"></div>
+
+    <p>뱅크오브아메리카(BofA)는 클라우드 CapEx가 <em>전년 대비 +45%</em> 증가할 것으로 전망했다. Eric은 이에 대해 단기(1~2년)에는 오버빌드 가능성이 낮다고 봤지만, <strong>5년 후에는 마이애미 부동산 사이클처럼 오버빌드가 나타날 수 있다</strong>고 경고했다.</p>
+
+    <div class="chart-container fade-in">
+      <canvas id="capexChart" height="230"></canvas>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>"AI는 엄청난 컴퓨팅 파워와 인프라를 필요로 한다. 데이터센터 지출은 정당하다. 하지만 5년 후 오버빌드라고 말하게 될 가능성이 제로는 아니다."</p>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 5. 밸류에이션 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 4</div>
+    <div class="section-title">증시 밸류에이션 — 균열의 신호들</div>
+    <div class="divider"></div>
+
+    <p>Eric이 제시한 네 가지 밸류에이션 지표는 모두 역사적 평균을 크게 웃돌고 있다. 이것이 즉각적인 폭락을 의미하지는 않지만, <strong>오류 여지(Margin of Error)가 크게 줄어든 상태</strong>임을 시사한다.</p>
+
+    <div class="chart-container fade-in">
+      <canvas id="valChart" height="240"></canvas>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr><th>지표</th><th>현재 수치</th><th>역사적 평균</th><th>괴리율</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>S&P 500 선행 PER</td><td><strong>22.0배</strong></td><td>17.0배 (30년)</td><td>+29%</td></tr>
+          <tr><td>표준편차 기준 (1σ)</td><td>20.4배</td><td>—</td><td>현재 1σ 초과</td></tr>
+          <tr><td>CAPE (쉴러 PER)</td><td><strong>40배</strong></td><td>17배 (장기 평균)</td><td>+135%</td></tr>
+          <tr><td>CAPE 역대 최고</td><td>44.2배 (2000년)</td><td>—</td><td>현재 역대 2위권</td></tr>
+          <tr><td>S&P 500 PSR (주가매출비율)</td><td><strong>3.4배</strong></td><td>중앙값 1.6 / 평균 1.8배</td><td>+89~112%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">🔑 Eric의 해석</div>
+      <p style="font-size:14px;color:var(--text);">"시장이 내일 제로가 된다는 뜻이 아니다. 역사적 평균 근처에서 거래될 때 돌발 충격이 와도 폭락이 크지 않다. <strong>지금처럼 고평가된 상태에서 나쁜 일이 생기면 훨씬 크게 떨어진다.</strong>"</p>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 6. 실물 시장 균열 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 5</div>
+    <div class="section-title">실물 시장의 균열 — 무엇이 보이나</div>
+    <div class="divider"></div>
+
+    <p>Eric은 부동산·신용·소프트웨어 등 여러 시장에서 균열이 감지된다고 설명했다. 특히 텍사스의 집합주택 시장이 주목할 만한 사례다.</p>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">🏢 텍사스 아파트 압류 사례</div>
+      <p style="font-size:14px;color:var(--text);">최근 한 달 간 텍사스에서 <strong>8억 달러</strong>의 압류가 발생했으며, 그 중 <strong>70%가 아파트 건물</strong>이었다. 건물 자체는 임차인이 가득 차 있지만, 저금리 시절 대출(~4%)의 만기가 돌아오자 현재 금리(~8%)로 재융자가 불가능해 <em>원리금 상환 비율(DSCR)</em>을 충족하지 못하는 구조다.</p>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr><th>균열 부문</th><th>구체적 내용</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>상업용 부동산</td><td>오피스 연체율 상승</td></tr>
+          <tr><td>주거용 부동산</td><td>텍사스 아파트 $8억 압류, 70%가 집합주택</td></tr>
+          <tr><td>은행주</td><td>신용 이슈 우려로 최근 급락</td></tr>
+          <tr><td>소프트웨어</td><td>AI 대체로 일부 SaaS 압박</td></tr>
+          <tr><td>프라이빗 크레딧</td><td>리스크 누적 논의 중</td></tr>
+          <tr><td>하이퍼스케일러</td><td>CapEx 과잉 논쟁 지속</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 7. VIX & 투자전략 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 6</div>
+    <div class="section-title">VIX와 투자전략 — 변동성을 읽는 법</div>
+    <div class="divider"></div>
+
+    <p>Eric의 변동성 지수(VIX) 활용 원칙은 단순하지만 강력하다. <em>공포가 극에 달할 때 사고, 안심할 때 판다.</em></p>
+
+    <div class="chart-container fade-in">
+      <canvas id="vixChart" height="230"></canvas>
+    </div>
+
+    <div class="risk-meter fade-in">
+      <div style="font-weight:600;font-size:13px;margin-bottom:14px;">📊 VIX 레벨별 Eric의 포지션 전략</div>
+      <div class="risk-item">
+        <div class="risk-row"><span>VIX 10~13 → <strong>리스크 매도 구간</strong></span><span style="color:var(--accent)">공포 없음</span></div>
+        <div class="risk-bar-bg"><div class="risk-bar-fill" style="--target-width:20%;background:#22c55e;"></div></div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-row"><span>VIX ~20 → <strong>현재 수준 (주의 구간)</strong></span><span style="color:#f59e0b">경계</span></div>
+        <div class="risk-bar-bg"><div class="risk-bar-fill" style="--target-width:50%;background:#f59e0b;"></div></div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-row"><span>VIX 28 → <strong>최근 스파이크</strong></span><span style="color:var(--accent)">급등</span></div>
+        <div class="risk-bar-bg"><div class="risk-bar-fill" style="--target-width:70%;"></div></div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-row"><span>VIX 35~40+ → <strong>리스크 매수 구간</strong></span><span style="color:var(--accent)">극단적 공포</span></div>
+        <div class="risk-bar-bg"><div class="risk-bar-fill" style="--target-width:95%;"></div></div>
+      </div>
+    </div>
+
+    <p>현재 그는 <strong>2007년 수준의 패닉 상태는 아니지만 목덜미 털이 서는 수준의 경계감</strong>을 유지하며 다음과 같은 포트폴리오 조정을 하고 있다고 밝혔다.</p>
+
+    <ul class="styled-list fade-in">
+      <li>현금 비중 확대 유지</li>
+      <li>하락 시 <strong>금·은·원자재</strong> 매수 강화</li>
+      <li>VIX 트레이드는 딜러 네트워크의 인적 정보(컬러)를 활용해 결정</li>
+      <li>2007년처럼 VIX 10 이하에서 옵션 매수는 현재 비용이 높아 어려움</li>
+    </ul>
+
+    <div class="quote-block fade-in">
+      <p>"VIX가 35, 40을 넘으면 나는 리스크를 산다. VIX가 10, 12, 13이면 리스크를 판다. 지금은 20을 넘고 있고 지난 주 17에서 28까지 순식간에 튀었다."</p>
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 8. 인간의 역할 -->
+  <div class="section fade-in">
+    <div class="section-label">Topic 7</div>
+    <div class="section-title">AI가 대체할 수 없는 것 — 관계와 색깔(Color)</div>
+    <div class="divider"></div>
+
+    <p>두 전문가 모두 AI 시대에도 <strong>인간 관계의 불가대체성</strong>을 강조했다. 특히 크레딧 시장에서 "컬러(Color)"—즉 매도 물량의 크기, 기술적 흐름, 시장 감각—는 사람에게서만 얻을 수 있다는 것이다.</p>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">🤝 인간이 지켜야 할 영역</div>
+      <ul class="styled-list" style="margin-top:8px;">
+        <li><strong>세일즈·관계 구축</strong> — 신뢰 기반 장기 관계는 알고리즘이 복제 불가</li>
+        <li><strong>크레딧 마켓 컬러 제공</strong> — 매도 규모, 기술적 흐름 파악은 인간만 가능</li>
+        <li><strong>VIX 트레이드 판단</strong> — 딜러와의 인적 대화가 기계보다 낫다</li>
+      </ul>
+    </div>
+
+    <p>"S&P 500 기업이 백만 달러 매출을 내는 데 35년간 8명에서 2명으로 줄었다면, 앞으로 5~10년 안에 <strong>0.5명</strong>으로 갈 것"이라는 전망은 충격적이지만, 그 마지막 0.5명의 핵심 역할은 여전히 인간적이다.</p>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- 9. 종합 투자 시사점 -->
+  <div class="section fade-in">
+    <div class="section-label">Conclusion</div>
+    <div class="section-title">종합 투자 시사점</div>
+    <div class="divider"></div>
+
+    <div class="chart-container fade-in">
+      <canvas id="radarChart" height="250"></canvas>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr><th>투자 관점</th><th>Eric의 입장</th><th>구체적 행동</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>증시 전반</td><td>⚠️ 고평가, 주의</td><td>현금 비중 확대, 신중 투자</td></tr>
+          <tr><td>원자재·귀금속</td><td>✅ 긍정</td><td>하락 시 금·은·원자재 매수</td></tr>
+          <tr><td>변동성(VIX)</td><td>✅ 기회</td><td>VIX 35~40 이상 시 리스크 매수</td></tr>
+          <tr><td>AI 테크주</td><td>🔄 중립</td><td>단기 CapEx 정당, 5년 오버빌드 주의</td></tr>
+          <tr><td>부동산·리츠</td><td>❌ 경계</td><td>금리 부담, 텍사스 압류 사례 주시</td></tr>
+          <tr><td>헤지 비용(옵션)</td><td>⚠️ 비쌈</td><td>VIX 20+로 2007년 대비 헤징 비용 높음</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>"2007년처럼 전면적 패닉 모드는 아니다. 하지만 목덜미 털이 약간 서는 수준으로, 나는 투자에 더 신중해지고 있다."— Eric Rosen</p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  The Investment Memo Podcast | 분석 기준일: 2026.03.11 | 본 문서는 투자 권유가 아닙니다.
+</div>
+
+<script>
+  // ── FADE OBSERVER ──
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+  // ── RISK BAR OBSERVER ──
+  const riskObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.risk-bar-fill').forEach(bar => bar.classList.add('animated'));
+        riskObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.risk-meter').forEach(el => riskObs.observe(el));
+
+  // ── CHART CONFIGS ──
+  const chartConfigs = {};
+
+  // CapEx 바 차트
+  chartConfigs['capexChart'] = () => {
+    new Chart(document.getElementById('capexChart'), {
+      type: 'bar',
+      data: {
+        labels: ['2022', '2023', '2024', '2025(E)'],
+        datasets: [{
+          label: '클라우드 CapEx 성장률 (YoY %)',
+          data: [28, 18, 32, 45],
+          backgroundColor: ['#6b7280','#6b7280','#1a1a1a','#e11d48'],
+          borderRadius: 5,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '하이퍼스케일러 클라우드 CapEx 성장률 (%)', color: '#1a1a1a', font: { size: 13, weight: '500' }, padding: { bottom: 10 } }
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#e5e5e5' }, ticks: { color: '#777', callback: v => v + '%' } },
+          x: { grid: { display: false }, ticks: { color: '#777' } }
+        }
+      }
+    });
+  };
+
+  // 밸류에이션 비교 차트
+  chartConfigs['valChart'] = () => {
+    new Chart(document.getElementById('valChart'), {
+      type: 'bar',
+      data: {
+        labels: ['선행 PER', 'CAPE (쉴러)', 'PSR (주가매출비)'],
+        datasets: [
+          {
+            label: '역사적 평균',
+            data: [17, 17, 1.7],
+            backgroundColor: '#6b7280',
+            borderRadius: 4,
+            borderSkipped: false,
+          },
+          {
+            label: '현재 수치',
+            data: [22, 40, 3.4],
+            backgroundColor: '#e11d48',
+            borderRadius: 4,
+            borderSkipped: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { labels: { color: '#1a1a1a', font: { size: 11 } } },
+          title: { display: true, text: 'S&P 500 밸류에이션 — 현재 vs 역사적 평균', color: '#1a1a1a', font: { size: 13, weight: '500' }, padding: { bottom: 10 } }
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#e5e5e5' }, ticks: { color: '#777' } },
+          x: { grid: { display: false }, ticks: { color: '#777', font: { size: 11 } } }
+        }
+      }
+    });
+  };
+
+  // VIX 라인 차트
+  chartConfigs['vixChart'] = () => {
+    new Chart(document.getElementById('vixChart'), {
+      type: 'line',
+      data: {
+        labels: ['VIX 10', 'VIX 13', 'VIX 17', 'VIX 20', 'VIX 28(최근)', 'VIX 35', 'VIX 40+'],
+        datasets: [{
+          label: 'Eric의 리스크 선호도',
+          data: [10, 20, 40, 50, 65, 85, 100],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.08)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: ['#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#e11d48','#e11d48'],
+          pointRadius: 5,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1800, easing: 'easeInOutQuart' },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'VIX 레벨 → 리스크 매수 의향 (개념도)', color: '#1a1a1a', font: { size: 13, weight: '500' }, padding: { bottom: 10 } }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 110, grid: { color: '#e5e5e5' }, ticks: { color: '#777', callback: v => v + '%' } },
+          x: { grid: { display: false }, ticks: { color: '#777', font: { size: 10 } } }
+        }
+      }
+    });
+  };
+
+  // 레이더 차트 — 시장 리스크 평가
+  chartConfigs['radarChart'] = () => {
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['밸류에이션 리스크', 'AI 파괴 속도', 'CapEx 과잉 우려', '부동산 균열', '고용 시장 불안', 'VIX 헤지 비용'],
+        datasets: [{
+          label: '현재 리스크 레벨',
+          data: [85, 60, 50, 70, 55, 65],
+          backgroundColor: 'rgba(225,29,72,0.12)',
+          borderColor: '#e11d48',
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '시장 리스크 종합 평가 (0~100)', color: '#1a1a1a', font: { size: 13, weight: '500' }, padding: { bottom: 8 } }
+        },
+        scales: {
+          r: {
+            beginAtZero: true, max: 100,
+            grid: { color: '#e5e5e5' },
+            angleLines: { color: '#e5e5e5' },
+            pointLabels: { color: '#1a1a1a', font: { size: 10 } },
+            ticks: { display: false }
+          }
+        }
+      }
+    });
+  };
+
+  // ── CHART OBSERVER ──
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const canvas = entry.target.querySelector('canvas');
+        if (canvas && chartConfigs[canvas.id]) {
+          setTimeout(() => {
+            chartConfigs[canvas.id]();
+            entry.target.classList.add('chart-ready');
+            delete chartConfigs[canvas.id];
+          }, 200);
+        }
+        chartObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>

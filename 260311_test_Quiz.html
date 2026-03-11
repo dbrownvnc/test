@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>시장균열·AI·변동성 — 시험문제</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --green: #16a34a;
+      --blue: #2563eb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 44px 24px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.1;
+    }
+    .hero-tag {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 5.5vw, 32px);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .hero-sub { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── TAB ── */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin: 0 0 0;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 100;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 14px 8px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── SECTION ── */
+    .tab-panel { display: none; padding: 28px 0 60px; }
+    .tab-panel.active { display: block; }
+
+    .panel-header {
+      text-align: center;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+    .panel-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .panel-header p { font-size: 12px; color: var(--text2); }
+
+    /* ── QUESTION CARD ── */
+    .q-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .q-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .q-num {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .q-type {
+      font-size: 10px;
+      color: var(--text2);
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .q-stars { font-size: 11px; margin-left: auto; }
+    .q-body { padding: 14px 16px 16px; }
+    .q-text { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 12px; line-height: 1.6; }
+    .q-options { list-style: none; }
+    .q-options li {
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      margin-bottom: 6px;
+      background: #fff;
+      color: var(--text);
+    }
+    .q-options li span { font-weight: 600; color: var(--accent); margin-right: 6px; }
+    .q-blank {
+      display: inline-block;
+      border-bottom: 2px solid var(--accent);
+      min-width: 60px;
+      padding: 0 4px;
+      color: transparent;
+    }
+
+    /* ── ANSWER CARD ── */
+    .a-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      padding: 16px 18px;
+    }
+    .a-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .a-num {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 13px;
+    }
+    .a-correct {
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+    .a-explain {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.65;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .a-explain strong { color: var(--text); }
+
+    /* ── SCORE BOX ── */
+    .score-guide {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .sg-item {
+      flex: 1;
+      min-width: 80px;
+      text-align: center;
+    }
+    .sg-val { font-size: 22px; font-weight: 700; color: var(--accent); }
+    .sg-label { font-size: 10px; color: var(--text2); }
+
+    /* ── FADE ── */
+    .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <div class="hero-tag">Quiz · 시험문제</div>
+    <h1>시장의 균열을 포착하는 법<br>AI · 리스크 · 변동성</h1>
+    <div class="hero-sub">How to Trade Cracks in the Markets — 총 10문제</div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('questions')">📋 문제지</button>
+    <button class="tab-btn" onclick="switchTab('answers')">📝 정답지</button>
+  </div>
+
+  <!-- ══ 문제지 ══ -->
+  <div id="questions" class="tab-panel active">
+    <div class="panel-header fade-in">
+      <h2>📋 시험문제 (총 10문제)</h2>
+      <p>⭐ 쉬움 3문제 &nbsp;|&nbsp; ⭐⭐ 보통 5문제 &nbsp;|&nbsp; ⭐⭐⭐ 어려움 2문제</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 1</span>
+        <span class="q-type">객관식</span>
+        <span class="q-stars">⭐ 쉬움</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">Eric Rosen이 VIX가 어느 수준일 때 "리스크를 매수(Buy Risk)"한다고 했는가?</div>
+        <ul class="q-options">
+          <li><span>①</span> VIX 10~13</li>
+          <li><span>②</span> VIX 17~20</li>
+          <li><span>③</span> VIX 25~30</li>
+          <li><span>④</span> VIX 35~40 이상</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 2</span>
+        <span class="q-type">객관식</span>
+        <span class="q-stars">⭐ 쉬움</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">팟캐스트 기준 S&P 500의 선행 PER(Forward PE Ratio)는 얼마였으며, 30년 역사적 평균은 얼마인가?</div>
+        <ul class="q-options">
+          <li><span>①</span> 현재 17배 / 역사 22배</li>
+          <li><span>②</span> 현재 22배 / 역사 17배</li>
+          <li><span>③</span> 현재 40배 / 역사 20배</li>
+          <li><span>④</span> 현재 3.4배 / 역사 1.6배</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 3</span>
+        <span class="q-type">OX 문제</span>
+        <span class="q-stars">⭐ 쉬움</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">다음 진술이 옳으면 O, 틀리면 X를 선택하시오.<br><br>
+        <em style="font-style:italic;color:#555">"Eric은 AI가 법률 분야보다 금융 분야를 더 빨리 대체할 것이라고 주장했다."</em></div>
+        <ul class="q-options">
+          <li><span>O</span> 옳다 — 금융이 더 빠르게 대체된다</li>
+          <li><span>X</span> 틀리다 — 법률이 AI 대체가 더 쉽다 (한 참여자의 관점)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 4</span>
+        <span class="q-type">객관식</span>
+        <span class="q-stars">⭐⭐ 보통</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">Bank of America가 전망한 클라우드 CapEx의 전년 대비 성장률(YoY)은 얼마인가?</div>
+        <ul class="q-options">
+          <li><span>①</span> +18%</li>
+          <li><span>②</span> +28%</li>
+          <li><span>③</span> +45%</li>
+          <li><span>④</span> +70%</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 5</span>
+        <span class="q-type">단답형</span>
+        <span class="q-stars">⭐⭐ 보통</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">Eric에 따르면, S&P 500 기업이 백만 달러 매출을 만드는 데 필요한 인원이 과거 35년간 <strong>8명 → 2명</strong>으로 줄었다. 그는 앞으로 5~10년 후에는 몇 명 수준이 될 것이라고 전망했는가?</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 6</span>
+        <span class="q-type">빈칸채우기</span>
+        <span class="q-stars">⭐⭐ 보통</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">아래 문장의 빈칸을 채우시오.<br><br>
+        텍사스에서 최근 한 달간 발생한 부동산 압류는 총 <span class="q-blank">①</span> 달러 규모이며, 그 중 <span class="q-blank">②</span>%가 아파트 건물이었다. 이는 저금리 시절 대출이 만기 도래하면서 현재 높은 금리로 인해 <span class="q-blank">③</span>(원리금 상환 비율)을 충족하지 못했기 때문이다.</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 7</span>
+        <span class="q-type">객관식</span>
+        <span class="q-stars">⭐⭐ 보통</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">CAPE 비율(쉴러 PER)의 현재 수치와 역사적 평균을 올바르게 짝지은 것은?</div>
+        <ul class="q-options">
+          <li><span>①</span> 현재 22배 / 평균 17배</li>
+          <li><span>②</span> 현재 40배 / 평균 17배</li>
+          <li><span>③</span> 현재 44.2배 / 평균 40배</li>
+          <li><span>④</span> 현재 3.4배 / 평균 1.6배</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 8</span>
+        <span class="q-type">객관식</span>
+        <span class="q-stars">⭐⭐ 보통</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">Han이 Terminal X를 운용사에 배포할 때 실제로 가장 큰 장벽이라고 설명한 것은 무엇인가?</div>
+        <ul class="q-options">
+          <li><span>①</span> AI 모델의 기술적 한계</li>
+          <li><span>②</span> 코딩 및 엔지니어링 문제</li>
+          <li><span>③</span> 기업 내부의 레거시 인프라·컴플라이언스·기관 기억</li>
+          <li><span>④</span> 데이터의 절대적 부족</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 9</span>
+        <span class="q-type">서술형</span>
+        <span class="q-stars">⭐⭐⭐ 어려움</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">Eric이 현재 시장에 대해 "2008년 수준의 위기"는 아니라고 하면서도 투자에 신중해지는 이유를 <strong>밸류에이션 지표 2가지 이상을 인용</strong>하여 서술하시오. (3~5문장)</div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="q-card fade-in">
+      <div class="q-header">
+        <span class="q-num">문제 10</span>
+        <span class="q-type">서술형</span>
+        <span class="q-stars">⭐⭐⭐ 어려움</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">법률 분야와 금융 분야에서 AI 대체 속도가 다른 이유를 두 참여자(Eric과 Han)의 관점을 각각 포함하여 비교 설명하시오. (4~6문장)</div>
+      </div>
+    </div>
+
+  </div><!-- /questions -->
+
+  <!-- ══ 정답지 ══ -->
+  <div id="answers" class="tab-panel">
+    <div class="panel-header fade-in">
+      <h2>📝 정답 및 해설</h2>
+      <p>각 문제의 정답과 핵심 근거를 확인하세요</p>
+    </div>
+
+    <div class="score-guide fade-in">
+      <div class="sg-item"><div class="sg-val">10</div><div class="sg-label">총 문제</div></div>
+      <div class="sg-item"><div class="sg-val" style="color:#22c55e">3</div><div class="sg-label">⭐ 쉬움</div></div>
+      <div class="sg-item"><div class="sg-val" style="color:#f59e0b">5</div><div class="sg-label">⭐⭐ 보통</div></div>
+      <div class="sg-item"><div class="sg-val" style="color:var(--accent)">2</div><div class="sg-label">⭐⭐⭐ 어려움</div></div>
+    </div>
+
+    <!-- A1 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 1</span>
+        <span class="a-correct">정답: ④</span>
+      </div>
+      <div class="a-explain">
+        <strong>VIX 35~40 이상</strong>일 때 Eric은 리스크를 매수한다. 반대로 VIX 10~13처럼 낮을 때는 리스크를 매도한다. 공포 지수가 극단적으로 높을 때 역발상 투자를 하는 전형적인 contrarian 전략이다.
+      </div>
+    </div>
+
+    <!-- A2 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 2</span>
+        <span class="a-correct">정답: ②</span>
+      </div>
+      <div class="a-explain">
+        팟캐스트 당일 기준 S&P 500 선행 PER은 <strong>22배</strong>이며, 30년 역사적 평균은 <strong>17배</strong>다. 1표준편차 기준선(20.4배)을 이미 넘어선 수준으로 Eric은 "상당히 고평가"라고 표현했다.
+      </div>
+    </div>
+
+    <!-- A3 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 3</span>
+        <span class="a-correct">정답: X</span>
+      </div>
+      <div class="a-explain">
+        Han은 <strong>법률이 AI 대체가 더 쉽다</strong>고 주장했다. 법률은 텍스트 기반 판례 연구여서 LLM에 최적화되어 있는 반면, 금융은 수치 모델·엣지케이스 검증·민감도 분석 등 복잡한 정량 작업이 필요해 AI 대체가 상대적으로 어렵다.
+      </div>
+    </div>
+
+    <!-- A4 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 4</span>
+        <span class="a-correct">정답: ③</span>
+      </div>
+      <div class="a-explain">
+        BofA는 클라우드 CapEx가 <strong>전년 대비 +45%</strong> 증가할 것으로 전망했다. Eric은 단기(1~2년)에는 이 투자가 합리적이라고 봤지만, 5년 후에는 마이애미 콘도 사이클처럼 오버빌드 가능성이 있다고 경고했다.
+      </div>
+    </div>
+
+    <!-- A5 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 5</span>
+        <span class="a-correct">정답: 0.5명</span>
+      </div>
+      <div class="a-explain">
+        Eric은 "백만 달러 매출에 필요한 인원이 8명 → 2명으로 줄었고, 앞으로 5~10년 안에 <strong>0.5명</strong>(반 명)까지 떨어질 것"이라고 전망했다. AI의 생산성 충격으로 인해 기업 효율화가 극단적으로 진행될 것이라는 주장이다.
+      </div>
+    </div>
+
+    <!-- A6 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 6</span>
+        <span class="a-correct">정답: ① 8억 달러 &nbsp;② 70% &nbsp;③ DSCR</span>
+      </div>
+      <div class="a-explain">
+        텍사스에서 한 달간 <strong>8억 달러</strong>의 압류 중 <strong>70%가 아파트 건물</strong>이었다. 건물은 임차인이 가득 차 있지만, 저금리(~4%) 대출 만기 후 현재 금리(~8%)로 재융자 시 <strong>DSCR(Debt Service Coverage Ratio, 원리금 상환 비율)</strong>을 충족하지 못해 은행에 건물을 반납하는 상황이다.
+      </div>
+    </div>
+
+    <!-- A7 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 7</span>
+        <span class="a-correct">정답: ②</span>
+      </div>
+      <div class="a-explain">
+        CAPE 비율(쉴러 PER)은 현재 <strong>약 40배</strong>이며, 역사적 장기 평균은 <strong>17배</strong>다. 역사적 최고점은 2000년의 44.2배였다. 현재 수치는 역사상 두 번째로 높은 수준으로 극단적 고평가를 나타낸다.
+      </div>
+    </div>
+
+    <!-- A8 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 8</span>
+        <span class="a-correct">정답: ③</span>
+      </div>
+      <div class="a-explain">
+        Han은 "기술적 복잡성이 장벽인 적이 없다"고 명시했다. 실제 장벽은 <strong>기업의 IT 레거시 인프라, 데이터 보안 장벽, 컴플라이언스 승인, 그리고 수십 년간 분산된 기관 기억(institutional memory)</strong>이라고 설명했다. S커브는 기술이 아닌 조직 변화의 속도로 결정된다.
+      </div>
+    </div>
+
+    <!-- A9 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 9</span>
+        <span class="a-correct">정답: 서술형 (예시 답안)</span>
+      </div>
+      <div class="a-explain">
+        <strong>[예시 답안]</strong> Eric은 S&P 500의 선행 PER이 22배로 30년 평균(17배)을 크게 웃돌고 있으며, 1표준편차 기준선(20.4배)도 초과했다고 지적했다. 또한 CAPE 비율이 40배로 장기 평균(17배)의 두 배 이상이며, 이는 2000년 닷컴버블 최고점(44.2배)에 근접한 수준이다. PSR(주가매출비율)도 3.4배로 중앙값(1.6배)의 두 배를 넘는다. 이처럼 모든 밸류에이션 지표가 역사적 극단에 있어 "오류 여지(margin of error)"가 매우 좁으며, 예기치 않은 충격 발생 시 낙폭이 커질 수 있기 때문에 현금 비중을 늘리고 금·원자재를 선호하는 방향으로 포트폴리오를 조정하고 있다.
+      </div>
+    </div>
+
+    <!-- A10 -->
+    <div class="a-card fade-in">
+      <div class="a-header">
+        <span class="a-num">문제 10</span>
+        <span class="a-correct">정답: 서술형 (예시 답안)</span>
+      </div>
+      <div class="a-explain">
+        <strong>[예시 답안]</strong> Han은 법률이 텍스트 기반의 판례 조사와 계약서 검토로 이루어져 있어 LLM의 특성에 최적화된 분야라고 설명했다. 반면 금융은 수치 모델, 엣지케이스 검증, 민감도 분석, 딜 구조에 맞는 투자심의위원회(IC) 메모 작성 등 복잡한 정량 작업이 필요해 AI 대체가 더 어렵다. Eric은 이에 동의하면서도, 에이전트 AI가 업무의 80%를 완성하고 인간이 나머지를 마무리하는 방식으로 생산성은 극적으로 향상될 수 있다고 봤다. 또한 세무·감사 등 규칙 기반 반복 업무는 두 분야 모두에서 빠르게 자동화될 것이며, 반면 신뢰 기반의 세일즈와 시장 정보(컬러) 제공 같은 관계 중심 업무는 마지막까지 인간의 영역으로 남을 것이라는 데 두 사람이 공감했다.
+      </div>
+    </div>
+
+  </div><!-- /answers -->
+</div><!-- /container -->
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+    // re-trigger fade for newly shown panel
+    document.querySelectorAll('#' + id + ' .fade-in').forEach((el, i) => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), i * 60 + 50);
+    });
+  }
+
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+</script>
+</body>
+</html>
