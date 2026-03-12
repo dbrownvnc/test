@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>오클로(Oklo) 완전 분석 | 혁신인가 설거지인가</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --surface: #131720;
+      --surface2: #1a2030;
+      --border: #252d40;
+      --accent: #e8a020;
+      --accent2: #f0c060;
+      --danger: #e05050;
+      --safe: #40c080;
+      --text: #d8dce8;
+      --text-muted: #7a8299;
+      --text-dim: #4a5268;
+      --glow: rgba(232, 160, 32, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(160deg, #0f1520 0%, #1a1a0a 60%, #0b0e14 100%);
+      padding: 48px 24px 36px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '⚛';
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      font-size: 160px;
+      opacity: 0.04;
+      line-height: 1;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      background: rgba(232,160,32,0.12);
+      border: 1px solid rgba(232,160,32,0.3);
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .hero-meta {
+      margin-top: 20px;
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* VERDICT BOX */
+    .verdict {
+      margin: 0 16px 8px;
+      margin-top: 24px;
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .verdict.warn {
+      background: rgba(224,80,80,0.08);
+      border: 1px solid rgba(224,80,80,0.25);
+    }
+    .verdict.good {
+      background: rgba(64,192,128,0.07);
+      border: 1px solid rgba(64,192,128,0.25);
+    }
+    .verdict-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .verdict-title { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .verdict.warn .verdict-title { color: var(--danger); }
+    .verdict.good .verdict-title { color: var(--safe); }
+    .verdict-body { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* SECTIONS */
+    section {
+      padding: 28px 20px 8px;
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 20px 0 8px;
+    }
+    p { margin-bottom: 12px; font-size: 14px; color: var(--text); }
+    strong { color: #fff; font-weight: 700; }
+    .highlight { color: var(--accent); font-weight: 700; }
+    .red { color: var(--danger); }
+    .green { color: var(--safe); }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 4px 20px;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+    .card p { margin-bottom: 0; font-size: 13px; }
+
+    /* KEY-VALUE */
+    .kv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 8px;
+    }
+    .kv-row:last-child { border-bottom: none; }
+    .kv-key { font-size: 13px; color: var(--text-muted); flex-shrink: 0; }
+    .kv-val { font-size: 13px; color: #fff; font-weight: 600; text-align: right; }
+
+    /* TIMELINE */
+    .timeline { padding: 8px 0; }
+    .tl-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .tl-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 44px;
+    }
+    .tl-year {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(232,160,32,0.12);
+      border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 4px;
+      padding: 2px 5px;
+      white-space: nowrap;
+    }
+    .tl-line {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 6px;
+    }
+    .tl-right { padding-top: 2px; }
+    .tl-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .tl-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+    /* RISK BARS */
+    .risk-row { margin-bottom: 14px; }
+    .risk-label-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .risk-name { font-size: 13px; color: var(--text); }
+    .risk-level { font-size: 12px; font-weight: 700; }
+    .risk-level.high { color: var(--danger); }
+    .risk-level.mid { color: var(--accent); }
+    .risk-level.low { color: var(--safe); }
+    .risk-bar-bg {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .risk-bar-fill.high { background: linear-gradient(90deg, #e05050, #ff7070); }
+    .risk-bar-fill.mid { background: linear-gradient(90deg, #e8a020, #f0c060); }
+    .risk-bar-fill.low { background: linear-gradient(90deg, #40c080, #60e0a0); }
+
+    /* BADGE LIST */
+    .badge-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+    }
+    .badge.pos { background: rgba(64,192,128,0.12); border: 1px solid rgba(64,192,128,0.3); color: var(--safe); }
+    .badge.neg { background: rgba(224,80,80,0.1); border: 1px solid rgba(224,80,80,0.25); color: var(--danger); }
+    .badge.neu { background: rgba(232,160,32,0.1); border: 1px solid rgba(232,160,32,0.25); color: var(--accent); }
+
+    /* QUOTE */
+    .quote {
+      border-left: 3px solid var(--accent);
+      padding: 10px 16px;
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* SUMMARY BOX */
+    .summary-box {
+      background: linear-gradient(135deg, rgba(232,160,32,0.08), rgba(232,160,32,0.03));
+      border: 1px solid rgba(232,160,32,0.25);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 0 0 12px;
+    }
+    .summary-box .sum-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+    .sum-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .sum-item .dot { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+    /* CHART */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 12px;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+      margin-top: 28px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">심층 분석 · 에너지 기술</div>
+  <h1>혁신인가, 설거지인가?<br><em>오클로(Oklo)</em>의 모든 것</h1>
+  <p class="hero-sub">샘 알트만이 직접 발굴·투자한 소형 원전 스타트업 오클로.<br>의혹과 가능성, 두 얼굴을 낱낱이 해부합니다.</p>
+  <div class="hero-meta">
+    <span>📅 2026년 3월 12일</span>
+    <span>⏱ 약 8분 분량</span>
+  </div>
+</div>
+
+<!-- QUICK VERDICT -->
+<div class="verdict warn fade-in">
+  <div class="verdict-icon">⚠️</div>
+  <div>
+    <div class="verdict-title">부정적 시나리오</div>
+    <div class="verdict-body">스펙(SPAC) 우회상장 · 알트만의 이해충돌 · AI 버블 설거지 도구로 악용 가능성</div>
+  </div>
+</div>
+<div class="verdict good fade-in">
+  <div class="verdict-icon">✅</div>
+  <div>
+    <div class="verdict-title">긍정적 시나리오</div>
+    <div class="verdict-body">실리콘밸리식 수직통합 · 에너지 OS 플랫폼 · 메타 1.2GW 계약 · 알트만의 진심</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- 1. 의혹 분석 -->
+<section>
+  <div class="section-label">Part 1</div>
+  <h2>찜찜한 이유들 — 의혹 해부</h2>
+
+  <div class="card fade-in">
+    <div class="card-title">🔴 의혹 ①  SPAC 우회상장</div>
+    <p>정식 IPO(기업공개)는 심사·로드쇼에 최소 2년이 걸리고, 과거 매출 실적이 없으면 불가능합니다. 오클로는 <strong>샘 알트만이 CEO인 유령 회사 'AltC'</strong>를 통해 우회상장했습니다.</p>
+    <p>구매자도 알트만, 판매자도 알트만 — <span class="red">자기 회사를 자기 유령회사에 태운 구조</span>입니다.</p>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-title">🔴 의혹 ②  오픈AI 설거지 시나리오</div>
+    <p>오픈AI는 서버·인건비·전기세로 매일 수백억을 소모 중입니다. 알트만이 <strong>소형원전 테마 + 오픈AI 이름값</strong>으로 주가를 부양 → 개미투자자 돈으로 오픈AI 적자를 메꾼다는 시나리오가 존재합니다.</p>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-title">🔴 의혹 ③  오픈AI 하청 전락 가능성</div>
+    <p>오클로가 성공해도 알트만이 압력을 가해 <span class="red">오픈AI에 헐값으로 전기를 공급</span>하게 할 수 있습니다. 사실상 오픈AI의 에너지 부서로 전락하는 시나리오입니다.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 2. 알트만 반론 -->
+<section>
+  <div class="section-label">Part 2</div>
+  <h2>그래도 알트만을 믿어야 하는 이유</h2>
+
+  <p class="fade-in">스펙 상장이 편법인 건 맞지만, <strong>성과 연동형 보상 구조</strong>로 인해 주가가 특정 가격을 넘지 못하면 알트만은 단 한 주도 가져가지 못합니다. 오클로가 망하면 <span class="red">알트만도 돈과 명성 모두 잃습니다.</span></p>
+
+  <div class="quote fade-in">
+    "알트만의 투자 DNA는 하이리스크·하이리턴. 시스템 자체를 바꿀 기업에만 베팅한다. 오픈AI, 스트라이프, Airbnb — 모두 알트만이 초기에 키운 회사다."
+  </div>
+
+  <p class="fade-in">알트만이 오클로에 처음 투자한 <strong>2013년은 앱 전성기</strong>였습니다. 업계가 비웃었던 타이밍에 원자력 스타트업에 투자한 건, 트렌드 추종이 아니라 진짜 미래를 본 것입니다.</p>
+
+  <div class="badge-list fade-in">
+    <span class="badge pos">투자 원칙: 패러다임 교체</span>
+    <span class="badge pos">절대 지는 게임 안 함</span>
+    <span class="badge neu">2013년 앱 전성기에 원전 투자</span>
+    <span class="badge neu">오픈AI 설립 직전 에너지 문제 먼저 고민</span>
+  </div>
+</section>
+
+<!-- 타임라인 -->
+<section>
+  <div class="section-label">타임라인</div>
+  <h2>오클로와 알트만의 궤적</h2>
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2012</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">오클로 창업</div>
+        <div class="tl-desc">MIT 출신 창업자들, "정부 지원금 없이도 된다" 선언. 실리콘밸리식 방골 정신 탑재.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2013</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">알트만, 오클로 첫 투자</div>
+        <div class="tl-desc">앱 열풍 속 원자력 투자. 업계 "알트만 한물 갔다" 비웃음 → 알트만은 개의치 않음.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2015</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">오픈AI 설립</div>
+        <div class="tl-desc">에너지 문제 해결책(오클로) 확인 후 AI 사업 본격화. 우연이 아님.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2023</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">SPAC 상장 (AltC)</div>
+        <div class="tl-desc">알트만의 유령 회사 통해 우회상장. 논란 시작.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2024</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">메타와 1.2GW 계약</div>
+        <div class="tl-desc">기존 원전 1기 규모. 오클로 향후 생산분 전량 구매 합의. 알트만 의장직 사임.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left"><span class="tl-year">2027</span><div class="tl-line"></div></div>
+      <div class="tl-right">
+        <div class="tl-title">첫 발전소 가동 목표</div>
+        <div class="tl-desc">NRC 규제 문제로 2~3년 지연 가능성도 있음.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 3. 기술 -->
+<section>
+  <div class="section-label">Part 3</div>
+  <h2>오클로의 기술 — 왜 다른가</h2>
+
+  <p class="fade-in">오클로는 <strong>기존 원자력과 근본부터 다릅니다.</strong> 기존 규제(1970년대 대형 경수로 기준)는 물 끓음 방지 펌프 3개, 돔 설치 등을 요구하지만, 오클로는 물도 펌프도 없어 애초에 터질 압력이 없습니다.</p>
+
+  <div class="card fade-in">
+    <div class="card-title">⚛️ 핵심 기술 포인트</div>
+    <div class="kv-row"><span class="kv-key">연료</span><span class="kv-val">핵폐기물 재활용 (HALEU)</span></div>
+    <div class="kv-row"><span class="kv-key">냉각 방식</span><span class="kv-val">물 없음 — 압력 사고 원천 차단</span></div>
+    <div class="kv-row"><span class="kv-key">설계·건설</span><span class="kv-val">자체 공장 생산, 현장 설치까지 직접</span></div>
+    <div class="kv-row"><span class="kv-key">규모</span><span class="kv-val">소형 모듈 원전 (SMR)</span></div>
+    <div class="kv-row"><span class="kv-key">판매 방식</span><span class="kv-val">전기 구독 (발전소 통째 임대)</span></div>
+  </div>
+
+  <p class="fade-in">오클로의 결론은 <span class="highlight">수직통합(Vertical Integration)</span>입니다. 연료 조달 → 설계 → 공장 생산 → 현장 설치 → 전기 판매까지 전 공정을 직접 합니다. 안 맞는 옷에 끼워 맞추는 게 아니라 <strong>새 옷을 처음부터 만드는 방식</strong>입니다.</p>
+</section>
+
+<!-- 차트: 기존 원전 vs 오클로 -->
+<section>
+  <div class="section-label">비교 차트</div>
+  <h2>기존 원전 vs 오클로 — 공정 비교</h2>
+  <div class="chart-container fade-in">
+    <canvas id="chart1" height="230"></canvas>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 4. 비즈니스 모델 -->
+<section>
+  <div class="section-label">Part 4</div>
+  <h2>오클로의 비즈니스 모델 — 에너지 OS</h2>
+
+  <p class="fade-in">오클로가 파는 건 발전소가 아닙니다. <span class="highlight">"전기"라는 구독 서비스</span>입니다. 기업 고객은 데이터센터 짓고 전력망 연결하는 과정(약 10년 소요) 전부 스킵하고 <strong>그냥 전기세만 냅니다.</strong></p>
+
+  <div class="card fade-in">
+    <div class="card-title">💡 아이폰 비유</div>
+    <p>아이폰이 위대한 이유는 기계가 아니라 <strong>생태계를 팔기 때문</strong>입니다. 오클로도 마찬가지 — 전기 하나가 아니라 에너지 생태계를 팝니다.</p>
+  </div>
+
+  <h3 class="fade-in">오클로 에너지 생태계 3요소</h3>
+  <div class="badge-list fade-in">
+    <span class="badge pos">⚡ 전기 판매 (구독)</span>
+    <span class="badge pos">🌡 잉여열 → 난방 서비스</span>
+    <span class="badge pos">♻️ 핵폐기물 처리 서비스</span>
+    <span class="badge neu">💧 잉여전력 → 수소 생산</span>
+  </div>
+
+  <p class="fade-in">이 세 가지가 <strong>톱니바퀴처럼 맞물려</strong> 돌아갑니다. 폐기물이 연료가 되고, 잉여 열과 전기는 또 다른 수익원이 됩니다.</p>
+
+  <div class="card fade-in">
+    <div class="card-title">🤝 메타(Meta) 1.2GW 계약</div>
+    <p>단순 협업이 아닙니다. <strong>기존 원전 1기 출력과 맞먹는 규모</strong>의 전력을 메타가 전량 구매하기로 합의. 오클로가 향후 만드는 전기를 모두 사는 것과 마찬가지입니다.</p>
+    <p style="margin-top:8px;"><span class="green">→ 빅테크 추가 계약은 시간 문제</span></p>
+  </div>
+</section>
+
+<!-- 차트: 비즈니스 모델 수익원 -->
+<section>
+  <div class="section-label">수익 구조</div>
+  <h2>오클로 수익 모델 구성</h2>
+  <div class="chart-container fade-in">
+    <canvas id="chart2" height="230"></canvas>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 5. 리스크 -->
+<section>
+  <div class="section-label">Part 5</div>
+  <h2>넘어야 할 리스크들</h2>
+
+  <div class="risk-row fade-in">
+    <div class="risk-label-row">
+      <span class="risk-name">우라늄 공급망 (러시아 의존)</span>
+      <span class="risk-level high">높음</span>
+    </div>
+    <div class="risk-bar-bg"><div class="risk-bar-fill high" data-width="85"></div></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">오클로는 고순도 저농축 우라늄(HALEU)이 필요한데, 러시아가 사실상 독점. 센트루스·테라파워와 대안 공급망 개척 중.</p>
+  </div>
+
+  <div class="risk-row fade-in">
+    <div class="risk-label-row">
+      <span class="risk-name">NRC 규제 승인 지연</span>
+      <span class="risk-level mid">중간</span>
+    </div>
+    <div class="risk-bar-bg"><div class="risk-bar-fill mid" data-width="60"></div></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">미국 원자력규제위원회(NRC)는 1970년대 기준으로 규제. 2027년 가동 목표가 2~3년 밀릴 수 있음.</p>
+  </div>
+
+  <div class="risk-row fade-in">
+    <div class="risk-label-row">
+      <span class="risk-name">AI 버블 붕괴 시 모멘텀 약화</span>
+      <span class="risk-level mid">중간</span>
+    </div>
+    <div class="risk-bar-bg"><div class="risk-bar-fill mid" data-width="55"></div></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">AI 데이터센터 수요에 연동된 측면이 있어, 버블 붕괴 시 주가와 계약에 영향 가능.</p>
+  </div>
+
+  <div class="risk-row fade-in">
+    <div class="risk-label-row">
+      <span class="risk-name">오픈AI 종속 압력</span>
+      <span class="risk-level low">낮음~중간</span>
+    </div>
+    <div class="risk-bar-bg"><div class="risk-bar-fill low" data-width="40"></div></div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:5px;">알트만 의장 사임으로 이해충돌 문제 완화. 오픈AI와 본격 거래 시작 가능 → 장기 호재로 전환.</p>
+  </div>
+</section>
+
+<!-- 차트: 리스크 수준 -->
+<section>
+  <div class="section-label">리스크 비교</div>
+  <h2>주요 리스크 수준</h2>
+  <div class="chart-container fade-in">
+    <canvas id="chart3" height="220"></canvas>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- 6. 최종 평가 -->
+<section>
+  <div class="section-label">결론</div>
+  <h2>최종 평가 — 오클로는 진짜다</h2>
+
+  <div class="summary-box fade-in">
+    <div class="sum-title">📌 핵심 요약</div>
+    <div class="sum-item"><span class="dot">▸</span><span>오클로는 <strong>단순 AI 테마 편승 기업이 아닙니다</strong>. 기존 원자력 전력망 문제를 해결하기 위해 지독하게 한 우물을 판 스타트업.</span></div>
+    <div class="sum-item"><span class="dot">▸</span><span>성공의 조건: <strong>수직통합 + 기동력 + 경영 의지 + 시장 모멘텀</strong>. 이 넷이 동시에 받쳐줄 때 지속 가능합니다.</span></div>
+    <div class="sum-item"><span class="dot">▸</span><span>실패하면 알트만도 전부 잃는 구조 → <strong>알트만의 진심은 의심 여지 없음</strong>.</span></div>
+    <div class="sum-item"><span class="dot">▸</span><span>혁신 기업의 본질: 테마·수혜주가 아니라 <strong>어떤 구조로 어떤 문제를 해결하는가</strong>.</span></div>
+  </div>
+
+  <div class="card fade-in">
+    <div class="card-title">⚡ 포스트 테슬라급이 될 수 있나?</div>
+    <p>테슬라·발란티어 수준에 비교되진 않더라도, 그에 <strong>근접한 혁신 기업의 조건</strong>은 갖추고 있다는 평가입니다. 세계 최초의 <span class="highlight">원전 플랫폼(에너지 OS)</span>이 된다면, 확장성은 무제한에 가깝습니다.</p>
+  </div>
+</section>
+
+<!-- 차트: 혁신 기업 비교 레이더 -->
+<section>
+  <div class="section-label">혁신 기업 요소</div>
+  <h2>오클로 혁신 역량 분석</h2>
+  <div class="chart-container fade-in">
+    <canvas id="chart4" height="250"></canvas>
+  </div>
+</section>
+
+<div class="footer">
+  본 분석은 YouTube 영상 자막을 기반으로 작성되었습니다.<br>
+  투자 권유가 아니며, 모든 투자 결정은 본인 판단 하에 이루어져야 합니다.
+</div>
+
+<script>
+// ─────────────────────────────
+// Observer 1: Fade-in 일반 섹션
+// ─────────────────────────────
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ─────────────────────────────
+// 리스크 바 애니메이션 (스크롤)
+// ─────────────────────────────
+const barObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fills = entry.target.querySelectorAll('.risk-bar-fill');
+      fills.forEach(fill => {
+        const w = fill.getAttribute('data-width');
+        setTimeout(() => { fill.style.width = w + '%'; }, 300);
+      });
+      barObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.risk-row').forEach(el => barObs.observe(el));
+
+// ─────────────────────────────
+// Chart.js 설정 (chartConfigs)
+// ─────────────────────────────
+const chartConfigs = {};
+
+// 차트 1: 기존 원전 vs 오클로 공정 단계 수 비교
+chartConfigs['chart1'] = () => {
+  new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+      labels: ['연료 조달', '설계·건설', '규제 대응', '송전·배전', '전기 판매', '폐기물 처리'],
+      datasets: [
+        {
+          label: '기존 원전 (복잡도)',
+          data: [5, 9, 8, 7, 4, 6],
+          backgroundColor: 'rgba(224, 80, 80, 0.55)',
+          borderColor: 'rgba(224, 80, 80, 0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: '오클로 (복잡도)',
+          data: [3, 5, 4, 1, 2, 2],
+          backgroundColor: 'rgba(64, 192, 128, 0.55)',
+          borderColor: 'rgba(64, 192, 128, 0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { labels: { color: '#aab', font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1a2030', borderColor: '#252d40', borderWidth: 1 }
+      },
+      scales: {
+        x: { ticks: { color: '#7a8299', font: { size: 10 } }, grid: { color: '#1e2535' } },
+        y: { ticks: { color: '#7a8299', font: { size: 10 } }, grid: { color: '#1e2535' }, title: { display: true, text: '복잡도 지수', color: '#555', font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// 차트 2: 수익 모델 도넛
+chartConfigs['chart2'] = () => {
+  new Chart(document.getElementById('chart2'), {
+    type: 'doughnut',
+    data: {
+      labels: ['전기 구독', '난방 서비스', '핵폐기물 처리', '수소 생산'],
+      datasets: [{
+        data: [55, 20, 15, 10],
+        backgroundColor: [
+          'rgba(232, 160, 32, 0.75)',
+          'rgba(64, 192, 128, 0.7)',
+          'rgba(100, 140, 220, 0.7)',
+          'rgba(200, 100, 200, 0.65)'
+        ],
+        borderColor: '#0b0e14',
+        borderWidth: 2,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        animateRotate: true,
+        animateScale: true,
+        duration: 2000,
+        easing: 'easeInOutQuart'
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: '#aab', font: { size: 11 }, padding: 14 }
+        },
+        tooltip: { backgroundColor: '#1a2030', borderColor: '#252d40', borderWidth: 1 }
+      }
+    }
+  });
+};
+
+// 차트 3: 리스크 가로 바
+chartConfigs['chart3'] = () => {
+  new Chart(document.getElementById('chart3'), {
+    type: 'bar',
+    data: {
+      labels: ['우라늄 공급망', 'NRC 규제 지연', 'AI버블 영향', '오픈AI 종속'],
+      datasets: [{
+        label: '리스크 수준 (10점)',
+        data: [8.5, 6, 5.5, 4],
+        backgroundColor: [
+          'rgba(224,80,80,0.65)',
+          'rgba(232,160,32,0.65)',
+          'rgba(232,160,32,0.55)',
+          'rgba(64,192,128,0.6)'
+        ],
+        borderColor: [
+          'rgba(224,80,80,0.9)',
+          'rgba(232,160,32,0.9)',
+          'rgba(232,160,32,0.8)',
+          'rgba(64,192,128,0.9)'
+        ],
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#1a2030', borderColor: '#252d40', borderWidth: 1 }
+      },
+      scales: {
+        x: {
+          max: 10,
+          ticks: { color: '#7a8299', font: { size: 10 } },
+          grid: { color: '#1e2535' }
+        },
+        y: { ticks: { color: '#aab', font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// 차트 4: 혁신 역량 레이더
+chartConfigs['chart4'] = () => {
+  new Chart(document.getElementById('chart4'), {
+    type: 'radar',
+    data: {
+      labels: ['수직통합', '시장 모멘텀', '기술 독창성', '경영 의지', '자금 조달', '규제 돌파력'],
+      datasets: [{
+        label: '오클로',
+        data: [9, 7, 8, 9, 6, 5],
+        backgroundColor: 'rgba(232, 160, 32, 0.15)',
+        borderColor: 'rgba(232, 160, 32, 0.8)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(232, 160, 32, 0.9)',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1800,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 120
+      },
+      plugins: {
+        legend: { labels: { color: '#aab', font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1a2030', borderColor: '#252d40', borderWidth: 1 }
+      },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { display: false },
+          grid: { color: '#252d40' },
+          angleLines: { color: '#252d40' },
+          pointLabels: { color: '#aab', font: { size: 11 } }
+        }
+      }
+    }
+  });
+};
+
+// ─────────────────────────────
+// Observer 2: 차트 전용
+// ─────────────────────────────
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
