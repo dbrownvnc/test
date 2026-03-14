@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>전쟁을 끝내고 싶은 미국, 물러설 수 없는 이란</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-sub: #fafafa;
+      --text: #1a1a1a;
+      --text-sub: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --chart1: #e11d48;
+      --chart2: #1a1a1a;
+      --chart3: #6b7280;
+      --chart4: #2563eb;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* HEADER */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.12;
+    }
+    .hero-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+    .hero-title em {
+      color: var(--accent2);
+      font-style: normal;
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: 12px;
+    }
+
+    /* SECTION */
+    section {
+      padding: 32px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+    p {
+      color: var(--text);
+      margin-bottom: 12px;
+      font-size: 14.5px;
+    }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--accent); font-weight: 700; }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      background: var(--bg-sub);
+      border-left: 4px solid var(--accent);
+      margin: 20px 0;
+      padding: 16px 18px;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* KEY POINTS */
+    .key-points {
+      background: var(--bg-sub);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .key-points ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .key-points li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .key-points li::before {
+      content: '●';
+      color: var(--accent);
+      font-size: 10px;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    /* TABLE */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--table-bg);
+    }
+    thead tr {
+      background: var(--table-header);
+      color: #fff;
+    }
+    thead th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: #f4f4f4; }
+    tbody td {
+      padding: 9px 12px;
+      border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    /* SCENARIO CARDS */
+    .scenario-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .scenario-card {
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .scenario-card.worst {
+      border-color: var(--accent);
+      background: #fff5f7;
+    }
+    .scenario-card.mid {
+      background: #fafafa;
+    }
+    .scenario-card .card-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .scenario-card.worst .card-tag { color: var(--accent); }
+    .scenario-card.mid .card-tag { color: var(--chart4); }
+    .scenario-card .card-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .scenario-card p { font-size: 13.5px; margin: 0; }
+
+    /* CHART */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider span {
+      font-size: 18px;
+      color: var(--accent);
+    }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .badge.blue { background: var(--chart4); }
+    .badge.dark { background: var(--chart2); }
+    .badge.gray { background: var(--chart3); }
+
+    /* FOOTNOTE */
+    .footnote {
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero fade-in">
+  <div class="hero-tag">중동 전문 분석 · 2026.03.14</div>
+  <h1 class="hero-title">전쟁을 끝내고 싶은 미국,<br><em>물러설 수 없는 이란</em></h1>
+  <p style="color:rgba(255,255,255,0.75); font-size:14px; margin-top:12px; line-height:1.65;">
+    중동 전문기자 알파고의 심층 분석 — 현재 진행 중인 미·이란 분쟁의 구조와 최악의 시나리오
+  </p>
+  <div class="hero-sub">출처: 이게웬날리지 YouTube · 알파고 해설</div>
+</header>
+
+<!-- 1. 이란 권력 구조 -->
+<section class="fade-in">
+  <div class="section-label">Power Structure</div>
+  <h2 class="section-title">이란의 권력 이행 — 아직 끝나지 않았다</h2>
+
+  <p>
+    알리 하마네이 사후, 그의 아들 <strong>모즈타바 하마네이</strong>가 공식적으로 최고지도자에 선출됐다. 그러나 현재 이란 내 권력 교체가 완전히 마무리됐다고 보기는 어렵다.
+  </p>
+  <p>
+    전직 대통령 라이시(시다박)의 생사 여부가 여전히 불분명하다. <strong>공개 생존 확인이 없는 상황</strong>에서 이란 정치권은 그 존재를 여전히 정치적 도구로 활용 중이다.
+  </p>
+
+  <div class="pull-quote">
+    <p>"아직 살아 있는지도 확실하지 않은 사람의 시체를 가지고 정치를 하고 있어요. 이런 좀 약간 정치와 빠삭한 사람들이에요."</p>
+  </div>
+
+  <div class="key-points">
+    <ul>
+      <li>현재 강경파가 권력 주도권 장악 — 온건파 소외</li>
+      <li>생존 확인 안 된 라이시를 정치적으로 활용 중</li>
+      <li>권력 공백을 틈탄 내부 헤게모니 싸움 진행 중</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 2. 이란의 저력 -->
+<section class="fade-in">
+  <div class="section-label">Iran's Resilience</div>
+  <h2 class="section-title">이란을 베네수엘라처럼 봐선 안 된다</h2>
+
+  <p>
+    많은 사람들이 이란도 지도자가 제거되면 빠르게 항복할 것으로 예측했다. 하지만 이란은 <strong>수천 년의 제국적 문명</strong>을 보유한 나라다.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>베네수엘라</th>
+          <th>이란</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>역사적 깊이</td>
+          <td>탄생한 지 얼마 안 됨</td>
+          <td>수천 년의 제국 역사</td>
+        </tr>
+        <tr>
+          <td>문화 유산</td>
+          <td>제한적</td>
+          <td>샤나메·구시나마 등 고전 문학</td>
+        </tr>
+        <tr>
+          <td>정권 교체 후</td>
+          <td>국가 자체 흔들림</td>
+          <td>이란이라는 나라는 존속</td>
+        </tr>
+        <tr>
+          <td>저항 특성</td>
+          <td>지도자 의존적</td>
+          <td>시아파 순교 정신 기반</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    관리자가 바뀌어도 이란이라는 국가와 그 문명의 노하우는 계속 이어진다. <strong>서방이 이란을 과소평가했다는 것이 이번 전쟁에서 드러났다.</strong>
+  </p>
+</section>
+
+<!-- 3. 시아파 순교 정신 -->
+<section class="fade-in">
+  <div class="section-label">Shia Identity</div>
+  <h2 class="section-title">무릎 꿇지 않는 이유 — 시아파 순교 정신</h2>
+
+  <p>
+    이슬람 시아파의 핵심 정체성은 약 1,400년 전 <strong>호세인의 학살</strong>에서 비롯된다. 선지자 무함마드의 손자가 정의를 위해 싸우다 잔인하게 죽었고, 시아파는 매년 이 고통을 재현하는 의례를 통해 집단 기억을 유지한다.
+  </p>
+
+  <div class="pull-quote">
+    <p>"나도 그때 호세인을 보호했어야 되는데… 그 나쁜 새끼들이 호세인 아니고 나를 죽였어야 되는데. 사람들이 자발적으로 이런 얘기를 해요."</p>
+  </div>
+
+  <p>
+    이것은 국가가 세뇌한 결과가 아니라 <strong>수천 년간 내려온 자발적 문화 정체성</strong>이다. 외부의 군사적 압박이 오히려 이 정신을 강화할 수 있다.
+  </p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">▲ 이란의 저항 동력 구조 (전문가 평가)</div>
+    <canvas id="radarChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- 4. 핵 위협의 현실화 -->
+<section class="fade-in">
+  <div class="section-label">Nuclear Risk</div>
+  <h2 class="section-title">하마네이 사망 → 핵 개발 금지 법령 소멸</h2>
+
+  <p>
+    이번 전쟁 전, 이란의 핵 개발은 하마네이의 <strong>종교적 법령(파트와)</strong>으로 공식 금지돼 있었다. 일부 혁명수비대가 몰래 시도하는 경우가 있었지만, 최고지도자의 권위로 억제됐다.
+  </p>
+
+  <p>
+    그러나 하마네이가 사망하면서 <strong>그 법령도 효력을 잃었다.</strong> 현재 이란 내에서 핵 개발을 막을 내부적 제어 장치가 사실상 없어진 상태다.
+  </p>
+
+  <div class="key-points">
+    <ul>
+      <li><strong>전쟁 전 이란</strong> — 핵 개발 억제, 강경·온건파 균형 유지</li>
+      <li><strong>전쟁 후 이란</strong> — 핵 금지 법령 소멸, 강경파 독주</li>
+      <li>결론: <strong>미국에게 지금 이란이 더 위험해졌다</strong></li>
+    </ul>
+  </div>
+
+  <div class="pull-quote">
+    <p>"전쟁 시작 전과 지금의 이란을 비교하면, 지금 이란이 미국에게 더 위험해요."</p>
+  </div>
+</section>
+
+<!-- 5. 미국의 딜레마 -->
+<section class="fade-in">
+  <div class="section-label">US Dilemma</div>
+  <h2 class="section-title">미국의 딜레마 — 투트랙 전략, 그러나 출구 없음</h2>
+
+  <p>
+    미국은 현재 <strong>군사적 압박</strong>과 <strong>외교적 협상</strong>을 동시에 추진하는 투트랙 전략을 구사하고 있다. 그러나 어느 쪽에서도 결정적 출구가 보이지 않는다.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>트랙</th>
+          <th>내용</th>
+          <th>장애 요인</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>군사</strong></td>
+          <td>이란 걸프 해군 기지 타격, 지상군 투입 검토 (쿠웨이트 경유)</td>
+          <td>소수민족 봉기·쿠르드 민병대 문제·터키 반발</td>
+        </tr>
+        <tr>
+          <td><strong>외교</strong></td>
+          <td>이란 개혁파와 물밑 접촉, 휴전 모색</td>
+          <td>이란 측 정전(停戰) 요구 — 단순 휴전 거부</td>
+        </tr>
+        <tr>
+          <td><strong>지역 관리</strong></td>
+          <td>UAE·사우디 달래기, 호르무즈 관리 계획</td>
+          <td>아랍 국가들 불만 고조, 자국 이해 우선</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">▲ 미국의 전략 옵션별 실현 가능성 평가</div>
+    <canvas id="barChart" height="230"></canvas>
+  </div>
+</section>
+
+<!-- 6. 호르무즈 해협 -->
+<section class="fade-in">
+  <div class="section-label">Hormuz Strait</div>
+  <h2 class="section-title">호르무즈 해협 — 전쟁의 가장 날카로운 칼날</h2>
+
+  <p>
+    전 세계 석유 수출의 약 20%가 통과하는 <strong>호르무즈 해협</strong>은 이번 분쟁의 핵심 급소다. 미국은 공식적으로 해협 내 지뢰 살포를 부인하지만, CNN 등 미국 언론은 이란의 지뢰 살포 가능성을 보도 중이다.
+  </p>
+
+  <div class="key-points">
+    <ul>
+      <li><strong>NATO 소해(기뢰 제거) 부대</strong> 투입 명분 조성 검토</li>
+      <li><strong>키시섬</strong> 확보 시나리오 — 해협 입구 전략 거점</li>
+      <li>대만처럼 키시섬에 친미 정권 수립하는 '키시섬 프로젝트' 테이블에 올라</li>
+      <li>항모 전단 아무것도 안 하고 철수 시 이란에 '미국이 쫄았다' 메시지</li>
+    </ul>
+  </div>
+
+  <div class="pull-quote">
+    <p>"호르무즈 해협은 미국에게 너무 중요한데, 경제는 한번 악화되면 빠른 시일 내 복구가 안 된다."</p>
+  </div>
+</section>
+
+<!-- 7. 아랍 국가들의 입장 -->
+<section class="fade-in">
+  <div class="section-label">Arab States</div>
+  <h2 class="section-title">아랍 국가들의 분노와 침묵</h2>
+
+  <p>
+    사우디, UAE 등 걸프 국가들은 현재 공식적으로 아무것도 하지 않는다. 두 가지 이유다.
+  </p>
+
+  <div class="key-points">
+    <ul>
+      <li>이란이 후티 등 비국가 세력(체스 말)을 보유 — 개입 시 감당 불가</li>
+      <li>미국의 이스라엘 편향 지원에 대한 불만 — "우리한테 왜 안 물어봤냐?"</li>
+    </ul>
+  </div>
+
+  <p>
+    특히 두바이 사업가들이 공개적으로 트럼프를 비판하기 시작했다는 점이 주목할 만하다. <strong>아랍 에미리트에서 대기업인이 외교를 공개 비판하는 것은 극히 이례적인 사건</strong>이다. 중국의 마윈 사례처럼 정치 발언이 금기인 문화에서 이런 발언이 나왔다는 건 그만큼 불만이 폭발 직전임을 의미한다.
+  </p>
+
+  <div class="chart-container fade-in">
+    <div class="chart-title">▲ 주요 국가·세력의 현 입장 (전문가 평가)</div>
+    <canvas id="hbarChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- 8. 이란의 선택 -->
+<section class="fade-in">
+  <div class="section-label">Iran's Choice</div>
+  <h2 class="section-title">이란은 왜 물러설 수 없는가</h2>
+
+  <p>
+    이란 측은 협상 가능성을 인정하면서도 <strong>휴전(Ceasefire)이 아닌 정전(Armistice)</strong>을 요구한다. 왜냐하면 휴전은 상대방이 쉬었다가 다시 공격하는 패턴을 반복하게 하기 때문이다.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>휴전 (Ceasefire)</th>
+          <th>정전 (Armistice)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>성격</td>
+          <td>임시 전투 중단</td>
+          <td>전쟁 상태 공식 종료</td>
+        </tr>
+        <tr>
+          <td>이란 입장</td>
+          <td>거부 — 또 당할 수 있어</td>
+          <td>수용 가능</td>
+        </tr>
+        <tr>
+          <td>미국·이스라엘</td>
+          <td>선호 — 유연성 유지</td>
+          <td>정치적 부담 큼</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pull-quote">
+    <p>"휴전했다가 쉬었다가 다시 전쟁이 또 휴전, 이대로 가면 이란이 망해요. 이란 입장에서는 망할 바에는 지금 끝까지 가보자."</p>
+  </div>
+</section>
+
+<!-- 9. 최악의 시나리오들 -->
+<section class="fade-in">
+  <div class="section-label">Worst Scenarios</div>
+  <h2 class="section-title">중동 전문기자가 예상한 최악의 시나리오들</h2>
+
+  <div class="scenario-grid">
+    <div class="scenario-card worst">
+      <div class="card-tag">⚠ 최악 시나리오 1</div>
+      <div class="card-title">터키 참전 → 두 개의 적 동시 소모전</div>
+      <p>이스라엘 입장에서 미사일을 계속 터키 인근으로 유도하는 이유. 이란과 터키가 동시에 전쟁에 얽히면 두 세력이 서로 소진된다. 전직 이스라엘 총리 나프탈리 베네트가 "이란 다음은 터키"라고 공개 발언한 맥락.</p>
+    </div>
+
+    <div class="scenario-card worst">
+      <div class="card-tag">⚠ 최악 시나리오 2</div>
+      <div class="card-title">시리아 IS 재건 — 중동판 IS 부활</div>
+      <p>시리아 과도정부 수장 아흐메드 알샤라(전직 IS·알카에다 출신)가 IS 세력을 통제 중이지만, 재건 자금이 끊기면 내부 반발로 통제력 상실. 두 달 전 이미 IS 분파의 암살 시도가 있었다. 시리아가 다시 IS 온상이 될 가능성.</p>
+    </div>
+
+    <div class="scenario-card worst">
+      <div class="card-tag">⚠ 최악 시나리오 3</div>
+      <div class="card-title">핵 개발 본격화 → 핵 이란 등장</div>
+      <p>하마네이 사망으로 핵 개발 금지 법령 소멸. 강경파 주도의 이란이 핵 개발을 추진할 내부 제어 장치가 없어짐. 전쟁이 길어질수록 이란의 핵 개발 동기 강화.</p>
+    </div>
+
+    <div class="scenario-card mid">
+      <div class="card-tag" style="color:var(--chart4)">→ 현실적 시나리오</div>
+      <div class="card-title">흐지부지한 종전 → 중동 질서 붕괴</div>
+      <p>미국이 애매하게 전쟁을 마무리하면, 아랍 국가들의 미국 불신 심화. 사우디·UAE 등이 미국 중심 질서에서 벗어나 독자 노선 모색. 중동의 지정학적 균형이 영구적으로 흔들릴 수 있다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10. 희망은 있는가 -->
+<section class="fade-in">
+  <div class="section-label">Outlook</div>
+  <h2 class="section-title">그래도 희망이 없지 않다</h2>
+
+  <p>
+    전문가는 한 가지 가능성에 희망을 건다. <strong>이란 신정 체제 내부의 비(非)강경 관료들</strong>이다. 신정 체제를 운영하려면 신학자만으로는 부족하고, 실용주의 성향의 행정 인력도 필요하다.
+  </p>
+
+  <div class="pull-quote">
+    <p>"그래도 이제 신정 체제를 운영하기 위해서는 신학자들을 동원해도 부족하거든요. 그 사람들을 통해서 협상을 하고 마무리하자고 할 사람들이 없지 않아 있을까라는 기대가 있을 뿐이에요."</p>
+  </div>
+
+  <div class="key-points">
+    <ul>
+      <li>미국도 이란 내 <strong>개혁파와 물밑 접촉</strong> 진행 중</li>
+      <li>미국·이스라엘 정권 내 이성적 목소리도 존재</li>
+      <li>경제적 붕괴 공포가 이란 내 협상파에 힘을 실을 수 있음</li>
+    </ul>
+  </div>
+
+  <p class="footnote">
+    ※ 본 문서는 유튜브 채널 '이게웬날리지'의 중동 전문기자 알파고 인터뷰 내용을 바탕으로 정리한 분석 자료입니다. 개인의 전문적 견해이며 공식 기관의 입장이 아닙니다. (2026년 3월 14일 기준)
+  </p>
+</section>
+
+<script>
+  // OBSERVER 1: 일반 fade-in
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+  // CHART CONFIGS
+  const chartConfigs = {};
+
+  // 레이더 차트: 이란의 저항 동력
+  chartConfigs['radarChart'] = () => {
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['문명적 깊이', '순교 정신', '내부 결속', '군사 역량', '지정학적 위치', '핵 잠재력'],
+        datasets: [
+          {
+            label: '이란',
+            data: [90, 85, 70, 72, 80, 75],
+            backgroundColor: 'rgba(225,29,72,0.15)',
+            borderColor: '#e11d48',
+            borderWidth: 2,
+            pointBackgroundColor: '#e11d48',
+            pointRadius: 4
+          },
+          {
+            label: '미국(대이란 압박 효과)',
+            data: [40, 25, 55, 95, 70, 98],
+            backgroundColor: 'rgba(37,99,235,0.10)',
+            borderColor: '#2563eb',
+            borderWidth: 2,
+            pointBackgroundColor: '#2563eb',
+            pointRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1800, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 120 },
+        plugins: {
+          legend: { labels: { font: { size: 11 }, color: '#1a1a1a' } }
+        },
+        scales: {
+          r: {
+            min: 0, max: 100,
+            ticks: { stepSize: 25, font: { size: 9 }, color: '#999', backdropColor: 'transparent' },
+            grid: { color: '#e5e5e5' },
+            angleLines: { color: '#e5e5e5' },
+            pointLabels: { font: { size: 11 }, color: '#1a1a1a' }
+          }
+        }
+      }
+    });
+  };
+
+  // 바 차트: 전략 옵션 실현 가능성
+  chartConfigs['barChart'] = () => {
+    new Chart(document.getElementById('barChart'), {
+      type: 'bar',
+      data: {
+        labels: ['군사 압승', '외교 협상', '호르무즈 통제', '키시섬 프로젝트', '이란 체제 붕괴'],
+        datasets: [{
+          label: '실현 가능성 (%)',
+          data: [22, 45, 55, 30, 15],
+          backgroundColor: ['#e11d48','#2563eb','#6b7280','#f43f5e','#1a1a1a'],
+          borderRadius: 5,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeInOutQuart',
+          delay: (ctx) => ctx.dataIndex * 150
+        },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { ticks: { font: { size: 10 }, color: '#555' }, grid: { display: false } },
+          y: {
+            min: 0, max: 100,
+            ticks: { font: { size: 10 }, color: '#999', callback: v => v + '%' },
+            grid: { color: '#f0f0f0' }
+          }
+        }
+      }
+    });
+  };
+
+  // 가로 바 차트: 주요 국가 입장
+  chartConfigs['hbarChart'] = () => {
+    new Chart(document.getElementById('hbarChart'), {
+      type: 'bar',
+      data: {
+        labels: ['미국', '이스라엘', '이란', '사우디', 'UAE', '터키', '시리아'],
+        datasets: [{
+          label: '개입 강도 (0=중립, 100=최대 개입)',
+          data: [78, 85, 80, 10, 12, 30, 20],
+          backgroundColor: ['#2563eb','#1a1a1a','#e11d48','#6b7280','#6b7280','#f43f5e','#e5e5e5'],
+          borderRadius: 4,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        animations: { x: { from: 0 } },
+        animation: { duration: 1500, easing: 'easeInOutQuart' },
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            min: 0, max: 100,
+            ticks: { font: { size: 10 }, color: '#999' },
+            grid: { color: '#f0f0f0' }
+          },
+          y: { ticks: { font: { size: 11 }, color: '#1a1a1a' }, grid: { display: false } }
+        }
+      }
+    });
+  };
+
+  // OBSERVER 2: 차트 전용
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const canvas = entry.target.querySelector('canvas');
+        if (canvas && chartConfigs[canvas.id]) {
+          setTimeout(() => {
+            chartConfigs[canvas.id]();
+            entry.target.classList.add('chart-ready');
+            delete chartConfigs[canvas.id];
+          }, 200);
+        }
+        chartObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
