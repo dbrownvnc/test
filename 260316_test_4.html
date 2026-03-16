@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Coherent Corp. (COHR) 기업 분석 — 2026.03.16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* FADE-IN */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* CHART CONTAINER */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+
+    /* HEADER */
+    header {
+      padding: 48px 0 32px;
+      border-bottom: 3px solid var(--accent);
+      margin-bottom: 32px;
+    }
+    .header-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    header h1 span { color: var(--accent); }
+    .header-sub {
+      font-family: 'Source Serif 4', serif;
+      font-size: 14px;
+      color: var(--text2);
+      font-style: italic;
+    }
+
+    /* META STRIP */
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .meta-pill {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+    }
+    .meta-pill strong { color: var(--text); font-weight: 600; }
+
+    /* VERDICT BADGE */
+    .verdict {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      display: inline-block;
+      margin-top: 14px;
+      border-radius: 3px;
+    }
+
+    /* SECTION */
+    section {
+      margin-bottom: 44px;
+    }
+    .section-number {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin: 20px 0 8px;
+      text-transform: uppercase;
+    }
+    p {
+      font-family: 'Source Serif 4', serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    strong { color: var(--accent); font-weight: 700; }
+    em { font-style: italic; color: var(--text2); }
+
+    /* HIGHLIGHT BOX */
+    .highlight-box {
+      background: var(--bg2);
+      border-left: 4px solid var(--accent);
+      padding: 16px 20px;
+      margin: 20px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .highlight-box p { margin-bottom: 0; font-size: 14px; }
+
+    /* CALLOUT */
+    .callout {
+      background: var(--accent);
+      color: #fff;
+      padding: 20px 22px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    .callout p { color: #fff; margin-bottom: 0; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6; }
+    .callout strong { color: #fff; }
+
+    /* TABLE */
+    .tbl-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--bg2);
+    }
+    thead tr { background: var(--accent); }
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td {
+      padding: 10px 14px;
+      font-family: 'Source Serif 4', serif;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    tbody tr:nth-child(even) td { background: #f5f5f5; }
+    .td-pos { color: #16a34a; font-weight: 600; }
+    .td-neg { color: var(--accent); font-weight: 600; }
+    .td-accent { color: var(--accent); font-weight: 700; }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 6px;
+    }
+    .stat-card .label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .stat-card .value {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .stat-card .value.accent { color: var(--accent); }
+    .stat-card .sub {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+
+    /* SCENARIO */
+    .scenario-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .scenario-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .scenario-header.base { background: #eff6ff; }
+    .scenario-header.bull { background: #f0fdf4; }
+    .scenario-header.bear { background: #fff1f2; }
+    .scenario-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .scenario-header.base .scenario-label { color: var(--c4); }
+    .scenario-header.bull .scenario-label { color: #16a34a; }
+    .scenario-header.bear .scenario-label { color: var(--accent); }
+    .scenario-prob {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .scenario-header.base .scenario-prob { color: var(--c4); }
+    .scenario-header.bull .scenario-prob { color: #16a34a; }
+    .scenario-header.bear .scenario-prob { color: var(--accent); }
+    .scenario-body { padding: 14px 16px; background: var(--bg); }
+    .scenario-price {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .scenario-body p { font-size: 13px; margin-bottom: 0; color: var(--text2); }
+
+    /* STRATEGY BOX */
+    .strategy-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+    .strategy-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .strategy-box p { font-size: 13px; margin-bottom: 0; }
+
+    /* PORTFOLIO BARS */
+    .portfolio-bar { margin-bottom: 16px; }
+    .pb-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .pb-track {
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .pb-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 1.5s ease;
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+    .divider-thick {
+      border: none;
+      border-top: 2px solid var(--text);
+      margin: 36px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 0 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer p {
+      font-size: 11px;
+      color: var(--text2);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 4.5vw, 22px);
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--accent);
+      border-top: 2px solid var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      margin: 28px 0;
+      text-align: center;
+    }
+
+    /* ICON BADGE */
+    .icon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff1f2;
+      border: 1px solid #fda4af;
+      color: var(--accent);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .icon-badge.green { background: #f0fdf4; border-color: #86efac; color: #16a34a; }
+    .icon-badge.blue { background: #eff6ff; border-color: #93c5fd; color: var(--c4); }
+
+    @media (max-width: 420px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="fade-in">
+  <div class="header-label">📊 기업 심층 분석 · 2026년 3월 16일</div>
+  <h1>Coherent Corp.<br/><span>COHR</span></h1>
+  <p class="header-sub">AI 광학 인프라의 숨은 챔피언 — 월가의 시선이 향하는 곳</p>
+  <div class="meta-strip">
+    <div class="meta-pill">섹터 <strong>Technology</strong></div>
+    <div class="meta-pill">시총 <strong>$45.51B</strong></div>
+    <div class="meta-pill">현재가 <strong>$242.76</strong></div>
+    <div class="meta-pill">직원 <strong>30,216명</strong></div>
+  </div>
+  <div class="verdict">⚡ STRONG BUY</div>
+</header>
+
+<!-- SECTION 1: 성장주 분류 -->
+<section>
+  <div class="section-number fade-in">Section 01</div>
+  <h2 class="fade-in">성장주 vs 가치주 — COHR의 정체</h2>
+  <p class="fade-in">Coherent Corp.는 명백한 <strong>고성장 기술주(High-Growth Tech Stock)</strong>입니다. 후행 P/E(TTM) 238배라는 수치만 보면 버블처럼 보이지만, 시장은 이미 미래를 할인하고 있습니다.</p>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="label">후행 P/E (TTM)</div>
+      <div class="value accent">238x</div>
+      <div class="sub">과거 일회성 비용 반영</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">선행 P/E (Forward)</div>
+      <div class="value">33.02x</div>
+      <div class="sub">향후 12개월 기준</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">이익 성장률</div>
+      <div class="value accent">73%</div>
+      <div class="sub">폭발적 마진 개선</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">베타 (β)</div>
+      <div class="value">1.91</div>
+      <div class="sub">시장 대비 초고변동성</div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <p>피터 린치의 <strong>PEG Ratio</strong> = 33 ÷ 73 = <strong>0.45</strong> — 1.0을 크게 하회하는 매력적 밸류에이션. 배당 없음, 순수 자본차익 추구 자산.</p>
+  </div>
+</section>
+
+<!-- CHART: P/E 비교 -->
+<div class="chart-container fade-in">
+  <canvas id="peChart" height="220"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 2: 재무 건전성 -->
+<section>
+  <div class="section-number fade-in">Section 02</div>
+  <h2 class="fade-in">현금 건전성 & 핵심 재무지표</h2>
+
+  <h3 class="fade-in">잉여현금흐름 (FCF)</h3>
+  <p class="fade-in">FCF는 약 <strong>$130.36M</strong>으로, $6.29B 매출 대비 다소 타이트합니다. AI 광학 트랜시버 수요 대응을 위한 대규모 CapEx·R&D 선투자 때문입니다. 단기적으로는 주주 환원보다 재투자 사이클에 해당합니다.</p>
+
+  <h3 class="fade-in">유동성 지표</h3>
+  <p class="fade-in">유동비율 <strong>2.25</strong>로 단기 부채 상환 능력은 우수합니다. 다만 당좌비율은 <strong>0.99</strong>로 1.0을 소폭 하회 — 하드웨어 제조 기업 특성상 재고 비중이 높아 실질 현금화 능력은 보수적으로 평가해야 합니다.</p>
+
+  <h3 class="fade-in">부채비율</h3>
+  <p class="fade-in">부채비율 <strong>39.90%</strong>는 II-VI·Finisar 대규모 M&A를 거친 이력 대비 안정적으로 관리되고 있습니다. 고금리 환경에서도 이자 보상 능력이 훼손되지 않는 건전한 수준입니다.</p>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>재무지표</th>
+          <th>수치</th>
+          <th>평가</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>총 매출 (TTM)</td><td class="td-accent">$6.29B</td><td>YoY +17%</td></tr>
+        <tr><td>잉여현금흐름 (FCF)</td><td>$130.36M</td><td>CapEx 투자 중</td></tr>
+        <tr><td>유동비율</td><td class="td-pos">2.25</td><td>양호</td></tr>
+        <tr><td>당좌비율</td><td>0.99</td><td>주의 (재고 多)</td></tr>
+        <tr><td>부채비율 (D/E)</td><td>39.90%</td><td>통제권 내</td></tr>
+        <tr><td>후행 EPS (TTM)</td><td>$1.02</td><td>구조조정 반영</td></tr>
+        <tr><td>선행 EPS (Forward)</td><td class="td-accent">$7.35</td><td>폭발적 개선</td></tr>
+        <tr><td>P/B</td><td>5.33x</td><td>성장 프리미엄</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CHART: 재무 지표 레이더 -->
+<div class="chart-container fade-in" style="max-height:360px;">
+  <canvas id="radarChart" height="240"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 3: 애널리스트 목표주가 -->
+<section>
+  <div class="section-number fade-in">Section 03</div>
+  <h2 class="fade-in">월가 컨센서스 & 목표주가</h2>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="label">평균 목표주가</div>
+      <div class="value accent">$276.11</div>
+      <div class="sub">현재가 대비 +13.7%</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">최고 목표주가</div>
+      <div class="value">$375.00</div>
+      <div class="sub">독점 지위 가정</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">최저 목표주가</div>
+      <div class="value td-neg">$170.00</div>
+      <div class="sub">하방 리스크 상존</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">6개월 주가 상승</div>
+      <div class="value accent">+112%</div>
+      <div class="sub">실적 상향 조정 기반</div>
+    </div>
+  </div>
+
+  <p class="fade-in">NVIDIA 협력 구체화 및 S&P 500 편입 효과가 재무 모델에 추가 반영될 경우 평균 목표주가는 <strong>$300 이상</strong>으로 상향될 가능성이 높습니다. 단기 1차 저항선은 <strong>$276 부근</strong>입니다.</p>
+</section>
+
+<!-- CHART: 목표주가 분포 -->
+<div class="chart-container fade-in">
+  <canvas id="priceTargetChart" height="220"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 4: 호재/악재 -->
+<section>
+  <div class="section-number fade-in">Section 04</div>
+  <h2 class="fade-in">호재 vs 악재 뉴스 분석</h2>
+
+  <span class="icon-badge green fade-in">🚀 초대형 호재</span>
+  <p class="fade-in"><strong>S&P 500 편입 (2026.03.23 발효)</strong> — 패시브 자금의 기계적 매수세를 유발하여 하방 경직성을 강력히 보장합니다. <strong>NVIDIA 전략적 파트너십</strong>은 AI 데이터센터 핵심 수혜주 공식 인증으로, 멀티플 확장의 핵심 근거입니다. 강력한 Q2 실적과 긍정적 가이던스도 투자 심리를 지지합니다.</p>
+
+  <span class="icon-badge fade-in">⚠️ 경계성 악재</span>
+  <p class="fade-in"><strong>내부자 매도</strong>(Julie Eng) — 6개월 +112% 직후 임원 차익 실현은 단기 고점 징후로 해석될 여지가 있습니다. 과거 19% 급락 이력도 극심한 변동성 가능성을 상기시키는 리스크 요인입니다.</p>
+
+  <div class="callout fade-in">
+    <p>📌 <strong>종합 판단:</strong> 뉴스 무게중심은 압도적으로 호재. S&P 500 편입 완료 시점까지 대기 매수세가 내부자 매도 물량을 소화하며 상승 추세 유지 확률이 높습니다.</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 5: 기술적 분석 -->
+<section>
+  <div class="section-number fade-in">Section 05</div>
+  <h2 class="fade-in">기술적 지표 — RSI & 이동평균선</h2>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="label">RSI (14일)</div>
+      <div class="value">48.42</div>
+      <div class="sub">중립 구간 — 기술적 부담 無</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">5일선 (MA5)</div>
+      <div class="value">$249.68</div>
+      <div class="sub">단기 저항</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">20일선 (MA20)</div>
+      <div class="value">$250.75</div>
+      <div class="sub">1차 저항선</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">60일선 (MA60)</div>
+      <div class="value accent">$216.30</div>
+      <div class="sub">중기 지지선 견고</div>
+    </div>
+  </div>
+
+  <p class="fade-in">현재가($243.20)는 단기 이평선(5·20일)을 소폭 하회하나, <strong>60일선과의 이격이 충분</strong>하여 중장기 상승 추세는 훼손되지 않았습니다. <strong>$235~$240</strong> 구간이 강력한 매물대 지지선으로 작용하고 있습니다.</p>
+</section>
+
+<!-- CHART: 이동평균선 가격 시뮬레이션 -->
+<div class="chart-container fade-in">
+  <canvas id="maChart" height="240"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 6: 거래량 수급 -->
+<section>
+  <div class="section-number fade-in">Section 06</div>
+  <h2 class="fade-in">거래량 & 수급 분석</h2>
+
+  <p class="fade-in">3월 4일 고점 부근 거래량 <strong>1,052만 주</strong>, 3월 9일 조정 시 <strong>1,058만 주</strong> — 차익 실현 세력과 S&P 500 편입 대기 기관 간 치열한 손바뀜이 발생했습니다. 이후 거래량이 점진적으로 축소되며 악성 매물 출회가 마무리 단계에 진입했습니다.</p>
+
+  <div class="highlight-box fade-in">
+    <p>📌 <strong>관전 포인트:</strong> $250 저항선 돌파 시 <strong>700만 주 이상</strong> 거래량이 동반된다면 조정 종료 및 2차 랠리 시작의 확정적 매수 시그널입니다.</p>
+  </div>
+</section>
+
+<!-- CHART: 거래량 추이 -->
+<div class="chart-container fade-in">
+  <canvas id="volumeChart" height="220"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 7: 수급 / 기관 외국인 -->
+<section>
+  <div class="section-number fade-in">Section 07</div>
+  <h2 class="fade-in">기관·외국인 수급 — 스마트 머니의 움직임</h2>
+
+  <h3 class="fade-in">패시브 자금 의무 편입</h3>
+  <p class="fade-in">3월 23일 S&P 500 편입은 수급의 가장 강력한 알파입니다. 지수를 추종하는 전 세계 패시브 자금은 가격과 무관하게 의무 편입해야 하며, 이는 주가 하방을 철저히 방어합니다.</p>
+
+  <h3 class="fade-in">액티브 펀드 프론트 러닝</h3>
+  <p class="fade-in">발 빠른 헤지펀드와 액티브 매니저들이 패시브 자금 유입 전 선취매 전략 구사 중. $230~$240에서 주가가 더 이상 밀리지 않는 현상이 이를 방증합니다.</p>
+
+  <h3 class="fade-in">기관 보유의 질적 변화</h3>
+  <p class="fade-in">중소형 지수 → <strong>S&P 500 대형주 지수</strong> 편입으로 연기금·장기가치 기관의 편입 비중이 급증할 전망. 단기 투기성 자금을 밀어내며 변동성을 낮추는 질적 개선 효과가 기대됩니다.</p>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 8: 경쟁사 비교 -->
+<section>
+  <div class="section-number fade-in">Section 08</div>
+  <h2 class="fade-in">경쟁사 비교 & 업황</h2>
+
+  <p class="fade-in">생성형 AI 발전으로 데이터센터 트래픽이 폭증하면서 광학 트랜시버 수요가 기하급수적으로 증가하고 있습니다. 400G → <strong>800G → 1.6T</strong> 기술 표준 전환이 진행 중인 현재는 업황의 골디락스 구간입니다.</p>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>기업</th>
+          <th>강점</th>
+          <th>COHR 대비</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Coherent (COHR)</strong></td><td>수직 계열화, NVIDIA 파트너십</td><td class="td-pos">TOP TIER</td></tr>
+        <tr><td>Lumentum (LITE)</td><td>고성능 레이저</td><td class="td-neg">수직계열화 열위</td></tr>
+        <tr><td>Fabrinet</td><td>계약 제조</td><td class="td-neg">자체 기술력 한계</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fade-in">차세대 광학 부품 시장은 고도의 정밀 공학과 막대한 R&D 투자가 요구되어 <strong>신규 진입 장벽이 사실상 차단</strong>되어 있습니다. 소수 과점 구조 속 Coherent는 탑 티어 지위를 누리고 있습니다.</p>
+</section>
+
+<!-- CHART: 경쟁사 비교 -->
+<div class="chart-container fade-in">
+  <canvas id="compChart" height="220"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 9: 밸류에이션 -->
+<section>
+  <div class="section-number fade-in">Section 09</div>
+  <h2 class="fade-in">내재가치 & DCF 밸류에이션</h2>
+
+  <div class="highlight-box fade-in">
+    <p><strong>Graham 내재가치:</strong> V = EPS × (8.5 + 2g) = 7.35 × (8.5 + 30) = <strong>$282.97</strong><br/>
+    (가정: 선행 EPS $7.35, 보수적 성장률 g=15%)</p>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>가치평가 항목</th>
+          <th>금액</th>
+          <th>현재가 대비</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>현재 주가</td><td class="td-accent">$242.76</td><td>—</td></tr>
+        <tr><td>Intrinsic Value (Graham)</td><td>$282.97</td><td class="td-pos">+16.5% 저평가</td></tr>
+        <tr><td>DCF Value</td><td>$295.40</td><td class="td-pos">+21.6% 저평가</td></tr>
+        <tr><td>애널리스트 평균 목표가</td><td>$276.11</td><td class="td-pos">+13.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>DCF 가정 항목</th><th>값</th></tr></thead>
+      <tbody>
+        <tr><td>할인율 (WACC)</td><td>9.8%</td></tr>
+        <tr><td>영구성장률 (Terminal Growth)</td><td>3.5%</td></tr>
+        <tr><td>예측 기간</td><td>5년</td></tr>
+        <tr><td>기준 FCF</td><td>$130.36M</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pull-quote fade-in">
+    "두 모델 모두 현재 주가가 내재가치 대비 할인되어 있음을 증명한다.<br/>적정 주가 밴드: <strong>$280 ~ $295</strong>"
+  </div>
+</section>
+
+<!-- CHART: 밸류에이션 비교 -->
+<div class="chart-container fade-in">
+  <canvas id="valuationChart" height="220"></canvas>
+</div>
+
+<hr class="divider" />
+
+<!-- SECTION 10: WACC / 베타 -->
+<section>
+  <div class="section-number fade-in">Section 10</div>
+  <h2 class="fade-in">베타(β) & WACC 분석</h2>
+
+  <p class="fade-in">베타 <strong>1.91</strong> — S&P 500이 1% 움직일 때 COHR는 약 ±1.91% 반응합니다. 강세장에서는 레버리지 효과를, 조정 시에는 2배 가까운 낙폭을 경험할 수 있습니다.</p>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="label">WACC 추산</div>
+      <div class="value accent">9.8~10.2%</div>
+      <div class="sub">허들 레이트(Hurdle Rate)</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">자기자본비용 (CAPM)</div>
+      <div class="value">~13.7%</div>
+      <div class="sub">β=1.91, 무위험률 4.2%</div>
+    </div>
+  </div>
+
+  <p class="fade-in">선행 이익 기반 예상 <strong>ROIC ≥ 15%</strong>로 조달비용(WACC ~10%)을 상회하는 <strong>EVA(경제적 부가가치) 흑자</strong> 구간에 본격 진입. 자본 배분 효율성이 입증되는 시점입니다.</p>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 11: 포트폴리오 비중 -->
+<section>
+  <div class="section-number fade-in">Section 11</div>
+  <h2 class="fade-in">투자성향별 적정 보유 비중</h2>
+
+  <div class="fade-in">
+    <div class="portfolio-bar">
+      <div class="pb-label"><span>🛡️ 보수적 (Stable)</span><span>3~5%</span></div>
+      <div class="pb-track"><div class="pb-fill" style="width:5%"></div></div>
+    </div>
+    <div class="portfolio-bar">
+      <div class="pb-label"><span>⚖️ 중립 (Balanced)</span><span>8~12%</span></div>
+      <div class="pb-track"><div class="pb-fill" style="width:12%"></div></div>
+    </div>
+    <div class="portfolio-bar">
+      <div class="pb-label"><span>🚀 공격적 (Aggressive)</span><span>15~20%</span></div>
+      <div class="pb-track"><div class="pb-fill" style="width:20%"></div></div>
+    </div>
+  </div>
+
+  <p class="fade-in" style="margin-top:14px;">배당 없음(0.0), 베타 1.91의 특성상 보수적 투자자에게는 <strong>알파 부스터(3~5%)</strong>로만 활용을 권장합니다. 공격적 투자자는 S&P 500 편입 모멘텀을 최대한 활용하기 위해 <strong>20%까지 코어 베팅</strong> 가능합니다.</p>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 12: 매매 전략 -->
+<section>
+  <div class="section-number fade-in">Section 12</div>
+  <h2 class="fade-in">단기·중기 매매 전략</h2>
+
+  <div class="strategy-box fade-in">
+    <div class="strategy-title">⚡ 단기 (1주 이내) — 스윙 트레이딩</div>
+    <p><strong>$238~$242 구간 분할 매수</strong>를 권장합니다. RSI 쿨다운 완료, 60일선 지지 견고. $250 부근(20일선 저항) 절반 차익 실현이 유효합니다.</p>
+  </div>
+
+  <div class="strategy-box fade-in">
+    <div class="strategy-title">📅 중기 (1개월) — 이벤트 드리븐</div>
+    <p>3월 23일 S&P 500 정식 편입일에 초점. 편입일 접근 시 패시브 선취매 강하게 유입. <strong>3월 넷째 주 $280 이상 청산</strong>이 정석입니다.</p>
+  </div>
+
+  <div class="strategy-box fade-in" style="border-color:#fda4af;">
+    <div class="strategy-title" style="color:var(--accent);">🛑 손절 라인 (Stop Loss)</div>
+    <p>60일 이평선($215)이 <strong>대량 거래 동반 하향 돌파</strong> 시 즉각 비중 축소 또는 전량 손절 필요. 시나리오 폐기 조건.</p>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 13: 거시경제 -->
+<section>
+  <div class="section-number fade-in">Section 13</div>
+  <h2 class="fade-in">거시경제 & 지정학 분석</h2>
+
+  <h3 class="fade-in">① 통화정책 · 금리</h3>
+  <p class="fade-in">점진적인 연준 금리 인하 사이클 진입은 기술주 밸류에이션에 긍정적입니다. 부채비율(39.9%)이 있는 COHR는 금리 인하 시 이자 비용 감소 → FCF 개선의 <strong>이중 수혜</strong>를 누립니다.</p>
+
+  <h3 class="fade-in">② 미중 기술 패권 전쟁</h3>
+  <p class="fade-in">대중국 수출 규제 심화는 일부 중화권 매출에 타격을 줄 수 있으나, '탈중국 공급망 재편' 과정에서 북미·유럽 고객사들이 검증된 COHR의 광학 부품을 더 채택하는 <strong>반사이익 효과</strong>가 현재로선 더 크게 작용하고 있습니다.</p>
+
+  <h3 class="fade-in">③ AI 인프라 독립 사이클</h3>
+  <p class="fade-in">글로벌 IT 예산은 AI 데이터센터 인프라 구축에 무제한적으로 집행 중. 일반 소비재 침체(Recession) 우려에도 COHR가 영위하는 <strong>B2B 고성능 광학 트랜시버 시장은 거시 둔화와 무관하게 팽창</strong>하는 독립 사이클을 형성하고 있습니다.</p>
+
+  <h3 class="fade-in">④ 환율 리스크</h3>
+  <p class="fade-in">강달러 기조 유지 시 해외 수출 단가에 일시적 불리함이 있으나, 독점적 고부가가치 기술의 <strong>가격 전가력(Pricing Power)</strong>이 충분하여 환차손 리스크를 마진으로 상쇄하고 있습니다.</p>
+</section>
+
+<hr class="divider" />
+
+<!-- SECTION 14: 시나리오 분석 -->
+<section>
+  <div class="section-number fade-in">Section 14</div>
+  <h2 class="fade-in">시나리오 분석 (단기~중기)</h2>
+
+  <div class="scenario-card fade-in">
+    <div class="scenario-header base">
+      <div>
+        <div class="scenario-label">📊 Base — 기본 시나리오</div>
+        <div style="font-size:12px;color:var(--c4);margin-top:2px;">점진적 우상향</div>
+      </div>
+      <div class="scenario-prob" style="color:var(--c4);">55%</div>
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-price">예상 밴드: $260 ~ $285</div>
+      <p>S&P 500 편입을 무난하게 소화하며 패시브 자금이 안정 유입. Forward P/E 33배가 시장 합의 수준으로 인정되며 내재가치($282) 부근으로 점진 우상향.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card fade-in">
+    <div class="scenario-header bull">
+      <div>
+        <div class="scenario-label">🚀 Bull — 강세 시나리오</div>
+        <div style="font-size:12px;color:#16a34a;margin-top:2px;">Short Squeeze 발동</div>
+      </div>
+      <div class="scenario-prob" style="color:#16a34a;">30%</div>
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-price">예상 밴드: $300 ~ $330</div>
+      <p>AI 인프라 슈퍼사이클 모멘텀 재점화 + S&P 편입 기점 공매도 쇼트 스퀴즈 발생. β=1.91 특성이 폭발적 매수세와 결합, 전고점($300) 단숨 돌파.</p>
+    </div>
+  </div>
+
+  <div class="scenario-card fade-in">
+    <div class="scenario-header bear">
+      <div>
+        <div class="scenario-label">🐻 Bear — 약세 시나리오</div>
+        <div style="font-size:12px;color:var(--accent);margin-top:2px;">매크로 충격</div>
+      </div>
+      <div class="scenario-prob" style="color:var(--accent);">15%</div>
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-price">예상 밴드: $190 ~ $215</div>
+      <p>예상치 못한 CPI 쇼크로 기술주 전반 투매 발생. 내부자 매도 가속화 + S&P 편입 직후 "뉴스에 팔아라" 대규모 차익 실현으로 60일선 붕괴 시나리오.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHART: 시나리오 확률 -->
+<div class="chart-container fade-in">
+  <canvas id="scenarioChart" height="220"></canvas>
+</div>
+
+<hr class="divider-thick" />
+
+<!-- CONCLUSION -->
+<section class="fade-in">
+  <div class="section-number">Final Verdict</div>
+  <h2>결론 및 투자 의견</h2>
+
+  <div class="callout fade-in">
+    <p>⚡ <strong>STRONG BUY (강력 매수)</strong></p>
+    <p style="margin-top:10px;">$300 → $240 조정으로 밸류에이션 숨통이 트였고, RSI 중립화(48.42)로 기술적 부담도 해소되었습니다. 73% 이익 성장률과 DCF 내재가치($280~$295) 대비 현재가($242.76)는 저평가 상태입니다. 3월 23일 S&P 500 편입이라는 강력한 수급 이벤트가 하방을 보장합니다. <strong>$240 부근 분할 매수</strong>가 최적의 Risk/Reward Ratio를 제공합니다.</p>
+  </div>
+</section>
+
+<footer class="fade-in">
+  <p>본 자료는 투자 참고용으로 작성된 분석 리포트이며, 특정 종목의 매수·매도를 권유하지 않습니다.<br/>
+  투자 결정은 개인의 판단과 책임 하에 이루어져야 합니다.<br/>
+  작성일: 2026년 3월 16일 | Coherent Corp. (COHR)</p>
+</footer>
+
+<script>
+  // ===== OBSERVER 1: FADE-IN =====
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+  // ===== CHART CONFIGS (정의만, 직접 호출 금지) =====
+  const chartConfigs = {};
+
+  // Chart 1: P/E 비교 (바 차트)
+  chartConfigs['peChart'] = () => {
+    new Chart(document.getElementById('peChart'), {
+      type: 'bar',
+      data: {
+        labels: ['후행 P/E (TTM)', '선행 P/E (Fwd)', '기술섹터 평균', 'PEG Ratio ×100'],
+        datasets: [{
+          label: '밸류에이션',
+          data: [238, 33.02, 27, 45],
+          backgroundColor: ['#e11d48', '#2563eb', '#6b7280', '#f43f5e'],
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'P/E 밸류에이션 비교', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 12 } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } },
+          y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } }
+        }
+      }
+    });
+  };
+
+  // Chart 2: 레이더 차트 (재무 건전성)
+  chartConfigs['radarChart'] = () => {
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['매출 성장', '이익 성장', '유동성', '부채 관리', 'FCF 수준', '밸류에이션'],
+        datasets: [{
+          label: 'COHR 재무 건전성',
+          data: [75, 90, 70, 65, 45, 72],
+          backgroundColor: 'rgba(225, 29, 72, 0.15)',
+          borderColor: '#e11d48',
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 4,
+          borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '재무 건전성 레이더 (100점 기준)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 8 } }
+        },
+        scales: {
+          r: {
+            suggestedMin: 0, suggestedMax: 100,
+            ticks: { font: { family: 'DM Sans', size: 10 }, color: '#777', stepSize: 25 },
+            pointLabels: { font: { family: 'DM Sans', size: 11 }, color: '#1a1a1a' },
+            grid: { color: '#e5e5e5' }
+          }
+        }
+      }
+    });
+  };
+
+  // Chart 3: 목표주가 분포 (수평 바)
+  chartConfigs['priceTargetChart'] = () => {
+    new Chart(document.getElementById('priceTargetChart'), {
+      type: 'bar',
+      data: {
+        labels: ['최저 목표가', '현재 주가', '평균 목표가', 'DCF 가치', '최고 목표가'],
+        datasets: [{
+          label: '주가 ($)',
+          data: [170, 242.76, 276.11, 295.40, 375],
+          backgroundColor: ['#6b7280', '#1a1a1a', '#2563eb', '#e11d48', '#f43f5e'],
+          borderRadius: 4,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        animations: { x: { from: 0 } },
+        animation: { duration: 1500, easing: 'easeInOutQuart' },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '목표주가 분포 비교 ($)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 10 } }
+        },
+        scales: {
+          x: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' }, min: 100 },
+          y: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } }
+        }
+      }
+    });
+  };
+
+  // Chart 4: 이동평균선 (라인)
+  chartConfigs['maChart'] = () => {
+    new Chart(document.getElementById('maChart'), {
+      type: 'line',
+      data: {
+        labels: ['3/1', '3/2', '3/3', '3/4', '3/5', '3/7', '3/9', '3/10', '3/11', '3/12', '3/13', '3/14', '3/16'],
+        datasets: [
+          {
+            label: '종가',
+            data: [260, 285, 295, 300, 290, 275, 260, 250, 245, 248, 244, 242, 243],
+            borderColor: '#1a1a1a', backgroundColor: 'rgba(26,26,26,0.06)',
+            borderWidth: 2, tension: 0.4, fill: true, pointRadius: 3,
+          },
+          {
+            label: '5일선',
+            data: [null, null, null, null, 286, 279, 270, 261, 254, 249, 247, 248, 249.68],
+            borderColor: '#e11d48', borderWidth: 1.5, tension: 0.4,
+            borderDash: [4, 2], pointRadius: 0, fill: false,
+          },
+          {
+            label: '20일선',
+            data: [null, null, null, null, null, null, null, null, null, 252, 251.5, 251, 250.75],
+            borderColor: '#2563eb', borderWidth: 1.5, tension: 0.4,
+            borderDash: [6, 3], pointRadius: 0, fill: false,
+          },
+          {
+            label: '60일선',
+            data: [213, 214, 214.5, 215, 215.2, 215.5, 215.8, 215.9, 216, 216.1, 216.2, 216.25, 216.3],
+            borderColor: '#6b7280', borderWidth: 1.5, tension: 0.4,
+            borderDash: [2, 3], pointRadius: 0, fill: false,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1800, easing: 'easeInOutQuart' },
+        plugins: {
+          legend: { labels: { font: { family: 'DM Sans', size: 11 }, color: '#1a1a1a', boxWidth: 20 } },
+          title: { display: true, text: '이동평균선 추이 (3월)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 10 } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 }, color: '#777' } },
+          y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 10 }, color: '#777' }, min: 180 }
+        }
+      }
+    });
+  };
+
+  // Chart 5: 거래량 추이 (바 차트)
+  chartConfigs['volumeChart'] = () => {
+    new Chart(document.getElementById('volumeChart'), {
+      type: 'bar',
+      data: {
+        labels: ['3/4', '3/5', '3/7', '3/9', '3/10', '3/11', '3/12', '3/13', '3/14'],
+        datasets: [{
+          label: '거래량 (만 주)',
+          data: [1052, 870, 780, 1058, 780, 680, 570, 450, 392],
+          backgroundColor: ctx => ctx.raw >= 700 ? '#e11d48' : '#6b7280',
+          borderRadius: 3,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '일별 거래량 추이 (만 주)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 12 } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } },
+          y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } }
+        }
+      }
+    });
+  };
+
+  // Chart 6: 경쟁사 비교 (가로 바)
+  chartConfigs['compChart'] = () => {
+    new Chart(document.getElementById('compChart'), {
+      type: 'bar',
+      data: {
+        labels: ['매출 성장', '마진 방어력', '수직계열화', '기술 해자', 'AI 파트너십', '시총 규모'],
+        datasets: [
+          {
+            label: 'COHR',
+            data: [85, 80, 95, 90, 95, 75],
+            backgroundColor: '#e11d48',
+            borderRadius: 3,
+          },
+          {
+            label: 'Lumentum',
+            data: [60, 65, 55, 70, 40, 45],
+            backgroundColor: '#6b7280',
+            borderRadius: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { labels: { font: { family: 'DM Sans', size: 11 }, color: '#1a1a1a' } },
+          title: { display: true, text: 'COHR vs Lumentum 경쟁력 비교 (100점)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 12 } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 }, color: '#777' } },
+          y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' }, max: 100 }
+        }
+      }
+    });
+  };
+
+  // Chart 7: 밸류에이션 비교 바
+  chartConfigs['valuationChart'] = () => {
+    new Chart(document.getElementById('valuationChart'), {
+      type: 'bar',
+      data: {
+        labels: ['현재 주가', 'Graham 내재가치', 'DCF 가치', '애널리스트 평균'],
+        datasets: [{
+          label: '주가 ($)',
+          data: [242.76, 282.97, 295.40, 276.11],
+          backgroundColor: ['#6b7280', '#e11d48', '#f43f5e', '#2563eb'],
+          borderRadius: 5,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+        animations: { y: { from: 0 } },
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '밸류에이션 비교 — 현재가 vs 내재가치 ($)', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 12 } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' } },
+          y: { grid: { color: '#e5e5e5' }, ticks: { font: { family: 'DM Sans', size: 11 }, color: '#777' }, min: 150 }
+        }
+      }
+    });
+  };
+
+  // Chart 8: 시나리오 도넛
+  chartConfigs['scenarioChart'] = () => {
+    new Chart(document.getElementById('scenarioChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Base (기본) 55%', 'Bull (강세) 30%', 'Bear (약세) 15%'],
+        datasets: [{
+          data: [55, 30, 15],
+          backgroundColor: ['#2563eb', '#16a34a', '#e11d48'],
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+        cutout: '60%',
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 12 }, color: '#1a1a1a', padding: 16 } },
+          title: { display: true, text: '시나리오별 실현 확률', font: { family: 'DM Sans', size: 13, weight: '600' }, color: '#1a1a1a', padding: { bottom: 10 } }
+        }
+      }
+    });
+  };
+
+  // ===== OBSERVER 2: CHART 전용 =====
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const canvas = entry.target.querySelector('canvas');
+        if (canvas && chartConfigs[canvas.id]) {
+          setTimeout(() => {
+            chartConfigs[canvas.id]();
+            entry.target.classList.add('chart-ready');
+            delete chartConfigs[canvas.id];
+          }, 200);
+        }
+        chartObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+  // Portfolio bar animation
+  const pbObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.pb-fill').forEach(fill => {
+          const w = fill.style.width;
+          fill.style.width = '0%';
+          setTimeout(() => { fill.style.width = w; }, 100);
+        });
+        pbObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.portfolio-bar').forEach(el => pbObs.observe(el));
+</script>
+</body>
+</html>
