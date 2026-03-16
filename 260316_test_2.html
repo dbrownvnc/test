@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>NVTS 종합 분석 | Navitas Semiconductor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --table-header: #e11d48;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    /* ─── FADE-IN ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* ─── CHART ─── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      background: var(--text);
+      color: #fff;
+      padding: 40px 20px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.12;
+    }
+    .header-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      margin-bottom: 14px;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .header h1 span { color: var(--accent2); }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 1px;
+    }
+    .header-meta {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .meta-item {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 10px 12px;
+    }
+    .meta-label { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; }
+    .meta-value { font-size: 14px; font-weight: 700; color: #fff; margin-top: 2px; font-family: 'DM Mono', monospace; }
+    .meta-value.accent { color: var(--accent2); }
+
+    /* ─── SECTION ─── */
+    .section { padding: 28px 20px; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+    p { margin-bottom: 12px; color: var(--text); font-size: 14.5px; }
+    p:last-child { margin-bottom: 0; }
+    strong, b { color: var(--text); font-weight: 700; }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    /* ─── KPI CARDS ─── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .kpi-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 14px 12px;
+    }
+    .kpi-card.blue { border-left-color: var(--c4); }
+    .kpi-card.gray { border-left-color: var(--c3); }
+    .kpi-label { font-size: 10px; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .kpi-value { font-size: 18px; font-weight: 700; font-family: 'DM Mono', monospace; color: var(--text); }
+    .kpi-value.neg { color: var(--accent); }
+    .kpi-value.pos { color: #16a34a; }
+    .kpi-sub { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+    /* ─── TABLE ─── */
+    .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      background: var(--table-header);
+      color: #fff;
+      padding: 9px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tbody tr:nth-child(even) td { background: var(--bg2); }
+    tbody td:first-child { font-weight: 600; color: var(--text2); }
+
+    /* ─── CALLOUT ─── */
+    .callout {
+      background: #fff5f7;
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      margin: 14px 0;
+      font-size: 13.5px;
+    }
+    .callout.blue { background: #eff6ff; border-left-color: var(--c4); }
+    .callout.dark { background: #1a1a1a; border-left-color: var(--accent); color: #fff; }
+    .callout.dark p { color: #ccc; }
+    .callout-title { font-weight: 700; color: var(--accent); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .callout.blue .callout-title { color: var(--c4); }
+    .callout.dark .callout-title { color: var(--accent2); }
+
+    /* ─── SCENARIO ─── */
+    .scenario-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .scenario-card {
+      border: 1px solid var(--border);
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .scenario-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 4px;
+    }
+    .scenario-card.bull::before { background: #16a34a; }
+    .scenario-card.base::before { background: var(--c4); }
+    .scenario-card.bear::before { background: var(--accent); }
+    .scenario-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .scenario-name { font-weight: 700; font-size: 13px; }
+    .scenario-prob {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+    .bull .scenario-prob { background: #dcfce7; color: #16a34a; }
+    .base .scenario-prob { background: #dbeafe; color: var(--c4); }
+    .bear .scenario-prob { background: #fff1f2; color: var(--accent); }
+    .scenario-range { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .scenario-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+
+    /* ─── LIST ─── */
+    .styled-list { list-style: none; margin: 10px 0; }
+    .styled-list li {
+      padding: 8px 0 8px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      position: relative;
+      color: var(--text);
+    }
+    .styled-list li:last-child { border-bottom: none; }
+    .styled-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 11px;
+      top: 10px;
+    }
+
+    /* ─── VERDICT ─── */
+    .verdict-box {
+      background: var(--text);
+      color: #fff;
+      padding: 24px 20px;
+      margin: 0;
+    }
+    .verdict-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+    .verdict-rating {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--accent2);
+      margin-bottom: 10px;
+    }
+    .verdict-text { font-size: 13.5px; color: rgba(255,255,255,0.75); line-height: 1.7; }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      margin-right: 6px;
+      margin-bottom: 4px;
+    }
+    .badge-red { background: #fff1f2; color: var(--accent); border: 1px solid #fecdd3; }
+    .badge-blue { background: #eff6ff; color: var(--c4); border: 1px solid #bfdbfe; }
+    .badge-gray { background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+    .badge-green { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+    /* ─── DIVIDER ─── */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* ─── STRATEGY TABLE ─── */
+    .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 14px; }
+    .strategy-row {
+      display: flex;
+      gap: 10px;
+      padding: 12px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .strategy-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .strategy-icon.blue { background: var(--c4); }
+    .strategy-icon.green { background: #16a34a; }
+    .strategy-title { font-size: 12px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+    .strategy-body { font-size: 13.5px; color: var(--text); margin-top: 3px; line-height: 1.6; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--bg2);
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .footer p { font-size: 11px; color: var(--text2); margin: 0; }
+
+    /* ─── PORTFOLIO TABLE ─── */
+    .port-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+    .port-row:last-child { border-bottom: none; }
+    .port-type { font-size: 12px; font-weight: 700; min-width: 70px; }
+    .port-bar-wrap { flex: 1; background: #f3f4f6; height: 8px; position: relative; }
+    .port-bar { height: 100%; background: var(--accent); }
+    .port-bar.b { background: var(--c4); }
+    .port-bar.c { background: var(--c3); }
+    .port-pct { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; min-width: 50px; text-align: right; color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="header">
+  <div class="header-tag">Stock Analysis · 2026.03.16</div>
+  <h1><span>NVTS</span> 종합 분석</h1>
+  <p class="header-sub">Navitas Semiconductor Corporation · NASDAQ</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <div class="meta-label">현재가</div>
+      <div class="meta-value accent">$10.10</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">시가총액</div>
+      <div class="meta-value">$2.33B</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">섹터</div>
+      <div class="meta-value" style="font-size:12px">Semiconductors</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Beta (β)</div>
+      <div class="meta-value accent">3.21</div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── 1. 성장주 분류 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 01</div>
+  <h2>초고도 성장주 분류 & 핵심 지표</h2>
+  <p>Navitas Semiconductor(NVTS)는 차세대 전력 반도체인 <strong>질화갈륨(GaN)</strong> 및 <strong>탄화규소(SiC)</strong> 시장의 선두주자로, 현재 가치보다 미래 시장 점유율 확보에 집중하는 전형적인 <strong class="highlight">초고도 성장주(Hyper-Growth Stock)</strong>입니다.</p>
+
+  <div class="kpi-grid fade-in">
+    <div class="kpi-card">
+      <div class="kpi-label">P/E TTM</div>
+      <div class="kpi-value neg">N/A</div>
+      <div class="kpi-sub">순손실 지속 중</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Forward P/E</div>
+      <div class="kpi-value neg">-71.75</div>
+      <div class="kpi-sub">흑자전환 미도래</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">P/B Ratio</div>
+      <div class="kpi-value">5.25x</div>
+      <div class="kpi-sub">무형자산 프리미엄</div>
+    </div>
+    <div class="kpi-card gray">
+      <div class="kpi-label">EPS (TTM)</div>
+      <div class="kpi-value neg">-$0.57</div>
+      <div class="kpi-sub">적자 구간</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">⚡ 핵심 포인트</div>
+    베타 3.21 — S&P 500이 1% 움직이면 NVTS는 약 <strong>3.21%</strong> 반응. 최근 1억 달러 PIPE(상장기업 사모투자) 유치는 가치주의 배당·안정 기조와 정반대인 <strong>공격적 성장 자금 확보</strong> 전략.
+  </div>
+</section>
+
+<!-- ─── 2. 현금건전성 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 02</div>
+  <h2>현금건전성 — 생존력 분석</h2>
+
+  <div class="kpi-grid fade-in">
+    <div class="kpi-card">
+      <div class="kpi-label">유동비율</div>
+      <div class="kpi-value pos">4.99</div>
+      <div class="kpi-sub">단기 부채 여유 충분</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">당좌비율</div>
+      <div class="kpi-value pos">4.61</div>
+      <div class="kpi-sub">즉각적 상환 능력</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Free Cash Flow</div>
+      <div class="kpi-value pos">$40.3M</div>
+      <div class="kpi-sub">긍정적 잉여현금</div>
+    </div>
+    <div class="kpi-card gray">
+      <div class="kpi-label">부채비율 (D/E)</div>
+      <div class="kpi-value">1.46</div>
+      <div class="kpi-sub">적정 수준 레버리지</div>
+    </div>
+  </div>
+
+  <p>적자 상태임에도 <strong>FCF $40.3M</strong>을 창출하며 단기 재무 리스크 및 희석 가능성은 매우 낮습니다. D/E 1.46은 자본집약적 반도체 업종 특성상 균형 잡힌 자본 구조로 평가됩니다.</p>
+
+  <!-- 현금건전성 레이더 차트 -->
+  <div class="chart-container fade-in" style="margin-top:16px">
+    <canvas id="radarChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- ─── 3. 핵심 재무제표 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 03</div>
+  <h2>핵심 재무제표 분석</h2>
+  <p>재무제표는 <strong>'현재의 손실'</strong>과 <strong>'미래를 위한 튼튼한 장부'</strong>가 극명하게 대비됩니다.</p>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>항목</th><th>수치</th><th>평가</th></tr></thead>
+      <tbody>
+        <tr><td>Total Revenue</td><td>$45.91M</td><td>기대치 상회</td></tr>
+        <tr><td>Revenue Growth</td><td>-0.59%</td><td>⚠️ 역성장</td></tr>
+        <tr><td>EPS (TTM)</td><td>-$0.57</td><td>순손실 지속</td></tr>
+        <tr><td>ROE</td><td>-0.30</td><td>자본 잠식 구간</td></tr>
+        <tr><td>Book Value/주</td><td>$1.93</td><td>P/B 5.25x 프리미엄</td></tr>
+        <tr><td>FCF</td><td>$40.33M</td><td>✅ 양호</td></tr>
+        <tr><td>유동비율</td><td>4.99</td><td>✅ 매우 우수</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout blue fade-in">
+    <div class="callout-title">📊 현금흐름 구조</div>
+    영업손실 지속 중이나, <strong>$40M+ FCF 창출</strong> + <strong>$100M PIPE 유입</strong>으로 외부 자금에 의존한 성장 구조. 영업현금흐름(CFO)의 양전(+) 전환 시점이 핵심 투자 지표.
+  </div>
+</section>
+
+<!-- ─── 4. 목표주가 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 04</div>
+  <h2>투자기관 목표주가 & 컨센서스</h2>
+
+  <!-- 목표가 바 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="targetChart" height="220"></canvas>
+  </div>
+
+  <div class="callout fade-in" style="margin-top:14px">
+    <div class="callout-title">⚠️ 역전 현상 주의</div>
+    목표가 평균 <strong>$8.15</strong>가 현재가 <strong>$10.10</strong>보다 약 19.3% 낮음. 3월 11일 급등(+22.18%)을 기관 추정치가 따라가지 못한 상태. 향후 1~2주 내 <strong>목표가 상향 or 투자의견 하향</strong>의 변곡점 가능성.
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead><tr><th>구분</th><th>가격</th><th>현재가 대비</th></tr></thead>
+      <tbody>
+        <tr><td>Target High</td><td>$13.00</td><td style="color:#16a34a">+28.7%</td></tr>
+        <tr><td>Target Mean</td><td>$8.15</td><td style="color:var(--accent)">-19.3%</td></tr>
+        <tr><td>Target Low</td><td>$4.20</td><td style="color:var(--accent)">-58.4%</td></tr>
+        <tr><td>현재가</td><td>$10.10</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ─── 5. 호재/악재 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 05</div>
+  <h2>호재 & 악재 뉴스 분석</h2>
+
+  <p style="font-weight:700; color:#16a34a; font-size:13px; margin-bottom:8px">✅ BULLISH FACTORS</p>
+  <ul class="styled-list fade-in">
+    <li><strong>AI 데이터센터 전략 피벗</strong> — "Groundbreaking Power Platforms Targeting AI and Energy Markets" 발표. 3월 11일 단일일 <span class="highlight">+22.18%</span> 랠리 촉발</li>
+    <li><strong>신임 CFO 영입</strong> — Tonya Stevens 합류 + $450만 RSU 지급. 재무 투명성 제고 및 기관 IR 강화 의지</li>
+    <li><strong>$100M PIPE 유치 성공</strong> — Needham 주관. 장기 기관 자금의 GaN/SiC 확신 투하</li>
+  </ul>
+
+  <p style="font-weight:700; color:var(--accent); font-size:13px; margin-bottom:8px; margin-top:16px">⚠️ BEARISH FACTORS</p>
+  <ul class="styled-list fade-in">
+    <li><strong>Q4 수익성 부재</strong> — 매출 추정치는 상회했으나 Loss 지속. 역성장(-0.59%) 트렌드 병존</li>
+    <li><strong>기관 물량 출회</strong> — Arete Wealth Advisors 지분 매각. 가치투자 성향 기관의 차익 실현 리스크</li>
+  </ul>
+</section>
+
+<!-- ─── 6. 기술적 지표 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 06</div>
+  <h2>기술적 지표 — RSI & 이동평균선</h2>
+
+  <!-- 주가 + 이동평균 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="maChart" height="240"></canvas>
+  </div>
+
+  <div class="kpi-grid fade-in" style="margin-top:14px">
+    <div class="kpi-card">
+      <div class="kpi-label">RSI (14)</div>
+      <div class="kpi-value" style="color:#d97706">61.25</div>
+      <div class="kpi-sub">중립-강세 구간</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">MA5</div>
+      <div class="kpi-value">$9.60</div>
+      <div class="kpi-sub">단기 지지선</div>
+    </div>
+    <div class="kpi-card gray">
+      <div class="kpi-label">MA20</div>
+      <div class="kpi-value">$8.91</div>
+      <div class="kpi-sub">중기 지지선</div>
+    </div>
+    <div class="kpi-card gray">
+      <div class="kpi-label">MA60</div>
+      <div class="kpi-value">$8.92</div>
+      <div class="kpi-sub">장기 지지선</div>
+    </div>
+  </div>
+
+  <p>RSI 61.25는 과매수(70)를 넘지 않아 <strong>추가 상승 여력 존재</strong>. MA5가 MA20·MA60을 강하게 돌파한 <strong>단기 골든크로스</strong> 형성. <span class="highlight">9.60달러(MA5)</span>가 깨지지 않는 한 단기 추세 유효.</p>
+</section>
+
+<!-- ─── 7. 거래량/수급 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 07</div>
+  <h2>거래량 & 수급 분석</h2>
+
+  <!-- 거래량 막대 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="volumeChart" height="220"></canvas>
+  </div>
+
+  <ul class="styled-list fade-in" style="margin-top:14px">
+    <li><strong>3월 11일 5,566만 주</strong> — 평균 거래량(~1,500만 주)의 3.7배. AI 뉴스에 기관·개인 동시 유입 증명</li>
+    <li><strong>10달러 라운드피겨 손바뀜</strong> — 3/12(2,804만주), 3/13(2,175만주) 차익 매물과 신규 매수세 치열한 공방</li>
+    <li><strong>숏커버링 추정</strong> — 적자 근거 공매도 세력이 AI 내러티브에 밀려 강제 청산, 오버슈팅 원인 중 하나</li>
+  </ul>
+
+  <div class="callout fade-in">
+    <div class="callout-title">⚡ 거래량 리스크 기준선</div>
+    거래량 <strong>1,000만 주 이하</strong> + MA5($9.6) 하향 이탈 시, 매수 주체 이탈 신호 → MA20($8.91) 갭 메우기 급락 가능
+  </div>
+</section>
+
+<!-- ─── 8. 기관 수급 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 08</div>
+  <h2>기관 수급 — 스마트머니 분석</h2>
+
+  <div class="callout dark fade-in">
+    <div class="callout-title">🏦 수급 성격 전환</div>
+    <p>가치/배당 기반 전통 기관 <strong>↓ 비중 축소</strong> (Arete Wealth 등) vs. AI·클린에너지 특화 성장형 펀드 <strong>↑ 진입</strong>. $100M PIPE는 장기 기관의 강력한 하방 지지 역할.</p>
+  </div>
+
+  <ul class="styled-list fade-in">
+    <li><strong>PIPE 기관 투자</strong> — GaN/SiC 장기 성장 확신 자본 투하. 강력한 우군</li>
+    <li><strong>보수적 기관 이탈</strong> — P/E 마이너스 재무제표 기피. 위험 관리 차원 발 빼기</li>
+    <li><strong>신임 CFO 역할</strong> — 성장형 기관 IR 강화를 위한 전략적 포석</li>
+  </ul>
+</section>
+
+<!-- ─── 9. 경쟁사 비교 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 09</div>
+  <h2>경쟁사 비교 & 업황</h2>
+
+  <div class="kpi-grid fade-in">
+    <div class="kpi-card">
+      <div class="kpi-label">시장 트렌드</div>
+      <div class="kpi-value" style="font-size:14px">GaN/SiC</div>
+      <div class="kpi-sub">AI 전력 수요 폭발</div>
+    </div>
+    <div class="kpi-card gray">
+      <div class="kpi-label">주요 경쟁사</div>
+      <div class="kpi-value" style="font-size:12px">Infineon</div>
+      <div class="kpi-sub">EPC, Wolfspeed, ST</div>
+    </div>
+  </div>
+
+  <!-- 경쟁사 비교 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="compChart" height="220"></canvas>
+  </div>
+
+  <p style="margin-top:14px"><strong>확실한 메가 트렌드</strong> — AI 데이터센터 전력 소비 급증이 GaN 수요를 모바일·가전에서 <strong>고부가 서버 시장</strong>으로 확장. 그러나 규모의 경제 면에서 Infineon 등 대형사 대비 여전히 불리한 위치.</p>
+</section>
+
+<!-- ─── 10. 밸류에이션 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 10</div>
+  <h2>내재가치 & DCF 밸류에이션</h2>
+
+  <!-- 가치 비교 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="valChart" height="220"></canvas>
+  </div>
+
+  <div class="tbl-wrap fade-in" style="margin-top:14px">
+    <table>
+      <thead><tr><th>가치평가 항목</th><th>산출 금액</th><th>현재가 대비</th></tr></thead>
+      <tbody>
+        <tr><td>현재 주가</td><td>$10.10</td><td>—</td></tr>
+        <tr><td>Intrinsic Value (Graham)</td><td style="color:var(--accent)">-$27.60</td><td style="color:var(--accent)">절대 고평가</td></tr>
+        <tr><td>DCF Value</td><td>$6.50</td><td style="color:var(--accent)">-35.6%</td></tr>
+        <tr><td>애널리스트 목표가 평균</td><td>$8.15</td><td style="color:var(--accent)">-19.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout blue fade-in">
+    <div class="callout-title">📐 DCF 가정</div>
+    WACC 12.5% · 영구성장률 3.0% · 예측기간 5년(성장률 20% 가정) · 기준 FCF $40.33M<br>
+    <strong>펀더멘털 적정 밴드: $6.50 ~ $8.15</strong>
+  </div>
+
+  <p>현재 주가 $10.10는 미래 성공을 <strong>과도하게 선반영한 프리미엄 구간</strong>. 주가 상승 동력은 이익이 아닌 <strong>AI 테마 모멘텀 + PSR 기대감</strong>에 기반.</p>
+</section>
+
+<!-- ─── 11. WACC ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 11</div>
+  <h2>WACC & ROIC 분석</h2>
+
+  <div class="kpi-grid fade-in">
+    <div class="kpi-card">
+      <div class="kpi-label">자기자본비용 (Re)</div>
+      <div class="kpi-value neg">~22.8%</div>
+      <div class="kpi-sub">β 3.21 × ERP 5.8%</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">WACC 추정</div>
+      <div class="kpi-value">12.5~14%</div>
+      <div class="kpi-sub">고비용 자본 구조</div>
+    </div>
+  </div>
+
+  <div class="callout fade-in">
+    <div class="callout-title">💥 가치 파괴 국면</div>
+    현재 ROIC(투하자본이익률)는 <strong>마이너스</strong>로 WACC(12.5%+)를 크게 하회 → 지속적 <strong>주주가치 파괴(Value Destruction)</strong> 구간. AI 사업을 통한 ROIC의 폭발적 상승만이 해결책.
+  </div>
+</section>
+
+<!-- ─── 12. 투자성향별 비중 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 12</div>
+  <h2>투자성향별 적정 보유비중</h2>
+
+  <div class="fade-in">
+    <div class="port-row">
+      <div class="port-type">보수적</div>
+      <div class="port-bar-wrap"><div class="port-bar" style="width:0%"></div></div>
+      <div class="port-pct" style="color:var(--accent)">0%</div>
+    </div>
+    <div class="port-row">
+      <div class="port-type">중립적</div>
+      <div class="port-bar-wrap"><div class="port-bar b" style="width:35%"></div></div>
+      <div class="port-pct">2~5%</div>
+    </div>
+    <div class="port-row">
+      <div class="port-type">공격적</div>
+      <div class="port-bar-wrap"><div class="port-bar c" style="width:100%"></div></div>
+      <div class="port-pct">10~15%</div>
+    </div>
+  </div>
+
+  <ul class="styled-list fade-in" style="margin-top:14px">
+    <li><strong>보수적 0%</strong> — 이익 미실현, 배당 제로, β 3.21. 원금 보존 불가 영역</li>
+    <li><strong>중립적 2~5%</strong> — AI 전력 반도체 메가트렌드 대한 '복권성 옵션' 소액 편입</li>
+    <li><strong>공격적 10~15%</strong> — 손절선 $8.90 설정 전제, 단기 차익 목적 전술적 운용</li>
+  </ul>
+</section>
+
+<!-- ─── 13. 매매 전략 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 13</div>
+  <h2>단기/중기 매매 전략</h2>
+
+  <div class="strategy-grid fade-in">
+    <div class="strategy-row">
+      <div class="strategy-icon blue">📥</div>
+      <div>
+        <div class="strategy-title">진입 타점</div>
+        <div class="strategy-body">현가 $10.10보다 <strong>MA5($9.60) 눌림목</strong> 분할 진입 우선. 공격적 몰빵 지양.</div>
+      </div>
+    </div>
+    <div class="strategy-row">
+      <div class="strategy-icon green">🎯</div>
+      <div>
+        <div class="strategy-title">목표가 (Take Profit)</div>
+        <div class="strategy-body">1차 목표 <strong>$11.40</strong>(직전 고점). 돌파 시 트레일링 스탑으로 <strong>$13.00</strong>까지 추격.</div>
+      </div>
+    </div>
+    <div class="strategy-row">
+      <div class="strategy-icon">🛑</div>
+      <div>
+        <div class="strategy-title">손절선 (Stop Loss)</div>
+        <div class="strategy-body"><strong>$8.90(MA20)</strong> 하향 이탈 시 기계적 손절 필수. 붕괴 시 $7 후반까지 급락 여백.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 14. 시나리오 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 14</div>
+  <h2>시나리오별 확률 분석 (1개월)</h2>
+
+  <!-- 시나리오 확률 도넛 -->
+  <div class="chart-container fade-in">
+    <canvas id="scenarioChart" height="220"></canvas>
+  </div>
+
+  <div class="scenario-grid fade-in">
+    <div class="scenario-card bull">
+      <div class="scenario-header">
+        <span class="scenario-name">🟢 Bull (낙관)</span>
+        <span class="scenario-prob">30%</span>
+      </div>
+      <div class="scenario-range">$11.50 ~ $13.00</div>
+      <div class="scenario-desc">AI 고객사 수주 계약 등 추가 호재 발생 시. 3천만 주 이상 연속 거래량 + 숏스퀴즈 발동.</div>
+    </div>
+    <div class="scenario-card base">
+      <div class="scenario-header">
+        <span class="scenario-name">🔵 Base (기본)</span>
+        <span class="scenario-prob">50%</span>
+      </div>
+      <div class="scenario-range">$9.00 ~ $10.50</div>
+      <div class="scenario-desc">$10 라운드피겨 중심 공방. 펀더멘털 확인 전 기간 조정. MA5~MA20 사이 박스권 흐름.</div>
+    </div>
+    <div class="scenario-card bear">
+      <div class="scenario-header">
+        <span class="scenario-name">🔴 Bear (비관)</span>
+        <span class="scenario-prob">20%</span>
+      </div>
+      <div class="scenario-range">$7.00 ~ $8.50</div>
+      <div class="scenario-desc">CPI 서프라이즈 등 금리 인하 기대 소멸 or 지지선 붕괴. 적자 기업 특성상 하방 변동성 극대화.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── 15. 거시경제 ─── -->
+<section class="section fade-in">
+  <div class="section-label">Section 15</div>
+  <h2>거시경제 & 지정학 분석</h2>
+
+  <ul class="styled-list fade-in">
+    <li><strong>연준 금리 정책</strong> — 고금리 장기화(Higher for Longer) 시 WACC 상승 → 밸류에이션 멀티플 가혹한 축소. 성장주 최대 리스크</li>
+    <li><strong>미중 무역분쟁</strong> — 희토류·핵심 원자재 중국 의존도 + 반도체 장비 규제 강화 시 공급망 차질 위험</li>
+    <li><strong>전기차 수요 둔화</strong> — 전방 산업 둔화 시 단가 압박 및 매출 성장률 둔화 고착화 가능</li>
+    <li><strong>AI 인프라 정책 + ESG</strong> — 고효율 전력 소비가 정책적 필수 요건화 → GaN/SiC의 구조적 수요 증대 강력한 롱테일 호재</li>
+  </ul>
+
+  <div class="callout blue fade-in">
+    <div class="callout-title">🌐 핵심 매크로 리스크 요약</div>
+    NVTS의 주가는 <strong>개별 실적보다 매크로 환경에 더 민감</strong>. 연준 스탠스 변화가 단기 최대 외생 변수.
+  </div>
+</section>
+
+<!-- ─── 결론 ─── -->
+<div class="verdict-box fade-in">
+  <div class="verdict-label">Final Verdict · 종합 투자의견</div>
+  <div class="verdict-rating">단기 BUY / 중장기 HOLD</div>
+  <div class="verdict-text">
+    NVTS는 재무제표 상 깊은 적자, 고평가된 내재가치, 강력한 매크로 리스크에 노출된 하이리스크 테크 기업입니다. 그러나 <strong style="color:#f43f5e">1주~1개월 단기 관점</strong>에서는 AI 데이터센터 내러티브, 대량 거래량 기반 기술적 정배열, FCF 기반 단기 체력에 주목할 수 있습니다. 철저한 리스크 관리(<strong style="color:#f43f5e">손절선 $8.90</strong>)와 분할 진입을 전제로 단기 트레이딩 매수(BUY). 중장기 투자자는 흑자 전환이 가시화될 때까지 관망을 권장합니다.
+  </div>
+  <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+    <span class="badge badge-red">β 3.21 초고위험</span>
+    <span class="badge badge-blue">AI 테마 모멘텀</span>
+    <span class="badge badge-gray">FCF $40M</span>
+    <span class="badge badge-red">내재가치 고평가</span>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>본 자료는 투자 참고용이며 투자 결정의 최종 책임은 투자자 본인에게 있습니다.</p>
+  <p style="margin-top:4px">Data as of 2026.03.16 · Navitas Semiconductor (NVTS)</p>
+</footer>
+
+<script>
+// ─── OBSERVER 1: fade-in ───
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ─── CHART CONFIGS ───
+const chartConfigs = {};
+
+// 1. 레이더: 현금건전성
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['유동비율', '당좌비율', 'FCF 여력', '부채 안정성', '자산 건전성'],
+      datasets: [{
+        label: 'NVTS 현금건전성',
+        data: [95, 92, 70, 62, 80],
+        backgroundColor: 'rgba(225,29,72,0.12)',
+        borderColor: '#e11d48',
+        borderWidth: 2,
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          grid: { color: '#e5e5e5' },
+          pointLabels: { font: { size: 11, family: 'Noto Sans KR' }, color: '#1a1a1a' },
+          ticks: { display: false }
+        }
+      }
+    }
+  });
+};
+
+// 2. 목표가 가로 막대
+chartConfigs['targetChart'] = () => {
+  new Chart(document.getElementById('targetChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Target Low', 'DCF Value', '애널리스트 평균', '현재가', 'Target High'],
+      datasets: [{
+        label: '가격($)',
+        data: [4.20, 6.50, 8.15, 10.10, 13.00],
+        backgroundColor: ['#e11d48','#6b7280','#6b7280','#2563eb','#16a34a'],
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' $' + ctx.raw } }
+      },
+      scales: {
+        x: { grid: { color: '#e5e5e5' }, ticks: { callback: v => '$'+v, font: { family: 'DM Mono', size: 11 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 11, family: 'Noto Sans KR' } } }
+      }
+    }
+  });
+};
+
+// 3. 이동평균 라인 차트
+chartConfigs['maChart'] = () => {
+  new Chart(document.getElementById('maChart'), {
+    type: 'line',
+    data: {
+      labels: ['3/5','3/6','3/7','3/10','3/11','3/12','3/13','3/14'],
+      datasets: [
+        {
+          label: '주가',
+          data: [7.80, 8.10, 8.30, 8.60, 10.50, 10.20, 10.05, 10.10],
+          borderColor: '#e11d48', backgroundColor: 'rgba(225,29,72,0.08)',
+          borderWidth: 2.5, tension: 0.4, fill: true, pointRadius: 3,
+        },
+        {
+          label: 'MA5',
+          data: [null, null, null, null, 9.20, 9.40, 9.50, 9.60],
+          borderColor: '#2563eb', borderWidth: 1.5, borderDash: [4,3],
+          tension: 0.4, pointRadius: 0, fill: false,
+        },
+        {
+          label: 'MA20',
+          data: [8.70, 8.75, 8.80, 8.84, 8.88, 8.90, 8.91, 8.91],
+          borderColor: '#6b7280', borderWidth: 1.5, borderDash: [2,3],
+          tension: 0.4, pointRadius: 0, fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: { legend: { labels: { font: { size: 11, family: 'Noto Sans KR' }, boxWidth: 16, padding: 12 } } },
+      scales: {
+        x: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f3f4f6' }, ticks: { callback: v => '$'+v, font: { size: 10, family: 'DM Mono' } } }
+      }
+    }
+  });
+};
+
+// 4. 거래량 막대 차트
+chartConfigs['volumeChart'] = () => {
+  new Chart(document.getElementById('volumeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['3/5','3/6','3/7','3/10','3/11','3/12','3/13','3/14'],
+      datasets: [{
+        label: '거래량 (만주)',
+        data: [820, 950, 1100, 1250, 5566, 2804, 2175, 1580],
+        backgroundColor: (ctx) => ctx.dataIndex === 4 ? '#e11d48' : '#6b7280',
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.raw.toLocaleString() + '만주' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 10, family: 'DM Mono' } } }
+      }
+    }
+  });
+};
+
+// 5. 경쟁사 비교 (가로 막대)
+chartConfigs['compChart'] = () => {
+  new Chart(document.getElementById('compChart'), {
+    type: 'bar',
+    data: {
+      labels: ['NVTS', 'Infineon', 'Wolfspeed', 'EPC', 'STMicro'],
+      datasets: [
+        {
+          label: '기술 특화도 (Pure-play)',
+          data: [95, 55, 80, 90, 50],
+          backgroundColor: '#e11d48', borderRadius: 2,
+        },
+        {
+          label: '규모의 경제 (자본력)',
+          data: [30, 95, 45, 35, 85],
+          backgroundColor: '#6b7280', borderRadius: 2,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: { legend: { labels: { font: { size: 11, family: 'Noto Sans KR' }, boxWidth: 14, padding: 10 } } },
+      scales: {
+        x: { grid: { color: '#f3f4f6' }, max: 100, ticks: { font: { size: 10 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// 6. 밸류에이션 비교
+chartConfigs['valChart'] = () => {
+  new Chart(document.getElementById('valChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현재 주가', '애널리스트\n평균 목표가', 'DCF\n적정가치'],
+      datasets: [{
+        data: [10.10, 8.15, 6.50],
+        backgroundColor: ['#2563eb', '#6b7280', '#e11d48'],
+        borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ' $' + ctx.raw } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11, family: 'Noto Sans KR' } } },
+        y: { grid: { color: '#f3f4f6' }, min: 0, max: 12, ticks: { callback: v => '$'+v, font: { size: 10, family: 'DM Mono' } } }
+      }
+    }
+  });
+};
+
+// 7. 시나리오 도넛
+chartConfigs['scenarioChart'] = () => {
+  new Chart(document.getElementById('scenarioChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Bull (낙관) 30%', 'Base (기본) 50%', 'Bear (비관) 20%'],
+      datasets: [{
+        data: [30, 50, 20],
+        backgroundColor: ['#16a34a', '#2563eb', '#e11d48'],
+        borderWidth: 0,
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 12, family: 'Noto Sans KR' }, padding: 14, boxWidth: 14 }
+        }
+      }
+    }
+  });
+};
+
+// ─── OBSERVER 2: 차트 전용 ───
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
