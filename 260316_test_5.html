@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>HBM 다음 병목은? 월가는 왜 광통신을 주목할까?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+KR:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --chart1: #e11d48;
+      --chart2: #1a1a1a;
+      --chart3: #6b7280;
+      --chart4: #2563eb;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', 'Noto Serif KR', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ── */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 40px solid var(--accent);
+      opacity: 0.18;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', 'Noto Serif KR', serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .hero h1 span { color: var(--accent2); }
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 14px;
+      margin-top: 16px;
+    }
+
+    /* ── Section ── */
+    section { padding: 32px 24px 0; }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    p { font-size: 15px; color: var(--text); margin-bottom: 14px; }
+
+    /* ── Pull Quote ── */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      background: #fff5f7;
+      padding: 16px 18px;
+      margin: 20px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* ── Highlight Box ── */
+    .highlight-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 18px 0;
+    }
+    .highlight-box .hb-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .highlight-box p { margin-bottom: 6px; font-size: 14px; }
+
+    /* ── Key Number ── */
+    .key-numbers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    .kn-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+    .kn-card .kn-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+    .kn-card .kn-unit { font-size: 12px; color: var(--accent); font-weight: 600; }
+    .kn-card .kn-label { font-size: 12px; color: var(--text2); margin-top: 4px; line-height: 1.4; }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 24px 0;
+    }
+
+    /* ── Chart ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 18px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ── Comparison Table ── */
+    .cmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 18px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .cmp-table thead tr { background: var(--accent); color: #fff; }
+    .cmp-table th { padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 600; }
+    .cmp-table td { padding: 10px 12px; background: var(--bg2); border-top: 1px solid var(--border); vertical-align: top; }
+    .cmp-table tr:nth-child(even) td { background: #f4f4f4; }
+
+    /* ── Timeline ── */
+    .timeline { margin: 18px 0; }
+    .tl-item {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .tl-left { display: flex; flex-direction: column; align-items: center; }
+    .tl-dot {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .tl-line { width: 2px; flex: 1; background: var(--border); margin-top: 6px; }
+    .tl-item:last-child .tl-line { display: none; }
+    .tl-content {}
+    .tl-year { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .tl-desc { font-size: 14px; color: var(--text); }
+    .tl-sub { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+    /* ── Risk Box ── */
+    .risk-list { list-style: none; margin: 10px 0; }
+    .risk-list li {
+      padding: 9px 0 9px 18px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      position: relative;
+    }
+    .risk-list li::before {
+      content: '⚠';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-size: 12px;
+    }
+    .risk-list li:last-child { border-bottom: none; }
+
+    /* ── Stock Cards ── */
+    .stock-cards { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
+    .stock-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .sc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .sc-name { font-weight: 700; font-size: 15px; }
+    .sc-tag {
+      font-size: 10px; font-weight: 600;
+      padding: 3px 8px; border-radius: 20px;
+      letter-spacing: 1px; text-transform: uppercase;
+    }
+    .tag-nvidia { background: #e0f2fe; color: #0369a1; }
+    .tag-hyper { background: #fef3c7; color: #92400e; }
+    .tag-alt { background: #fce7f3; color: #9d174d; }
+    .sc-desc { font-size: 13px; color: var(--text2); }
+    .sc-highlight { font-size: 13px; font-weight: 600; color: var(--accent); margin-top: 6px; }
+
+    /* ── Footer ── */
+    .footer {
+      margin: 40px 24px 0;
+      padding: 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+    .footer strong { color: var(--accent); }
+
+    /* ── Fade-in ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    em { font-style: normal; color: var(--accent); font-weight: 600; }
+    strong { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-tag">월스트리트 포커스 · 2026.03.16</div>
+  <h1>HBM 다음 병목은?<br><span>광통신이 온다</span></h1>
+  <p style="color:rgba(255,255,255,0.7);font-size:14px;margin-bottom:0;">AI 인프라 투자의 다음 병목이 GPU·HBM에서 <strong style="color:#fff;">광통신(EML 레이저)</strong>으로 이동했다. 엔비디아의 40억 달러 베팅이 만들어낸 공급망 구조를 해부한다.</p>
+  <div class="hero-sub">유튜브 자막 기반 분석 · 투자 권유 아님</div>
+</div>
+
+<!-- ── 병목 이동 ── -->
+<section>
+  <div class="section-label fade-in">병목의 역사</div>
+  <h2 class="fade-in">GPU → HBM → 광통신</h2>
+  <p class="fade-in">AI 인프라 투자의 핵심은 <em>병목이 어디 있냐</em>를 찾는 것이다. 2023~2024년 병목은 GPU 칩 자체였고, 그다음은 HBM(고대역폭 메모리)이었다. 엔비디아 주가와 SK하이닉스 주가가 연이어 폭발한 이유다.</p>
+  <p class="fade-in">2025년 들어 병목이 또 이동했다. 이번엔 <em>광통신</em>, 그중에서도 고속 트랜시버의 핵심 부품인 <strong>EML 레이저</strong>다.</p>
+
+  <div class="pull-quote fade-in">
+    "GPU 수천~수만 개가 동시에 작동할 때, 옆 GPU와 데이터를 주고받는 속도가 느리면 전체 효율이 떨어진다. 네트워크 속도가 시스템 성능을 결정하는 병목이 된다."
+  </div>
+</section>
+
+<!-- ── 왜 광통신인가 ── -->
+<section>
+  <div class="section-label fade-in">기술 배경</div>
+  <h2 class="fade-in">구리선의 물리적 한계</h2>
+  <p class="fade-in">기존에는 GPU 간 연결에 구리선 케이블을 사용했다. 짧은 거리에서는 충분하지만, 속도를 높일수록 문제가 생긴다. <strong>800Gbps 이상</strong>에서는 구리선이 사실상 한계에 도달한다.</p>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">💡 엔비디아 직접 발표 수치</div>
+    <p>GPU <strong>100만 개</strong> 클러스터를 기존 트랜시버로 구축하면 네트워킹 부분에서만 <strong>180MW</strong>의 전력 소비 → 소도시 전체 전력 소비와 맞먹는 수준</p>
+  </div>
+
+  <p class="fade-in">해법은 <em>빛(광통신)</em>이다. 광섬유를 통해 빛으로 데이터를 전송하면 고속·저전력 통신이 가능하다.</p>
+</section>
+
+<!-- ── 시장 성장 차트 ── -->
+<section>
+  <div class="section-label fade-in">시장 규모</div>
+  <h2 class="fade-in">폭발적 성장 수치</h2>
+
+  <div class="key-numbers">
+    <div class="kn-card fade-in">
+      <div class="kn-num">2.6<span class="kn-unit">배</span></div>
+      <div class="kn-label">800G+ 트랜시버<br>1년 만에 성장<br>(2025→2026)</div>
+    </div>
+    <div class="kn-card fade-in">
+      <div class="kn-num">2<span class="kn-unit">배</span></div>
+      <div class="kn-label">광 인터커넥트 시장<br>5년 만에 성장<br>(2025→2030)</div>
+    </div>
+    <div class="kn-card fade-in">
+      <div class="kn-num">2.5<span class="kn-unit">개</span></div>
+      <div class="kn-label">GPU 1개당 필요한<br>광트랜시버 평균<br>(B200 기준)</div>
+    </div>
+    <div class="kn-card fade-in">
+      <div class="kn-num">40<span class="kn-unit">억$</span></div>
+      <div class="kn-label">엔비디아의<br>광통신 케파<br>구매 약정</div>
+    </div>
+  </div>
+
+  <div class="chart-title fade-in">📊 800G+ 트랜시버 출하량 전망 (만 개)</div>
+  <div class="chart-container fade-in">
+    <canvas id="chart1" height="220"></canvas>
+  </div>
+
+  <div class="chart-title fade-in">📊 광 인터커넥트 전체 시장 규모 (억 달러)</div>
+  <div class="chart-container fade-in">
+    <canvas id="chart2" height="220"></canvas>
+  </div>
+</section>
+
+<!-- ── EML 기술 ── -->
+<section>
+  <div class="section-label fade-in">핵심 부품</div>
+  <h2 class="fade-in">EML이란 무엇인가</h2>
+  <p class="fade-in">광통신에서 데이터를 전송하는 방식은 빛을 껐다·켰다 하면서 0과 1을 표현하는 것이다. 초당 1천억 번 깜빡이면 100Gbps 트랜시버다.</p>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">DML (기존 방식)의 문제</div>
+    <p>레이저를 직접 껐다 켰다 → 속도를 높이면 파장이 흔들리는 <strong>'처프(Chirp)'</strong> 현상 → 광섬유를 타고 신호가 퍼져 버림 → <strong>25Gbps 이상</strong>에서 심각한 신호 왜곡</p>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">EML (전기흡수 변조 레이저)의 해법</div>
+    <p>레이저는 항상 켜져 있다. 옆에 <strong>흡수체 변(전기흡수 변조기)</strong>를 붙여 전압으로 빛을 막거나 통과시킨다. 레이저와 변조기를 하나의 InP 칩에 집적한 것이 EML.</p>
+    <p>→ 처프 거의 없음 → <strong>100G, 200G</strong>에서도 깨끗한 신호 유지</p>
+  </div>
+
+  <div class="pull-quote fade-in">
+    800G 트랜시버 = 100G EML × 8개<br>
+    1.6T 트랜시버 = 200G EML × 8개<br>
+    → 속도 올라갈수록 EML 수요 기하급수적 증가
+  </div>
+</section>
+
+<!-- ── 공급 독점 ── -->
+<section>
+  <div class="section-label fade-in">공급망 구조</div>
+  <h2 class="fade-in">200G EML 공급자는 전 세계 4곳뿐</h2>
+
+  <div class="stock-cards">
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">루멘텀 (Lumentum)</div>
+        <span class="sc-tag tag-nvidia">엔비디아 수혜</span>
+      </div>
+      <div class="sc-desc">현재 대규모 외부 공급 가능한 사실상 <strong>유일한 업체</strong>. 엔비디아가 20억 달러 투자 + 2027년까지 케파 구매 약정. CPO 전환 후에도 CW 레이저 공급 파트너로 포지셔닝.</div>
+      <div class="sc-highlight">엔비디아 발표일 주가 +11%</div>
+    </div>
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">코히런트 (Coherent)</div>
+        <span class="sc-tag tag-nvidia">엔비디아 수혜</span>
+      </div>
+      <div class="sc-desc">엔비디아 20억 달러 투자. 200G EML 대규모 양산은 <strong>2026년부터</strong> 시작 예정.</div>
+      <div class="sc-highlight">엔비디아 발표일 주가 +15%</div>
+    </div>
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">브로드컴 (Broadcom)</div>
+        <span class="sc-tag tag-hyper">자체 공급망</span>
+      </div>
+      <div class="sc-desc">EML 생산하지만 자체 공급망 우선 투입. 외부 대규모 판매 물량 제한적.</div>
+    </div>
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">미쓰비시 (Mitsubishi E&C)</div>
+        <span class="sc-tag tag-hyper">소규모</span>
+      </div>
+      <div class="sc-desc">케파(생산능력) 자체가 작아 대규모 공급 불가.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EML vs CW 비교 ── -->
+<section>
+  <div class="section-label fade-in">기술 비교</div>
+  <h2 class="fade-in">EML vs CW+실리콘 포토닉스</h2>
+
+  <p class="fade-in">EML만이 유일한 방법은 아니다. <em>CW(연속파) 레이저 + 실리콘 포토닉스 변조기</em>를 결합하는 방식도 있다. 레이저와 변조기를 분리해, 변조는 일반 반도체 팹에서 대량 생산 가능한 실리콘 포토닉스 칩이 담당한다.</p>
+
+  <table class="cmp-table fade-in">
+    <thead>
+      <tr>
+        <th>구분</th>
+        <th>EML 방식</th>
+        <th>CW+SiPh 방식</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>800G 모듈 단가</td>
+        <td><strong>$700+</strong></td>
+        <td><strong>$370</strong> (~절반)</td>
+      </tr>
+      <tr>
+        <td>전력 소비</td>
+        <td>높음</td>
+        <td>낮음</td>
+      </tr>
+      <tr>
+        <td>공급 유연성</td>
+        <td>낮음 (진입장벽↑)</td>
+        <td>높음 (범용 팹 사용)</td>
+      </tr>
+      <tr>
+        <td>적합 거리</td>
+        <td><strong>500m 이상</strong> 장거리</td>
+        <td><strong>300m 이하</strong> 단거리</td>
+      </tr>
+      <tr>
+        <td>신호 품질</td>
+        <td>장거리에서 우위</td>
+        <td>단거리 충분</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">핵심 포인트</div>
+    <p>두 방식은 경쟁이 아니라 <em>용도에 따라 공존</em>하는 구조. 데이터 센터 간(장거리) → EML, 데이터 센터 내부(단거리) → CW+SiPh.</p>
+  </div>
+
+  <div class="chart-title fade-in">📊 트랜시버 방식별 시장 비중 변화 (%)</div>
+  <div class="chart-container fade-in">
+    <canvas id="chart3" height="240"></canvas>
+  </div>
+</section>
+
+<!-- ── 엔비디아의 케파 선점 ── -->
+<section>
+  <div class="section-label fade-in">전략 분석</div>
+  <h2 class="fade-in">엔비디아의 의도치 않은 부작용</h2>
+  <p class="fade-in">엔비디아가 루멘텀·코히런트의 케파를 2027년까지 선점하자, <em>하이퍼스케일러(아마존·구글·메타 등)도 EML을 구하기 어려워졌다.</em></p>
+
+  <div class="pull-quote fade-in">
+    "HBM 때 SK하이닉스가 엔비디아 케파를 선점하며 다른 업체 접근이 어려워졌던 구조와 같다. 광통신 공급망 자체가 엔비디아 생태계의 진입 장벽이 된다."
+  </div>
+
+  <p class="fade-in">하이퍼스케일러 데이터 센터에는 두 종류의 네트워크가 공존한다.</p>
+
+  <div class="stock-cards">
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">① 엔비디아 GPU 클러스터</div>
+        <span class="sc-tag tag-nvidia">EML 사용</span>
+      </div>
+      <div class="sc-desc">H100, B200 등이 InfiniBand·NVLink로 연결. 광통신 규격을 엔비디아가 직접 설계 → 어떤 레이저를 쓸지도 엔비디아가 지정. 하이퍼스케일러 선택권 없음.</div>
+    </div>
+    <div class="stock-card fade-in">
+      <div class="sc-header">
+        <div class="sc-name">② 자체 ASIC 클러스터</div>
+        <span class="sc-tag tag-alt">CW+SiPh 선택</span>
+      </div>
+      <div class="sc-desc">구글 TPU, 아마존 Trainium, 메타 MTIA 등 자체 AI 가속기. 광통신 방식을 하이퍼스케일러가 직접 결정 가능. EML 구하기 어려우니 CW+SiPh 방식 선택 → 비용·전력·공급 모두 유리.</div>
+    </div>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">아마존의 선택: Aeponyx(옵토)</div>
+    <p>아마존 Trainium 2칩 <strong>50만 개</strong> 클러스터 구축에 옵토 선정. 아마존은 단순 거래가 아닌 <strong>워런트(최대 795만 주)</strong> + 최대 40억 달러 구매 약정 구조로 장기 전략 파트너로 묶었다. 엔비디아가 케파를 선점한 날 옵토 주가는 <em>+22%</em>로 가장 크게 올랐다.</p>
+  </div>
+</section>
+
+<!-- ── 시장 단계 타임라인 ── -->
+<section>
+  <div class="section-label fade-in">투자 로드맵</div>
+  <h2 class="fade-in">광통신 시장의 3단계 전환</h2>
+  <p class="fade-in">단순히 '광통신 관련주'로 묶어 보면 안 된다. 단계마다 수혜 구조가 다르다.</p>
+
+  <div class="timeline">
+    <div class="tl-item fade-in">
+      <div class="tl-left">
+        <div class="tl-dot">1</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-year">지금 ~ 2026 | 800G 플러거블 시대</div>
+        <div class="tl-desc">플러거블(Pluggable) 트랜시버가 주류. 스위치·서버에 꽂았다 뺐다 하는 모듈 방식. <strong>레이저가 핵심 부품</strong>이며 루멘텀·코히런트가 직접 수혜.</div>
+        <div class="tl-sub">EML 공급 병목 구간</div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-left">
+        <div class="tl-dot">2</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-year">2027년 전후 | 1.6T 전환 가속</div>
+        <div class="tl-desc">실리콘 포토닉스 기반 CW+SiPh 방식 비중 확대. 1.6T에서 CW+SiPh 점유율 <strong>약 60%</strong>까지 상승 전망.</div>
+        <div class="tl-sub">옵토 등 대안 공급자 부상 구간</div>
+      </div>
+    </div>
+    <div class="tl-item fade-in">
+      <div class="tl-left">
+        <div class="tl-dot">3</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-year">2028년 이후 | CPO 본격 전환</div>
+        <div class="tl-desc">CPO(Co-Packaged Optics): 광통신 모듈이 칩 패키지 안으로 직접 통합. 단, 레이저는 열에 민감하고 고장이 잦아 <strong>외장 모듈로 유지</strong>될 가능성 높음 → 레이저 수요 자체는 유지.</div>
+        <div class="tl-sub">EML보다 CW 레이저 비중 확대</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 옵토 분석 ── -->
+<section>
+  <div class="section-label fade-in">종목 심층 분석</div>
+  <h2 class="fade-in">왜 옵토(Aeponyx)를 살펴보나</h2>
+  <p class="fade-in">옵토는 EML을 보유하지 않는다. 그 전략이 오히려 차별점이다. CW 레이저 + 실리콘 포토닉스 변조기로 1.6Tbps를 구현하는 방향이다. EML을 구하지 못한 하이퍼스케일러가 향할 수 있는 대안이다.</p>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">현황 & 계획</div>
+    <p>• 실리콘 포토닉스 기반 1.6T 제품 → 일부 고객 샘플 발송 중</p>
+    <p>• 대규모 양산 목표: <strong>2026년 하반기</strong></p>
+    <p>• CPO 대응: 2025년 12월 발표 <strong>400mW급 초고출력 레이저</strong> (실리콘 포토닉스·CPO 겨냥)</p>
+    <p>• 생산 목표: 월 9만 → <strong>50만 유닛</strong> (6배 증설)</p>
+  </div>
+
+  <h2 class="fade-in" style="margin-top:8px;">리스크 요인</h2>
+  <ul class="risk-list">
+    <li class="fade-in">생산 실행력 — 6배 증설 목표, 장비 리드타임이 변수</li>
+    <li class="fade-in">납품 지연 이력 — 800G 펌웨어 이슈로 한 분기 납품 지연 발생</li>
+    <li class="fade-in">희석 리스크 — ATM(자동 시장 방식) 주식 발행 진행 중</li>
+    <li class="fade-in">고객 집중 — 상위 3개 고객이 매출 80% 이상 차지</li>
+    <li class="fade-in">소형주 변동성 — 급등 이후 유동성 장세 위험</li>
+  </ul>
+</section>
+
+<!-- ── 차트: 주가 반응 ── -->
+<section>
+  <div class="section-label fade-in">시장 반응</div>
+  <h2 class="fade-in">엔비디아 발표일 주가 반응</h2>
+  <div class="chart-title fade-in">📊 3월 2일 발표 당일 주가 상승률 (%)</div>
+  <div class="chart-container fade-in">
+    <canvas id="chart4" height="240"></canvas>
+  </div>
+  <p class="fade-in" style="font-size:13px;color:var(--text2);">직접 투자 대상인 루멘텀(+11%), 코히런트(+15%)보다 <em>옵토가 +22%</em>로 가장 크게 올랐다. 시장이 EML 병목 해소 대안으로 옵토를 인식했다는 신호.</p>
+</section>
+
+<!-- ── 결론 ── -->
+<section>
+  <div class="section-label fade-in">종합 결론</div>
+  <h2 class="fade-in">지금 주목해야 할 것</h2>
+
+  <div class="highlight-box fade-in">
+    <div class="hb-title">핵심 구조 요약</div>
+    <p><strong>루멘텀·코히런트</strong> → 엔비디아 케파 직접 수혜, 호재 상당 부분 주가 반영됨</p>
+    <p style="margin-top:8px;"><strong>옵토</strong> → EML 구하지 못하는 하이퍼스케일러의 대안. 1.6T 양산·CPO 진입 검증 시 추가 시장 반응 여지 있음</p>
+  </div>
+
+  <div class="pull-quote fade-in">
+    "지금은 광통신이 어떤 구조로 주목받는지, 앞으로 어떤 기회를 줄지 공부하는 시간이다. 최근 급등한 종목에 지금 당장 따라 들어가면 유동성 장세에 물려 버릴 수 있다."
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<div class="footer fade-in">
+  <strong>⚠️ 투자 유의사항</strong><br>
+  본 문서는 유튜브 영상 자막을 기반으로 한 정보 정리용 분석이며, 투자 권유 또는 투자 조언이 아닙니다. 주식 투자는 원금 손실이 발생할 수 있으며, 투자 결정은 본인의 책임 하에 이루어져야 합니다. 수치는 원본 자막 기준이며 실제 시장 상황과 다를 수 있습니다.
+</div>
+
+<script>
+// ── Observer 1: 일반 fade-in
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── Chart Configs (정의만, 직접 호출 금지)
+const chartConfigs = {};
+
+chartConfigs['chart1'] = () => {
+  new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+      labels: ['2025년', '2026년'],
+      datasets: [{
+        label: '800G+ 트랜시버 출하량 (만 개)',
+        data: [2400, 6300],
+        backgroundColor: ['#e11d48cc', '#e11d48'],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (c) => ` ${c.raw.toLocaleString()} 만 개` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#777', font: { size: 11 } },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { color: '#1a1a1a', font: { size: 12, weight: '600' } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+chartConfigs['chart2'] = () => {
+  new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+      labels: ['2025년', '2030년'],
+      datasets: [{
+        label: '광 인터커넥트 시장 (억$)',
+        data: [209, 414],
+        backgroundColor: ['#2563ebcc', '#2563eb'],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (c) => ` $${c.raw}억` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#777', font: { size: 11 } },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { color: '#1a1a1a', font: { size: 12, weight: '600' } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+chartConfigs['chart3'] = () => {
+  new Chart(document.getElementById('chart3'), {
+    type: 'bar',
+    data: {
+      labels: ['800G (현재)', '1.6T (전망)'],
+      datasets: [
+        {
+          label: 'EML 방식',
+          data: [57.5, 40],
+          backgroundColor: '#e11d48',
+          borderRadius: 4,
+          borderSkipped: false,
+        },
+        {
+          label: 'CW+SiPh 방식',
+          data: [42.5, 60],
+          backgroundColor: '#2563eb',
+          borderRadius: 4,
+          borderSkipped: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: { font: { size: 11 }, color: '#1a1a1a', boxWidth: 12 }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { color: '#777', font: { size: 11 }, callback: v => v + '%' },
+          grid: { color: '#e5e5e5' }
+        },
+        x: { ticks: { color: '#1a1a1a', font: { size: 12, weight: '600' } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+chartConfigs['chart4'] = () => {
+  new Chart(document.getElementById('chart4'), {
+    type: 'bar',
+    data: {
+      labels: ['루멘텀', '코히런트', '옵토'],
+      datasets: [{
+        label: '주가 상승률 (%)',
+        data: [11, 15, 22],
+        backgroundColor: ['#6b7280', '#6b7280', '#e11d48'],
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { x: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (c) => ` +${c.raw}%` }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: { color: '#777', font: { size: 11 }, callback: v => '+' + v + '%' },
+          grid: { color: '#e5e5e5' }
+        },
+        y: { ticks: { color: '#1a1a1a', font: { size: 13, weight: '600' } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// ── Observer 2: 차트 전용
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
