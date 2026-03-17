@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA GTC 2026 — 증시 & 경제 분석</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #fafafa; --text: #1a1a1a; --text2: #777777;
+    --accent: #e11d48; --accent2: #f43f5e;
+    --c1: #e11d48; --c2: #1a1a1a; --c3: #6b7280; --c4: #2563eb;
+    --border: #e5e5e5; --tbl-hdr: #e11d48;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px; line-height: 1.75;
+    max-width: 480px; margin: 0 auto; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  .masthead {
+    background: var(--text); color: #fff;
+    padding: 32px 24px 24px;
+    border-bottom: 4px solid var(--accent);
+  }
+  .masthead-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 10px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px; font-weight: 900; line-height: 1.15; margin-bottom: 10px;
+  }
+  .masthead h1 em { color: var(--accent2); font-style: italic; }
+  .masthead-sub {
+    font-size: 13px; color: #aaa;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.04em;
+  }
+  .section { padding: 28px 20px; border-bottom: 1px solid var(--border); }
+  .section:last-of-type { border-bottom: none; }
+  .section-alt { background: var(--bg2); }
+  .section-tag {
+    font-family: 'DM Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); border-left: 3px solid var(--accent);
+    padding-left: 8px; margin-bottom: 14px; display: block;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; line-height: 1.25;
+    margin-bottom: 14px; color: var(--text);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--text); margin: 20px 0 8px;
+  }
+  p { font-size: 15px; line-height: 1.8; margin-bottom: 12px; color: var(--text); }
+  .lead {
+    font-size: 17px; line-height: 1.7; font-weight: 300; font-style: italic;
+    color: #444; border-left: 3px solid var(--accent);
+    padding-left: 14px; margin: 0 0 20px;
+  }
+  .highlight-box {
+    background: var(--text); color: #fff;
+    border-radius: 4px; padding: 18px 20px; margin: 18px 0;
+  }
+  .highlight-box .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px; font-weight: 900;
+    color: var(--accent2); line-height: 1; margin-bottom: 4px;
+  }
+  .highlight-box .num-label {
+    font-size: 12px; font-family: 'DM Mono', monospace;
+    color: #aaa; letter-spacing: 0.08em;
+  }
+  .highlight-box p { font-size: 13px; color: #ccc; margin: 8px 0 0; line-height: 1.6; }
+  .stat-row { display: flex; gap: 12px; margin: 16px 0; }
+  .stat-card {
+    flex: 1; background: var(--bg2);
+    border: 1px solid var(--border); border-top: 3px solid var(--accent);
+    border-radius: 4px; padding: 14px 12px; text-align: center;
+  }
+  .stat-card .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px; font-weight: 900;
+    color: var(--accent); line-height: 1; margin-bottom: 4px;
+  }
+  .stat-card .lbl {
+    font-size: 10.5px; font-family: 'DM Mono', monospace;
+    color: var(--text2); letter-spacing: 0.06em;
+  }
+  .divider {
+    display: flex; align-items: center; gap: 10px; margin: 20px 0;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .divider span {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; color: var(--text2);
+  }
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--tbl-hdr); color: #fff; }
+  thead th {
+    padding: 9px 10px; text-align: left;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; font-weight: 500;
+  }
+  tbody tr { background: var(--bg2); border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: #f5f5f5; }
+  tbody td { padding: 8px 10px; font-size: 13px; vertical-align: top; }
+  .tag-bull {
+    display: inline-block; background: #dcfce7; color: #166534;
+    font-size: 10px; font-family: 'DM Mono', monospace;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .tag-bear {
+    display: inline-block; background: #fee2e2; color: #991b1b;
+    font-size: 10px; font-family: 'DM Mono', monospace;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .tag-neutral {
+    display: inline-block; background: #fef9c3; color: #854d0e;
+    font-size: 10px; font-family: 'DM Mono', monospace;
+    padding: 2px 6px; border-radius: 2px;
+  }
+  .card-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .card-item {
+    border: 1px solid var(--border); border-left: 4px solid var(--accent);
+    background: var(--bg2); border-radius: 3px;
+    padding: 12px 14px; font-size: 13.5px; line-height: 1.65;
+  }
+  .card-item.blue { border-left-color: var(--c4); }
+  .card-item.gray { border-left-color: var(--c3); }
+  .card-item strong {
+    display: block; font-size: 12.5px;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.04em;
+    margin-bottom: 4px; color: var(--accent);
+  }
+  .card-item.blue strong { color: var(--c4); }
+  .card-item.gray strong { color: var(--c3); }
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .chart-container { position: relative; max-height: 340px; margin: 16px 0; }
+  .chart-container canvas { opacity: 0; transition: opacity 0.4s ease; max-height: 300px; }
+  .chart-container.chart-ready canvas { opacity: 1; }
+  .chart-title {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; color: var(--text2);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .pullquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; font-weight: 700; font-style: italic;
+    line-height: 1.4; color: var(--text);
+    border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+    padding: 18px 0; margin: 22px 0; text-align: center;
+  }
+  .pullquote cite {
+    display: block; font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em;
+    color: var(--text2); margin-top: 10px; font-style: normal;
+  }
+  footer {
+    background: var(--text); color: #666; padding: 22px 20px;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.07em; line-height: 1.8;
+  }
+  footer strong { color: #aaa; }
+</style>
+</head>
+<body>
+
+<header class="masthead fade-in">
+  <div class="masthead-label">▶ MARKET INTELLIGENCE · 2026.03.17</div>
+  <h1>NVIDIA GTC 2026<br><em>1조 달러 시대의 서막</em></h1>
+  <div class="masthead-sub">미국 증시 & 거시경제 심층분석 / Jensen Huang Keynote</div>
+</header>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="section fade-in">
+  <span class="section-tag">Executive Summary</span>
+  <p class="lead">젠슨 황은 2027년까지 AI 인프라 수요가 최소 1조 달러에 달할 것이라 선언했다. 이는 지난해 예고한 5,000억 달러의 정확히 두 배다.</p>
+  <div class="stat-row">
+    <div class="stat-card"><div class="val">$1T</div><div class="lbl">2027 수요 전망</div></div>
+    <div class="stat-card"><div class="val">35×</div><div class="lbl">Hopper 대비 성능↑</div></div>
+    <div class="stat-card"><div class="val">×40M</div><div class="lbl">10년 컴퓨팅 증가</div></div>
+  </div>
+  <p>젠슨 황은 지난 2년간 AI 컴퓨팅 수요가 약 100만 배 증가했다고 밝혔다 — 모델 복잡도 10,000배 × 사용량 100배 증가. 이제 AI는 <strong>추론(Inference)</strong>이 핵심 워크로드로 등극했으며, 기업들의 데이터센터는 파일 저장소가 아닌 <strong>토큰 팩토리(Token Factory)</strong>로 재정의된다.</p>
+  <div class="highlight-box">
+    <div class="num">$1,000,000,000,000</div>
+    <div class="num-label">2027년까지의 AI 인프라 수요 (젠슨 황 추정)</div>
+    <p>지난해 GTC의 $500B 예측을 단 1년 만에 2배로 상향. 청중 반응이 무덤덤했던 이유는 대부분이 이미 사상 최대 실적을 달성했기 때문이라고 스스로 설명.</p>
+  </div>
+</section>
+
+<!-- CHART 1 -->
+<section class="section section-alt fade-in">
+  <span class="section-tag">수요 & 성장 궤적</span>
+  <h2>AI 인프라 수요 전망: 폭발적 확대</h2>
+  <p class="chart-title">NVIDIA 발표 기반 누적 수요 추정 ($B)</p>
+  <div class="chart-container fade-in">
+    <canvas id="demandChart" height="220"></canvas>
+  </div>
+  <p style="font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:4px;">* 젠슨 황 발언 기반 추정치. 2025년 Blackwell, 2026–27년 Vera Rubin 본격 출하.</p>
+</section>
+
+<!-- AI FACTORY ECONOMICS -->
+<section class="section fade-in">
+  <span class="section-tag">AI Factory Economics</span>
+  <h2>토큰 팩토리 — 새로운 수익 방정식</h2>
+  <p>젠슨 황이 가장 강조한 개념은 데이터센터를 <strong>토큰 생산 공장</strong>으로 보는 시각이다. 1기가와트 데이터센터의 고정 비용은 약 400억 달러(15년 상각). 이 비용은 GPU 선택과 무관하게 고정되므로, 단위 전력당 토큰 처리량이 곧 수익성이다.</p>
+  <div class="pullquote">
+    "틀린 아키텍처를 쓰면 무료로 줘도 충분히 싸지 않다."
+    <cite>— Jensen Huang, GTC 2026</cite>
+  </div>
+  <p class="chart-title">세대별 성능 비교 (H100 기준 상대값, 로그 스케일)</p>
+  <div class="chart-container fade-in">
+    <canvas id="perfChart" height="220"></canvas>
+  </div>
+  <div class="divider"><span>토큰 가격 계층 구조</span></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>서비스 계층</th><th>예상 가격</th><th>특성</th></tr></thead>
+      <tbody>
+        <tr><td>무료 티어</td><td>$0</td><td>고처리량 / 낮은 지연</td></tr>
+        <tr><td>기본 유료</td><td>~$3/M 토큰</td><td>일반 추론</td></tr>
+        <tr><td>중간</td><td>~$6/M 토큰</td><td>대형 모델</td></tr>
+        <tr><td>고급</td><td>~$45/M 토큰</td><td>고속·장문 컨텍스트</td></tr>
+        <tr><td>프리미엄</td><td>~$150/M 토큰</td><td>초고속·초대형 모델</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Vera Rubin은 Blackwell 대비 동일 전력에서 <strong>5배 더 많은 매출</strong>을 창출할 수 있다고 젠슨 황은 주장했다. 각 성능 계층에서 10배 처리량 향상을 달성했기 때문이다.</p>
+</section>
+
+<!-- STOCK MARKET -->
+<section class="section section-alt fade-in">
+  <span class="section-tag">증시 영향 분석</span>
+  <h2>섹터별 투자 시사점</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>섹터 / 기업군</th><th>방향</th><th>핵심 촉매</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NVIDIA (NVDA)</strong></td><td><span class="tag-bull">강세</span></td><td>$1T 수요, Vera Rubin 출하, Grok 인수</td></tr>
+        <tr><td><strong>하이퍼스케일러</strong><br><small>AWS, Azure, GCP, Oracle</small></td><td><span class="tag-bull">강세</span></td><td>매출 60%가 Top5 CSP 경유, OpenAI→AWS 확장</td></tr>
+        <tr><td><strong>CoreWeave</strong></td><td><span class="tag-bull">강세</span></td><td>AI 네이티브 클라우드 직접 언급, 고성장 확인</td></tr>
+        <tr><td><strong>에너지 인프라</strong><br><small>전력, 원전, 데이터센터 리츠</small></td><td><span class="tag-bull">강세</span></td><td>1GW 팩토리 표준화, 전력 수요 폭발적 확대</td></tr>
+        <tr><td><strong>전통 반도체</strong><br><small>Intel CPU 등</small></td><td><span class="tag-bear">약세</span></td><td>NVIDIA 자체 Vera CPU 멀티 빌리언달러 사업화</td></tr>
+        <tr><td><strong>기존 SaaS</strong></td><td><span class="tag-neutral">혼조</span></td><td>GaaS 전환 불가피 — 전환 성공 여부가 관건</td></tr>
+        <tr><td><strong>로보틱스</strong><br><small>ABB, Caterpillar 등</small></td><td><span class="tag-bull">강세</span></td><td>$50T 제조 로보틱스, 자율주행 4사 신규 파트너십</td></tr>
+        <tr><td><strong>통신 인프라</strong><br><small>Nokia, T-Mobile 등</small></td><td><span class="tag-bull">중장기↑</span></td><td>기지국→AI RAM 전환, Arial 플랫폼</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- REVENUE MIX -->
+<section class="section fade-in">
+  <span class="section-tag">비즈니스 구조</span>
+  <h2>NVIDIA 매출 구조의 다변화</h2>
+  <p>현재 매출의 60%는 상위 5개 하이퍼스케일러가 차지하지만, 나머지 40%는 지역 클라우드·소버린 AI·기업·로보틱스 등으로 분산돼 특정 고객 의존도 리스크를 상쇄한다.</p>
+  <p class="chart-title">추정 고객 매출 비중</p>
+  <div class="chart-container fade-in">
+    <canvas id="mixChart" height="220"></canvas>
+  </div>
+</section>
+
+<!-- MACRO -->
+<section class="section section-alt fade-in">
+  <span class="section-tag">거시경제 & 연준 정책</span>
+  <h2>AI 인프라 붐의 거시경제적 함의</h2>
+
+  <h3>📊 설비투자(CapEx) 사이클과 GDP</h3>
+  <p>하이퍼스케일러들의 AI 인프라 투자는 역대 최대 규모의 민간 설비투자 사이클을 구성한다. 단기적으로 미국 GDP 성장에 긍정적 기여를 한다. NVIDIA 공급망 전체가 사상 최대 실적을 달성 중이라는 발언은 광범위한 경제 낙수효과를 시사한다.</p>
+
+  <h3>⚡ 에너지 수요 급증과 인플레이션</h3>
+  <p>1기가와트 팩토리 건설 단가는 약 400억 달러이며 전 세계적으로 증설 중이다. <strong>전력 인프라 병목 → 전기요금 상승 → 인플레이션 상방 압력</strong>으로 이어질 수 있는 구조적 요인이다.</p>
+
+  <h3>🏦 연준(Fed) 정책에의 시사점</h3>
+  <div class="card-list">
+    <div class="card-item">
+      <strong>⚠ 인플레이션 상방 리스크</strong>
+      AI 데이터센터 건설 붐 → 전력·냉각·건설 비용 상승. 서비스 인플레이션 구조적 지속 가능성.
+    </div>
+    <div class="card-item blue">
+      <strong>✓ 생산성 향상 → 비용 절감</strong>
+      Snapchat 데이터처리 비용 80% 절감, Nestle 83% 절감 등 AI 도입 기업의 비용 효율화는 디플레이션 압력으로 작용.
+    </div>
+    <div class="card-item gray">
+      <strong>↔ 엇갈리는 신호</strong>
+      투자 주도 성장(인플레이션 ↑) vs. 생산성 향상(인플레이션 ↓). 연준의 데이터 의존적 결정 기조 지속 예상.
+    </div>
+  </div>
+
+  <h3>💼 노동시장 구조 변화</h3>
+  <p>젠슨 황은 NVIDIA 엔지니어에게 연봉 외 별도 <strong>토큰 예산</strong>을 지급하겠다고 언급했다. 에이전트가 엔지니어 생산성을 10배 증폭시킨다는 전제 하에, 기업들은 채용 기준을 "에이전트 활용 능력"으로 재편할 가능성이 높다.</p>
+</section>
+
+<!-- KEY PRODUCTS -->
+<section class="section fade-in">
+  <span class="section-tag">주요 발표 제품 & 기술</span>
+  <h2>투자자가 주목해야 할 신제품</h2>
+  <div class="card-list">
+    <div class="card-item">
+      <strong>Vera Rubin (차세대 GPU 플랫폼)</strong>
+      NVLink 72, 3.6 엑사플롭스, 토큰 생성속도 2,200만→7억/초 (350배↑). Microsoft Azure에 첫 랙 설치 확인. 2026 하반기 본격 출하 예정.
+    </div>
+    <div class="card-item">
+      <strong>Grok LPX (추론 가속기)</strong>
+      Samsung이 LP30 생산, 2026 Q3 출하 예정. 고처리량(Vera Rubin) + 저지연(Grok) 이분화 아키텍처. 추론 수익 35배 추가 증대 목표.
+    </div>
+    <div class="card-item blue">
+      <strong>OpenClaw (오픈소스 에이전트 OS)</strong>
+      "30년치 Linux 성과를 몇 주 만에 달성"한 최다 인기 오픈소스. NVIDIA NemoClaw 레퍼런스로 기업 보안 대응. 기업 IT의 SaaS→GaaS 전환 핵심 촉매.
+    </div>
+    <div class="card-item blue">
+      <strong>Alpamayo (자율주행 AI)</strong>
+      추론 가능 자율주행 모델. BYD, Hyundai, Nissan, Geely 신규 파트너십 (연 1,800만 대). Uber와 멀티시티 로보택시 배포 협력.
+    </div>
+    <div class="card-item gray">
+      <strong>NVIDIA DSX (AI 팩토리 플랫폼)</strong>
+      옴니버스 기반 디지털 트윈. Siemens, PTC, Jacobs 등 연계. 전력 효율화 2배 목표.
+    </div>
+  </div>
+</section>
+
+<!-- RISKS -->
+<section class="section section-alt fade-in">
+  <span class="section-tag">리스크 & 주의사항</span>
+  <h2>투자 리스크 요인</h2>
+  <div class="card-list">
+    <div class="card-item">
+      <strong>🔴 지정학적 리스크 — 수출 규제</strong>
+      미국의 대중 반도체 수출 규제 강화 시 수요 축소 가능. 소버린 AI 확대 전략이 부분적 완충이나 완전한 대체는 불가.
+    </div>
+    <div class="card-item">
+      <strong>🔴 경쟁 아키텍처 부상</strong>
+      Google TPU, AWS Trainium, AMD MI300 등 대안 가속기. CUDA 생태계 락인이 강하나 장기적 점유율 희석 가능성 존재.
+    </div>
+    <div class="card-item">
+      <strong>🟡 공급망 병목</strong>
+      CoWoS 패키징(TSMC), HBM(SK하이닉스·Micron) 여전히 타이트. 공급 부족 지속 시 고객 이탈 가능.
+    </div>
+    <div class="card-item">
+      <strong>🟡 밸류에이션 부담</strong>
+      $1T 수요가 이미 주가에 상당 부분 반영됐을 수 있음. 실적이 기대치를 하회할 경우 조정 리스크 존재.
+    </div>
+    <div class="card-item gray">
+      <strong>⚪ AI ROI 증명 과제</strong>
+      기업들의 대규모 AI 투자가 수익성 개선으로 연결되지 않으면 CapEx 사이클 조기 둔화 가능.
+    </div>
+  </div>
+</section>
+
+<!-- TOKEN DEMAND CHART -->
+<section class="section fade-in">
+  <span class="section-tag">추론 인플렉션</span>
+  <h2>AI 컴퓨팅 수요 폭발 — 추론의 시대</h2>
+  <p>ChatGPT → 추론 AI(o1) → Claude Code 에이전트로 이어지며 토큰 소비량이 단계적으로 폭증. 젠슨 황은 이 복합 효과로 2년간 수요가 100만 배 증가했다고 주장했다.</p>
+  <p class="chart-title">AI 사용 단계별 컴퓨팅 수요 상대 규모 (로그 스케일)</p>
+  <div class="chart-container fade-in">
+    <canvas id="tokenChart" height="220"></canvas>
+  </div>
+  <p style="font-size:12px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:4px;">* 젠슨 황 발언 기반 개념적 표현.</p>
+</section>
+
+<!-- INVESTMENT SUMMARY -->
+<section class="section section-alt fade-in">
+  <span class="section-tag">투자 결론</span>
+  <h2>핵심 투자 시사점 요약</h2>
+  <p>GTC 2026은 단순한 제품 발표회를 넘어 AI 경제의 <strong>새로운 산업 표준</strong>이 선언된 행사다.</p>
+  <div class="stat-row">
+    <div class="stat-card"><div class="val" style="font-size:18px;">추론</div><div class="lbl">학습 → 추론 중심 전환<br>수익 모델 재편</div></div>
+    <div class="stat-card"><div class="val" style="font-size:18px;">에이전트</div><div class="lbl">OpenClaw으로<br>기업 IT 전면 재편</div></div>
+    <div class="stat-card"><div class="val" style="font-size:18px;">물리 AI</div><div class="lbl">로보틱스·자율주행<br>$50T 시장 개화</div></div>
+  </div>
+  <p>단기적으로 <strong>NVIDIA, 하이퍼스케일러 CSP, 에너지 인프라</strong>가 직접 수혜를 받는다. 중기적으로는 AI 에이전트 전환 성공 여부가 기업 주가를 가를 것이며, 장기적으로는 물리 AI가 제조업 구조 재편을 이끌 것이다.</p>
+  <p style="font-size:13px;color:var(--text2);border:1px solid var(--border);padding:12px;border-radius:4px;background:#fff;">⚠ <strong>투자 유의사항:</strong> 본 문서는 NVIDIA GTC 2026 키노트 내용 기반 분석이며, 투자 권유가 아닙니다. 실제 투자 결정은 전문 금융 자문사와 상담 후 진행하십시오.</p>
+</section>
+
+<footer>
+  <strong>NVIDIA GTC 2026 키노트 분석 리포트</strong><br>
+  발행일: 2026.03.17 · 분석 기반: Jensen Huang GTC 2026 Keynote 원본 자막<br>
+  본 문서는 투자 권유가 아닙니다. 투자 판단의 최종 책임은 본인에게 있습니다.
+</footer>
+
+<script>
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+
+chartConfigs['demandChart'] = () => {
+  new Chart(document.getElementById('demandChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2024 (Hopper)', '2025 (Blackwell)', '2026 (Vera Rubin)', '2027 (Vera Rubin+)'],
+      datasets: [{
+        label: '누적 수요 추정 ($B)',
+        data: [120, 280, 600, 1000],
+        backgroundColor: ['#6b7280', '#1a1a1a', '#e11d48', '#f43f5e'],
+        borderRadius: 4, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` $${ctx.raw}B` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: "'DM Mono', monospace", size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { font: { family: "'DM Mono', monospace", size: 10 }, callback: v => `$${v}B` } }
+      }
+    }
+  });
+};
+
+chartConfigs['perfChart'] = () => {
+  new Chart(document.getElementById('perfChart'), {
+    type: 'bar',
+    data: {
+      labels: ['H100 (기준)', 'H200', 'Grace Blackwell', 'Vera Rubin', 'Vera Rubin+Grok'],
+      datasets: [{
+        label: 'H100 대비 배수',
+        data: [1, 1.5, 35, 50, 175],
+        backgroundColor: ['#6b7280', '#9ca3af', '#2563eb', '#e11d48', '#f43f5e'],
+        borderRadius: 4, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}× (H100 기준)` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: "'DM Mono', monospace", size: 9 } } },
+        y: { type: 'logarithmic', grid: { color: '#f0f0f0' }, ticks: { font: { family: "'DM Mono', monospace", size: 10 }, callback: v => `${v}×` } }
+      }
+    }
+  });
+};
+
+chartConfigs['mixChart'] = () => {
+  new Chart(document.getElementById('mixChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Top5 하이퍼스케일러', '지역 클라우드·소버린AI', '기업·산업', '로보틱스·자율주행·기타'],
+      datasets: [{
+        data: [60, 18, 14, 8],
+        backgroundColor: ['#e11d48', '#2563eb', '#1a1a1a', '#6b7280'],
+        borderColor: '#fff', borderWidth: 3, hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true, cutout: '62%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { family: "'DM Mono', monospace", size: 10 }, padding: 10, boxWidth: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw}%` } }
+      }
+    }
+  });
+};
+
+chartConfigs['tokenChart'] = () => {
+  new Chart(document.getElementById('tokenChart'), {
+    type: 'bar',
+    data: {
+      labels: ['2022 ChatGPT', '2023 추론AI(o1)', '2024 에이전트', '2026 멀티에이전트'],
+      datasets: [{
+        label: '상대적 컴퓨팅 수요',
+        data: [1, 100, 10000, 1000000],
+        backgroundColor: ['#6b7280', '#2563eb', '#e11d48', '#1a1a1a'],
+        borderRadius: 4, borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` 약 ${ctx.raw.toLocaleString()}× (2022 기준)` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: "'DM Mono', monospace", size: 10 } } },
+        y: {
+          type: 'logarithmic', grid: { color: '#f0f0f0' },
+          ticks: {
+            font: { family: "'DM Mono', monospace", size: 10 },
+            callback: v => { if (v===1) return '1×'; if (v===100) return '100×'; if (v===10000) return '1만×'; if (v===1000000) return '100만×'; return ''; }
+          }
+        }
+      }
+    }
+  });
+};
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>

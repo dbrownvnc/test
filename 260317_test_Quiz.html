@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NVIDIA GTC 2026 — 시험문제 10선</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #fafafa; --text: #1a1a1a; --text2: #777777;
+    --accent: #e11d48; --accent2: #f43f5e;
+    --c4: #2563eb; --c3: #6b7280;
+    --border: #e5e5e5;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 16px; line-height: 1.75;
+    max-width: 480px; margin: 0 auto; padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    background: var(--text); color: #fff;
+    padding: 32px 24px 24px;
+    border-bottom: 4px solid var(--accent);
+  }
+  .masthead-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 10px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 900; line-height: 1.2; margin-bottom: 10px;
+  }
+  .masthead h1 em { color: var(--accent2); font-style: italic; }
+  .masthead-sub {
+    font-size: 12px; color: #aaa;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.04em;
+  }
+
+  /* GUIDE STRIP */
+  .guide-strip {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex; gap: 14px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .guide-item {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--text2);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-easy  { background: #22c55e; }
+  .dot-med   { background: #eab308; }
+  .dot-hard  { background: #ef4444; }
+
+  /* SECTION HEADER */
+  .q-section-title {
+    background: var(--accent);
+    color: #fff;
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* QUESTION CARD */
+  .exam-q {
+    border-bottom: 1px solid var(--border);
+    padding: 22px 20px;
+    transition: background 0.2s;
+  }
+  .exam-q:last-of-type { border-bottom: none; }
+  .exam-q-meta {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+  }
+  .exam-q-num {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; color: var(--accent); font-weight: 500;
+  }
+  .exam-diff {
+    display: inline-block; font-family: 'DM Mono', monospace;
+    font-size: 9px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.08em;
+  }
+  .diff-easy { background: #dcfce7; color: #166534; }
+  .diff-med  { background: #fef9c3; color: #854d0e; }
+  .diff-hard { background: #fee2e2; color: #991b1b; }
+  .exam-type {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em;
+    background: #f3f4f6; color: #374151;
+  }
+  .exam-q-text {
+    font-size: 15px; font-weight: 600; line-height: 1.6;
+    margin-bottom: 14px; color: var(--text);
+  }
+  .exam-opts { list-style: none; margin-bottom: 0; }
+  .exam-opts li {
+    font-size: 13.5px; padding: 7px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px; margin-bottom: 6px;
+    line-height: 1.5; color: #333;
+    display: flex; align-items: flex-start; gap: 8px;
+    background: var(--bg2);
+  }
+  .opt-label {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--accent); font-weight: 500; min-width: 18px;
+    margin-top: 1px;
+  }
+
+  /* SHORT ANSWER BOX */
+  .answer-space {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 14px 14px;
+    min-height: 72px;
+    background: #fafafa;
+    margin-top: 6px;
+  }
+  .answer-space-label {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.15em; color: #bbb; text-transform: uppercase;
+  }
+
+  /* DIVIDER */
+  .ans-divider {
+    background: var(--text);
+    color: #fff;
+    padding: 20px 20px 14px;
+    border-top: 4px solid var(--accent);
+    margin-top: 4px;
+  }
+  .ans-divider h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 900;
+    color: #fff; margin-bottom: 4px;
+  }
+  .ans-divider p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: #888; letter-spacing: 0.06em;
+  }
+  .warning-bar {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  /* ANSWER CARD */
+  .ans-item {
+    border-bottom: 1px solid #2a2a2a;
+    padding: 20px 20px;
+    background: #1a1a1a;
+  }
+  .ans-item:last-of-type { border-bottom: none; }
+  .ans-q-ref {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--accent2); letter-spacing: 0.1em; margin-bottom: 8px;
+  }
+  .ans-correct {
+    font-size: 14.5px; font-weight: 600;
+    color: #86efac; margin-bottom: 8px; line-height: 1.5;
+  }
+  .ans-explain {
+    font-size: 13px; color: #aaa; line-height: 1.7;
+  }
+  .ans-explain strong { color: #d1d5db; }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  footer {
+    background: #111; color: #555; padding: 22px 20px;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.07em; line-height: 1.8;
+  }
+  footer strong { color: #888; }
+</style>
+</head>
+<body>
+
+<header class="masthead fade-in">
+  <div class="masthead-label">▶ 시험문제 · NVIDIA GTC 2026 분석</div>
+  <h1>📝 시험문제 <em>10선</em></h1>
+  <div class="masthead-sub">증시 & 경제 분석 기반 · 2026.03.17</div>
+</header>
+
+<div class="guide-strip fade-in">
+  <div class="guide-item"><span class="dot dot-easy"></span> 쉬움 3문항 (30%)</div>
+  <div class="guide-item"><span class="dot dot-med"></span> 보통 5문항 (50%)</div>
+  <div class="guide-item"><span class="dot dot-hard"></span> 어려움 2문항 (20%)</div>
+</div>
+
+<div class="q-section-title">▶ 문제 풀기 — 정답은 하단 정답란에서 확인</div>
+
+<!-- Q01 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 01</span>
+    <span class="exam-type">객관식</span>
+    <span class="exam-diff diff-easy">쉬움</span>
+  </div>
+  <div class="exam-q-text">젠슨 황이 GTC 2026에서 발표한 2027년까지의 AI 인프라 수요 최소 전망치는?</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">①</span> 2,500억 달러</li>
+    <li><span class="opt-label">②</span> 5,000억 달러</li>
+    <li><span class="opt-label">③</span> 1조 달러</li>
+    <li><span class="opt-label">④</span> 2조 달러</li>
+  </ul>
+</div>
+
+<!-- Q02 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 02</span>
+    <span class="exam-type">객관식</span>
+    <span class="exam-diff diff-easy">쉬움</span>
+  </div>
+  <div class="exam-q-text">NVIDIA 매출에서 상위 5개 하이퍼스케일러(AWS·Azure·GCP·Meta·Oracle)가 차지하는 비중은 약 얼마인가?</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">①</span> 30%</li>
+    <li><span class="opt-label">②</span> 40%</li>
+    <li><span class="opt-label">③</span> 60%</li>
+    <li><span class="opt-label">④</span> 80%</li>
+  </ul>
+</div>
+
+<!-- Q03 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 03</span>
+    <span class="exam-type">OX</span>
+    <span class="exam-diff diff-easy">쉬움</span>
+  </div>
+  <div class="exam-q-text">젠슨 황은 1기가와트 AI 팩토리를 15년간 상각할 경우 고정 비용이 약 400억 달러라고 언급했다.</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">O</span> 맞다</li>
+    <li><span class="opt-label">X</span> 틀리다</li>
+  </ul>
+</div>
+
+<!-- Q04 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 04</span>
+    <span class="exam-type">객관식</span>
+    <span class="exam-diff diff-med">보통</span>
+  </div>
+  <div class="exam-q-text">Vera Rubin 플랫폼이 H100(Hopper) 대비 토큰당 와트(tokens per watt) 기준으로 달성한 향상 배수는? (세미애널리시스 실측 기준)</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">①</span> 약 5배</li>
+    <li><span class="opt-label">②</span> 약 15배</li>
+    <li><span class="opt-label">③</span> 약 50배</li>
+    <li><span class="opt-label">④</span> 약 200배</li>
+  </ul>
+</div>
+
+<!-- Q05 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 05</span>
+    <span class="exam-type">단답형</span>
+    <span class="exam-diff diff-med">보통</span>
+  </div>
+  <div class="exam-q-text">NVIDIA가 인수하여 Vera Rubin과 통합한 추론 전용 칩 브랜드는 무엇인가? 이 칩의 구조적 특징 2가지를 함께 서술하라.</div>
+  <div class="answer-space"><div class="answer-space-label">답안 작성란</div></div>
+</div>
+
+<!-- Q06 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 06</span>
+    <span class="exam-type">객관식</span>
+    <span class="exam-diff diff-med">보통</span>
+  </div>
+  <div class="exam-q-text">젠슨 황이 OpenClaw를 "HTML, Linux, Kubernetes에 버금가는 역사적 사건"으로 평가한 핵심 이유로 가장 적절한 것은?</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">①</span> 오픈소스 소프트웨어 최초로 기업 보안을 지원했기 때문</li>
+    <li><span class="opt-label">②</span> 에이전트형 컴퓨터의 운영체제(OS) 표준을 오픈소스로 제공해 모든 기업이 에이전트 전략을 구현할 기반을 만들었기 때문</li>
+    <li><span class="opt-label">③</span> NVIDIA GPU에서만 동작해 생태계 락인을 형성했기 때문</li>
+    <li><span class="opt-label">④</span> AI 모델 학습 비용을 10분의 1로 줄였기 때문</li>
+  </ul>
+</div>
+
+<!-- Q07 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 07</span>
+    <span class="exam-type">단답형</span>
+    <span class="exam-diff diff-med">보통</span>
+  </div>
+  <div class="exam-q-text">젠슨 황은 지난 2년간 AI 컴퓨팅 수요가 "100만 배" 증가했다고 주장했다. 이 수치를 구성하는 두 가지 곱셈 요소를 각각 설명하라.</div>
+  <div class="answer-space"><div class="answer-space-label">답안 작성란</div></div>
+</div>
+
+<!-- Q08 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 08</span>
+    <span class="exam-type">객관식</span>
+    <span class="exam-diff diff-med">보통</span>
+  </div>
+  <div class="exam-q-text">AI 인프라 투자 붐이 연준(Fed)의 금리 인하를 <u>어렵게</u> 만드는 경로로 가장 적절한 것은?</div>
+  <ul class="exam-opts">
+    <li><span class="opt-label">①</span> AI 도입으로 기업 비용이 절감되어 소비자 물가가 하락한다</li>
+    <li><span class="opt-label">②</span> 데이터센터 건설 붐이 전력·건설 비용을 끌어올려 인플레이션 상방 압력을 유지한다</li>
+    <li><span class="opt-label">③</span> NVIDIA 주가 상승이 자산 디플레이션을 초래한다</li>
+    <li><span class="opt-label">④</span> AI 실업 증가로 임금이 하락하고 물가가 안정된다</li>
+  </ul>
+</div>
+
+<!-- Q09 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 09</span>
+    <span class="exam-type">단답형</span>
+    <span class="exam-diff diff-hard">어려움</span>
+  </div>
+  <div class="exam-q-text">NVIDIA의 "수직 통합(Vertically Integrated) + 수평 개방(Horizontally Open)" 전략이 경쟁 우위를 형성하는 메커니즘을 CUDA 설치 기반(Installed Base) 및 플라이휠(Flywheel) 개념과 연결하여 설명하라.</div>
+  <div class="answer-space" style="min-height:100px;"><div class="answer-space-label">답안 작성란</div></div>
+</div>
+
+<!-- Q10 -->
+<div class="exam-q fade-in">
+  <div class="exam-q-meta">
+    <span class="exam-q-num">Q 10</span>
+    <span class="exam-type">서술형</span>
+    <span class="exam-diff diff-hard">어려움</span>
+  </div>
+  <div class="exam-q-text">젠슨 황이 제시한 "토큰 팩토리(Token Factory)" 개념을 바탕으로, SaaS → GaaS(Agentic as a Service) 전환이 미국 기술주 섹터 전체의 밸류에이션 재편에 어떤 영향을 줄 수 있는지 논하라. 수혜 기업군과 피해 기업군을 각각 포함할 것.</div>
+  <div class="answer-space" style="min-height:120px;"><div class="answer-space-label">답안 작성란</div></div>
+</div>
+
+<!-- ══════════════════ ANSWER SECTION ══════════════════ -->
+<div class="warning-bar fade-in">⚠ 아래는 정답 및 해설입니다 — 문제를 모두 풀고 나서 확인하세요</div>
+
+<div class="ans-divider fade-in">
+  <h2>정답 및 해설</h2>
+  <p>NVIDIA GTC 2026 키노트 원본 자막 기반</p>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q01 · 객관식 · 쉬움</div>
+  <div class="ans-correct">정답: ③ 1조 달러</div>
+  <div class="ans-explain">젠슨 황은 "지금 이 자리에서 2027년까지 최소 1조 달러의 AI 인프라 수요가 보인다"고 직접 발언했다. 2025년 GTC에서 제시한 5,000억 달러 전망을 단 1년 만에 2배로 상향한 수치다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q02 · 객관식 · 쉬움</div>
+  <div class="ans-correct">정답: ③ 60%</div>
+  <div class="ans-explain">키노트에서 "60 percent of our business is hyperscalers, the top five hyperscalers"라고 명시했다. 나머지 40%는 지역 클라우드, 소버린 AI, 기업, 로보틱스 등 다양한 영역이다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q03 · OX · 쉬움</div>
+  <div class="ans-correct">정답: O (맞다)</div>
+  <div class="ans-explain">키노트에서 "A one-gigawatt data center, amortized across 15 years, is about $40 billion"이라고 직접 언급했다. 이 고정 비용은 GPU 종류와 무관하게 발생하므로, 단위 전력당 토큰 처리 성능이 핵심 경쟁력이라는 논지의 근거로 사용됐다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q04 · 객관식 · 보통</div>
+  <div class="ans-correct">정답: ③ 약 50배</div>
+  <div class="ans-explain">젠슨 황은 "35배"라고 발표했으나, 세미애널리시스의 Dylan Patel은 실제 측정치가 50배라며 "Jensen sandbagged(일부러 낮게 말했다)"고 평가했다. 키노트에서 이 내용을 직접 인용하며 50배임을 인정했다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q05 · 단답형 · 보통</div>
+  <div class="ans-correct">정답: Grok (그록)</div>
+  <div class="ans-explain">NVIDIA가 팀을 인수하고 기술 라이선스를 취득한 추론 전용 칩이다. 구조적 특징: <strong>① 500MB에 달하는 대규모 온칩 SRAM</strong> — 외부 메모리 접근 없이 고속 연산 가능. <strong>② 정적 컴파일 스케줄링(결정론적 데이터플로우)</strong> — 컴파일러가 데이터 도착 시점을 사전에 스케줄링해 동적 스케줄링 오버헤드 없음. Vera Rubin(고처리량)과 결합 시 추론 수익 35배 향상이 목표다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q06 · 객관식 · 보통</div>
+  <div class="ans-correct">정답: ②</div>
+  <div class="ans-explain">젠슨 황은 OpenClaw를 "에이전트형 컴퓨터의 운영체제(OS)"로 정의했다. 리소스 관리·툴 접근·LLM 연결·스케줄링·I/O가 전통 OS의 기능 구조와 동일하다고 설명했으며, "모든 기업이 OpenClaw 전략을 가져야 한다"고 강조했다. Linux가 서버 혁명, Kubernetes가 클라우드 혁명을 이끌었듯, OpenClaw는 에이전트 혁명의 기반이 된다는 논리다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q07 · 단답형 · 보통</div>
+  <div class="ans-correct">정답: (A) 모델 복잡도 증가 10,000배 × (B) 사용량 증가 100배</div>
+  <div class="ans-explain"><strong>(A) 10,000배</strong> — 추론 AI(o1, o3)의 등장으로 단순 생성 AI 대비 입·출력 토큰 소비량이 대폭 증가했다. 모델이 문제를 단계별로 분해하고 "생각"하는 과정에서 컨텍스트 토큰과 출력 토큰이 폭발적으로 늘어났다.<br><strong>(B) 100배</strong> — ChatGPT 대중화 이후 사용자 수와 요청 빈도가 급격히 확대됐다. 두 요소의 곱으로 100만 배(10,000 × 100) 증가를 주장했다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q08 · 객관식 · 보통</div>
+  <div class="ans-correct">정답: ②</div>
+  <div class="ans-explain">데이터센터 전력 수요 급증 → 전기요금 및 냉각·건설 비용 상승 → CPI 및 PPI에 지속적 상방 압력 → 연준이 인플레이션을 목표(2%) 아래로 낮추기 어려운 구조. ①은 디플레이션 압력(인하를 쉽게 함), ③④는 근거 없는 인과관계다.</div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q09 · 단답형 · 어려움</div>
+  <div class="ans-correct">모범 답안 요점</div>
+  <div class="ans-explain">
+    <strong>플라이휠 메커니즘:</strong> ① CUDA 설치 기반(수억 개 GPU 배포) → ② 개발자 유인(쉬운 프로그래밍 모델) → ③ 새로운 알고리즘·라이브러리 창출 → ④ 딥러닝 등 혁신 돌파 → ⑤ 신규 시장·생태계 형성 → ⑥ 더 큰 설치 기반 → 다시 ①로 순환.<br><br>
+    <strong>수직 통합의 역할:</strong> 애플리케이션·알고리즘·라이브러리·시스템·칩을 직접 최적화해 경쟁사 대비 구조적 성능 우위를 확보. "틀린 아키텍처는 무료로 줘도 충분히 싸지 않다"는 주장이 이를 뒷받침한다.<br><br>
+    <strong>수평 개방의 역할:</strong> 소프트웨어·라이브러리를 모든 클라우드·OEM·플랫폼에 개방해 설치 기반을 최대화한다. 설치 기반이 클수록 소프트웨어 최적화 업데이트의 수혜자가 많아져 생태계 락인이 강화된다. 경쟁사가 단순 하드웨어 성능으로는 이 생태계를 깨기 어렵다.
+  </div>
+</div>
+
+<div class="ans-item fade-in">
+  <div class="ans-q-ref">Q10 · 서술형 · 어려움</div>
+  <div class="ans-correct">모범 답안 요점</div>
+  <div class="ans-explain">
+    <strong style="color:#86efac;">▶ 수혜 기업군</strong><br>
+    • <strong>NVIDIA·CSP·에너지 인프라:</strong> 토큰 생산 인프라 수요 직접 수혜.<br>
+    • <strong>GaaS 전환 성공 기업:</strong> 토큰 구매 → 에이전트 생산성 향상 → 비용 절감 → 매출 증대. 가치 창출 모델이 ARR에서 사용량 기반으로 전환 → 매출 변동성 증가하나 고성장 잠재력 확대.<br>
+    • <strong>AI 네이티브 스타트업:</strong> 토큰 생산자로서 기존 SaaS 기업을 대체.<br><br>
+    <strong style="color:#fca5a5;">▶ 피해 기업군</strong><br>
+    • <strong>GaaS 전환 실패 SaaS:</strong> 인당 생산성 격차로 시장점유율 상실. 전환 투자 여력 없는 중소 소프트웨어 기업 특히 취약.<br>
+    • <strong>반복 업무 중심 지식노동 서비스:</strong> 에이전트 대체 가능성 높음.<br><br>
+    <strong style="color:#d1d5db;">▶ 밸류에이션 재편 관점</strong><br>
+    P/E 배수보다 "토큰 효율성(수익/토큰 비용)" 및 "에이전트 보급률"이 기업 가치 평가의 새로운 지표로 부상할 가능성이 높다. SaaS의 ARR 멀티플 프레임워크는 GaaS 환경에서 부분적으로 재조정이 필요하다.
+  </div>
+</div>
+
+<footer>
+  <strong>NVIDIA GTC 2026 시험문제 · 정답 및 해설</strong><br>
+  발행일: 2026.03.17 · 분석 기반: Jensen Huang GTC 2026 Keynote 원본 자막<br>
+  본 문서는 학습 목적으로 제작되었습니다.
+</footer>
+
+<script>
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+</script>
+</body>
+</html>
