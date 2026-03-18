@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>InvestingPro 요금제 완전 정복 가이드</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 52px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.18;
+    }
+    .hero-eyebrow {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', 'Noto Serif KR', serif;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .hero h1 span { color: var(--accent2); }
+    .hero-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      margin-top: 20px;
+    }
+
+    /* DIVIDER */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+    .rule-thick {
+      border: none;
+      border-top: 3px solid var(--accent);
+      margin: 0;
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 36px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', 'Noto Serif KR', serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .section-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      background: var(--bg2);
+      padding: 16px 18px;
+      margin: 20px 0;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* FEATURE CARD */
+    .feature-num {
+      display: inline-block;
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .feature-content h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    /* COMPARISON PILLS */
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .pill {
+      border-radius: 4px;
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+    .pill-pro {
+      background: #f3f4f6;
+      border-left: 3px solid var(--c3);
+    }
+    .pill-plus {
+      background: #fff1f2;
+      border-left: 3px solid var(--accent);
+    }
+    .pill-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .pill-pro .pill-label { color: var(--c3); }
+    .pill-plus .pill-label { color: var(--accent); }
+
+    /* CHART */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+
+    /* TABLE */
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 20px 0;
+    }
+    .comp-table th {
+      background: var(--table-header);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .comp-table th:first-child { width: 40%; }
+    .comp-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--table-bg);
+      vertical-align: top;
+    }
+    .comp-table tr:nth-child(even) td { background: #fff; }
+    .check-yes { color: var(--accent); font-weight: 700; }
+    .check-no { color: var(--c3); }
+
+    /* SIMULATOR */
+    .simulator {
+      background: var(--bg2);
+      padding: 28px 20px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+    .sim-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .sim-desc {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 20px;
+    }
+    .sim-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sim-item:last-child { border-bottom: none; }
+    .sim-item-left {
+      font-size: 13.5px;
+      line-height: 1.5;
+      flex: 1;
+      padding-right: 12px;
+    }
+    .sim-check {
+      width: 24px; height: 24px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      font-size: 12px;
+      color: transparent;
+    }
+    .sim-item.checked .sim-check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .sim-result {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 2px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .sim-result.pro-result {
+      background: #f3f4f6;
+      border: 2px solid var(--c3);
+    }
+    .sim-result.plus-result {
+      background: #fff1f2;
+      border: 2px solid var(--accent);
+    }
+    .sim-result-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .pro-result .sim-result-label { color: var(--c3); }
+    .plus-result .sim-result-label { color: var(--accent); }
+    .sim-result-plan {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+    .pro-result .sim-result-plan { color: var(--text); }
+    .plus-result .sim-result-plan { color: var(--accent); }
+    .sim-result-sub {
+      font-size: 12.5px;
+      color: var(--text2);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .sim-count {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 4px;
+    }
+
+    /* EXCLUSIVE LIST */
+    .exclusive-item {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .exclusive-icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .exclusive-content h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .exclusive-content p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* WARNING BOX */
+    .warning-box {
+      background: #fff1f2;
+      border: 1.5px solid var(--accent);
+      padding: 20px;
+      margin: 24px 0;
+    }
+    .warning-box h4 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .warning-box p {
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    /* FLOW */
+    .flow-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .flow-line-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flow-dot {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 6px;
+    }
+    .flow-content {
+      padding-top: 4px;
+      flex: 1;
+    }
+    .flow-content h4 {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .flow-content p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.5);
+      padding: 24px;
+      font-size: 12px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* HIGHLIGHT */
+    .hl { color: var(--accent); font-weight: 700; }
+    .tag-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      letter-spacing: 1px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">INVESTING PRO · 요금제 분석</div>
+  <h1>결제 전 꼭 봐야 할<br><span>Pro vs Pro+</span><br>완전 정복 가이드</h1>
+  <p class="hero-desc">프로와 프로플러스, 가격 차이는 약 2배.<br>나에게 맞는 요금제를 1분 만에 찾는 법.</p>
+  <div class="hero-tag">2026.03.18</div>
+</div>
+<hr class="rule-thick">
+
+<!-- OVERVIEW SECTION -->
+<div class="section fade-in">
+  <div class="section-label">OVERVIEW</div>
+  <div class="section-title">두 요금제, 뭐가 다를까?</div>
+  <div class="section-body">
+    InvestingPro는 미국 주식 투자자들이 많이 쓰는 유료 분석 플랫폼입니다.
+    요금제는 크게 <strong>Pro</strong>와 <strong>Pro+</strong>로 나뉘며, 가격 차이는 거의 두 배 수준입니다.
+    어느 쪽이 맞는지는 <span class="hl">투자 스타일</span>에 따라 완전히 달라집니다.
+  </div>
+
+  <div class="pull-quote">
+    "비싼 게 좋은 게 아니라, 나한테 맞는 게 좋은 겁니다."
+  </div>
+
+  <!-- 가격 비교 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="priceChart" height="220"></canvas>
+  </div>
+</div>
+
+<!-- FEATURE 1: DATA -->
+<div class="section fade-in">
+  <div class="section-label">FEATURE 01</div>
+  <div class="section-title">데이터 조회 범위</div>
+
+  <div class="section-body">
+    가장 먼저 확인해야 할 차이입니다. 얼마나 과거까지 데이터를 볼 수 있느냐가 투자 전략의 깊이를 결정합니다.
+  </div>
+
+  <div class="compare-row fade-in">
+    <div class="pill pill-pro">
+      <div class="pill-label">PRO</div>
+      최근 <strong>5년</strong> 데이터<br>
+      <small style="color:#777">2021년 ~ 현재</small>
+    </div>
+    <div class="pill pill-plus">
+      <div class="pill-label">PRO+</div>
+      <strong>10년 이상</strong> 장기<br>
+      <small style="color:#e11d48">경기 순환 분석 가능</small>
+    </div>
+  </div>
+
+  <div class="section-body" style="margin-top:12px;">
+    <strong>5년으로 충분한 경우:</strong> 최근 트렌드 위주로 빠르게 매매하는 단기 투자자<br><br>
+    <strong>10년이 필요한 경우:</strong> 2008년 금융위기, 2020년 코로나 폭락 같은 위기 상황에서 기업이 어떻게 버텼는지—진짜 우량주 판별에 필수
+  </div>
+
+  <div class="chart-container fade-in" style="margin-top:16px;">
+    <canvas id="dataRangeChart" height="230"></canvas>
+  </div>
+</div>
+
+<!-- FEATURE 2: CHART TOOLS -->
+<div class="section fade-in">
+  <div class="section-label">FEATURE 02</div>
+  <div class="section-title">차트 & 분석 도구</div>
+
+  <div class="compare-row fade-in">
+    <div class="pill pill-pro">
+      <div class="pill-label">PRO</div>
+      이동평균선 · RSI<br>MACD · 볼린저밴드<br>
+      <small style="color:#777">기본 기술적 지표</small>
+    </div>
+    <div class="pill pill-plus">
+      <div class="pill-label">PRO+</div>
+      커스텀 차트<br>다중 지표 비교<br>
+      <small style="color:#e11d48">+ <strong>백테스팅</strong></small>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    백테스팅(Backtesting): 내가 세운 투자 전략을 과거 데이터에 적용해 수익률을 시뮬레이션하는 기능.
+    "감이 아닌 데이터로 검증된 전략"을 세울 수 있습니다.
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="toolChart" height="230"></canvas>
+  </div>
+</div>
+
+<!-- FEATURE 3: SCREENING -->
+<div class="section fade-in">
+  <div class="section-label">FEATURE 03</div>
+  <div class="section-title">종목 스크리닝</div>
+  <div class="section-body">
+    InvestingPro의 핵심 기능으로, 조건에 맞는 종목을 자동으로 걸러냅니다.
+  </div>
+
+  <div class="compare-row fade-in">
+    <div class="pill pill-pro">
+      <div class="pill-label">PRO</div>
+      <strong>250개+</strong> 필터<br>
+      PER · PBR · 배당률<br>
+      <small style="color:#777">가치주·성장주·고배당주 탐색</small>
+    </div>
+    <div class="pill pill-plus">
+      <div class="pill-label">PRO+</div>
+      <strong>복합 조건</strong> 검색<br>
+      필터 저장 & 재사용<br>
+      <small style="color:#e11d48">시장 전체 자동 스캔</small>
+    </div>
+  </div>
+
+  <div class="warning-box fade-in" style="margin-top:16px;">
+    <h4>🔍 Pro+ 복합 조건 예시</h4>
+    <p>"10년 연속 매출 성장 + PBR 낮음 + ROE 높음"<br>
+    → 이런 복잡한 조건을 한 번에 설정하고 저장해 두면, 매번 처음부터 설정할 필요 없이 시장 전체를 빠르게 스캔합니다.</p>
+  </div>
+</div>
+
+<!-- FEATURE 4: ANALYST -->
+<div class="section fade-in">
+  <div class="section-label">FEATURE 04</div>
+  <div class="section-title">애널리스트 리포트</div>
+
+  <div class="compare-row fade-in">
+    <div class="pill pill-pro">
+      <div class="pill-label">PRO</div>
+      목표가 · 투자의견<br>EPS 컨센서스<br>
+      <small style="color:#777">시장 평균 의견 확인</small>
+    </div>
+    <div class="pill pill-plus">
+      <div class="pill-label">PRO+</div>
+      <strong>예측 정확도</strong> 추적<br>
+      추정치 변화 추이<br>
+      <small style="color:#e11d48">신뢰할 애널리스트 판별</small>
+    </div>
+  </div>
+
+  <div class="section-body" style="margin-top:16px;">
+    Pro+에서는 특정 애널리스트가 과거에 예측을 <span class="hl">얼마나 맞췄는지(정확도)</span>를 보여줍니다.
+    또한 실적 발표 전 추정치가 갑자기 올라가거나 내려가면 <strong>중요한 시그널</strong>이 될 수 있습니다.
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="analystChart" height="220"></canvas>
+  </div>
+</div>
+
+<!-- FEATURE 5: ALERTS -->
+<div class="section fade-in">
+  <div class="section-label">FEATURE 05</div>
+  <div class="section-title">알림 기능</div>
+  <div class="section-body" style="margin-bottom:12px;">
+    직장인 투자자에게 특히 중요한 기능입니다. 매일 주식 앱을 볼 수 없는 분들을 위한 차이점입니다.
+  </div>
+
+  <div class="compare-row fade-in">
+    <div class="pill pill-pro">
+      <div class="pill-label">PRO</div>
+      뉴스 알림<br>실적 발표 알림<br>가격 변동 알림
+    </div>
+    <div class="pill pill-plus">
+      <div class="pill-label">PRO+</div>
+      <strong>조건부 알림</strong><br>
+      "10% 하락 시 알림"<br>
+      "실적 D-3 사전 알림"
+    </div>
+  </div>
+</div>
+
+<!-- PRO+ EXCLUSIVE -->
+<div class="section fade-in">
+  <div class="section-label">PRO+ EXCLUSIVE</div>
+  <div class="section-title">Pro+에만 있는 기능들</div>
+
+  <div class="exclusive-item fade-in">
+    <div class="exclusive-icon">📊</div>
+    <div class="exclusive-content">
+      <h4>포트폴리오 최적화</h4>
+      <p>여러 종목 조합별 수익률과 위험도를 자동 분석</p>
+    </div>
+  </div>
+  <div class="exclusive-item fade-in">
+    <div class="exclusive-icon">🌍</div>
+    <div class="exclusive-content">
+      <h4>글로벌 시장 동시 비교</h4>
+      <p>미국·유럽·아시아 주요 시장을 한 화면에서 비교</p>
+    </div>
+  </div>
+  <div class="exclusive-item fade-in">
+    <div class="exclusive-icon">📥</div>
+    <div class="exclusive-content">
+      <h4>데이터 다운로드</h4>
+      <p>엑셀·CSV 파일로 직접 내려받아 나만의 분석 가능</p>
+    </div>
+  </div>
+  <div class="exclusive-item fade-in">
+    <div class="exclusive-icon">📋</div>
+    <div class="exclusive-content">
+      <h4>프리미엄 리포트</h4>
+      <p>전문가 전략, 월간 섹터 전망 등 독점 자료 제공</p>
+    </div>
+  </div>
+</div>
+
+<!-- FULL COMPARISON TABLE -->
+<div class="section fade-in">
+  <div class="section-label">COMPARISON</div>
+  <div class="section-title">한눈에 보는 기능 비교표</div>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>기능</th>
+        <th>Pro</th>
+        <th>Pro+</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>데이터 기간</td>
+        <td>5년</td>
+        <td><span class="check-yes">10년+</span></td>
+      </tr>
+      <tr>
+        <td>기본 기술적 지표</td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>커스텀 차트</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>백테스팅</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>기본 필터(250+)</td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>복합 조건 스크리닝</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>애널리스트 컨센서스</td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>애널리스트 정확도</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>기본 알림</td>
+        <td><span class="check-yes">✓</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>조건부 맞춤 알림</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>포트폴리오 최적화</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>글로벌 시장 비교</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>데이터 다운로드</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+      <tr>
+        <td>프리미엄 리포트</td>
+        <td><span class="check-no">✗</span></td>
+        <td><span class="check-yes">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- RADAR CHART -->
+<div class="section fade-in">
+  <div class="section-label">VISUAL COMPARISON</div>
+  <div class="section-title">기능 커버리지 비교</div>
+  <div class="chart-container fade-in">
+    <canvas id="radarChart" height="260"></canvas>
+  </div>
+</div>
+
+<!-- SIMULATOR -->
+<div class="section fade-in">
+  <div class="section-label">SIMULATOR</div>
+  <div class="section-title">나에게 맞는 요금제 찾기</div>
+
+  <div class="simulator">
+    <div class="sim-title">체크리스트 시뮬레이터</div>
+    <div class="sim-desc">해당하는 항목을 선택하면 추천 요금제가 자동으로 나옵니다.</div>
+
+    <div class="sim-item" onclick="toggleCheck(this)">
+      <div class="sim-item-left">📅 <strong>5년 이상</strong> 장기 투자 계획이 있다</div>
+      <div class="sim-check">✓</div>
+    </div>
+    <div class="sim-item" onclick="toggleCheck(this)">
+      <div class="sim-item-left">🔬 나만의 투자 전략을 <strong>백테스팅</strong>으로 검증하고 싶다</div>
+      <div class="sim-check">✓</div>
+    </div>
+    <div class="sim-item" onclick="toggleCheck(this)">
+      <div class="sim-item-left">🔍 <strong>복합 조건</strong>으로 종목을 스크리닝하고 싶다</div>
+      <div class="sim-check">✓</div>
+    </div>
+    <div class="sim-item" onclick="toggleCheck(this)">
+      <div class="sim-item-left">📊 애널리스트 예측 <strong>정확도</strong>까지 확인하고 싶다</div>
+      <div class="sim-check">✓</div>
+    </div>
+    <div class="sim-item" onclick="toggleCheck(this)">
+      <div class="sim-item-left">🔔 조건부 <strong>맞춤 알림</strong>이 필요하다</div>
+      <div class="sim-check">✓</div>
+    </div>
+
+    <div id="simResult" class="sim-result pro-result" style="margin-top:24px;">
+      <div class="sim-count" id="simCount">0 / 5 선택됨</div>
+      <div class="sim-result-label" id="simLabel">추천 요금제</div>
+      <div class="sim-result-plan" id="simPlan">Pro</div>
+      <div class="sim-result-sub" id="simSub">3개 미만 선택 → Pro로 시작하고<br>필요할 때 업그레이드하세요.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WARNING -->
+<div class="section fade-in">
+  <div class="section-label">CAUTION</div>
+  <div class="section-title">잘못된 선택의 두 가지 함정</div>
+
+  <div class="warning-box">
+    <h4>⚠️ 함정 1 — "비싼 게 좋겠지"</h4>
+    <p>백테스팅·복합 필터·장기 데이터를 실제로 안 쓰면서 Pro+를 결제하면, 기능의 절반도 안 쓰면서 매달 추가 비용을 냅니다.</p>
+  </div>
+
+  <div class="warning-box">
+    <h4>⚠️ 함정 2 — "돈 아끼자"</h4>
+    <p>장기 투자를 하면서 Pro(5년)만 쓰면, 중요한 경기 순환 패턴을 놓쳐 위기 상황에 제대로 대응하지 못할 수 있습니다. 아낀 돈보다 투자 손실이 더 클 수 있습니다.</p>
+  </div>
+</div>
+
+<!-- ACTION STEPS -->
+<div class="section fade-in">
+  <div class="section-label">ACTION GUIDE</div>
+  <div class="section-title">지금 바로 해야 할 3단계</div>
+
+  <div class="flow-step">
+    <div class="flow-line-wrap">
+      <div class="flow-dot">1</div>
+      <div class="flow-line"></div>
+    </div>
+    <div class="flow-content">
+      <h4>내 투자 스타일 점검</h4>
+      <p>나는 단기 매매자인가? 장기 투자자인가?<br>나만의 전략을 시스템화하고 싶은가?<br>글로벌 시장까지 분석할 필요가 있는가?</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-line-wrap">
+      <div class="flow-dot">2</div>
+      <div class="flow-line"></div>
+    </div>
+    <div class="flow-content">
+      <h4>위 체크리스트로 결정</h4>
+      <p><span class="hl">3개 이상</span> → Pro+ 추천<br><span style="color:#6b7280">3개 미만</span> → Pro로 시작</p>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-line-wrap">
+      <div class="flow-dot">3</div>
+    </div>
+    <div class="flow-content">
+      <h4>아직 모르겠다면 — 월간 결제로 체험</h4>
+      <p>연간 구독의 높은 할인율에 현혹되지 말고, Pro 한 달 → Pro+ 한 달 순서로 직접 써보세요. 직접 써보면 나에게 필요한 게 뭔지 바로 느껴집니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section fade-in">
+  <div class="section-label">FINAL SUMMARY</div>
+  <div class="section-title">한 줄 결론</div>
+
+  <div style="display:grid; gap:12px; margin-top:4px;">
+    <div style="background:#f3f4f6; border-left:4px solid #6b7280; padding:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#6b7280;margin-bottom:6px;">PRO 선택 시</div>
+      <div style="font-size:14px;font-weight:700;">핵심 데이터 + 기본 분석 도구로 효율적 투자</div>
+      <div style="font-size:12.5px;color:#777;margin-top:4px;">불필요한 비용 낭비 없이 단기·중기 투자에 최적</div>
+    </div>
+    <div style="background:#fff1f2; border-left:4px solid #e11d48; padding:16px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#e11d48;margin-bottom:6px;">PRO+ 선택 시</div>
+      <div style="font-size:14px;font-weight:700;">10년 데이터 + 백테스팅 + 맞춤 알림으로 체계적 장기 투자</div>
+      <div style="font-size:12.5px;color:#777;margin-top:4px;">위기 대응력과 검증된 전략으로 진짜 우량주 발굴</div>
+    </div>
+  </div>
+
+  <div class="pull-quote" style="margin-top:24px;">
+    "핵심은 비싼 게 좋은 게 아니라, 나한테 맞는 게 좋은 겁니다."
+  </div>
+</div>
+
+<div class="footer">
+  본 문서는 YouTube 영상 자막을 기반으로 작성된 요약 분석 자료입니다.<br>
+  투자 결정은 본인의 판단과 책임 하에 이루어져야 합니다.<br><br>
+  <strong style="color:rgba(255,255,255,0.7)">InvestingPro 요금제 가이드 · 2026.03.18</strong>
+</div>
+
+<script>
+// ─── SIMULATOR ───────────────────────────────────────
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateResult();
+}
+
+function updateResult() {
+  const checked = document.querySelectorAll('.sim-item.checked').length;
+  const result = document.getElementById('simResult');
+  const count = document.getElementById('simCount');
+  const plan = document.getElementById('simPlan');
+  const sub = document.getElementById('simSub');
+  const label = document.getElementById('simLabel');
+
+  count.textContent = `${checked} / 5 선택됨`;
+
+  if (checked >= 3) {
+    result.className = 'sim-result plus-result';
+    label.textContent = '추천 요금제';
+    plan.textContent = 'Pro+';
+    sub.textContent = '3개 이상 선택 → Pro+가 적합합니다.\n10년 데이터 · 백테스팅 · 복합 필터를 활용하세요.';
+  } else {
+    result.className = 'sim-result pro-result';
+    label.textContent = '추천 요금제';
+    plan.textContent = 'Pro';
+    sub.textContent = '3개 미만 선택 → Pro로 시작하고\n필요할 때 업그레이드하세요.';
+  }
+}
+
+// ─── CHART CONFIGS ────────────────────────────────────
+const chartConfigs = {};
+
+// 1. 가격 비교 (도넛)
+chartConfigs['priceChart'] = () => {
+  new Chart(document.getElementById('priceChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Pro 요금', 'Pro+ 추가비용'],
+      datasets: [{
+        data: [50, 50],
+        backgroundColor: ['#6b7280', '#e11d48'],
+        borderWidth: 0,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#1a1a1a', font: { size: 12 }, padding: 16 } },
+        title: {
+          display: true,
+          text: 'Pro+ 가격은 Pro 대비 약 2배 수준',
+          color: '#1a1a1a',
+          font: { size: 13, weight: '700' },
+          padding: { bottom: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.label}: 전체 비용의 약 ${ctx.raw}%`
+          }
+        }
+      }
+    }
+  });
+};
+
+// 2. 데이터 범위 (가로 바)
+chartConfigs['dataRangeChart'] = () => {
+  new Chart(document.getElementById('dataRangeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Pro', 'Pro+'],
+      datasets: [{
+        label: '데이터 조회 기간 (년)',
+        data: [5, 10],
+        backgroundColor: ['#6b7280', '#e11d48'],
+        borderRadius: 3,
+        barThickness: 40
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0, duration: 1500, easing: 'easeInOutQuart' } },
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: '데이터 조회 가능 기간 (년)', color: '#1a1a1a', font: { size: 13, weight: '700' }, padding: { bottom: 12 } }
+      },
+      scales: {
+        x: {
+          max: 12,
+          grid: { color: '#e5e5e5' },
+          ticks: { color: '#777', callback: v => v + '년' }
+        },
+        y: { ticks: { color: '#1a1a1a', font: { weight: '700' } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// 3. 기능 수 비교 (세로 바)
+chartConfigs['toolChart'] = () => {
+  new Chart(document.getElementById('toolChart'), {
+    type: 'bar',
+    data: {
+      labels: ['기술적 지표', '차트 도구', '스크리닝', '애널리스트', '알림', '부가 기능'],
+      datasets: [
+        {
+          label: 'Pro',
+          data: [4, 2, 6, 5, 3, 0],
+          backgroundColor: '#6b7280',
+          borderRadius: 3,
+          barThickness: 14
+        },
+        {
+          label: 'Pro+',
+          data: [4, 5, 9, 8, 7, 4],
+          backgroundColor: '#e11d48',
+          borderRadius: 3,
+          barThickness: 14
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#1a1a1a', font: { size: 12 }, padding: 12 } },
+        title: { display: true, text: '기능 영역별 제공 수준 (상대 점수)', color: '#1a1a1a', font: { size: 13, weight: '700' }, padding: { bottom: 12 } }
+      },
+      scales: {
+        x: { ticks: { color: '#777', font: { size: 10 } }, grid: { display: false } },
+        y: { grid: { color: '#e5e5e5' }, ticks: { color: '#777' } }
+      }
+    }
+  });
+};
+
+// 4. 애널리스트 정확도 (라인)
+chartConfigs['analystChart'] = () => {
+  new Chart(document.getElementById('analystChart'), {
+    type: 'line',
+    data: {
+      labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6'],
+      datasets: [
+        {
+          label: '고정확도 애널리스트',
+          data: [72, 78, 80, 75, 82, 80],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.08)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4
+        },
+        {
+          label: '저정확도 애널리스트',
+          data: [55, 48, 60, 45, 52, 50],
+          borderColor: '#6b7280',
+          backgroundColor: 'rgba(107,114,128,0.08)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#1a1a1a', font: { size: 12 }, padding: 12 } },
+        title: { display: true, text: 'Pro+ — 애널리스트 예측 정확도 추적 예시 (%)', color: '#1a1a1a', font: { size: 13, weight: '700' }, padding: { bottom: 12 } }
+      },
+      scales: {
+        x: { ticks: { color: '#777' }, grid: { display: false } },
+        y: { min: 30, max: 100, ticks: { color: '#777', callback: v => v + '%' }, grid: { color: '#e5e5e5' } }
+      }
+    }
+  });
+};
+
+// 5. 레이더 차트
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['데이터 깊이', '차트/분석', '스크리닝', '애널리스트', '알림', '부가 기능'],
+      datasets: [
+        {
+          label: 'Pro',
+          data: [50, 45, 60, 55, 40, 0],
+          borderColor: '#6b7280',
+          backgroundColor: 'rgba(107,114,128,0.12)',
+          pointBackgroundColor: '#6b7280',
+          pointRadius: 4
+        },
+        {
+          label: 'Pro+',
+          data: [100, 90, 95, 90, 85, 80],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.12)',
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#1a1a1a', font: { size: 12 }, padding: 12 } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          grid: { color: '#e5e5e5' },
+          pointLabels: { color: '#1a1a1a', font: { size: 11 } },
+          ticks: { display: false }
+        }
+      }
+    }
+  });
+};
+
+// ─── OBSERVERS ────────────────────────────────────────
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
