@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>NVIDIA Rubin 메모리 계층화 시스템 분석</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+KR:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+      --border: #e5e5e5;
+      --table-header: #e11d48;
+      --table-bg: #fafafa;
+      --mono: 'IBM Plex Mono', monospace;
+      --serif: 'Noto Serif KR', serif;
+      --sans: 'Noto Sans KR', sans-serif;
+      --display: 'Playfair Display', serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.12;
+    }
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-family: var(--display);
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.18;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .hero-title em {
+      color: var(--accent2);
+      font-style: normal;
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+    .hero-meta {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 16px;
+    }
+    .hero-meta span { letter-spacing: 0.08em; }
+
+    /* ── LAYOUT ── */
+    .section { padding: 32px 24px; border-bottom: 1px solid var(--border); }
+    .section:last-of-type { border-bottom: none; }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    p { margin-bottom: 14px; color: var(--text); font-size: 14.5px; line-height: 1.8; }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--accent); font-weight: 700; }
+    em { font-style: normal; background: rgba(225,29,72,0.08); padding: 1px 4px; border-radius: 3px; }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      background: var(--bg2);
+      margin: 20px 0;
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    /* ── KEY CONCEPT BOX ── */
+    .concept-box {
+      background: var(--text);
+      color: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      position: relative;
+    }
+    .concept-box-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+    .concept-box-title {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .concept-box p { color: rgba(255,255,255,0.78); font-size: 13.5px; margin-bottom: 0; }
+
+    /* ── STAT CARDS ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--accent);
+    }
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    thead tr { background: var(--table-header); color: #fff; }
+    thead th { padding: 10px 12px; text-align: left; font-weight: 600; font-size: 11px; letter-spacing: 0.06em; }
+    tbody tr { background: var(--table-bg); border-bottom: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: #f5f5f5; }
+    tbody td { padding: 9px 12px; color: var(--text); line-height: 1.4; }
+    tbody td:first-child { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--accent); }
+
+    /* ── BADGE LIST ── */
+    .badge-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    .badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: rgba(225,29,72,0.04);
+    }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow-diagram {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .flow-step:last-child { margin-bottom: 0; }
+    .flow-num {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .flow-content strong { display: block; font-size: 13px; margin-bottom: 3px; color: var(--text); }
+    .flow-content span { font-size: 12px; color: var(--text2); line-height: 1.5; }
+    .flow-arrow {
+      text-align: center;
+      color: var(--accent);
+      font-size: 18px;
+      margin: 4px 0 4px 41px;
+      line-height: 1;
+    }
+
+    /* ── CHARTS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ── MEMORY LAYER VIZ ── */
+    .memory-viz {
+      margin: 20px 0;
+      position: relative;
+    }
+    .mem-layer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      margin-bottom: 6px;
+      border-left: 4px solid var(--c1);
+      background: var(--bg2);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .mem-layer:nth-child(2) { border-color: var(--c2); }
+    .mem-layer:nth-child(3) { border-color: var(--c4); }
+    .mem-layer:nth-child(4) { border-color: var(--c3); }
+    .mem-layer:nth-child(5) { border-color: #9ca3af; }
+    .mem-name {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      min-width: 70px;
+    }
+    .mem-bar-wrap { flex: 1; }
+    .mem-bar {
+      height: 8px;
+      border-radius: 2px;
+      background: var(--accent);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1s cubic-bezier(0.16,1,0.3,1);
+    }
+    .mem-layer:nth-child(2) .mem-bar { background: var(--c2); }
+    .mem-layer:nth-child(3) .mem-bar { background: var(--c4); }
+    .mem-layer:nth-child(4) .mem-bar { background: var(--c3); }
+    .mem-layer:nth-child(5) .mem-bar { background: #9ca3af; }
+    .mem-bw {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text2);
+      min-width: 60px;
+      text-align: right;
+    }
+    .memory-viz.visible .mem-bar { transform: scaleX(1); }
+    .memory-viz .mem-layer:nth-child(1) .mem-bar { transition-delay: 0.1s; }
+    .memory-viz .mem-layer:nth-child(2) .mem-bar { transition-delay: 0.25s; }
+    .memory-viz .mem-layer:nth-child(3) .mem-bar { transition-delay: 0.4s; }
+    .memory-viz .mem-layer:nth-child(4) .mem-bar { transition-delay: 0.55s; }
+    .memory-viz .mem-layer:nth-child(5) .mem-bar { transition-delay: 0.7s; }
+
+    /* ── SIMULATION ── */
+    .sim-box {
+      background: var(--text);
+      padding: 20px;
+      margin: 20px 0;
+      color: #fff;
+    }
+    .sim-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--accent2);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+    .sim-stage {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 12.5px;
+    }
+    .sim-stage:last-of-type { border-bottom: none; }
+    .sim-icon { font-size: 16px; flex-shrink: 0; }
+    .sim-info { flex: 1; }
+    .sim-info strong { display: block; font-size: 12px; color: #fff; margin-bottom: 1px; }
+    .sim-info span { font-size: 11px; color: rgba(255,255,255,0.5); }
+    .sim-chip {
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: 2px 6px;
+      background: rgba(225,29,72,0.3);
+      color: var(--accent2);
+      border-radius: 2px;
+    }
+
+    /* ── TOKEN ANIMATION ── */
+    .token-sim {
+      background: #0d0d0d;
+      padding: 16px;
+      margin: 16px 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      min-height: 60px;
+      border: 1px solid rgba(225,29,72,0.3);
+    }
+    .token-sim .t-output { color: #e5e7eb; line-height: 1.6; }
+    .token-sim .t-cursor {
+      display: inline-block;
+      width: 2px; height: 14px;
+      background: var(--accent2);
+      margin-left: 2px;
+      animation: blink 0.9s infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .sim-controls { display: flex; gap: 10px; margin-top: 12px; }
+    .sim-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+    }
+    .sim-btn.primary { background: var(--accent); color: #fff; }
+    .sim-btn.secondary { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+    .sim-btn:hover { filter: brightness(1.15); }
+    .sim-status {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 10px;
+      letter-spacing: 0.06em;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--c3);
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .status-dot.prefill { background: var(--c4); }
+    .status-dot.decode { background: var(--accent2); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ── EXPERT ROUTING VIZ ── */
+    .expert-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 16px 0;
+    }
+    .expert-cell {
+      aspect-ratio: 1;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text2);
+      transition: all 0.3s ease;
+      background: var(--bg2);
+    }
+    .expert-cell.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: scale(1.05);
+    }
+    .expert-cell.semi {
+      background: rgba(225,29,72,0.12);
+      color: var(--accent);
+      border-color: rgba(225,29,72,0.3);
+    }
+
+    /* ── BOTTOM NOTE ── */
+    .bottom-note {
+      background: var(--bg2);
+      border-top: 3px solid var(--accent);
+      padding: 24px;
+      margin-top: 8px;
+    }
+    .bottom-note-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .bottom-note p { font-size: 13px; color: var(--text2); }
+
+    /* ── COMPARISON CARD ── */
+    .compare-card {
+      border: 1px solid var(--border);
+      margin: 12px 0;
+      overflow: hidden;
+    }
+    .compare-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .compare-body { padding: 14px; background: var(--bg2); }
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+    }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-key { color: var(--text2); }
+    .compare-val { font-family: var(--mono); font-size: 11px; color: var(--text); font-weight: 600; }
+
+    /* divider */
+    .divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent);
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-label">GTC 2026 심층 분석 · NVIDIA Rubin</div>
+  <h1 class="hero-title">메모리 계층이<br><em>AI 추론</em>을<br>지배한다</h1>
+  <p class="hero-sub">LPU·MoE·KV 캐시로 보는 AI 병목의 정체 — 컴퓨팅 성능이 아닌 데이터 이동 경로가 핵심이다</p>
+  <div class="hero-meta">
+    <span>2026.03.18</span>
+    <span>·</span>
+    <span>GTC 2026 키노트 기반</span>
+    <span>·</span>
+    <span>에러 채널</span>
+  </div>
+</header>
+
+<!-- SECTION 1: 핵심 요약 -->
+<section class="section fade-in">
+  <div class="section-label">Overview</div>
+  <h2 class="section-title">핵심 메시지 한 줄</h2>
+  <div class="pull-quote">
+    "좋은 칩 하나보다 좋은 메모리 계층, 좋은 스케일업 패브릭, 좋은 엑스퍼트 스케줄링이 더 중요한 시대가 왔다."
+  </div>
+  <p>NVIDIA가 GTC 2026에서 발표한 Rubin 아키텍처의 진짜 혁신은 <strong>단순히 LPU(언어 처리 유닛) 추가가 아니다.</strong> 추론(Inference) 시스템 전체를 <em>메모리 계층별로 분해</em>해 각 병목을 다른 하드웨어로 처리하는 구조로 전환한 것이다.</p>
+  <p>페타플롭스·코어 수 같은 컴퓨팅 지표보다, <strong>데이터를 어디에 저장하고 어떤 경로로 얼마나 자주 옮기느냐</strong>가 실제 추론 성능을 결정한다.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card fade-in">
+      <div class="stat-value">40 TB/s</div>
+      <div class="stat-label">LPX 랙 전체<br>SRAM 대역폭</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value">22 TB/s</div>
+      <div class="stat-label">Rubin HBM4<br>메모리 대역폭</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value">128 GB</div>
+      <div class="stat-label">LPX 랙<br>총 SRAM 용량</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value">315 PF</div>
+      <div class="stat-label">LPX FP8<br>컴퓨팅 성능</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: 메모리 계층 구조 -->
+<section class="section fade-in">
+  <div class="section-label">Architecture</div>
+  <h2 class="section-title">4단계 메모리 계층</h2>
+  <p>Rubin 시스템은 속도와 용량의 트레이드오프에 따라 메모리를 4개 층으로 분리한다. <strong>빠르지만 비싸고 작은 것 → 느리지만 크고 저렴한 것</strong> 순으로 계층화된다.</p>
+
+  <div class="memory-viz fade-in">
+    <div class="mem-layer">
+      <div class="mem-name" style="color:var(--c1)">On-Chip SRAM</div>
+      <div class="mem-bar-wrap"><div class="mem-bar" style="width:100%"></div></div>
+      <div class="mem-bw">40 TB/s</div>
+    </div>
+    <div class="mem-layer">
+      <div class="mem-name" style="color:var(--c2)">HBM4</div>
+      <div class="mem-bar-wrap"><div class="mem-bar" style="width:55%"></div></div>
+      <div class="mem-bw">22 TB/s</div>
+    </div>
+    <div class="mem-layer">
+      <div class="mem-name" style="color:var(--c4)">GDDR7</div>
+      <div class="mem-bar-wrap"><div class="mem-bar" style="width:18%"></div></div>
+      <div class="mem-bw">~4 TB/s</div>
+    </div>
+    <div class="mem-layer">
+      <div class="mem-name" style="color:var(--c3)">LPDDR</div>
+      <div class="mem-bar-wrap"><div class="mem-bar" style="width:7%"></div></div>
+      <div class="mem-bw">~0.3 TB/s</div>
+    </div>
+    <div class="mem-layer">
+      <div class="mem-name" style="color:#9ca3af">NAND Flash</div>
+      <div class="mem-bar-wrap"><div class="mem-bar" style="width:2%"></div></div>
+      <div class="mem-bw">~10 GB/s</div>
+    </div>
+    <p style="font-size:11px;color:var(--text2);margin-top:8px;">← 속도 순 대역폭 비교 (막대 길이 = 상대적 대역폭)</p>
+  </div>
+
+  <div class="table-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>메모리</th>
+          <th>담당 컴포넌트</th>
+          <th>역할</th>
+          <th>특징</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SRAM</td>
+          <td>LPX (Groq 3)</td>
+          <td>디코드 루프·FFN·MoE Expert 실행</td>
+          <td>초고속 / 소용량 / 고비용</td>
+        </tr>
+        <tr>
+          <td>HBM4</td>
+          <td>Rubin GPU</td>
+          <td>프리필 / 디코드 어텐션 / 대형 파라미터</td>
+          <td>고대역폭 / 대용량</td>
+        </tr>
+        <tr>
+          <td>GDDR7</td>
+          <td>Rubin CPX</td>
+          <td>중간 계층 버퍼·스케일업</td>
+          <td>균형형</td>
+        </tr>
+        <tr>
+          <td>LPDDR</td>
+          <td>시스템 메모리</td>
+          <td>호스트 데이터·KV 캐시 오버플로</td>
+          <td>저전력 / 중간 속도</td>
+        </tr>
+        <tr>
+          <td>NAND Flash</td>
+          <td>CMX</td>
+          <td>장기 KV 캐시·에이전트 컨텍스트</td>
+          <td>대용량 / 저속 / 저렴</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 3: 대역폭 비교 차트 -->
+<section class="section">
+  <div class="section-label">Data Viz</div>
+  <h2 class="section-title">메모리 대역폭 비교</h2>
+  <p>SRAM의 대역폭은 HBM4 대비 거의 <strong>2배</strong>에 달한다. 그러나 용량은 극히 제한적이므로 레이턴시가 민감한 연산에만 사용한다.</p>
+  <div class="chart-title">▸ 메모리 타입별 대역폭 (TB/s 기준)</div>
+  <div class="chart-container fade-in">
+    <canvas id="bwChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- SECTION 4: 프리필 vs 디코드 -->
+<section class="section fade-in">
+  <div class="section-label">Core Concept</div>
+  <h2 class="section-title">프리필 vs 디코드:<br>같은 AI, 다른 병목</h2>
+  <p>LLM 추론은 크게 두 단계로 나뉜다. 각 단계가 요구하는 하드웨어 특성이 <strong>근본적으로 다르기</strong> 때문에, 엔비디아는 이를 다른 가속기에 분리 할당했다.</p>
+
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <strong>📥 프리필 (Prefill)</strong>
+        <span>입력 토큰 전체를 한꺼번에 읽어 KV 캐시 생성.<br>대형 행렬 연산 → <em>처리량(Throughput)</em>이 핵심.</span>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <strong>📤 디코드 (Decode)</strong>
+        <span>토큰 1개씩 순차 생성. KV 캐시 참조 루프 반복.<br><em>레이턴시(Latency)</em>가 핵심.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="compare-card" style="margin:0">
+      <div class="compare-header">PREFILL</div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="compare-key">병목</span><span class="compare-val">처리량</span></div>
+        <div class="compare-row"><span class="compare-key">연산</span><span class="compare-val">대형 행렬</span></div>
+        <div class="compare-row"><span class="compare-key">메모리</span><span class="compare-val">HBM4</span></div>
+        <div class="compare-row"><span class="compare-key">담당</span><span class="compare-val">Rubin GPU</span></div>
+      </div>
+    </div>
+    <div class="compare-card" style="margin:0">
+      <div class="compare-header">DECODE</div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="compare-key">병목</span><span class="compare-val">레이턴시</span></div>
+        <div class="compare-row"><span class="compare-key">연산</span><span class="compare-val">짧은 루프</span></div>
+        <div class="compare-row"><span class="compare-key">메모리</span><span class="compare-val">SRAM</span></div>
+        <div class="compare-row"><span class="compare-key">담당</span><span class="compare-val">LPX (Groq)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토큰 생성 시뮬레이션 -->
+  <div class="sim-box" style="margin-top:20px">
+    <div class="sim-title">▸ 토큰 생성 시뮬레이션</div>
+    <div class="sim-stage">
+      <span class="sim-icon">📊</span>
+      <div class="sim-info">
+        <strong>프리필 단계</strong>
+        <span>입력 처리 → KV 캐시 생성</span>
+      </div>
+      <span class="sim-chip">Rubin GPU</span>
+    </div>
+    <div class="sim-stage">
+      <span class="sim-icon">⚡</span>
+      <div class="sim-info">
+        <strong>디코드 루프</strong>
+        <span>토큰 순차 생성 (FFN + MoE)</span>
+      </div>
+      <span class="sim-chip">LPX SRAM</span>
+    </div>
+    <div class="sim-stage">
+      <span class="sim-icon">💾</span>
+      <div class="sim-info">
+        <strong>KV 캐시 오프로드</strong>
+        <span>장기 컨텍스트 → Flash 저장</span>
+      </div>
+      <span class="sim-chip">CMX</span>
+    </div>
+    <div class="token-sim">
+      <div class="t-output" id="tokenOutput">시뮬레이션을 시작하세요...</div>
+      <span class="t-cursor" id="cursor" style="display:none"></span>
+    </div>
+    <div class="sim-controls">
+      <button class="sim-btn primary" onclick="startSim()">▶ 시뮬레이션 시작</button>
+      <button class="sim-btn secondary" onclick="resetSim()">↺ 초기화</button>
+    </div>
+    <div class="sim-status" id="simStatus">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">대기 중</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: 프리필 vs 디코드 특성 레이더 -->
+<section class="section">
+  <div class="section-label">Data Viz</div>
+  <h2 class="section-title">두 단계의 하드웨어<br>요구사항 비교</h2>
+  <div class="chart-title">▸ 프리필 vs 디코드 특성 레이더</div>
+  <div class="chart-container fade-in">
+    <canvas id="radarChart" height="260"></canvas>
+  </div>
+</section>
+
+<!-- SECTION 6: MoE -->
+<section class="section fade-in">
+  <div class="section-label">Key Technology</div>
+  <h2 class="section-title">MoE: 연산은 줄이고<br>통신은 늘리는 구조</h2>
+  <p><strong>MoE(Mixture of Experts)</strong>는 모델을 여러 "전문가(Expert)" 모듈로 나누고, 각 토큰이 추론 시 <em>일부 전문가만 활성화</em>하는 아키텍처다. 전체 파라미터를 키우면서도 토큰당 활성 파라미터를 제한해 효율을 높인다.</p>
+
+  <div class="concept-box fade-in">
+    <div class="concept-box-label">핵심 트레이드오프</div>
+    <div class="concept-box-title">연산량 ↓ / 통신 병목 ↑</div>
+    <p>필요한 전문가만 켠다 → 연산량 감소. 그러나 어떤 토큰이 어느 전문가로 갈지 라우팅해야 하므로, GPU 간 All-to-All 통신이 필수. 이 통신 자체가 새로운 병목이 된다.</p>
+  </div>
+
+  <!-- Expert Routing 시뮬레이션 -->
+  <p>아래는 8개 전문가 중 2개가 활성화되는 MoE 라우팅 시뮬레이션이다.</p>
+  <div class="expert-grid" id="expertGrid">
+    <div class="expert-cell">E1</div>
+    <div class="expert-cell">E2</div>
+    <div class="expert-cell">E3</div>
+    <div class="expert-cell">E4</div>
+    <div class="expert-cell">E5</div>
+    <div class="expert-cell">E6</div>
+    <div class="expert-cell">E7</div>
+    <div class="expert-cell">E8</div>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:8px">
+    <button class="sim-btn primary" style="background:var(--text);color:#fff;border:1px solid var(--border);font-size:11px;padding:8px" onclick="routeExperts()">🎲 토큰 라우팅</button>
+    <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px;background:var(--bg2);border:1px solid var(--border)">
+      <span style="font-size:11px;color:var(--text2)" id="expertStatus">버튼을 눌러 라우팅</span>
+    </div>
+  </div>
+  <div class="badge-list">
+    <span class="badge">🔴 활성 Expert</span>
+    <span class="badge" style="border-color:var(--c3);color:var(--c3)">⬜ 비활성 Expert</span>
+  </div>
+
+  <p style="margin-top:16px">이 라우팅 비용 때문에 엔비디아는 <strong>NVLink 6s</strong>와 <strong>LPX</strong>로 Expert 간 통신 병목을 완화하려 한다.</p>
+</section>
+
+<!-- SECTION 7: MoE vs Dense 비교 -->
+<section class="section">
+  <div class="section-label">Data Viz</div>
+  <h2 class="section-title">Dense vs MoE 비교</h2>
+  <div class="chart-title">▸ 항목별 Dense vs MoE 특성 비교</div>
+  <div class="chart-container fade-in">
+    <canvas id="moeChart" height="240"></canvas>
+  </div>
+</section>
+
+<!-- SECTION 8: KV 캐시 -->
+<section class="section fade-in">
+  <div class="section-label">Memory Deep Dive</div>
+  <h2 class="section-title">KV 캐시: 점점 커지는<br>장기 기억</h2>
+  <p><strong>KV 캐시(Key-Value Cache)</strong>는 트랜스포머가 이전 토큰들의 키·밸류를 저장해 재계산을 피하는 구조다. 모델의 "기억"에 해당한다.</p>
+  <p>에이전트 AI, 멀티턴 대화, 긴 문서 처리가 일반화될수록 <em>KV 캐시 크기가 모델 파라미터보다 더 빠르게 증가</em>한다. 이를 SRAM이나 HBM에만 담을 수 없다.</p>
+
+  <div class="pull-quote">
+    "모델은 요만한데 KV 캐시가 엄청나게 늘어난 경우도 많아요. 그래서 CMX라고 하는 거를 내세운 이유가 바로 이겁니다."
+  </div>
+
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <strong>Hot KV Cache → SRAM / HBM4</strong>
+        <span>현재 활성 컨텍스트. 초고속 접근 필요.</span>
+      </div>
+    </div>
+    <div class="flow-arrow">↓ 오래될수록</div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <strong>Warm KV Cache → LPDDR / GDDR7</strong>
+        <span>최근 히스토리. 중간 속도로 충분.</span>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <strong>Cold KV Cache → CMX (NAND Flash)</strong>
+        <span>장기 배경 지식·에이전트 히스토리.<br>느리지만 대용량. 최대 5배 향상된 전력 효율.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9: KV 캐시 성장 추이 -->
+<section class="section">
+  <div class="section-label">Data Viz</div>
+  <h2 class="section-title">컨텍스트 길이 증가에 따른<br>KV 캐시 크기</h2>
+  <div class="chart-title">▸ 컨텍스트 토큰 수 vs KV 캐시 메모리 요구량</div>
+  <div class="chart-container fade-in">
+    <canvas id="kvChart" height="230"></canvas>
+  </div>
+</section>
+
+<!-- SECTION 10: 루빈 전체 구조 -->
+<section class="section fade-in">
+  <div class="section-label">Full Architecture</div>
+  <h2 class="section-title">Rubin 시스템 전체 구조</h2>
+  <p>엔비디아 Rubin 플랫폼은 <strong>4개의 전문화된 컴포넌트</strong>가 서로 다른 병목을 담당하도록 설계됐다.</p>
+
+  <!-- SVG Architecture Diagram -->
+  <div class="fade-in" style="margin:20px 0;background:var(--text);padding:20px">
+    <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+      <!-- Background -->
+      <rect width="420" height="360" fill="#1a1a1a"/>
+
+      <!-- Title -->
+      <text x="210" y="22" text-anchor="middle" fill="#e11d48" font-family="IBM Plex Mono,monospace" font-size="9" letter-spacing="2">NVIDIA RUBIN SYSTEM ARCHITECTURE</text>
+
+      <!-- Rubin GPU Box -->
+      <rect x="20" y="40" width="180" height="100" rx="2" fill="#111" stroke="#e11d48" stroke-width="1.5"/>
+      <rect x="20" y="40" width="180" height="20" fill="#e11d48"/>
+      <text x="110" y="54" text-anchor="middle" fill="white" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="bold">RUBIN GPU</text>
+      <text x="110" y="82" text-anchor="middle" fill="#9ca3af" font-family="IBM Plex Mono,monospace" font-size="8">HBM4 · 22 TB/s</text>
+      <text x="110" y="96" text-anchor="middle" fill="#e5e7eb" font-family="IBM Plex Mono,monospace" font-size="8">Prefill + Decode Attn</text>
+      <text x="110" y="110" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="7">Large Matrix · High Throughput</text>
+      <text x="110" y="128" text-anchor="middle" fill="#e11d48" font-family="IBM Plex Mono,monospace" font-size="8">1,580 TB/s (NVL72)</text>
+
+      <!-- LPX Box -->
+      <rect x="220" y="40" width="180" height="100" rx="2" fill="#111" stroke="#f43f5e" stroke-width="1.5"/>
+      <rect x="220" y="40" width="180" height="20" fill="#f43f5e"/>
+      <text x="310" y="54" text-anchor="middle" fill="white" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="bold">LPX (GROQ 3)</text>
+      <text x="310" y="82" text-anchor="middle" fill="#9ca3af" font-family="IBM Plex Mono,monospace" font-size="8">On-Chip SRAM · 40 TB/s</text>
+      <text x="310" y="96" text-anchor="middle" fill="#e5e7eb" font-family="IBM Plex Mono,monospace" font-size="8">FFN + MoE Expert Exec</text>
+      <text x="310" y="110" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="7">Low Latency · Deterministic</text>
+      <text x="310" y="128" text-anchor="middle" fill="#f43f5e" font-family="IBM Plex Mono,monospace" font-size="8">128 GB SRAM / 315 PFLOPS</text>
+
+      <!-- Arrow between GPU and LPX -->
+      <line x1="200" y1="90" x2="220" y2="90" stroke="#e11d48" stroke-width="1" stroke-dasharray="3,2"/>
+      <polygon points="218,87 222,90 218,93" fill="#e11d48"/>
+
+      <!-- NVLink Box -->
+      <rect x="90" y="165" width="240" height="60" rx="2" fill="#111" stroke="#2563eb" stroke-width="1.5"/>
+      <rect x="90" y="165" width="240" height="18" fill="#2563eb"/>
+      <text x="210" y="177" text-anchor="middle" fill="white" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="bold">NVLink 6s + Scale-Up Fabric</text>
+      <text x="210" y="198" text-anchor="middle" fill="#9ca3af" font-family="IBM Plex Mono,monospace" font-size="8">3.6 TB/s per GPU · MoE Routing</text>
+      <text x="210" y="212" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="7">GPU-to-GPU Communication</text>
+
+      <!-- Arrows down to NVLink -->
+      <line x1="110" y1="140" x2="150" y2="165" stroke="#e11d48" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="310" y1="140" x2="270" y2="165" stroke="#f43f5e" stroke-width="1" stroke-dasharray="2,2"/>
+
+      <!-- CMX Box -->
+      <rect x="20" y="250" width="180" height="90" rx="2" fill="#111" stroke="#6b7280" stroke-width="1.5"/>
+      <rect x="20" y="250" width="180" height="18" fill="#374151"/>
+      <text x="110" y="263" text-anchor="middle" fill="white" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="bold">CMX (Context Memory)</text>
+      <text x="110" y="286" text-anchor="middle" fill="#9ca3af" font-family="IBM Plex Mono,monospace" font-size="8">NAND Flash Storage</text>
+      <text x="110" y="300" text-anchor="middle" fill="#e5e7eb" font-family="IBM Plex Mono,monospace" font-size="8">Long-term KV Cache</text>
+      <text x="110" y="314" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="7">Agentic AI · Multi-turn</text>
+      <text x="110" y="328" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="8">5x Power Efficiency</text>
+
+      <!-- Rubin CPX Box -->
+      <rect x="220" y="250" width="180" height="90" rx="2" fill="#111" stroke="#2563eb" stroke-width="1"/>
+      <rect x="220" y="250" width="180" height="18" fill="#1d4ed8"/>
+      <text x="310" y="263" text-anchor="middle" fill="white" font-family="IBM Plex Mono,monospace" font-size="9" font-weight="bold">RUBIN CPX</text>
+      <text x="310" y="286" text-anchor="middle" fill="#9ca3af" font-family="IBM Plex Mono,monospace" font-size="8">GDDR7 (Samsung)</text>
+      <text x="310" y="300" text-anchor="middle" fill="#e5e7eb" font-family="IBM Plex Mono,monospace" font-size="8">Prefill Assist</text>
+      <text x="310" y="314" text-anchor="middle" fill="#6b7280" font-family="IBM Plex Mono,monospace" font-size="7">Mid-tier Bandwidth</text>
+      <text x="310" y="328" text-anchor="middle" fill="#1d4ed8" font-family="IBM Plex Mono,monospace" font-size="8">Scale-out Support</text>
+
+      <!-- Arrows NVLink to CMX/CPX -->
+      <line x1="150" y1="225" x2="120" y2="250" stroke="#6b7280" stroke-width="1" stroke-dasharray="2,2"/>
+      <line x1="270" y1="225" x2="300" y2="250" stroke="#2563eb" stroke-width="1" stroke-dasharray="2,2"/>
+
+      <!-- Data flow labels -->
+      <text x="210" y="348" text-anchor="middle" fill="#4b5563" font-family="IBM Plex Mono,monospace" font-size="7">데이터 흐름: SRAM ↔ HBM4 ↔ GDDR7 ↔ LPDDR ↔ NAND</text>
+    </svg>
+  </div>
+
+  <div class="badge-list fade-in">
+    <span class="badge">🔴 Rubin GPU — 프리필 주담당</span>
+    <span class="badge">🔴 LPX — 디코드 FFN·MoE</span>
+    <span class="badge" style="border-color:var(--c4);color:var(--c4)">🔵 NVLink 6s — GPU간 통신</span>
+    <span class="badge" style="border-color:var(--c3);color:var(--c3)">⬜ CMX — 장기 KV 캐시</span>
+  </div>
+</section>
+
+<!-- SECTION 11: SRAM vs DRAM 구조 -->
+<section class="section fade-in">
+  <div class="section-label">Semiconductor Basics</div>
+  <h2 class="section-title">왜 SRAM은 빠르고 비싼가?</h2>
+  <p>SRAM은 로직 반도체(CPU·GPU와 동일한 공정)와 같은 웨이퍼 위에 제작된다. 칩 내부에 붙어 있어 접근 지연이 극히 짧다.</p>
+
+  <div class="stat-grid">
+    <div class="compare-card" style="margin:0">
+      <div class="compare-header">SRAM</div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="compare-key">트랜지스터</span><span class="compare-val">~6개/셀</span></div>
+        <div class="compare-row"><span class="compare-key">공정</span><span class="compare-val">로직 공정</span></div>
+        <div class="compare-row"><span class="compare-key">위치</span><span class="compare-val">온칩(On-chip)</span></div>
+        <div class="compare-row"><span class="compare-key">속도</span><span class="compare-val">최고속</span></div>
+        <div class="compare-row"><span class="compare-key">단가</span><span class="compare-val">매우 비쌈</span></div>
+      </div>
+    </div>
+    <div class="compare-card" style="margin:0">
+      <div class="compare-header">DRAM (HBM)</div>
+      <div class="compare-body">
+        <div class="compare-row"><span class="compare-key">트랜지스터</span><span class="compare-val">1개+커패시터</span></div>
+        <div class="compare-row"><span class="compare-key">공정</span><span class="compare-val">DRAM 전용</span></div>
+        <div class="compare-row"><span class="compare-key">위치</span><span class="compare-val">CoWoS 패키지</span></div>
+        <div class="compare-row"><span class="compare-key">속도</span><span class="compare-val">고속</span></div>
+        <div class="compare-row"><span class="compare-key">단가</span><span class="compare-val">상대적 저렴</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top:16px">SRAM 셀이 트랜지스터 6개를 사용하기 때문에 <em>면적 효율이 나쁘다.</em> 웨이퍼 면적을 많이 차지할수록 수율이 하락하고 칩 단가가 상승한다. 따라서 SRAM은 용량을 무한정 늘릴 수 없다.</p>
+</section>
+
+<!-- SECTION 12: 핵심 시사점 -->
+<section class="section fade-in">
+  <div class="section-label">Implications</div>
+  <h2 class="section-title">AI 추론 시대의<br>3가지 핵심 시사점</h2>
+
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="flow-num">①</div>
+      <div class="flow-content">
+        <strong>컴퓨팅→메모리 패러다임 전환</strong>
+        <span>추론 시대엔 FLOPS가 아닌 메모리 계층 설계가 실제 성능을 결정한다. 데이터 이동 경로와 읽기 빈도가 핵심 지표다.</span>
+      </div>
+    </div>
+    <div class="flow-step" style="margin-top:12px">
+      <div class="flow-num">②</div>
+      <div class="flow-content">
+        <strong>MoE는 연산 효율과 통신 비용의 교환</strong>
+        <span>전체 파라미터 확장과 토큰당 연산 절감이라는 이점 뒤에, Expert 라우팅 통신 오버헤드라는 비용이 숨어 있다. NVLink급 패브릭이 필수다.</span>
+      </div>
+    </div>
+    <div class="flow-step" style="margin-top:12px">
+      <div class="flow-num">③</div>
+      <div class="flow-content">
+        <strong>하나의 메모리 타입이 승자가 될 수 없다</strong>
+        <span>SRAM·HBM·GDDR·LPDDR·NAND 각각이 특정 용도에서 최적이다. 단일 메모리의 극단적 주장(HBM 종말·DRAM 대체 등)은 맥락을 무시한 단순화다.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM NOTE -->
+<div class="bottom-note fade-in">
+  <div class="bottom-note-label">Source & Disclaimer</div>
+  <p>본 문서는 에러 채널(YouTube) GTC 2026 분석 영상(2026.03.18) 자막을 기반으로 작성되었습니다. 일부 수치는 영상 발화 내용을 그대로 인용하였으며, 실제 발표 자료와 차이가 있을 수 있습니다. 투자 판단의 근거로 활용하지 마십시오.</p>
+</div>
+
+<script>
+// ─── CHART CONFIGS (lazy) ───────────────────────────────────────────────
+const chartConfigs = {};
+
+chartConfigs['bwChart'] = () => {
+  new Chart(document.getElementById('bwChart'), {
+    type: 'bar',
+    data: {
+      labels: ['On-Chip SRAM\n(LPX)', 'HBM4\n(Rubin GPU)', 'GDDR7\n(CPX)', 'LPDDR', 'NAND Flash\n(CMX)'],
+      datasets: [{
+        label: '대역폭 (TB/s)',
+        data: [40, 22, 4, 0.3, 0.01],
+        backgroundColor: ['#e11d48', '#1a1a1a', '#2563eb', '#6b7280', '#9ca3af'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.parsed.y} TB/s`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { family: 'IBM Plex Mono', size: 9 }, color: '#777' },
+          grid: { display: false }
+        },
+        y: {
+          ticks: { font: { family: 'IBM Plex Mono', size: 9 }, color: '#777' },
+          grid: { color: '#e5e5e5' },
+          title: { display: true, text: 'TB/s', font: { size: 9 }, color: '#777' }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['처리량\n(Throughput)', '레이턴시\n민감도', '병렬성', '메모리\n대역폭', '반복 루프\n빈도', '연산 규모'],
+      datasets: [
+        {
+          label: 'Prefill',
+          data: [95, 30, 90, 85, 20, 95],
+          backgroundColor: 'rgba(37,99,235,0.15)',
+          borderColor: '#2563eb',
+          borderWidth: 2,
+          pointBackgroundColor: '#2563eb',
+          tension: 0.4
+        },
+        {
+          label: 'Decode',
+          data: [35, 95, 25, 70, 95, 30],
+          backgroundColor: 'rgba(225,29,72,0.15)',
+          borderColor: '#e11d48',
+          borderWidth: 2,
+          pointBackgroundColor: '#e11d48',
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1800,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 120
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'IBM Plex Mono', size: 10 }, color: '#1a1a1a', boxWidth: 12 }
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { display: false },
+          pointLabels: { font: { family: 'Noto Sans KR', size: 10 }, color: '#1a1a1a' },
+          grid: { color: '#e5e5e5' },
+          angleLines: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['moeChart'] = () => {
+  new Chart(document.getElementById('moeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['토큰당\n활성 파라미터', '총 파라미터\n규모', '연산량\n(FLOPs)', '통신\n오버헤드', '메모리\n이동 빈도'],
+      datasets: [
+        {
+          label: 'Dense',
+          data: [100, 60, 100, 20, 40],
+          backgroundColor: '#1a1a1a',
+          borderWidth: 0,
+          borderRadius: 2
+        },
+        {
+          label: 'MoE',
+          data: [30, 100, 35, 80, 90],
+          backgroundColor: '#e11d48',
+          borderWidth: 0,
+          borderRadius: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 100
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'IBM Plex Mono', size: 10 }, color: '#1a1a1a', boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y} (상대값)` }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { family: 'Noto Sans KR', size: 9 }, color: '#777' },
+          grid: { display: false }
+        },
+        y: {
+          max: 110,
+          ticks: { font: { family: 'IBM Plex Mono', size: 9 }, color: '#777' },
+          grid: { color: '#e5e5e5' },
+          title: { display: true, text: '상대값 (100=최대)', font: { size: 9 }, color: '#777' }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['kvChart'] = () => {
+  new Chart(document.getElementById('kvChart'), {
+    type: 'line',
+    data: {
+      labels: ['4K', '8K', '16K', '32K', '64K', '128K', '256K', '512K'],
+      datasets: [
+        {
+          label: 'KV 캐시 (GB)',
+          data: [0.5, 1, 2, 4, 8, 16, 32, 65],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.08)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 3,
+          borderWidth: 2
+        },
+        {
+          label: '모델 파라미터 (GB, 고정)',
+          data: [14, 14, 14, 14, 14, 14, 14, 14],
+          borderColor: '#6b7280',
+          borderDash: [5, 4],
+          fill: false,
+          tension: 0,
+          pointRadius: 0,
+          borderWidth: 1.5
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'IBM Plex Mono', size: 10 }, color: '#1a1a1a', boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y} GB` }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { family: 'IBM Plex Mono', size: 9 }, color: '#777' },
+          title: { display: true, text: '컨텍스트 토큰 수', font: { size: 9 }, color: '#777' },
+          grid: { color: '#e5e5e5' }
+        },
+        y: {
+          ticks: { font: { family: 'IBM Plex Mono', size: 9 }, color: '#777', callback: v => v + ' GB' },
+          grid: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+// ─── INTERSECTION OBSERVERS ─────────────────────────────────────────────
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// Memory viz observer
+const memObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      memObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.memory-viz').forEach(el => memObs.observe(el));
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ─── TOKEN SIM ───────────────────────────────────────────────────────────
+const simTokens = [
+  'NVIDIA', 'Rubin', '아키텍처의', '핵심은', '메모리', '계층화',
+  '시스템이다.', 'SRAM→HBM4→GDDR7→NAND', '순으로', '속도와',
+  '용량의', '트레이드오프를', '최적화하며,', 'MoE와', 'KV',
+  '캐시', '병목을', '각기', '다른', '가속기로', '처리한다.'
+];
+
+let simInterval = null;
+let simIdx = 0;
+let simPhase = 'idle';
+
+function updateStatus(phase, msg) {
+  const dot = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  dot.className = 'status-dot ' + phase;
+  text.textContent = msg;
+}
+
+function startSim() {
+  if (simInterval) return;
+  const output = document.getElementById('tokenOutput');
+  const cursor = document.getElementById('cursor');
+  output.textContent = '';
+  cursor.style.display = 'inline-block';
+  simPhase = 'prefill';
+  simIdx = 0;
+  updateStatus('prefill', '[PREFILL] 입력 처리 중 → Rubin GPU (HBM4)...');
+
+  setTimeout(() => {
+    simPhase = 'decode';
+    updateStatus('decode', '[DECODE] 토큰 생성 중 → LPX SRAM...');
+    simInterval = setInterval(() => {
+      if (simIdx >= simTokens.length) {
+        clearInterval(simInterval);
+        simInterval = null;
+        cursor.style.display = 'none';
+        updateStatus('', '[CMX] 컨텍스트 저장 완료 ✓');
+        return;
+      }
+      output.textContent += (simIdx > 0 ? ' ' : '') + simTokens[simIdx];
+      simIdx++;
+    }, 180);
+  }, 1200);
+}
+
+function resetSim() {
+  clearInterval(simInterval);
+  simInterval = null;
+  simIdx = 0;
+  document.getElementById('tokenOutput').textContent = '시뮬레이션을 시작하세요...';
+  document.getElementById('cursor').style.display = 'none';
+  updateStatus('', '대기 중');
+}
+
+// ─── EXPERT ROUTING SIM ──────────────────────────────────────────────────
+function routeExperts() {
+  const cells = document.querySelectorAll('.expert-cell');
+  cells.forEach(c => c.className = 'expert-cell');
+
+  const active = new Set();
+  while (active.size < 2) active.add(Math.floor(Math.random() * 8));
+
+  const semi = new Set();
+  while (semi.size < 2) {
+    const v = Math.floor(Math.random() * 8);
+    if (!active.has(v)) semi.add(v);
+  }
+
+  cells.forEach((c, i) => {
+    if (active.has(i)) {
+      setTimeout(() => c.classList.add('active'), i * 60);
+    } else if (semi.has(i)) {
+      setTimeout(() => c.classList.add('semi'), i * 60);
+    }
+  });
+
+  const activeNums = [...active].map(i => 'E' + (i + 1)).join(', ');
+  document.getElementById('expertStatus').textContent = `활성: ${activeNums} (2/8 Expert)`;
+}
+</script>
+</body>
+</html>
