@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>인베스팅닷컴 Pro 완전 정복 가이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --subtext: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --table-header: #e11d48;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* ── HEADER ── */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.15;
+    }
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', 'Noto Serif KR', serif;
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .hero-title span { color: var(--accent2); }
+    .hero-sub {
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.6;
+    }
+    .hero-meta {
+      margin-top: 20px;
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: #888;
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* ── SECTION ── */
+    section { padding: 32px 20px; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 20px 0 8px;
+      color: var(--text);
+    }
+    p { font-size: 14px; color: #333; line-height: 1.75; margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    strong { color: var(--accent); font-weight: 700; }
+    em { font-style: normal; background: #fff0f3; padding: 0 3px; border-radius: 2px; color: var(--accent); font-weight: 500; }
+
+    /* ── PULL QUOTE ── */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      background: var(--bg2);
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── TAG CHIPS ── */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .tag-red { background: #fff0f3; color: var(--accent); border: 1px solid #fdd; }
+    .tag-dark { background: #f0f0f0; color: #444; border: 1px solid #ddd; }
+    .tag-blue { background: #eff6ff; color: var(--c4); border: 1px solid #bfdbfe; }
+
+    /* ── HIGHLIGHT CARD ── */
+    .highlight-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .highlight-card .card-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--subtext);
+      margin-bottom: 8px;
+    }
+    .highlight-card .card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .highlight-card .card-desc { font-size: 12px; color: var(--subtext); margin-top: 4px; }
+
+    /* ── STAT GRID ── */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+    .stat-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label { font-size: 11px; color: var(--subtext); margin-top: 4px; }
+
+    /* ── TABLE ── */
+    .tbl-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      background: var(--table-header);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    tbody tr:nth-child(even) { background: var(--bg2); }
+    tbody td { padding: 9px 12px; color: var(--text); vertical-align: middle; }
+    .check { color: #22c55e; font-weight: 700; }
+    .cross { color: #ef4444; font-weight: 700; }
+
+    /* ── BADGE ── */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .badge-red { background: var(--accent); color: #fff; }
+    .badge-gray { background: #e5e5e5; color: #555; }
+
+    /* ── FEATURE LIST ── */
+    .feature-list { list-style: none; margin: 12px 0; }
+    .feature-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list .icon {
+      width: 22px; height: 22px;
+      background: #fff0f3;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 8px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .divider span { font-size: 10px; color: var(--subtext); letter-spacing: 1px; white-space: nowrap; }
+
+    /* ── CHART ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 16px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-label {
+      font-size: 11px;
+      color: var(--subtext);
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    /* ── DISCOUNT BANNER ── */
+    .discount-banner {
+      background: linear-gradient(135deg, #e11d48, #f43f5e);
+      color: #fff;
+      border-radius: 14px;
+      padding: 22px 20px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .discount-banner .big-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .discount-banner .info { font-size: 12px; opacity: 0.85; margin-top: 6px; }
+    .discount-banner .note { font-size: 11px; margin-top: 8px; opacity: 0.7; }
+
+    /* ── FLOW STEPS ── */
+    .steps { margin: 14px 0; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900;
+      flex-shrink: 0;
+    }
+    .step-content { font-size: 13px; padding-top: 3px; }
+    .step-content strong { color: var(--text); font-weight: 700; }
+
+    /* ── TIPS BOX ── */
+    .tip-box {
+      background: #fff7f8;
+      border: 1.5px solid #fecdd3;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      margin: 14px 0;
+    }
+    .tip-box .tip-title {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: #888;
+      padding: 28px 20px;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.8;
+    }
+    footer strong { color: #ccc; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #f0f0f0; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero fade-in">
+  <div class="hero-label">📊 투자 도구 리뷰</div>
+  <h1 class="hero-title">인베스팅닷컴<br><span>Pro</span> 완전 정복</h1>
+  <p class="hero-sub">유료 버전의 실제 화면과 핵심 기능, 프로 활용 전략까지 한 번에 정리했습니다.</p>
+  <div class="hero-meta">
+    <span>📅 2026년 3월 18일</span>
+    <span>🎬 박구석가 유튜브</span>
+  </div>
+</header>
+
+<!-- ── SECTION 1: 개요 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Overview</div>
+    <h2>왜 인베스팅닷컴 Pro인가?</h2>
+    <p>인베스팅닷컴은 환율·지수·경제 캘린더 확인까지는 <em>무료 버전</em>으로도 충분합니다. 하지만 본격적인 종목 분석 단계에서 한계가 드러납니다. 유료(Pro) 버전은 <strong>광고 제거 + AI 분석 + 독점 데이터</strong>로 분석 효율을 한 단계 높여줍니다.</p>
+  </div>
+
+  <div class="stat-grid fade-in">
+    <div class="stat-box">
+      <div class="stat-num">15%</div>
+      <div class="stat-label">할인코드 적용 시<br>구독료 할인율</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">500</div>
+      <div class="stat-label">Warren AI<br>월 사용 가능 크레딧</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">ProPicks AI 선정<br>초과수익 후보 종목</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">0</div>
+      <div class="stat-label">유료 버전<br>광고 노출 수</div>
+    </div>
+  </div>
+
+  <div class="tag-row fade-in">
+    <span class="tag tag-red">AI 분석</span>
+    <span class="tag tag-red">종목 발굴</span>
+    <span class="tag tag-dark">미국 주식</span>
+    <span class="tag tag-dark">한국 주식</span>
+    <span class="tag tag-blue">PDF 리포트</span>
+    <span class="tag tag-blue">경제 캘린더</span>
+  </div>
+</section>
+
+<!-- ── SECTION 2: 무료 vs 유료 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Comparison</div>
+    <h2>무료 vs Pro — 기능 비교</h2>
+    <p>분석 단계로 넘어갈수록 무료 버전의 한계가 뚜렷하게 보입니다.</p>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>기능</th>
+          <th>무료</th>
+          <th>Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>환율 / 지수 확인</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>경제 캘린더</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>기본 차트</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>광고 없는 인터페이스</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>배당 일정 / 배당률</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>적정 가치(Fair Value)</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>EPS 성장 예측</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Warren AI 분석</td><td><span class="badge badge-gray">10크레딧/월</span></td><td><span class="badge badge-red">500크레딧/월</span></td></tr>
+        <tr><td>ProPicks AI 전체 목록</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Pro Research PDF</td><td class="cross">✗</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 기능 비교 레이더 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="radarChart" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 무료 vs Pro 기능 점수 비교 (10점 만점)</p>
+</section>
+
+<!-- ── SECTION 3: Warren AI ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Key Feature #1</div>
+    <h2>Warren AI — AI 기반 금융 분석</h2>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"방대한 금융 데이터와 AI 기술을 결합해 투자자가 더 빠르고 정확하게 분석할 수 있도록 돕는 기능"</p>
+  </div>
+
+  <ul class="feature-list fade-in">
+    <li>
+      <div class="icon">📡</div>
+      <div>인베스팅닷컴 보유 <strong>실시간 시장 데이터</strong> + 검증된 자료 제공</div>
+    </li>
+    <li>
+      <div class="icon">🔬</div>
+      <div><strong>애널리스트 의견</strong>을 심층 분석해 요약 제공</div>
+    </li>
+    <li>
+      <div class="icon">📊</div>
+      <div>주식 종목 분석, 시장 동향, <strong>기업 재무 상태</strong> 질의응답</div>
+    </li>
+    <li>
+      <div class="icon">🏦</div>
+      <div>개인 투자자도 <strong>기관 투자자 수준</strong>의 분석 도구 활용 가능</div>
+    </li>
+    <li>
+      <div class="icon">⚠️</div>
+      <div>제공 정보는 <em>투자 조언이 아닌 참고용</em>으로만 활용</div>
+    </li>
+  </ul>
+
+  <!-- 크레딧 비교 바 차트 -->
+  <div class="chart-container fade-in">
+    <canvas id="creditChart" height="220"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 무료 vs Pro 월간 Warren AI 크레딧 비교</p>
+</section>
+
+<!-- ── SECTION 4: ProPicks AI ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Key Feature #2</div>
+    <h2>ProPicks AI — 인베스팅닷컴 Pro의 꽃</h2>
+    <p>50개 이상의 초과 수익 가능성이 높은 종목을 AI가 선별하여 매월 업데이트합니다. 미국 주식뿐 아니라 <strong>한국 주식</strong>도 포함됩니다.</p>
+  </div>
+
+  <div class="divider fade-in"><span>S&amp;P 500 지수 이기기 포트폴리오 예시 종목</span></div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr>
+          <th>종목</th>
+          <th>주요 포인트</th>
+          <th>상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Adobe</strong></td><td>AI 기반 성장, 프리미엄 마진, 매출 기본 강세</td><td><span class="badge badge-red">보유중</span></td></tr>
+        <tr><td>Bristol-Myers</td><td>헬스케어 섹터 안정성</td><td><span class="badge badge-gray">모니터링</span></td></tr>
+        <tr><td>Texas Instruments</td><td>반도체 사이클 수혜</td><td><span class="badge badge-gray">모니터링</span></td></tr>
+        <tr><td>UPS</td><td>물류 네트워크 강점</td><td><span class="badge badge-gray">모니터링</span></td></tr>
+        <tr><td>UnitedHealth</td><td>헬스케어 대형주</td><td><span class="badge badge-gray">모니터링</span></td></tr>
+        <tr><td>CVS Health</td><td>최근 신규 편입</td><td><span class="badge badge-red">추가됨</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="steps fade-in">
+    <h3>📌 ProPicks 올바른 활용법</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>내가 먼저 공부한 종목</strong>이 ProPicks에 포함되어 있는지 확인</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">포함되어 있다면 <strong>숙제 검사</strong>처럼 분석 근거를 교차 검증</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">포함되지 않았다면 <strong>왜 빠졌는지</strong> 한 번 더 점검 (더블 체크)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">매월 추가/제거 이력으로 AI의 <strong>종목 판단 논리</strong> 학습</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: NVIDIA / Adobe 실전 사례 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Case Study</div>
+    <h2>실전 분석 사례</h2>
+  </div>
+
+  <h3 class="fade-in">🟢 NVIDIA (NVDA)</h3>
+  <div class="stat-grid fade-in">
+    <div class="stat-box">
+      <div class="stat-num">$159</div>
+      <div class="stat-label">AI 산출 적정 가치<br>(Fair Value)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">53.5%</div>
+      <div class="stat-label">주당 순익(EPS)<br>성장 예측</div>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="nvidiaChart" height="220"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ NVIDIA Pro 리서치 핵심 지표 시뮬레이션</p>
+
+  <div class="divider fade-in"><span></span></div>
+
+  <h3 class="fade-in">🔵 Adobe (ADBE)</h3>
+  <div class="highlight-card fade-in">
+    <div class="card-title">AI 산출 상승 여력</div>
+    <div class="card-value">+34%</div>
+    <div class="card-desc">프리미엄 마진 보유 / AI 기반 성장 / 경영진 자사주 매입 적극적</div>
+  </div>
+  <ul class="feature-list fade-in">
+    <li>
+      <div class="icon">📈</div>
+      <div>최근 주가 부진에도 <strong>기초 체력(펀더멘털)은 강세</strong> 유지</div>
+    </li>
+    <li>
+      <div class="icon">💰</div>
+      <div><strong>안정적인 매출 총이익</strong> — 돈 잘 버는 기업으로 평가</div>
+    </li>
+    <li>
+      <div class="icon">🏛️</div>
+      <div>경영진이 <strong>자사주 매입 적극적</strong> 진행 중</div>
+    </li>
+    <li>
+      <div class="icon">📅</div>
+      <div>ProPicks S&amp;P 500 이기기에 <strong>5월 1일 편입</strong></div>
+    </li>
+  </ul>
+</section>
+
+<!-- ── SECTION 6: Pro Research PDF ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Feature</div>
+    <h2>Pro Research PDF</h2>
+    <p>유료 구독 시 종목별 <strong>PDF 리포트를 즉시 다운로드</strong>할 수 있습니다. 밸류에이션, 애널리스트 예측, 재무 요약이 한 눈에 정리되어 있습니다.</p>
+  </div>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th colspan="2">PDF 리포트 포함 내용</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>📊 밸류에이션</td><td>적정 가치, P/E, P/B 등 핵심 배수</td></tr>
+        <tr><td>🔮 애널리스트 예측</td><td>목표주가, EPS 컨센서스, 성장률</td></tr>
+        <tr><td>💵 배당 정보</td><td>배당률, 지급 이력, 연속 배당 횟수</td></tr>
+        <tr><td>📰 뉴스 요약</td><td>최신 기업 뉴스 및 이벤트 정리</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ── SECTION 7: 활용 전략 시뮬레이션 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Strategy</div>
+    <h2>월간 활용 루틴 시뮬레이션</h2>
+    <p>Pro 구독자가 한 달 동안 효율적으로 활용하는 루틴입니다.</p>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="routineChart" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 월간 Warren AI 크레딧 배분 전략 (500크레딧 기준)</p>
+
+  <div class="tip-box fade-in">
+    <div class="tip-title">💡 크레딧 절약 팁</div>
+    ProPicks AI로 후보 종목을 먼저 압축한 뒤, Warren AI 크레딧을 집중적으로 사용하세요. 브로드 스크리닝보다 심층 분석에 집중하면 훨씬 효율적입니다.
+  </div>
+
+  <div class="steps fade-in">
+    <div class="step">
+      <div class="step-num">월</div>
+      <div class="step-content"><strong>경제 캘린더 확인</strong> — 이번 달 주요 이벤트(FOMC, CPI, 실적) 파악 (0크레딧)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">주</div>
+      <div class="step-content"><strong>ProPicks 업데이트 확인</strong> — 신규 편입/제거 종목 체크 (0크레딧)</div>
+    </div>
+    <div class="step">
+      <div class="step-num">일</div>
+      <div class="step-content"><strong>Warren AI 집중 분석</strong> — 관심 종목 3~5개에 크레딧 집중 사용</div>
+    </div>
+    <div class="step">
+      <div class="step-num">수</div>
+      <div class="step-content"><strong>PDF 리포트 다운로드</strong> — 최종 결정 전 밸류에이션 재확인</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 8: 할인 정보 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Discount</div>
+    <h2>15% 할인 혜택</h2>
+  </div>
+
+  <div class="discount-banner fade-in">
+    <div class="big-num">15%</div>
+    <div>인베스팅닷컴 Pro 구독 할인</div>
+    <div class="info">설명란 링크 → 할인 코드 입력 → 유료 가입</div>
+    <div class="note">⚠️ PC 또는 모바일 웹에서만 할인 적용 (앱 불가)</div>
+  </div>
+
+  <div class="tip-box fade-in">
+    <div class="tip-title">⚠️ 주의사항</div>
+    앱(App)에서 가입하면 할인이 적용되지 않습니다. 반드시 <strong>PC 또는 모바일 웹 브라우저</strong>에서 링크를 통해 가입하세요.
+  </div>
+</section>
+
+<!-- ── SECTION 9: 총평 ── -->
+<section>
+  <div class="fade-in">
+    <div class="section-label">Verdict</div>
+    <h2>총평 및 추천 대상</h2>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="scoreChart" height="220"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 인베스팅닷컴 Pro 항목별 평가 점수</p>
+
+  <div class="tbl-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th>구분</th><th>내용</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>✅ 추천</td><td>미국 주식 스스로 분석하고 싶은 개인 투자자</td></tr>
+        <tr><td>✅ 추천</td><td>유료 리딩방 의존을 끊고 싶은 분</td></tr>
+        <tr><td>✅ 추천</td><td>종목 더블 체크 도구가 필요한 분</td></tr>
+        <tr><td>⚠️ 참고</td><td>AI 분석은 투자 조언이 아닌 참고용</td></tr>
+        <tr><td>⚠️ 참고</td><td>ProPicks 종목이 곧 수익 보장은 아님</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pull-quote fade-in">
+    <p>"무료로 시작했지만 Pro 업그레이드 후 분석 효율이 눈에 띄게 달라졌습니다. 굳이 유료 리딩방에 의존하지 말고, 공신력 있는 데이터를 직접 활용해 보세요."</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <strong>인베스팅닷컴 Pro 활용 가이드</strong><br>
+  출처: 박구석가 유튜브 채널 (2026.03.18)<br>
+  본 내용은 참고용이며 투자 조언이 아닙니다.<br>
+  투자는 본인의 판단과 책임 하에 하시기 바랍니다.
+</footer>
+
+<script>
+// ── INTERSECTION OBSERVER 1: 일반 fade-in ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── CHART CONFIGS (정의만, 직접 호출 금지) ──
+const chartConfigs = {};
+
+// 레이더 차트: 무료 vs Pro 기능 비교
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['차트 분석', 'AI 분석', '종목 발굴', '재무 데이터', 'PDF 리포트', '광고 없음'],
+      datasets: [
+        {
+          label: '무료 버전',
+          data: [5, 1, 1, 3, 0, 0],
+          borderColor: '#6b7280',
+          backgroundColor: 'rgba(107,114,128,0.15)',
+          borderWidth: 2,
+          pointBackgroundColor: '#6b7280'
+        },
+        {
+          label: 'Pro 버전',
+          data: [9, 9, 9, 9, 10, 10],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.15)',
+          borderWidth: 2,
+          pointBackgroundColor: '#e11d48'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 120 },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, color: '#1a1a1a' } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { stepSize: 2, font: { size: 9 }, color: '#777' },
+          pointLabels: { font: { size: 10 }, color: '#1a1a1a' },
+          grid: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+// 바 차트: 크레딧 비교
+chartConfigs['creditChart'] = () => {
+  new Chart(document.getElementById('creditChart'), {
+    type: 'bar',
+    data: {
+      labels: ['무료 버전', 'Pro 버전'],
+      datasets: [{
+        label: '월 Warren AI 크레딧',
+        data: [10, 500],
+        backgroundColor: ['#6b7280', '#e11d48'],
+        borderRadius: 8,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (ctx) => `${ctx.parsed.y} 크레딧/월` }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, color: '#777' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 12, weight: '700' }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// 바 차트: NVIDIA 지표
+chartConfigs['nvidiaChart'] = () => {
+  new Chart(document.getElementById('nvidiaChart'), {
+    type: 'bar',
+    data: {
+      labels: ['적정 가치 ($)', 'EPS 성장 예측 (%)'],
+      datasets: [{
+        label: 'NVIDIA Pro 리서치',
+        data: [159, 53.5],
+        backgroundColor: ['#e11d48', '#2563eb'],
+        borderRadius: 8,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 200 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const labels = ['$159 (적정 가치)', '53.5% (EPS 성장 예측)'];
+              return labels[ctx.dataIndex];
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, color: '#777' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 11 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// 도넛 차트: 크레딧 배분 전략
+chartConfigs['routineChart'] = () => {
+  new Chart(document.getElementById('routineChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['관심 종목 심층 분석', 'ProPicks 교차 검증', '시장 동향 질의', '예비 크레딧'],
+      datasets: [{
+        data: [250, 150, 60, 40],
+        backgroundColor: ['#e11d48', '#2563eb', '#6b7280', '#f0f0f0'],
+        borderColor: ['#fff', '#fff', '#fff', '#fff'],
+        borderWidth: 3,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, color: '#1a1a1a', padding: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.label}: ${ctx.parsed} 크레딧`
+          }
+        }
+      }
+    }
+  });
+};
+
+// 가로 바 차트: 항목별 평가
+chartConfigs['scoreChart'] = () => {
+  new Chart(document.getElementById('scoreChart'), {
+    type: 'bar',
+    data: {
+      labels: ['데이터 신뢰도', 'UI/UX', 'AI 분석력', '가성비', '활용 편의성'],
+      datasets: [{
+        label: '평가 점수 (10점)',
+        data: [9, 8, 8, 7, 9],
+        backgroundColor: '#e11d48',
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: (ctx) => `${ctx.parsed.x}점 / 10점` }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 10,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, color: '#777' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 12 }, color: '#1a1a1a' }
+        }
+      }
+    }
+  });
+};
+
+// ── INTERSECTION OBSERVER 2: 차트 전용 ──
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
