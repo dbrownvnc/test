@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>트럼프가 유가 폭등을 방치하는 이유</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0c0c0e;
+      --bg2: #121218;
+      --bg3: #1a1a24;
+      --card: #16161f;
+      --border: #2a2a38;
+      --accent: #e8a020;
+      --accent2: #f5c842;
+      --danger: #e84040;
+      --blue: #4a9eff;
+      --green: #3ecf8e;
+      --text: #e8e8f0;
+      --text2: #9090a8;
+      --text3: #5a5a72;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .hero {
+      background: linear-gradient(170deg, #1a0e00 0%, #0c0c0e 60%);
+      padding: 48px 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,160,32,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .hero h1 em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .hero-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      letter-spacing: 1px;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 600px; margin: 0 auto; padding: 0 18px; }
+    section { padding: 36px 0 0; }
+    .section-last { padding-bottom: 64px; }
+
+    /* ── SECTION HEADER ── */
+    .sec-head {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .sec-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      background: rgba(232,160,32,0.1);
+      border: 1px solid rgba(232,160,32,0.3);
+      border-radius: 4px;
+      padding: 4px 8px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      margin-top: 3px;
+    }
+    .sec-head h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #fff;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .card p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+      background: linear-gradient(135deg, rgba(232,160,32,0.08), rgba(232,160,32,0.03));
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+    .highlight p { font-size: 14px; color: var(--text); line-height: 1.75; }
+    .highlight strong { color: var(--accent2); }
+
+    .highlight-danger {
+      background: linear-gradient(135deg, rgba(232,64,64,0.08), rgba(232,64,64,0.03));
+      border-left: 3px solid var(--danger);
+    }
+    .highlight-danger p { color: var(--text); }
+    .highlight-danger strong { color: #ff7070; }
+
+    .highlight-blue {
+      background: linear-gradient(135deg, rgba(74,158,255,0.08), rgba(74,158,255,0.03));
+      border-left: 3px solid var(--blue);
+    }
+    .highlight-blue strong { color: #7ab8ff; }
+
+    .highlight-green {
+      background: linear-gradient(135deg, rgba(62,207,142,0.08), rgba(62,207,142,0.03));
+      border-left: 3px solid var(--green);
+    }
+    .highlight-green strong { color: #6de0ad; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 32px 0;
+    }
+
+    /* ── TAGS ── */
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .tag {
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      color: var(--text2);
+    }
+    .tag.hot { border-color: rgba(232,64,64,0.4); color: #ff7070; background: rgba(232,64,64,0.06); }
+    .tag.key { border-color: rgba(232,160,32,0.4); color: var(--accent); background: rgba(232,160,32,0.06); }
+    .tag.info { border-color: rgba(74,158,255,0.4); color: var(--blue); background: rgba(74,158,255,0.06); }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--border));
+      border-radius: 2px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 22px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 6px;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 8px rgba(232,160,32,0.5);
+    }
+    .tl-year {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .tl-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .tl-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+    /* ── STEP FLOW ── */
+    .step-flow { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      position: relative;
+    }
+    .step:first-child { border-radius: 10px 10px 0 0; }
+    .step:last-child { border-radius: 0 0 10px 10px; }
+    .step:not(:last-child) { border-bottom: none; }
+    .step-n {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 32px;
+      line-height: 1;
+      padding-top: 3px;
+    }
+    .step-content .step-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .step-content p { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+    /* ── QUOTE ── */
+    .quote {
+      background: var(--bg3);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 18px 0;
+      position: relative;
+    }
+    .quote::before {
+      content: '"';
+      font-family: 'Noto Serif KR', serif;
+      font-size: 60px;
+      color: var(--accent);
+      opacity: 0.2;
+      position: absolute;
+      top: -10px; left: 14px;
+      line-height: 1;
+    }
+    .quote p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #d0d0e8;
+      padding-left: 12px;
+    }
+    .quote-src {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 10px;
+      padding-left: 12px;
+    }
+
+    /* ── KEY POINT ── */
+    .key-points { display: flex; flex-direction: column; gap: 10px; }
+    .kp {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .kp-icon { font-size: 18px; line-height: 1; margin-top: 1px; }
+    .kp-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+    .kp-text strong { color: var(--text); }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .compare-table th, .compare-table td {
+      padding: 11px 14px;
+      text-align: left;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      background: var(--bg3);
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { color: #fff; font-weight: 600; }
+    .compare-table td:last-child { color: var(--text2); }
+    .compare-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ── STAT GRID ── */
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 12px; color: var(--text2); line-height: 1.4; }
+
+    /* ── CHART ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 16px 10px;
+      margin: 16px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-title {
+      font-size: 12px;
+      font-family: 'Space Mono', monospace;
+      color: var(--text3);
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    /* ── CONCLUSION BOX ── */
+    .conclusion {
+      background: linear-gradient(135deg, rgba(232,160,32,0.12), rgba(245,200,66,0.06));
+      border: 1px solid rgba(232,160,32,0.35);
+      border-radius: 14px;
+      padding: 24px 20px;
+      margin: 24px 0;
+    }
+    .conclusion-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 12px;
+    }
+    .conclusion p { font-size: 14px; color: var(--text); line-height: 1.8; margin-bottom: 8px; }
+    .conclusion p:last-child { margin-bottom: 0; }
+    .conclusion strong { color: var(--accent2); }
+
+    /* ── INVESTOR NOTE ── */
+    .investor-note {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .investor-note .in-title {
+      font-size: 13px; font-weight: 700;
+      color: var(--green);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .investor-note p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+    .investor-note strong { color: var(--text); }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 40px;
+      padding: 24px 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer p { font-size: 12px; color: var(--text3); line-height: 1.7; }
+    .footer a { color: var(--text3); text-decoration: none; }
+
+    /* ── SCROLL BAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow-diagram {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin: 16px 0;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .flow-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text);
+      text-align: center;
+      flex: 1;
+      min-width: 90px;
+      max-width: 160px;
+    }
+    .flow-box.accent {
+      border-color: rgba(232,160,32,0.5);
+      color: var(--accent);
+      background: rgba(232,160,32,0.07);
+    }
+    .flow-box.danger {
+      border-color: rgba(232,64,64,0.5);
+      color: #ff8080;
+      background: rgba(232,64,64,0.07);
+    }
+    .flow-box.green {
+      border-color: rgba(62,207,142,0.5);
+      color: var(--green);
+      background: rgba(62,207,142,0.07);
+    }
+    .flow-arrow {
+      color: var(--text3);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .flow-down {
+      text-align: center;
+      color: var(--text3);
+      font-size: 16px;
+      margin: 2px 0;
+    }
+
+    /* ── SIMULATION ── */
+    .sim-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .sim-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .sim-slider-group { margin-bottom: 16px; }
+    .sim-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .sim-label span { font-family: 'Space Mono', monospace; color: var(--accent); }
+    input[type="range"] {
+      width: 100%;
+      appearance: none;
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .sim-result {
+      background: var(--bg3);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+    .sim-result-title {
+      font-size: 11px;
+      font-family: 'Space Mono', monospace;
+      color: var(--text3);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .sim-item { text-align: center; }
+    .sim-val {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .sim-item-label { font-size: 11px; color: var(--text2); }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-label">에너지·경제 분석</div>
+    <h1>트럼프가 유가 폭등을<br><em>방치하는 이유</em></h1>
+    <div class="hero-meta">2026.03.21 · 원본 영상 분석 요약</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 핵심 요약 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">OVERVIEW</div>
+      <h2>핵심 요약 — 빙산의 일각</h2>
+    </div>
+
+    <div class="tag-row fade-in">
+      <span class="tag hot">🔥 유가 폭등</span>
+      <span class="tag key">⚡ 에너지 자립</span>
+      <span class="tag info">📊 ESG 적폐</span>
+      <span class="tag key">🇺🇸 트럼프 전략</span>
+    </div>
+
+    <div class="highlight fade-in">
+      <p>표면적으로는 <strong>호르무즈 해협 봉쇄 위협·중국 회담 연기</strong>로 유가 불안이 커 보이지만, 실제로는 훨씬 깊은 구조적 문제가 있다. 트럼프가 이 혼란을 '방치'하는 데는 <strong>의도된 시나리오</strong>가 있다는 것이 이 영상의 핵심 주장이다.</p>
+    </div>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="stat-val">#1</div>
+        <div class="stat-label">미국의 세계 석유<br>생산량 순위</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">90%+</div>
+        <div class="stat-label">미국산 원유 중<br>경질류 비중</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">2010</div>
+        <div class="stat-label">텍사스 경질류<br>셰일 대박 원년</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">3년+</div>
+        <div class="stat-label">베네수엘라 인프라<br>재건 최소 기간</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 단기 유가 대응 카드 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">01</div>
+      <h2>단기 유가 대응 카드 — 임시방편</h2>
+    </div>
+
+    <div class="step-flow fade-in">
+      <div class="step">
+        <div class="step-n">A</div>
+        <div class="step-content">
+          <div class="step-title">러시아 석유 제재 한시 해제</div>
+          <p>이미 한 달간 제재를 풀었음. 유가 선물 하락 효과는 있지만 일시적.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">B</div>
+        <div class="step-content">
+          <div class="step-title">베네수엘라 카드</div>
+          <p>베네수엘라가 중국으로 밀수하던 물량을 회수(정상 루트로 전환)하면 선물 시장이 반응할 수 있음. 단, 정식 생산 인프라가 없어 최소 <strong>3년 이상</strong> 대기.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">C</div>
+        <div class="step-content">
+          <div class="step-title">근본적 한계</div>
+          <p>위 두 카드 모두 <strong>장기적 유가 안정은 불가능</strong>. 구조적 문제를 해결하지 않으면 위기는 반복된다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 미국 원유 구조 문제 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">02</div>
+      <h2>미국 원유의 구조적 딜레마</h2>
+    </div>
+
+    <div class="highlight fade-in">
+      <p>미국은 세계 최대 산유국이지만, <strong>정제 시설 불일치</strong>라는 기형적 구조 때문에 풍부한 자원을 제대로 못 쓴다.</p>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">미국 원유 구성 vs 정제 시설 구성</div>
+      <canvas id="oilStructureChart" height="240"></canvas>
+    </div>
+
+    <div class="compare-wrap fade-in">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>경질류 (Light Crude)</th>
+            <th>중질류 (Heavy Crude)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>특성</td>
+            <td style="color:var(--text2)">깨끗하고 퀄리티 높음</td>
+            <td style="color:var(--text2)">무겁고 끈적함</td>
+          </tr>
+          <tr>
+            <td>미국 보유량</td>
+            <td style="color:#6de0ad">90% 이상</td>
+            <td style="color:#ff8080">소량</td>
+          </tr>
+          <tr>
+            <td>미국 정제 시설</td>
+            <td style="color:#ff8080">부족 (소수)</td>
+            <td style="color:#6de0ad">대다수 시설</td>
+          </tr>
+          <tr>
+            <td>결과</td>
+            <td style="color:var(--text2)">→ 해외 수출</td>
+            <td style="color:var(--text2)">→ 해외 수입</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight highlight-danger fade-in">
+      <p><strong>비유:</strong> 생수를 하수처리장에 쏟아 붓는 꼴. 특수한 필터들이 전부 놀게 되어 <strong>마진이 없음</strong>. 경질류 공장으로 전환도 수지 타산이 안 맞아 방치.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 역사적 타임라인 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">03</div>
+      <h2>왜 16년이 지나도 안 바꿨나</h2>
+    </div>
+
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-year">2010</div>
+        <div class="tl-title">텍사스 셰일 경질류 대박</div>
+        <div class="tl-desc">저금리(금리 0%) 시대에 시추 기업들이 돈을 빌려 경쟁적으로 구멍을 뚫음. 세계 시장에 미국산 경질류가 넘쳐남.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2014~15</div>
+        <div class="tl-title">사우디의 치킨 게임</div>
+        <div class="tl-desc">사우디가 유가 방어 대신 <strong>생산량을 대폭 늘려</strong> 유가 폭락 유도. 생산 단가가 비싼 미국 셰일 기업들을 말려 죽이는 전략. 셰일 기업 주가 폭락·줄도산.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2015~</div>
+        <div class="tl-title">월가의 이사회 장악</div>
+        <div class="tl-desc">경영진 연봉을 <strong>현금흐름·투자수익률 기준</strong>으로 연동. 새 공장 지으면 주가 하락 → 연봉 삭감 구조. 배당금 우선 경영으로 전환.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2017~</div>
+        <div class="tl-title">ESG로 석유 투자 봉쇄</div>
+        <div class="tl-desc">월가 은행 연합이 ESG 명분으로 석유 기업 대출을 사실상 금지. 보험사까지 결탁 — ESG 미충족 시 보험 불가 → <strong>건설 허가 자체 불가</strong>.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2021</div>
+        <div class="tl-title">엑손모빌 쿠데타</div>
+        <div class="tl-desc">끝까지 자금 조달해 시추를 밀어붙이던 엑손모빌을 친환경 헤지펀드가 장악. 이사진을 친환경 운동가로 교체 → 신규 시추·정제소 건설 안건 전면 차단.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">현재</div>
+        <div class="tl-title">OPEC 카르텔 득세</div>
+        <div class="tl-desc">세계 1위 산유국이 주가 때문에 에너지 자립을 포기. 사우디·러시아 눈치를 봐야 하는 구조 고착.</div>
+      </div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">원유 가격 흐름과 주요 사건 (USD/배럴, 개념도)</div>
+      <canvas id="oilPriceChart" height="220"></canvas>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 월가의 통제 구조 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">04</div>
+      <h2>월가의 에너지 통제 메커니즘</h2>
+    </div>
+
+    <div class="flow-diagram fade-in">
+      <div class="flow-row">
+        <div class="flow-box danger">사우디 치킨게임<br>→ 주가 폭락</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box accent">월가 이사회 개입<br>연봉 KPI 연동</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box">ESG 명분<br>대출 봉쇄</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box">보험사 결탁<br>건설 허가 봉쇄</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box">환경단체 소송<br>착공 차단</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box danger">신규 시추·정제소<br>건설 전면 불가</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box danger">OPEC 의존 고착<br>유가 위기 반복</div>
+      </div>
+    </div>
+
+    <div class="key-points fade-in">
+      <div class="kp">
+        <div class="kp-icon">💼</div>
+        <div class="kp-text"><strong>경영진 연봉 함정:</strong> 현금흐름·ROI 기준 연봉 → 장기 투자 불가. 신공장 = 주가 하락 = 연봉 삭감.</div>
+      </div>
+      <div class="kp">
+        <div class="kp-icon">🏦</div>
+        <div class="kp-text"><strong>ESG 대출 봉쇄:</strong> 실제 목적은 환경 보호가 아닌 <strong>사우디 치킨게임 방어 + 주가 보호</strong>. 도덕적 명분으로 포장한 금융 통제.</div>
+      </div>
+      <div class="kp">
+        <div class="kp-icon">📋</div>
+        <div class="kp-text"><strong>보험 봉쇄:</strong> 정제소·송유관 건설에는 보험 필수. ESG 미충족 → 보험 불가 → 국가 건설 허가 불가. 삽조차 못 드는 구조.</div>
+      </div>
+      <div class="kp">
+        <div class="kp-icon">⚖️</div>
+        <div class="kp-text"><strong>소송 전술:</strong> 환경단체가 ESG를 근거로 기존 건설 중인 것도 소송 → 시간·비용 소진 → 자진 포기.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 결과와 악순환 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">05</div>
+      <h2>악순환의 경제적 결과</h2>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">유가 불안정이 경제에 미치는 파급 효과</div>
+      <canvas id="impactChart" height="240"></canvas>
+    </div>
+
+    <div class="highlight highlight-danger fade-in">
+      <p><strong>핵심 역설:</strong> 세계 1위 산유국이 자본 탐욕(주가 관리) 때문에 에너지 패권을 자진 반납. OPEC 카르텔은 사실상 <strong>미국 덕분에 득세</strong>한 것.</p>
+    </div>
+
+    <div class="step-flow fade-in">
+      <div class="step">
+        <div class="step-n">①</div>
+        <div class="step-content">
+          <div class="step-title">유가 통제 불능</div>
+          <p>에너지 자립 포기 → OPEC 결정에 종속</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">②</div>
+        <div class="step-content">
+          <div class="step-title">물류비·제조비 폭등</div>
+          <p>기름값 잡기 실패 → 모든 물가에 전가</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">③</div>
+        <div class="step-content">
+          <div class="step-title">인플레이션 반복</div>
+          <p>서민 가난, 중산층 붕괴 → 부익부 빈익빈</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">④</div>
+        <div class="step-content">
+          <div class="step-title">국력 하락</div>
+          <p>장기적 생산력 저하 → 국멸 위기</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 트럼프의 전략 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">06</div>
+      <h2>트럼프의 숨겨진 시나리오</h2>
+    </div>
+
+    <div class="quote fade-in">
+      <p>트럼프가 겉으로 미친 짓을 할 때는 무조건 비하인드 스토리가 있다. 눈앞의 현상이 아니라 과거에 뭐가 있었는지, 상식적으로 잘못된 것들을 봐야 한다.</p>
+      <div class="quote-src">— 영상 내용 요약</div>
+    </div>
+
+    <div class="flow-diagram fade-in">
+      <div style="font-size:12px; color:var(--text3); margin-bottom:12px; font-family:'Space Mono',monospace; letter-spacing:0.5px;">TRUMP'S STRATEGY FLOW</div>
+      <div class="flow-row">
+        <div class="flow-box accent">의도적 위기 연출<br>(전쟁·혼란)</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box accent">명분 확보<br>에너지 규제 철폐</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box">ESG 제도<br>일괄 척결</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-box">OPEC 카르텔<br>견제</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box green">미국 내<br>무제한 시추 허용</div>
+      </div>
+      <div class="flow-down">↓</div>
+      <div class="flow-row">
+        <div class="flow-box green">에너지 완전 자립<br>→ 장기 유가 폭락</div>
+      </div>
+    </div>
+
+    <div class="highlight highlight-green fade-in">
+      <p><strong>결론:</strong> 단기 유가 상승 고통을 감수하더라도, ESG 제도와 OPEC 카르텔을 동시에 척결하고 <strong>영구적 에너지 자립</strong>을 달성하는 것이 트럼프의 장기 목표라는 분석.</p>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">에너지 자립 시나리오별 장기 유가 전망 (개념도)</div>
+      <canvas id="scenarioChart" height="220"></canvas>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 인터랙티브 시뮬레이션 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">SIM</div>
+      <h2>에너지 자립도 시뮬레이션</h2>
+    </div>
+
+    <div class="sim-container fade-in">
+      <div class="sim-title">⚡ 시나리오 계산기</div>
+      <p style="font-size:12px; color:var(--text3); margin-bottom:16px;">슬라이더를 조정해 각 변수가 유가와 경제에 미치는 영향을 확인하세요.</p>
+
+      <div class="sim-slider-group">
+        <div class="sim-label">미국 경질류 정제 시설 비율 <span id="val-refinery">30</span>%</div>
+        <input type="range" id="sl-refinery" min="10" max="90" value="30" oninput="updateSim()">
+      </div>
+
+      <div class="sim-slider-group">
+        <div class="sim-label">ESG 규제 강도 <span id="val-esg">80</span>%</div>
+        <input type="range" id="sl-esg" min="0" max="100" value="80" oninput="updateSim()">
+      </div>
+
+      <div class="sim-slider-group">
+        <div class="sim-label">신규 시추 허용 수준 <span id="val-drill">20</span>%</div>
+        <input type="range" id="sl-drill" min="0" max="100" value="20" oninput="updateSim()">
+      </div>
+
+      <div class="sim-result">
+        <div class="sim-result-title">▶ 추정 결과</div>
+        <div class="sim-grid">
+          <div class="sim-item">
+            <div class="sim-val" id="sim-oil-price" style="color:var(--danger)">$88</div>
+            <div class="sim-item-label">추정 유가 ($/배럴)</div>
+          </div>
+          <div class="sim-item">
+            <div class="sim-val" id="sim-opec-dep" style="color:var(--danger)">62%</div>
+            <div class="sim-item-label">OPEC 의존도</div>
+          </div>
+          <div class="sim-item">
+            <div class="sim-val" id="sim-inflation" style="color:var(--accent)">4.2%</div>
+            <div class="sim-item-label">추정 인플레이션</div>
+          </div>
+          <div class="sim-item">
+            <div class="sim-val" id="sim-energy-score" style="color:var(--text2)">28</div>
+            <div class="sim-item-label">에너지 자립 지수</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 투자자 관점 -->
+  <section>
+    <div class="sec-head fade-in">
+      <div class="sec-num">07</div>
+      <h2>투자자를 위한 시사점</h2>
+    </div>
+
+    <div class="investor-note fade-in">
+      <div class="in-title">📌 영상 내 직접 언급 내용</div>
+      <p>지금의 혼란은 <strong>'뻔한 파도'</strong>다. 단기 등락에 흔들려 매수·매도하지 말 것. 어차피 <strong>장기전</strong>이며, 확실한 신호를 기다려도 절대 늦지 않는다. 묵직하게 중심만 잡을 것.</p>
+    </div>
+
+    <div class="key-points fade-in">
+      <div class="kp">
+        <div class="kp-icon">🔍</div>
+        <div class="kp-text"><strong>현재 뉴스 말고 과거를 봐라.</strong> 트럼프의 행동은 대부분 기득권 적폐 척결 패턴을 따른다.</div>
+      </div>
+      <div class="kp">
+        <div class="kp-icon">⏳</div>
+        <div class="kp-text"><strong>단기 유가 상승 = 노이즈.</strong> 에너지 자립 달성 시 장기 유가는 하락 예상.</div>
+      </div>
+      <div class="kp">
+        <div class="kp-icon">🎯</div>
+        <div class="kp-text"><strong>거대 시나리오 확인:</strong> 기득권 척살 → 에너지 자립 → 제조업 부활. 이 세 가지가 맞물려 돌아가는지 주시.</div>
+      </div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">단기 혼란 vs 장기 방향성 (개념 비교)</div>
+      <canvas id="investChart" height="220"></canvas>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- 결론 -->
+  <section class="section-last">
+    <div class="conclusion fade-in">
+      <div class="conclusion-title">📌 종합 결론</div>
+      <p>미국은 <strong>세계 최대 산유국</strong>이지만, 2010년 이후 월가-ESG-보험사-환경단체가 짜놓은 구조적 덫에 갇혀 에너지 자립을 스스로 포기해왔다. 그 결과 <strong>OPEC에 종속되고 인플레이션이 반복</strong>됐다.</p>
+      <p>트럼프는 단기적 유가 상승 고통을 감수하면서 이 구조 전체를 무너뜨리려 한다. <strong>ESG 적폐 철폐 + 무제한 시추 허용 = 영구 에너지 자립</strong>이 최종 목표라는 것이 이 영상의 핵심 주장이다.</p>
+      <p>보이는 것(유가 폭등·전쟁)에서 <strong>안 보이는 것(구조 개혁 시나리오)</strong>을 읽어야 할 때다.</p>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <div class="container">
+    <p>본 문서는 유튜브 영상 내용을 분석·요약한 것입니다.<br>
+    출처: <a href="https://youtu.be/1630an18RhQ" target="_blank">트럼프가 유가 폭등을 방치하는 이유 (2026.03.21)</a></p>
+  </div>
+</div>
+
+<script>
+// ──────────────────────────────────────────────
+//  Chart.js 전역 기본값
+// ──────────────────────────────────────────────
+Chart.defaults.color = '#9090a8';
+Chart.defaults.borderColor = '#2a2a38';
+Chart.defaults.font.family = "'Space Mono', monospace";
+Chart.defaults.font.size = 11;
+
+// ──────────────────────────────────────────────
+//  chartConfigs 딕셔너리
+// ──────────────────────────────────────────────
+const chartConfigs = {};
+
+// 차트 1: 원유 구조 (가로 바)
+chartConfigs['oilStructureChart'] = () => {
+  new Chart(document.getElementById('oilStructureChart'), {
+    type: 'bar',
+    data: {
+      labels: ['경질류 보유량', '경질류 정제 시설', '중질류 보유량', '중질류 정제 시설'],
+      datasets: [{
+        label: '비율 (%)',
+        data: [92, 25, 8, 75],
+        backgroundColor: [
+          'rgba(62,207,142,0.75)',
+          'rgba(232,64,64,0.75)',
+          'rgba(232,64,64,0.75)',
+          'rgba(62,207,142,0.75)'
+        ],
+        borderColor: [
+          '#3ecf8e',
+          '#e84040',
+          '#e84040',
+          '#3ecf8e'
+        ],
+        borderWidth: 1,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0 } },
+      animation: { duration: 1500, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          max: 100,
+          grid: { color: '#2a2a38' },
+          ticks: { callback: v => v + '%' }
+        },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+};
+
+// 차트 2: 유가 흐름 (라인)
+chartConfigs['oilPriceChart'] = () => {
+  new Chart(document.getElementById('oilPriceChart'), {
+    type: 'line',
+    data: {
+      labels: ['2008','2010','2012','2014','2016','2018','2020','2022','2024','2026'],
+      datasets: [{
+        label: 'WTI 원유 (개념도)',
+        data: [145, 85, 100, 110, 35, 65, 20, 95, 78, 85],
+        borderColor: '#e8a020',
+        backgroundColor: 'rgba(232,160,32,0.08)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#e8a020',
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` $${ctx.raw}/bbl` }
+        },
+        annotation: {}
+      },
+      scales: {
+        x: { grid: { color: '#2a2a38' } },
+        y: {
+          grid: { color: '#2a2a38' },
+          ticks: { callback: v => '$'+v }
+        }
+      }
+    }
+  });
+};
+
+// 차트 3: 경제 파급 영향 (레이더)
+chartConfigs['impactChart'] = () => {
+  new Chart(document.getElementById('impactChart'), {
+    type: 'radar',
+    data: {
+      labels: ['인플레이션','제조비용','물류비','서민생활','국가경쟁력','에너지안보'],
+      datasets: [{
+        label: '유가 통제 불능 시',
+        data: [85, 80, 90, 75, 65, 90],
+        borderColor: '#e84040',
+        backgroundColor: 'rgba(232,64,64,0.12)',
+        pointBackgroundColor: '#e84040',
+        borderWidth: 2,
+      }, {
+        label: '에너지 자립 달성 시',
+        data: [30, 35, 30, 55, 85, 20],
+        borderColor: '#3ecf8e',
+        backgroundColor: 'rgba(62,207,142,0.1)',
+        pointBackgroundColor: '#3ecf8e',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          grid: { color: '#2a2a38' },
+          angleLines: { color: '#2a2a38' },
+          pointLabels: { font: { size: 11 }, color: '#9090a8' },
+          ticks: { display: false }
+        }
+      }
+    }
+  });
+};
+
+// 차트 4: 시나리오별 유가 전망 (라인)
+chartConfigs['scenarioChart'] = () => {
+  new Chart(document.getElementById('scenarioChart'), {
+    type: 'line',
+    data: {
+      labels: ['2025','2026','2027','2028','2029','2030','2031','2032'],
+      datasets: [{
+        label: '현재 경로 (자립 무시)',
+        data: [85, 90, 95, 100, 98, 105, 102, 108],
+        borderColor: '#e84040',
+        backgroundColor: 'rgba(232,64,64,0.06)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 3,
+      },{
+        label: '트럼프 시나리오 (자립 달성)',
+        data: [88, 92, 85, 72, 60, 52, 47, 42],
+        borderColor: '#3ecf8e',
+        backgroundColor: 'rgba(62,207,142,0.06)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 3,
+        borderDash: [6,3],
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ` $${ctx.raw}/bbl (개념)` } }
+      },
+      scales: {
+        x: { grid: { color: '#2a2a38' } },
+        y: {
+          grid: { color: '#2a2a38' },
+          ticks: { callback: v => '$'+v }
+        }
+      }
+    }
+  });
+};
+
+// 차트 5: 투자 관점 (바)
+chartConfigs['investChart'] = () => {
+  new Chart(document.getElementById('investChart'), {
+    type: 'bar',
+    data: {
+      labels: ['단기 혼란', '중기 조정', '장기 방향'],
+      datasets: [{
+        label: '불확실성',
+        data: [90, 55, 20],
+        backgroundColor: 'rgba(232,64,64,0.7)',
+        borderColor: '#e84040',
+        borderWidth: 1,
+        borderRadius: 5,
+      },{
+        label: '기회',
+        data: [20, 50, 85],
+        backgroundColor: 'rgba(62,207,142,0.7)',
+        borderColor: '#3ecf8e',
+        borderWidth: 1,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          max: 100,
+          grid: { color: '#2a2a38' },
+          ticks: { callback: v => v + '%' }
+        }
+      }
+    }
+  });
+};
+
+// ──────────────────────────────────────────────
+//  Observer 1: 일반 fade-in
+// ──────────────────────────────────────────────
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ──────────────────────────────────────────────
+//  Observer 2: 차트 전용
+// ──────────────────────────────────────────────
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ──────────────────────────────────────────────
+//  시뮬레이션 로직
+// ──────────────────────────────────────────────
+function updateSim() {
+  const refinery = parseInt(document.getElementById('sl-refinery').value);
+  const esg = parseInt(document.getElementById('sl-esg').value);
+  const drill = parseInt(document.getElementById('sl-drill').value);
+
+  document.getElementById('val-refinery').textContent = refinery;
+  document.getElementById('val-esg').textContent = esg;
+  document.getElementById('val-drill').textContent = drill;
+
+  // 단순 모델
+  const energyScore = Math.round((refinery * 0.35 + drill * 0.45 + (100 - esg) * 0.2));
+  const opecDep = Math.max(5, Math.round(75 - energyScore * 0.6));
+  const oilPrice = Math.max(38, Math.round(110 - energyScore * 0.55 - drill * 0.12));
+  const inflation = Math.max(1.2, ((oilPrice - 40) * 0.045 + 1.2).toFixed(1));
+
+  const priceEl = document.getElementById('sim-oil-price');
+  const depEl = document.getElementById('sim-opec-dep');
+  const infEl = document.getElementById('sim-inflation');
+  const scoreEl = document.getElementById('sim-energy-score');
+
+  priceEl.textContent = '$' + oilPrice;
+  priceEl.style.color = oilPrice > 80 ? 'var(--danger)' : oilPrice > 60 ? 'var(--accent)' : 'var(--green)';
+
+  depEl.textContent = opecDep + '%';
+  depEl.style.color = opecDep > 50 ? 'var(--danger)' : opecDep > 30 ? 'var(--accent)' : 'var(--green)';
+
+  infEl.textContent = inflation + '%';
+  infEl.style.color = inflation > 4 ? 'var(--danger)' : inflation > 2.5 ? 'var(--accent)' : 'var(--green)';
+
+  scoreEl.textContent = energyScore;
+  scoreEl.style.color = energyScore > 60 ? 'var(--green)' : energyScore > 35 ? 'var(--accent)' : 'var(--text2)';
+}
+</script>
+</body>
+</html>
