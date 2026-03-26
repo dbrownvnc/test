@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>구글 TurboQuant | AI 메모리 압축 기술 분석</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --border: #e5e5e5;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+      --chart1: #e11d48;
+      --chart2: #1a1a1a;
+      --chart3: #6b7280;
+      --chart4: #2563eb;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 0 60px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.12;
+    }
+    .issue-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .issue-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.15);
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .hero h1 em {
+      color: var(--accent2);
+      font-style: italic;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+    }
+    .hero-stat-row {
+      display: flex;
+      gap: 0;
+      margin-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+    }
+    .hero-stat {
+      flex: 1;
+      text-align: center;
+      padding: 0 8px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent2);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 32px 24px 0; }
+
+    .section-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 14px;
+      color: var(--text);
+    }
+    .body-text {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .body-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      margin: 32px 24px;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+    .divider-accent {
+      margin: 32px 24px;
+      height: 3px;
+      background: var(--accent);
+      width: 40px;
+      border: none;
+    }
+
+    /* ── PULLQUOTE ── */
+    .pullquote {
+      margin: 24px 24px;
+      padding: 20px 20px 20px 24px;
+      border-left: 4px solid var(--accent);
+      background: var(--bg2);
+    }
+    .pullquote p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .pullquote-source {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      margin: 0 24px 24px;
+      padding: 18px 20px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+    }
+    .highlight-box-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .highlight-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .highlight-box li {
+      font-size: 13px;
+      color: #333;
+      padding: 5px 0;
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.6;
+    }
+    .highlight-box li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── CARD ── */
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 24px;
+      margin-bottom: 8px;
+    }
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 18px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+      background: var(--accent);
+    }
+    .card-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent);
+      padding: 3px 8px;
+      margin-bottom: 8px;
+    }
+    .card-badge.blue { background: var(--chart4); }
+    .card-badge.gray { background: var(--chart3); }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .card p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    /* ── CHART ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 0 24px 8px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-caption {
+      margin: 4px 24px 20px;
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── TIER TABLE ── */
+    .tier-table {
+      margin: 0 24px 20px;
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+    }
+    .tier-table th {
+      background: var(--table-header);
+      color: #fff;
+      padding: 9px 10px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .tier-table td {
+      background: var(--table-bg);
+      border: 1px solid var(--border);
+      padding: 9px 10px;
+      color: #333;
+      line-height: 1.5;
+    }
+    .tier-table tr:nth-child(even) td { background: #f5f5f5; }
+    .dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .dot.hot { background: #ef4444; }
+    .dot.warm { background: #f97316; }
+    .dot.cold { background: #2563eb; }
+
+    /* ── KV SIM ── */
+    .kv-sim {
+      margin: 0 24px 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+    .kv-sim-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .kv-bar-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .kv-bar-track {
+      height: 22px;
+      background: #e5e5e5;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .kv-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 10px;
+      color: #fff;
+      font-weight: 600;
+      transition: width 1.2s ease;
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin: 40px 24px 0;
+      padding-top: 20px;
+      border-top: 2px solid var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .footer-meta {
+      font-size: 10px;
+      color: var(--text2);
+      text-align: right;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="issue-label">AI 인프라 분석</div>
+  <p class="hero-eyebrow">2026.03.26 · TECH DEEP DIVE</p>
+  <h1>AI 메모리를<br><em>6배</em> 줄이는<br>기술의 진짜 의미</h1>
+  <p class="hero-desc">구글 TurboQuant와 엔비디아 KVTC — 두 압축 기술이 AI 인프라와 메모리 산업에 던지는 시사점</p>
+  <div class="hero-meta">
+    <span>구글 · 엔비디아</span>
+    <span>KV 캐시 압축</span>
+    <span>메모리 슈퍼사이클</span>
+  </div>
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <div class="hero-stat-num">6×</div>
+      <div class="hero-stat-label">메모리 절감</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">8×</div>
+      <div class="hero-stat-label">속도 향상</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">3단</div>
+      <div class="hero-stat-label">캐시 계층화</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: KV Cache 배경 -->
+<div class="section fade-in">
+  <p class="section-label">Background</p>
+  <h2 class="section-title">KV 캐시란 무엇인가</h2>
+  <p class="body-text">
+    현대 LLM(거대 언어 모델)은 <strong>트랜스포머(Transformer)</strong> 구조를 기반으로 한다. 추론(출론) 과정에서 모델은 <strong>Key-Value(KV) 캐시</strong>라는 임시 메모리를 생성하며, 대화가 길어질수록 이 공간이 급격히 팽창한다.
+  </p>
+  <p class="body-text">
+    모델 파라미터(웨이트)가 고정된 "뇌"라면, KV 캐시는 작업 중인 "책상 위의 자료들"이다. 에이전트 AI처럼 긴 작업이 이어질수록 책상은 빠르게 꽉 찬다.
+  </p>
+</div>
+
+<div class="pullquote fade-in">
+  <p>"대화가 길어지면 모델 자체보다 KV 캐시가 메모리를 훨씬 더 많이 차지하게 된다"</p>
+  <p class="pullquote-source">— 유튜브 채널 안대공화 분석</p>
+</div>
+
+<!-- KV 캐시 성장 시뮬레이션 차트 -->
+<div class="section fade-in">
+  <p class="section-label">Visualization</p>
+  <h2 class="section-title">대화 길이에 따른 메모리 사용량</h2>
+</div>
+<div class="chart-container fade-in">
+  <canvas id="memGrowthChart" height="230"></canvas>
+</div>
+<p class="chart-caption">※ 모델 웨이트(고정) vs KV 캐시(누적 증가). 에이전틱 작업일수록 KV 캐시가 지배적이 됨.</p>
+
+<!-- SECTION 2: 두 기술 비교 -->
+<hr class="divider">
+<div class="section fade-in">
+  <p class="section-label">Core Comparison</p>
+  <h2 class="section-title">엔비디아 KVTC vs 구글 TurboQuant</h2>
+  <p class="body-text">두 기술은 모두 KV 캐시 압축이지만, <strong>타깃이 다르다</strong>. 같은 주방에서 냉장 보관과 조리 중 경량화를 각각 담당하는 개념으로 이해할 수 있다.</p>
+</div>
+
+<div class="card-grid">
+  <div class="card fade-in">
+    <span class="card-badge blue">NVIDIA · KVTC</span>
+    <h3>❄️ 콜드 KV 압축 — "냉장고에 보관"</h3>
+    <p>현재 잠시 사용하지 않는 KV를 압축해 저장해 두었다가 필요할 때 꺼내 쓴다. <strong>PCA 디코릴레이션 → 어댑티브 퀀타이제이션 → 엔트로피 코딩(허프만)</strong>의 3단계 파이프라인으로 재사용 가능한 KV를 경량화한다.</p>
+  </div>
+  <div class="card fade-in">
+    <span class="card-badge">Google · TurboQuant</span>
+    <h3>🔥 핫 KV 압축 — "후라이팬 위에서 경량화"</h3>
+    <p>지금 이 순간 매 토큰 생성에 사용 중인 핫 KV 자체를 더 작은 비트로 표현한다. 어텐션 내적(Inner Product) 연산의 <strong>상관관계 점수(Correlation Score)를 최대한 보존</strong>하면서 Polar Quantization 방식으로 압축한다.</p>
+  </div>
+</div>
+
+<!-- 비교 차트 -->
+<div class="chart-container fade-in" style="margin-top:20px">
+  <canvas id="compareChart" height="220"></canvas>
+</div>
+<p class="chart-caption">※ 두 기술은 상호 보완적이며, 병용 시 더 큰 효과를 낼 수 있다.</p>
+
+<!-- SECTION 3: Hot / Warm / Cold -->
+<hr class="divider">
+<div class="section fade-in">
+  <p class="section-label">Architecture</p>
+  <h2 class="section-title">Hot · Warm · Cold KV Cache 계층화</h2>
+  <p class="body-text">
+    AI 메모리가 단일 구조에서 <strong>다중 계층(Tiered) 구조</strong>로 진화하고 있다. 데이터 센터의 Hot/Cold 스토리지 개념이 AI 추론 메모리에도 적용되기 시작했다.
+  </p>
+</div>
+
+<table class="tier-table fade-in">
+  <thead>
+    <tr>
+      <th>계층</th>
+      <th>특성</th>
+      <th>저장 위치</th>
+      <th>압축 기술</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="dot hot"></span><strong>HOT</strong></td>
+      <td>현재 토큰 생성에 즉시 사용</td>
+      <td>HBM (고대역폭)</td>
+      <td>Google TurboQuant</td>
+    </tr>
+    <tr>
+      <td><span class="dot warm"></span><strong>WARM</strong></td>
+      <td>잠시 후 다시 참조 가능성 높음</td>
+      <td>GDDR / LPDDR</td>
+      <td>경량 캐시 관리</td>
+    </tr>
+    <tr>
+      <td><span class="dot cold"></span><strong>COLD</strong></td>
+      <td>당분간 미사용, 재사용 가능성 낮음</td>
+      <td>SSD 스토리지</td>
+      <td>NVIDIA KVTC</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- KV 계층 시뮬레이터 -->
+<div class="kv-sim fade-in">
+  <div class="kv-sim-title">📊 KV Cache 계층 분포 시뮬레이터</div>
+  <p style="font-size:12px;color:#888;margin-bottom:14px;">대화 길이에 따른 핫/웜/콜드 비율 변화 (슬라이더로 조절)</p>
+  <label style="font-size:12px;color:#555;">대화 턴 수: <strong id="turnLabel">10</strong>턴</label>
+  <input type="range" min="1" max="50" value="10" id="turnSlider"
+    style="width:100%;margin:8px 0 16px;accent-color:var(--accent);">
+  
+  <div class="kv-bar-label"><span><span class="dot hot"></span>HOT (즉시 사용)</span><span id="hotPct">40%</span></div>
+  <div class="kv-bar-track"><div class="kv-bar-fill" id="hotBar" style="width:40%;background:#ef4444;">HOT</div></div>
+  
+  <div class="kv-bar-label"><span><span class="dot warm"></span>WARM (대기 중)</span><span id="warmPct">35%</span></div>
+  <div class="kv-bar-track"><div class="kv-bar-fill" id="warmBar" style="width:35%;background:#f97316;">WARM</div></div>
+  
+  <div class="kv-bar-label"><span><span class="dot cold"></span>COLD (비활성)</span><span id="coldPct">25%</span></div>
+  <div class="kv-bar-track"><div class="kv-bar-fill" id="coldBar" style="width:25%;background:#2563eb;">COLD</div></div>
+  
+  <p id="simNote" style="font-size:11px;color:#999;margin-top:8px;">💡 대화가 길어질수록 COLD KV가 누적되어 NVIDIA KVTC의 역할이 커진다.</p>
+</div>
+
+<!-- SECTION 4: TurboQuant 기술 심화 -->
+<hr class="divider">
+<div class="section fade-in">
+  <p class="section-label">Technical Deep Dive</p>
+  <h2 class="section-title">TurboQuant 작동 원리</h2>
+  <p class="body-text">
+    일반적인 양자화(Quantization)는 숫자를 대략적으로 반올림하는 방식이라 어텐션 연산의 관계 정보가 손상될 수 있다. TurboQuant는 두 단계로 이를 해결한다.
+  </p>
+</div>
+
+<div class="highlight-box fade-in">
+  <div class="highlight-box-title">Step 1 — Polar Quantization (폴라 퀀트)</div>
+  <ul>
+    <li>벡터를 <strong>극좌표(크기 + 방향)</strong>로 변환해 압축 효율을 극대화</li>
+    <li>대부분의 용량 절감을 이 단계에서 달성</li>
+    <li>어텐션의 내적 연산 관계를 보존하는 방향으로 설계</li>
+  </ul>
+</div>
+<div class="highlight-box fade-in">
+  <div class="highlight-box-title">Step 2 — Residual Error Correction (잔차 보정)</div>
+  <ul>
+    <li>압축 후 발생하는 <strong>작은 오차를 미세 보정</strong></li>
+    <li>Q-K 내적(Inner Product) 상관관계 점수 보전</li>
+    <li>저장 효율과 계산 효율을 동시에 최적화</li>
+  </ul>
+</div>
+
+<!-- 성능 개선 차트 -->
+<div class="section fade-in">
+  <p class="section-label">Performance</p>
+  <h2 class="section-title">TurboQuant 성능 지표</h2>
+</div>
+<div class="chart-container fade-in">
+  <canvas id="perfChart" height="240"></canvas>
+</div>
+<p class="chart-caption">※ FP16 대비 측정값. 메모리 절감 6×, 처리 속도 8× (H100 기준).</p>
+
+<!-- SECTION 5: 산업적 의미 -->
+<hr class="divider">
+<div class="section fade-in">
+  <p class="section-label">Market Impact</p>
+  <h2 class="section-title">메모리 슈퍼사이클과의 관계</h2>
+  <p class="body-text">
+    "메모리가 줄어드는 것 아니냐"는 질문에 대한 답은 <strong>단기와 장기가 다르다</strong>.
+  </p>
+  <p class="body-text">
+    단기적으로는 동일 하드웨어에서 더 많은 사용자를 서빙하거나 더 긴 컨텍스트를 처리할 수 있어 효율이 높아진다. 그러나 장기적으로는 절약된 메모리만큼 더 큰 모델, 더 많은 사용자, 더 다양한 멀티모달 처리에 할당되어 <strong>전체 메모리 수요는 오히려 증가한다</strong>.
+  </p>
+</div>
+
+<div class="chart-container fade-in">
+  <canvas id="demandChart" height="230"></canvas>
+</div>
+<p class="chart-caption">※ 효율 기술 도입이 메모리 총수요를 억제하지 않는 '제본스의 역설(Jevons Paradox)' 양상.</p>
+
+<div class="card-grid fade-in">
+  <div class="card">
+    <span class="card-badge">클라우드 AI</span>
+    <h3>서빙 효율 극대화</h3>
+    <p>동일 HBM으로 더 많은 동시 세션 처리 가능 → API 비용 절감 → AI 서비스 확산 가속</p>
+  </div>
+  <div class="card">
+    <span class="card-badge gray">온디바이스 AI</span>
+    <h3>엣지 AI 성능 도약</h3>
+    <p>LPDDR 제한된 스마트폰·노트북에서 더 큰 모델, 더 긴 멀티턴 에이전트 구현 가능</p>
+  </div>
+</div>
+
+<!-- SECTION 6: 핵심 요약 -->
+<hr class="divider">
+<div class="section fade-in">
+  <p class="section-label">Summary</p>
+  <h2 class="section-title">핵심 3줄 요약</h2>
+</div>
+<div class="highlight-box fade-in">
+  <div class="highlight-box-title">오늘의 핵심</div>
+  <ul>
+    <li><strong>구글 TurboQuant</strong>: 지금 사용 중인 핫 KV를 작은 비트로 운반 (Polar Quantization)</li>
+    <li><strong>엔비디아 KVTC</strong>: 잠시 안 쓰는 콜드 KV를 고전 압축으로 보관</li>
+    <li><strong>메모리 수요 감소 X</strong> — 절약분만큼 더 많은 AI 작업이 채운다. 이건 <em>메모리 슈퍼사이클</em>의 가속</li>
+  </ul>
+</div>
+
+<!-- FOOTER -->
+<div class="footer fade-in">
+  <div class="footer-brand">AI BRIEF</div>
+  <div class="footer-meta">2026.03.26<br>안대공화 채널 분석</div>
+</div>
+
+<script>
+// ── Fade-in Observer ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── KV Simulator ──
+const slider = document.getElementById('turnSlider');
+function updateSim() {
+  const turns = parseInt(slider.value);
+  document.getElementById('turnLabel').textContent = turns;
+  // HOT decreases, COLD increases as turns grow
+  const coldRatio = Math.min(0.65, 0.15 + turns * 0.01);
+  const hotRatio = Math.max(0.15, 0.55 - turns * 0.008);
+  const warmRatio = 1 - coldRatio - hotRatio;
+  
+  const hotPct = Math.round(hotRatio * 100);
+  const warmPct = Math.round(warmRatio * 100);
+  const coldPct = Math.round(coldRatio * 100);
+  
+  document.getElementById('hotBar').style.width = hotPct + '%';
+  document.getElementById('warmBar').style.width = warmPct + '%';
+  document.getElementById('coldBar').style.width = coldPct + '%';
+  document.getElementById('hotPct').textContent = hotPct + '%';
+  document.getElementById('warmPct').textContent = warmPct + '%';
+  document.getElementById('coldPct').textContent = coldPct + '%';
+  
+  const note = turns <= 10
+    ? '💡 대화가 짧아 핫 KV가 지배적입니다.'
+    : turns <= 30
+    ? '💡 대화가 길어질수록 COLD KV가 누적됩니다. NVIDIA KVTC의 역할이 중요해집니다.'
+    : '🔥 에이전틱 AI 수준! COLD KV가 지배적 → 두 기술 모두 필수입니다.';
+  document.getElementById('simNote').textContent = note;
+}
+slider.addEventListener('input', updateSim);
+updateSim();
+
+// ── Chart Configs ──
+const chartConfigs = {};
+
+chartConfigs['memGrowthChart'] = () => {
+  new Chart(document.getElementById('memGrowthChart'), {
+    type: 'line',
+    data: {
+      labels: ['1턴', '5턴', '10턴', '20턴', '30턴', '50턴'],
+      datasets: [
+        {
+          label: '모델 웨이트 (고정)',
+          data: [100, 100, 100, 100, 100, 100],
+          borderColor: '#6b7280',
+          backgroundColor: 'rgba(107,114,128,0.08)',
+          borderWidth: 2,
+          borderDash: [5,4],
+          tension: 0.3,
+          fill: true,
+          pointRadius: 3
+        },
+        {
+          label: 'KV 캐시 (누적 증가)',
+          data: [20, 55, 110, 220, 360, 650],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.1)',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#e11d48'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}MB (상대값)` } }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 } } },
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, callback: v => v + 'MB' }
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['compareChart'] = () => {
+  new Chart(document.getElementById('compareChart'), {
+    type: 'bar',
+    data: {
+      labels: ['압축 대상', '주요 기술', '저장 위치', '압축 강도'],
+      datasets: [
+        {
+          label: 'NVIDIA KVTC',
+          data: [40, 65, 70, 60],
+          backgroundColor: 'rgba(37,99,235,0.75)',
+          borderColor: '#2563eb',
+          borderWidth: 1
+        },
+        {
+          label: 'Google TurboQuant',
+          data: [85, 90, 50, 95],
+          backgroundColor: 'rgba(225,29,72,0.75)',
+          borderColor: '#e11d48',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}점 (상대적 특성)` } }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 }, max: 100 }, suggestedMax: 100 }
+      }
+    }
+  });
+};
+
+chartConfigs['perfChart'] = () => {
+  new Chart(document.getElementById('perfChart'), {
+    type: 'bar',
+    data: {
+      labels: ['메모리 절감\n(배수)', '처리 속도\n(배수)', '동시 처리\n세션 수'],
+      datasets: [
+        {
+          label: 'FP16 기준 (1배)',
+          data: [1, 1, 1],
+          backgroundColor: 'rgba(107,114,128,0.4)',
+          borderColor: '#6b7280',
+          borderWidth: 1
+        },
+        {
+          label: 'TurboQuant 적용',
+          data: [6, 8, 6],
+          backgroundColor: 'rgba(225,29,72,0.8)',
+          borderColor: '#e11d48',
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}배` } }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 } } },
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, callback: v => v + '×' },
+          suggestedMax: 9
+        }
+      }
+    }
+  });
+};
+
+chartConfigs['demandChart'] = () => {
+  new Chart(document.getElementById('demandChart'), {
+    type: 'line',
+    data: {
+      labels: ['현재', '6개월', '1년', '2년', '3년'],
+      datasets: [
+        {
+          label: '효율 기술 없을 때 수요',
+          data: [100, 130, 175, 240, 340],
+          borderColor: '#6b7280',
+          borderWidth: 2,
+          borderDash: [5,4],
+          tension: 0.4,
+          fill: false,
+          pointRadius: 3
+        },
+        {
+          label: '효율 기술 도입 후 실제 수요',
+          data: [100, 125, 185, 290, 450],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.07)',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#e11d48'
+        },
+        {
+          label: '절감 효과만 봤을 때',
+          data: [100, 95, 85, 75, 65],
+          borderColor: '#2563eb',
+          borderWidth: 2,
+          borderDash: [3,3],
+          tension: 0.4,
+          fill: false,
+          pointRadius: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12, padding: 10 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}` } }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 11 } } },
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { size: 11 }, callback: v => v + '' }
+        }
+      }
+    }
+  });
+};
+
+// ── Chart Observer ──
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
