@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>구글 터보퀀트와 메모리 수요의 역설</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --subtext: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --chart1: #e11d48;
+      --chart2: #1a1a1a;
+      --chart3: #6b7280;
+      --chart4: #2563eb;
+      --table-bg: #fafafa;
+      --table-header: #e11d48;
+      --border: #e5e5e5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.7;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HEADER ===== */
+    .mag-header {
+      background: var(--text);
+      color: #fff;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .mag-header::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 45%;
+      height: 100%;
+      background: var(--accent);
+      clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .header-inner {
+      position: relative;
+      z-index: 2;
+      padding: 36px 20px 28px;
+    }
+    .issue-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 14px;
+    }
+    .mag-header h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 24px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: #fff;
+      margin-bottom: 10px;
+      max-width: 260px;
+    }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.03em;
+    }
+    .header-date {
+      margin-top: 20px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== DECK ===== */
+    .deck {
+      background: var(--accent);
+      color: #fff;
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.6;
+      border-left: 4px solid #fff;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== SECTION ===== */
+    section {
+      padding: 28px 0 0;
+    }
+
+    .section-number {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 18px 0 8px;
+    }
+    p {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+      margin-bottom: 12px;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+    .divider-accent {
+      height: 3px;
+      background: var(--accent);
+      width: 40px;
+      margin: 0 0 24px;
+    }
+
+    /* ===== PULL QUOTE ===== */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      background: var(--bg2);
+      padding: 16px 18px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .pull-quote p {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ===== HIGHLIGHT BOX ===== */
+    .highlight-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
+      padding: 16px 18px;
+      margin: 18px 0;
+      border-radius: 0 0 8px 8px;
+    }
+    .highlight-box .hb-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .highlight-box p {
+      font-size: 13px;
+      margin: 0;
+      color: var(--text);
+    }
+
+    /* ===== STAT CARDS ===== */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 14px 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-card .stat-num {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-card .stat-unit {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-card .stat-label {
+      font-size: 11px;
+      color: var(--subtext);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ===== TABLE ===== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    thead th {
+      background: var(--table-header);
+      color: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    tbody tr:nth-child(even) { background: var(--table-bg); }
+    tbody tr:nth-child(odd) { background: #fff; }
+    tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-red { background: #fee2e2; color: var(--accent); }
+    .badge-blue { background: #dbeafe; color: #2563eb; }
+    .badge-gray { background: #f3f4f6; color: #6b7280; }
+
+    /* ===== FADE IN ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CHART ===== */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 18px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas {
+      opacity: 1;
+    }
+    .chart-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--subtext);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      margin: 18px 0;
+      padding-left: 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -17px;
+      top: 5px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .tl-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .tl-desc {
+      font-size: 12px;
+      color: var(--subtext);
+      line-height: 1.5;
+    }
+
+    /* ===== BALLOON ===== */
+    .balloon-wrap {
+      display: flex;
+      gap: 10px;
+      margin: 18px 0;
+      align-items: stretch;
+    }
+    .balloon {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+      position: relative;
+    }
+    .balloon .b-icon { font-size: 22px; margin-bottom: 6px; }
+    .balloon .b-title { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .balloon .b-desc { font-size: 11px; color: var(--subtext); line-height: 1.5; }
+    .balloon-arrow {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      color: var(--subtext);
+    }
+
+    /* ===== CONCLUSION ===== */
+    .conclusion {
+      background: var(--text);
+      color: #fff;
+      padding: 28px 20px;
+      margin-top: 32px;
+    }
+    .conclusion h2 {
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .conclusion p {
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+    }
+    .conclusion .c-list {
+      list-style: none;
+      margin-top: 14px;
+    }
+    .conclusion .c-list li {
+      color: rgba(255,255,255,0.85);
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      gap: 8px;
+    }
+    .conclusion .c-list li::before {
+      content: '→';
+      color: var(--accent2);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--subtext);
+    }
+
+    /* ===== KEYWORD HIGHLIGHT ===== */
+    .kw { color: var(--accent); font-weight: 700; }
+    .kw-blue { color: #2563eb; font-weight: 700; }
+
+    /* ===== INTERSTITIAL LABEL ===== */
+    .section-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      padding: 3px 9px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ===== SIM PANEL ===== */
+    .sim-panel {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 18px 0;
+    }
+    .sim-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .sim-row {
+      margin-bottom: 14px;
+    }
+    .sim-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .sim-label span { color: var(--accent); font-weight: 700; }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+    }
+    .sim-result {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 14px;
+    }
+    .sim-result-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sim-result-row:last-child { border-bottom: none; }
+    .sim-result-row .label { color: var(--subtext); }
+    .sim-result-row .value { font-weight: 700; color: var(--text); }
+    .sim-result-row .value.up { color: var(--accent); }
+    .sim-result-row .value.down { color: #2563eb; }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<div class="mag-header">
+  <div class="header-inner">
+    <div class="issue-tag">🔬 AI 메모리 분석 리포트</div>
+    <h1>터보퀀트는 메모리를 줄이지 않는다</h1>
+    <div class="header-sub">효율화의 역설 — 왜 더 쓸수록 더 많이 필요한가</div>
+    <div class="header-date">2026. 03. 27 &nbsp;|&nbsp; 원본: 안들공학 YouTube</div>
+  </div>
+</div>
+
+<!-- ===== DECK ===== -->
+<div class="deck">
+  구글의 <strong>터보컨트(TurboKV)</strong> 등장으로 "메모리 수요가 줄 것"이라는 우려가 커졌다. 하지만 기술 역사는 반대를 가리킨다. 효율화는 수요를 낮추지 않고 오히려 폭발시킨다.
+</div>
+
+<!-- ===== BODY ===== -->
+<div class="container">
+
+  <!-- SECTION 1 -->
+  <section>
+    <div class="section-number fade-in">SECTION 01</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">터보컨트란 무엇인가</h2>
+    <p class="fade-in">
+      구글이 발표한 <span class="kw">터보컨트(TurboKV)</span>는 AI 추론 시 GPU 고대역폭 메모리(HBM)에 상주하는 <strong>KV 캐시를 대폭 압축</strong>하는 기술이다. 이를 두고 시장 일각에서는 "메모리 수요가 꺾인다"는 해석을 내놓았다.
+    </p>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">📌 KV 캐시란?</div>
+      <p>LLM(대형 언어모델)이 대화 중 이전 맥락·배경 지식을 토큰 단위로 기억하는 임시 작업 메모가 이다. 대화가 길어질수록, 에이전트 작업이 복잡할수록 KV 캐시 용량이 급증한다. HBM에 상주해야 지연 없이 응답할 수 있다.</p>
+    </div>
+
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="stat-num">6<span class="stat-unit">×</span></div>
+        <div class="stat-label">KV 캐시 압축 배수<br>(터보컨트 주장)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8<span class="stat-unit">×</span></div>
+        <div class="stat-label">H100 기준<br>처리 속도 향상</div>
+      </div>
+    </div>
+
+    <p class="fade-in">
+      문제는 "요청당 KV 캐시 사용량 감소"와 "산업 전체 메모리 수요 감소"는 <span class="kw">완전히 다른 이야기</span>라는 점이다.
+    </p>
+
+    <div class="pull-quote fade-in">
+      <p>"메모리 요청당 KV캐시 사용량이 줄어드는 것과 산업 전체에 필요한 메모리 수요가 줄어드는 것은 — 같은 표현이지만 완전히 다른 얘기다."</p>
+    </div>
+  </section>
+
+  <div class="divider fade-in"></div>
+
+  <!-- SECTION 2 -->
+  <section>
+    <div class="section-number fade-in">SECTION 02</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">제번스의 역설 — 효율화는 수요를 키운다</h2>
+    <p class="fade-in">
+      <span class="kw">제번스의 역설(Jevons Paradox)</span>은 기술 효율이 높아질수록 해당 자원의 소비가 오히려 증가하는 현상이다. 자동차 연비가 좋아졌다고 기름 수요가 사라지지 않는 것처럼.
+    </p>
+
+    <div class="chart-label fade-in">📊 효율화 → 수요 패턴 (역사적 비교)</div>
+    <div class="chart-container fade-in">
+      <canvas id="jevonsChart" height="240"></canvas>
+    </div>
+
+    <p class="fade-in">
+      테크 역사에서 이 패턴은 반복된다. HDD 용량이 커지자 애플리케이션은 더 커졌고, 클라우드가 싸지자 기업들은 더 많은 워크로드를 올렸다. 딥시크가 학습 비용을 낮추자 더 많은 추론 수요가 열렸다.
+    </p>
+
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-title">HDD 저장 밀도 향상 (1990s~)</div>
+        <div class="tl-desc">1GB → 1TB로 늘었지만 소비자는 전체 용량을 채웠다. 동영상·사진 저장이 폭증.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-title">클라우드 컴퓨팅 보급 (2000s~)</div>
+        <div class="tl-desc">서버를 클라우드로 이전하면 PC 수요가 줄 것이라 했지만, 오히려 기업 워크로드 총량이 급증.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-title">딥시크 효율화 모델 (2025)</div>
+        <div class="tl-desc">저비용 학습으로 "컴퓨팅 수요가 줄겠다"는 예측이 나왔지만, 추론 수요가 더 많이 열렸다.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-title">터보컨트 등장 (2026)</div>
+        <div class="tl-desc">KV 캐시 6배 압축 → "메모리 수요 감소?" 아니, 더 긴 컨텍스트·더 많은 에이전트 작업 수요 폭증 예상.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider fade-in"></div>
+
+  <!-- SECTION 3 -->
+  <section>
+    <div class="section-number fade-in">SECTION 03</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">풍선 효과 — 비용 vs 컨텍스트</h2>
+
+    <p class="fade-in">
+      절감된 메모리 여유는 <span class="kw">두 가지 방향</span> 중 하나로 반드시 활용된다. 한쪽을 누르면 다른 쪽이 팽창하는 풍선 구조다.
+    </p>
+
+    <div class="balloon-wrap fade-in">
+      <div class="balloon">
+        <div class="b-icon">💰</div>
+        <div class="b-title">비용 절감</div>
+        <div class="b-desc">동일 메모리로 더 많은 세션 처리 → 단가 인하 → 신규 사용자 유입</div>
+      </div>
+      <div class="balloon-arrow">↔</div>
+      <div class="balloon">
+        <div class="b-icon">📏</div>
+        <div class="b-title">컨텍스트 확장</div>
+        <div class="b-desc">더 긴 대화·PDF·멀티스텝 에이전트 → 총 메모리 사용량 오히려 증가</div>
+      </div>
+    </div>
+
+    <p class="fade-in">
+      어떤 선택을 하든 전체 메모리 수요는 늘어난다. 비용을 낮추면 사용자 저변이 확대되고, 컨텍스트를 늘리면 작업당 메모리 사용이 증가한다.
+    </p>
+
+    <div class="chart-label fade-in">📊 동시 사용자 증가에 따른 총 메모리 수요</div>
+    <div class="chart-container fade-in">
+      <canvas id="userChart" height="240"></canvas>
+    </div>
+  </section>
+
+  <div class="divider fade-in"></div>
+
+  <!-- SECTION 4 -->
+  <section>
+    <div class="section-number fade-in">SECTION 04</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">메모리 계층의 확장</h2>
+
+    <p class="fade-in">
+      업계 전문가들은 터보컨트가 <span class="kw">HBM을 없애는 것이 아니라 메모리 계층을 두껍게 만드는 방향</span>으로 작용할 것으로 본다.
+    </p>
+
+    <div class="highlight-box fade-in">
+      <div class="hb-title">⚙️ 메모리 계층 구조</div>
+      <p>
+        <strong>HBM(고대역폭메모리)</strong> — GPU 옆에 위치, 초고속 AI 연산용<br>
+        <strong>LPDDR</strong> — 모바일/온디바이스 AI용<br>
+        <strong>GDDR</strong> — 일반 그래픽·게임 GPU용<br>
+        <strong>SSD/스토리지</strong> — 저빈도 KV 캐시 오프로드 대상
+      </p>
+    </div>
+
+    <div class="chart-label fade-in">📊 메모리 유형별 AI 수요 전망 (상대적 성장률)</div>
+    <div class="chart-container fade-in">
+      <canvas id="memChart" height="240"></canvas>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>메모리 유형</th>
+            <th>주 용도</th>
+            <th>터보컨트 후 전망</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>HBM</strong></td>
+            <td>AI 모델 파라미터 + 핫 KV 캐시</td>
+            <td><span class="badge badge-red">수요 지속 확대</span></td>
+          </tr>
+          <tr>
+            <td><strong>LPDDR</strong></td>
+            <td>온디바이스 AI (스마트폰·PC)</td>
+            <td><span class="badge badge-red">공급 타이트</span></td>
+          </tr>
+          <tr>
+            <td><strong>GDDR</strong></td>
+            <td>AI 추론 서버 확산</td>
+            <td><span class="badge badge-blue">수요 증가</span></td>
+          </tr>
+          <tr>
+            <td><strong>SSD/NVMe</strong></td>
+            <td>콜드 KV 캐시 오프로드</td>
+            <td><span class="badge badge-blue">새로운 수요</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="fade-in">
+      실제로 SK 하이닉스는 최근 ASML 장비를 <span class="kw">79.7억 달러(약 11조 원)</span> 규모로 발주했다. 메모리 업체들이 수요 감소를 예상했다면 나오기 힘든 투자다.
+    </p>
+  </section>
+
+  <div class="divider fade-in"></div>
+
+  <!-- SECTION 5: SIMULATOR -->
+  <section>
+    <div class="section-number fade-in">SECTION 05</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">시뮬레이션 — 터보컨트 효과 계산기</h2>
+    <p class="fade-in">슬라이더를 조절해 터보컨트 도입 시 실제 메모리 수요 변화를 체험해보세요.</p>
+
+    <div class="sim-panel fade-in">
+      <div class="sim-title">🔧 파라미터 설정</div>
+
+      <div class="sim-row">
+        <div class="sim-label">KV 캐시 압축률 <span id="compVal">6</span>배</div>
+        <input type="range" id="compSlider" min="2" max="10" value="6" step="1">
+      </div>
+      <div class="sim-row">
+        <div class="sim-label">동시 사용자 증가율 <span id="userVal">150</span>%</div>
+        <input type="range" id="userSlider" min="100" max="400" value="150" step="10">
+      </div>
+      <div class="sim-row">
+        <div class="sim-label">평균 컨텍스트 길이 증가율 <span id="ctxVal">200</span>%</div>
+        <input type="range" id="ctxSlider" min="100" max="500" value="200" step="10">
+      </div>
+
+      <div class="sim-result" id="simResult">
+        <!-- JS로 업데이트 -->
+      </div>
+    </div>
+
+    <div class="chart-label fade-in">📊 압축 효과 vs 수요 증가 시뮬레이션</div>
+    <div class="chart-container fade-in">
+      <canvas id="simChart" height="240"></canvas>
+    </div>
+  </section>
+
+  <div class="divider fade-in"></div>
+
+  <!-- SECTION 6 -->
+  <section>
+    <div class="section-number fade-in">SECTION 06</div>
+    <div class="divider-accent fade-in"></div>
+    <h2 class="fade-in">에이전틱 AI 시대의 메모리</h2>
+
+    <p class="fade-in">
+      2026년은 <span class="kw">에이전틱 AI(Agentic AI)</span>의 해다. AI가 단순 질의응답을 넘어 자율적으로 다단계 작업을 수행하는 시대. 이때 KV 캐시 수요는 기하급수적으로 늘어난다.
+    </p>
+
+    <div class="chart-label fade-in">📊 AI 사용 형태 진화와 KV 캐시 수요</div>
+    <div class="chart-container fade-in">
+      <canvas id="agentChart" height="240"></canvas>
+    </div>
+
+    <p class="fade-in">
+      오픈소스 AI 확산·비용 하락으로 대기업 전유물이던 AI가 중소기업·개인에게까지 퍼지고 있다. 사용자 저변이 넓어질수록 추론 총량은 더욱 빠르게 증가한다.
+    </p>
+  </section>
+</div>
+
+<!-- ===== CONCLUSION ===== -->
+<div class="conclusion">
+  <div class="container">
+    <div class="section-tag">핵심 요약</div>
+    <h2>터보컨트 = 메모리 감소가 아닌 확장의 신호</h2>
+    <p>터보컨트 등장을 "메모리가 덜 필요해진다"로 읽는 것은 기술 역사를 역행하는 해석이다.</p>
+    <ul class="c-list">
+      <li>KV 캐시 6× 압축은 요청당 절감이지 산업 수요 감소가 아니다</li>
+      <li>효율화 → 비용 인하 → 사용자 폭증 → 총 수요 증가 (제번스 역설)</li>
+      <li>동일 사례: HDD 고밀도화, 클라우드 보급, 딥시크 효율화</li>
+      <li>메모리 계층 전체(HBM·LPDDR·GDDR·SSD)의 수요가 함께 확대된다</li>
+      <li>SK 하이닉스 $79.7억 ASML 발주 — 업계는 이미 알고 있다</li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  본 문서는 YouTube 영상 자막을 기반으로 작성된 분석 자료입니다. 투자 권유가 아닙니다.<br>
+  원본: 안들공학 채널 | 2026년 3월 27일
+</footer>
+
+<script>
+// ===== INTERSECTION OBSERVERS =====
+
+// Observer 1: 일반 fade-in
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ===== CHART CONFIGS =====
+const chartConfigs = {};
+
+// Chart 1: 제번스 역설 — 효율화 vs 수요
+chartConfigs['jevonsChart'] = () => {
+  new Chart(document.getElementById('jevonsChart'), {
+    type: 'line',
+    data: {
+      labels: ['T0', 'T+1', 'T+2', 'T+3', 'T+4', 'T+5'],
+      datasets: [
+        {
+          label: '단위 효율 (압축률)',
+          data: [1, 2, 3, 4, 5, 6],
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          tension: 0.4,
+          fill: false,
+          pointRadius: 4,
+          pointBackgroundColor: '#2563eb'
+        },
+        {
+          label: '총 수요 (메모리)',
+          data: [1, 1.8, 3.2, 5.5, 8.5, 12],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.08)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#e11d48'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14 } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: 11 } },
+          grid: { color: '#f0f0f0' }
+        },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// Chart 2: 동시 사용자 증가 → 총 메모리 수요
+chartConfigs['userChart'] = () => {
+  new Chart(document.getElementById('userChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현재', '사용자 2배', '사용자 5배', '사용자 10배', '사용자 20배'],
+      datasets: [
+        {
+          label: '터보컨트 전 메모리',
+          data: [100, 200, 500, 1000, 2000],
+          backgroundColor: '#6b7280',
+          borderRadius: 4
+        },
+        {
+          label: '터보컨트 후 메모리',
+          data: [100, 170, 420, 850, 1700],
+          backgroundColor: '#e11d48',
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14 } },
+        tooltip: { mode: 'index' }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: 11 } },
+          grid: { color: '#f0f0f0' }
+        },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// Chart 3: 메모리 유형별 수요 전망
+chartConfigs['memChart'] = () => {
+  new Chart(document.getElementById('memChart'), {
+    type: 'bar',
+    data: {
+      labels: ['HBM', 'LPDDR', 'GDDR', 'SSD/NVMe'],
+      datasets: [{
+        label: '2025 기준',
+        data: [100, 60, 50, 30],
+        backgroundColor: '#6b7280',
+        borderRadius: 4
+      }, {
+        label: '2027 예상',
+        data: [220, 130, 110, 95],
+        backgroundColor: '#e11d48',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 14 } }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: 11 } },
+          grid: { color: '#f0f0f0' },
+          title: { display: true, text: '상대 지수 (100 = 기준)', font: { size: 10 } }
+        },
+        x: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// Chart 4: 에이전틱 AI — KV 캐시 수요
+chartConfigs['agentChart'] = () => {
+  new Chart(document.getElementById('agentChart'), {
+    type: 'bar',
+    data: {
+      labels: ['단순 Q&A', '멀티턴 대화', '문서 분석', '코드 에이전트', '멀티스텝 자율 에이전트'],
+      datasets: [{
+        label: 'KV 캐시 상대 수요 (단위)',
+        data: [1, 4, 12, 25, 80],
+        backgroundColor: [
+          'rgba(107,114,128,0.8)',
+          'rgba(107,114,128,0.8)',
+          'rgba(225,29,72,0.5)',
+          'rgba(225,29,72,0.75)',
+          'rgba(225,29,72,1)'
+        ],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { x: { from: 0 } },
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          ticks: { font: { size: 11 } },
+          grid: { color: '#f0f0f0' },
+          title: { display: true, text: 'KV 캐시 수요 (단순 Q&A = 1)', font: { size: 10 } }
+        },
+        y: { ticks: { font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+};
+
+// Chart 5: 시뮬레이션 차트
+let simChartInstance = null;
+chartConfigs['simChart'] = () => {
+  simChartInstance = new Chart(document.getElementById('simChart'), {
+    type: 'bar',
+    data: {
+      labels: ['압축 전 필요 메모리', '압축 후 절감량', '수요 증가분', '최종 순 메모리 수요'],
+      datasets: [{
+        label: '메모리 상대값',
+        data: [100, 0, 0, 0],
+        backgroundColor: ['#6b7280', '#2563eb', '#e11d48', '#1a1a1a'],
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        duration: 1500,
+        easing: 'easeInOutQuart',
+        delay: (ctx) => ctx.dataIndex * 150
+      },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => ` ${ctx.raw.toFixed(1)} (기준=100)`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { font: { size: 11 } },
+          grid: { color: '#f0f0f0' }
+        },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+  updateSim();
+};
+
+// Observer 2: 차트 전용
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ===== SIMULATOR =====
+function updateSim() {
+  const comp = parseInt(document.getElementById('compSlider').value);
+  const user = parseInt(document.getElementById('userSlider').value) / 100;
+  const ctx  = parseInt(document.getElementById('ctxSlider').value) / 100;
+
+  document.getElementById('compVal').textContent = comp;
+  document.getElementById('userVal').textContent = parseInt(document.getElementById('userSlider').value);
+  document.getElementById('ctxVal').textContent  = parseInt(document.getElementById('ctxSlider').value);
+
+  const base = 100;
+  const compressed = base / comp; // 압축 후 단위당 메모리
+  const demandIncrease = user * ctx; // 총 수요 증가 배수
+  const finalDemand = compressed * demandIncrease * 100;
+  const savedAmount = base - compressed;
+  const netIncrease = finalDemand - base;
+
+  // 결과 표시
+  const resultEl = document.getElementById('simResult');
+  const trend = finalDemand > base ? '▲ 증가' : '▼ 감소';
+  const trendClass = finalDemand > base ? 'up' : 'down';
+  resultEl.innerHTML = `
+    <div class="sim-result-row"><span class="label">기준 메모리 수요</span><span class="value">100</span></div>
+    <div class="sim-result-row"><span class="label">압축 후 단위 메모리</span><span class="value down">${compressed.toFixed(1)}</span></div>
+    <div class="sim-result-row"><span class="label">사용자·컨텍스트 증가 배수</span><span class="value up">${demandIncrease.toFixed(2)}×</span></div>
+    <div class="sim-result-row"><span class="label">최종 총 메모리 수요</span><span class="value ${trendClass}">${finalDemand.toFixed(1)} (${trend})</span></div>
+  `;
+
+  // 시뮬레이션 차트 업데이트
+  if (simChartInstance) {
+    simChartInstance.data.datasets[0].data = [
+      base,
+      -(base - compressed),
+      netIncrease + (base - compressed),
+      finalDemand
+    ].map(v => Math.max(v, 0));
+    simChartInstance.data.datasets[0].data = [base, base - compressed, finalDemand - compressed, finalDemand];
+    simChartInstance.update();
+  }
+}
+
+document.getElementById('compSlider').addEventListener('input', updateSim);
+document.getElementById('userSlider').addEventListener('input', updateSim);
+document.getElementById('ctxSlider').addEventListener('input', updateSim);
+</script>
+</body>
+</html>
