@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>미국 증시는 괜찮을까? — 시험문제</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #fafafa;
+  --text: #1a1a1a;
+  --text-sub: #777777;
+  --accent: #e11d48;
+  --accent2: #f43f5e;
+  --border: #e5e5e5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  line-height: 1.82;
+  -webkit-font-smoothing: antialiased;
+}
+.wrapper { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+.hero {
+  padding: 50px 20px 40px;
+  background: linear-gradient(165deg, #1a1a1a 0%, #2d1f2f 40%, #3d1428 100%);
+  color: #fff;
+  text-align: center;
+}
+.hero-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  color: var(--accent); margin-bottom: 14px;
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px; font-weight: 900; line-height: 1.35; margin-bottom: 10px;
+}
+.hero-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+.divider {
+  text-align: center; padding: 36px 0 20px;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--accent);
+}
+.divider::before, .divider::after {
+  content: ''; display: inline-block; width: 40px; height: 1px;
+  background: var(--border); vertical-align: middle; margin: 0 12px;
+}
+
+.q-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  margin-bottom: 18px;
+  position: relative;
+}
+.q-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.q-num {
+  background: var(--accent);
+  color: #fff;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.q-meta {
+  font-size: 11px; color: var(--text-sub);
+}
+.q-meta .type { font-weight: 700; color: var(--accent); }
+.q-meta .diff { margin-left: 6px; }
+.q-text {
+  font-size: 15px; font-weight: 500; line-height: 1.7; margin-bottom: 14px;
+}
+.q-options { list-style: none; }
+.q-options li {
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: default;
+}
+.blank-line {
+  border-bottom: 2px dashed var(--border);
+  display: inline-block;
+  width: 120px;
+  margin: 0 4px;
+  vertical-align: bottom;
+}
+
+/* Answer section */
+.answer-section { margin-top: 20px; }
+.a-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+}
+.a-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.a-num {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px; font-weight: 900; color: var(--accent);
+}
+.a-answer {
+  font-size: 15px; font-weight: 700; color: var(--accent);
+  margin-bottom: 6px;
+}
+.a-explain {
+  font-size: 13px; color: var(--text); line-height: 1.75;
+}
+
+.footer {
+  text-align: center; padding: 40px 20px;
+  font-size: 11px; color: var(--text-sub);
+  border-top: 1px solid var(--border);
+}
+
+.fade-in {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-label">QUIZ · 10 QUESTIONS</div>
+  <h1>미국 증시는 괜찮을까?<br>유동성 3형제 시험문제</h1>
+  <p class="hero-sub">총 10문제 · 쉬움 3 / 보통 5 / 어려움 2</p>
+</header>
+
+<main class="wrapper">
+
+<!-- ━━━━━ 문제지 ━━━━━ -->
+<div class="divider">📋 시험문제 (총 10문제)</div>
+
+<!-- Q1 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">1</div>
+    <div class="q-meta"><span class="type">객관식</span><span class="diff">⭐ 쉬움</span></div>
+  </div>
+  <p class="q-text">미국 증시의 유동성을 조절하는 '3형제'로 올바른 조합은?</p>
+  <ul class="q-options">
+    <li>① TGA, RRP, IORB</li>
+    <li>② TGA, RRP, 지급준비금</li>
+    <li>③ QT, QE, RMP</li>
+    <li>④ BTFP, RRP, TGA</li>
+  </ul>
+</div>
+
+<!-- Q2 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">2</div>
+    <div class="q-meta"><span class="type">OX문제</span><span class="diff">⭐ 쉬움</span></div>
+  </div>
+  <p class="q-text">RRP(역레포) 잔고가 줄어들면 시장에 유동성이 공급된다. (O / X)</p>
+</div>
+
+<!-- Q3 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">3</div>
+    <div class="q-meta"><span class="type">단답형</span><span class="diff">⭐ 쉬움</span></div>
+  </div>
+  <p class="q-text">2023년 최대 2조 5천억 달러였던 RRP 잔고는 2026년 3월 현재 약 얼마로 줄어들었는가?</p>
+</div>
+
+<!-- Q4 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">4</div>
+    <div class="q-meta"><span class="type">객관식</span><span class="diff">⭐⭐ 보통</span></div>
+  </div>
+  <p class="q-text">TGA 잔고가 늘어나면 민간 유동성에 어떤 영향을 미치는가?</p>
+  <ul class="q-options">
+    <li>① 유동성이 공급된다</li>
+    <li>② 유동성이 흡수된다</li>
+    <li>③ 유동성에 변화가 없다</li>
+    <li>④ 유동성이 먼저 공급된 후 흡수된다</li>
+  </ul>
+</div>
+
+<!-- Q5 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">5</div>
+    <div class="q-meta"><span class="type">빈칸채우기</span><span class="diff">⭐⭐ 보통</span></div>
+  </div>
+  <p class="q-text">연준이 2026년 1월부터 매달 <span class="blank-line"></span>억 달러의 단기국채를 매입하는 조치를 <span class="blank-line"></span>라고 한다.</p>
+</div>
+
+<!-- Q6 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">6</div>
+    <div class="q-meta"><span class="type">객관식</span><span class="diff">⭐⭐ 보통</span></div>
+  </div>
+  <p class="q-text">유동성에 민감한 나스닥이 피크를 찍은 시점은 언제인가?</p>
+  <ul class="q-options">
+    <li>① 2025년 9월 29일</li>
+    <li>② 2025년 10월 29일</li>
+    <li>③ 2026년 1월 28일</li>
+    <li>④ 2026년 3월 25일</li>
+  </ul>
+</div>
+
+<!-- Q7 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">7</div>
+    <div class="q-meta"><span class="type">객관식</span><span class="diff">⭐⭐ 보통</span></div>
+  </div>
+  <p class="q-text">미국 재무부의 분기 발표에 따르면, 2026년 4월말 TGA 잔고 목표는 얼마인가?</p>
+  <ul class="q-options">
+    <li>① 8,048억 달러</li>
+    <li>② 8,740억 달러</li>
+    <li>③ 1조 250억 달러</li>
+    <li>④ 1조 5,000억 달러</li>
+  </ul>
+</div>
+
+<!-- Q8 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">8</div>
+    <div class="q-meta"><span class="type">OX문제</span><span class="diff">⭐⭐ 보통</span></div>
+  </div>
+  <p class="q-text">2023년 3월 SVB 은행 파산은 지급준비금이 빠르게 줄어들던 시기에 발생했다. (O / X)</p>
+</div>
+
+<!-- Q9 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">9</div>
+    <div class="q-meta"><span class="type">서술형</span><span class="diff">⭐⭐⭐ 어려움</span></div>
+  </div>
+  <p class="q-text">4월 15일이 유동성의 '보릿고개 전환점'이 되는 이유를 TGA와 지급준비금의 관계를 포함하여 설명하시오.</p>
+</div>
+
+<!-- Q10 -->
+<div class="q-card fade-in">
+  <div class="q-header">
+    <div class="q-num">10</div>
+    <div class="q-meta"><span class="type">서술형</span><span class="diff">⭐⭐⭐ 어려움</span></div>
+  </div>
+  <p class="q-text">트럼프 행정부의 관점에서 2026년 중간선거를 앞두고 주가 부양의 '시간표'가 어떻게 설계될 수 있는지, 유동성 상황과 연관 지어 설명하시오.</p>
+</div>
+
+<!-- ━━━━━ 정답지 ━━━━━ -->
+<div class="divider">📝 정답 및 해설</div>
+
+<div class="answer-section">
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 1]</div></div>
+  <div class="a-answer">정답: ②</div>
+  <div class="a-explain">미국 증시의 유동성을 조절하는 3형제는 TGA(재무부 일반계좌), RRP(역레포), 지급준비금(Reserve Balances)이다. IORB는 지급준비금에 지급하는 이자율, BTFP는 은행 긴급대출 프로그램, QT/QE는 양적긴축/양적완화 정책이므로 3형제에 해당하지 않는다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 2]</div></div>
+  <div class="a-answer">정답: O</div>
+  <div class="a-explain">RRP는 연준이 금융기관에서 돈을 빌리는 것이다. 잔고가 줄어든다는 것은 연준이 빌렸던 돈을 돌려준다는 의미이므로, 그 돈이 시장으로 돌아가게 된다. 따라서 RRP 잔고 감소 = 유동성 공급이다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 3]</div></div>
+  <div class="a-answer">정답: 약 9억 9,200만 달러 (9.92억 달러)</div>
+  <div class="a-explain">2023년 2조 5천억 달러까지 올라갔던 RRP 잔고는 2025년 9월 480억 달러를 거쳐, 2026년 3월 현재 9억 9,200만 달러로 사실상 소진되었다. 원문에서는 "주유 경고등이 들어온 뒤에도 한참 주행을 해서 차가 멈추기 직전"이라고 비유했다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 4]</div></div>
+  <div class="a-answer">정답: ②</div>
+  <div class="a-explain">TGA는 미국 재무부의 계좌다. TGA 잔고가 늘어난다는 것은 국채 발행이나 세금 납부 등으로 민간의 돈이 재무부 계좌로 들어간다는 의미이므로, 민간 유동성이 흡수된다. 반대로 TGA가 줄어들면 정부 지출을 통해 민간에 유동성이 공급된다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 5]</div></div>
+  <div class="a-answer">정답: 400억 달러 / RMP (Reserve Management Purchases)</div>
+  <div class="a-explain">정식 명칭은 Reserve Management Purchases Operations(지급준비금 관리를 위한 매입작업)이다. 미국 재무부가 월 900억 달러 규모의 단기국채를 발행할 때, 그 절반 가까이인 400억 달러를 연준이 RMP로 매입한다. 파월은 이를 "QE가 아니다"라고 강조했다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 6]</div></div>
+  <div class="a-answer">정답: ②</div>
+  <div class="a-explain">유동성 경고 글이 작성된 2025년 9월 29일로부터 정확히 1개월 후인 2025년 10월 29일에 나스닥이 피크를 찍었다. 유동성에 상대적으로 둔감한 S&P 500은 그로부터 3개월 후인 2026년 1월 28일에 피크를 기록했다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 7]</div></div>
+  <div class="a-answer">정답: ③</div>
+  <div class="a-explain">미국 재무부의 분기 발표에 따르면, 2026년 4월말 TGA는 1조 250억 달러까지 늘어날 것으로 예상된다. 이는 4월 15일 개인소득세 납부로 인한 대규모 세수 유입 때문이다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 8]</div></div>
+  <div class="a-answer">정답: O</div>
+  <div class="a-explain">QT를 통해 지급준비금이 빠르게 줄어들던 2023년 3월, SVB 은행이 파산했다. 이 사건을 계기로 연준은 너무 빠른 양적긴축의 위험을 인식했고, BTFP(국채 담보 대출 프로그램)를 시행하여 유동성을 공급했다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 9]</div></div>
+  <div class="a-answer">정답 (예시):</div>
+  <div class="a-explain">4월 15일은 미국 개인소득세 납부 마감일로, 연간 세수의 약 15%(약 9,000억 달러)가 이 시점에 일시 유입된다. 이로 인해 TGA 잔고가 1조 달러를 넘어가며 민간 유동성 흡수가 극대화된다. 그러나 세금 납부가 끝나면 재무부는 TGA에 쌓인 자금을 지출하기 시작하고, TGA가 줄어들면서 그 돈이 은행 시스템으로 돌아가 지급준비금으로 유입된다. 따라서 4월 15일 이후 유동성 흡수 압력이 완화되며, '보릿고개'를 넘기게 된다.</div>
+</div>
+
+<div class="a-card fade-in">
+  <div class="a-header"><div class="a-num">[문제 10]</div></div>
+  <div class="a-answer">정답 (예시):</div>
+  <div class="a-explain">2026년 중간선거는 11월이며, 역사적으로 선거 3개월 전(약 8월)부터 주가 흐름이 득표율에 영향을 미치는 경향이 있다. 트럼프 입장에서 4월부터 주가를 부양하면 선거일까지 시간이 너무 많이 남아 효과가 희석될 수 있다. 따라서 4~7월까지는 위시리스트(이란 문제, 정책 목표 등)를 실행하며 정치적 기반을 다지고, 8월 이후 본격적으로 경기부양 시그널을 보내는 전략을 취할 수 있다. 유동성 보릿고개가 4월에 지나가므로, 5월 이후 자연스러운 유동성 회복과 맞물려 하반기 주가 상승의 토대를 만들 수 있다.</div>
+</div>
+
+</div>
+
+</main>
+
+<footer class="footer">
+  <p>본 시험문제는 블로그 원문 분석에 기반하여 출제되었습니다.<br>투자 권유가 아닌 학습 목적의 자료입니다.</p>
+  <p style="margin-top:8px;">© 2026 Quiz Document</p>
+</footer>
+
+<script>
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+</script>
+</body>
+</html>

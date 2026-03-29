@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>미국 증시는 괜찮을까? — 유동성 3형제 분석</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --bg-alt: #fafafa;
+  --text: #1a1a1a;
+  --text-sub: #777777;
+  --accent: #e11d48;
+  --accent2: #f43f5e;
+  --chart1: #e11d48;
+  --chart2: #1a1a1a;
+  --chart3: #6b7280;
+  --chart4: #2563eb;
+  --table-bg: #fafafa;
+  --table-header: #e11d48;
+  --table-border: #e5e5e5;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  line-height: 1.82;
+  -webkit-font-smoothing: antialiased;
+}
+.wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* === HERO === */
+.hero {
+  position: relative;
+  padding: 60px 20px 48px;
+  background: linear-gradient(165deg, #1a1a1a 0%, #2d1f2f 40%, #3d1428 100%);
+  color: #fff;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -30%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(225,29,72,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+.hero h1 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--accent2);
+}
+.hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+}
+.hero-date {
+  margin-top: 20px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+
+/* === SECTIONS === */
+.section {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--table-border);
+}
+.section:last-child { border-bottom: none; }
+.section-number {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.12;
+  line-height: 1;
+  margin-bottom: -10px;
+}
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+.section-title .accent { color: var(--accent); }
+p {
+  margin-bottom: 16px;
+  font-size: 15px;
+  color: var(--text);
+}
+.sub-text {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+/* === HIGHLIGHT BOX === */
+.highlight-box {
+  background: var(--bg-alt);
+  border-left: 4px solid var(--accent);
+  padding: 20px 22px;
+  margin: 24px 0;
+  border-radius: 0 8px 8px 0;
+}
+.highlight-box p { margin-bottom: 8px; }
+.highlight-box p:last-child { margin-bottom: 0; }
+.highlight-box strong { color: var(--accent); }
+
+/* === CALLOUT === */
+.callout {
+  background: linear-gradient(135deg, #fef2f2, #fff1f2);
+  border: 1px solid rgba(225,29,72,0.15);
+  border-radius: 12px;
+  padding: 22px;
+  margin: 24px 0;
+  text-align: center;
+}
+.callout .big-num {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1.2;
+}
+.callout .label {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-top: 4px;
+}
+
+/* === TABLE === */
+.table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  border-radius: 10px;
+  border: 1px solid var(--table-border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  background: var(--table-header);
+  color: #fff;
+  padding: 12px 14px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--table-border);
+  background: var(--table-bg);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td:first-child { font-weight: 500; }
+.num-red { color: var(--accent); font-weight: 700; }
+.num-blue { color: var(--chart4); font-weight: 700; }
+
+/* === CHART === */
+.chart-container {
+  position: relative;
+  max-height: 340px;
+  margin: 24px 0;
+  background: var(--bg-alt);
+  border-radius: 12px;
+  padding: 16px;
+}
+.chart-container canvas {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  max-height: 300px;
+}
+.chart-container.chart-ready canvas {
+  opacity: 1;
+}
+.chart-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-align: center;
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* === TIMELINE === */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+  margin: 24px 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--table-border));
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-date {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.tl-content {
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* === STATUS CARDS === */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 24px 0;
+}
+.status-card {
+  background: var(--bg-alt);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--table-border);
+  position: relative;
+  overflow: hidden;
+}
+.status-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+.status-card.danger::after { background: var(--accent); }
+.status-card.warning::after { background: #f59e0b; }
+.status-card.neutral::after { background: var(--chart3); }
+.sc-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sub);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.sc-value {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px;
+  font-weight: 900;
+  margin: 6px 0 4px;
+}
+.sc-desc {
+  font-size: 12px;
+  color: var(--text-sub);
+}
+
+/* === SIMULATION === */
+.sim-box {
+  background: linear-gradient(135deg, #1a1a1a, #2d1f2f);
+  color: #fff;
+  border-radius: 14px;
+  padding: 24px;
+  margin: 28px 0;
+}
+.sim-box h3 {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  margin-bottom: 14px;
+  color: var(--accent2);
+}
+.sim-bar-wrap {
+  margin: 10px 0;
+}
+.sim-bar-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.sim-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sim-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.5s ease;
+}
+
+/* === FOOTER === */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 11px;
+  color: var(--text-sub);
+  border-top: 1px solid var(--table-border);
+}
+
+/* === ANIMATIONS === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === GAUGE === */
+.gauge-row {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+.gauge-item {
+  flex: 1;
+  text-align: center;
+}
+.gauge-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  position: relative;
+}
+.gauge-circle.red { background: conic-gradient(var(--accent) var(--pct), rgba(225,29,72,0.15) var(--pct)); }
+.gauge-circle.blue { background: conic-gradient(var(--chart4) var(--pct), rgba(37,99,235,0.15) var(--pct)); }
+.gauge-circle.gray { background: conic-gradient(var(--chart3) var(--pct), rgba(107,114,128,0.15) var(--pct)); }
+.gauge-circle span {
+  background: var(--bg);
+  color: var(--text);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.gauge-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-sub);
+}
+
+/* === KEY POINT === */
+.key-point {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--bg-alt);
+  border-radius: 10px;
+}
+.kp-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.kp-text {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 24px; }
+  .section-title { font-size: 19px; }
+  .gauge-circle { width: 68px; height: 68px; }
+  .gauge-circle span { width: 48px; height: 48px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrapper">
+    <div class="hero-label">MARKET LIQUIDITY ANALYSIS</div>
+    <h1>미국 증시는<br>괜찮을까?<br><em>유동성 3형제</em> 업데이트</h1>
+    <p class="hero-sub">TGA · RRP · 지급준비금 — 세 가지 유동성 지표가 모두 비실비실하다. 미국 증시의 체력을 점검한다.</p>
+    <div class="hero-date">2026.03.30 · 원문 블로그 분석</div>
+  </div>
+</header>
+
+<main class="wrapper">
+
+<!-- ===== SECTION 1: 3줄 요약 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">01</div>
+    <h2 class="section-title">핵심 <span class="accent">3줄 요약</span></h2>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <p><strong>① RRP(역레포)</strong> — 2조 5천억 달러에서 9.9억 달러로 사실상 소진. 차가 멈추기 직전.</p>
+    <p><strong>② TGA(재무부 계좌)</strong> — 8,740억 달러로 계속 확대. 4월말 1조 250억 달러 전망. 유동성 흡수 중.</p>
+    <p><strong>③ 지급준비금</strong> — 2.99조 달러로 3조 달러 턱걸이. 연준 RMP로 간신히 방어 중.</p>
+  </div>
+
+  <div class="key-point fade-in">
+    <div class="kp-icon">🌾</div>
+    <div class="kp-text">유동성의 <strong>'보릿고개'</strong>는 4월 15일 개인소득세 납부 마감 이후 지나간다. 다만, 보릿고개를 넘겼다고 부자가 되는 것은 아니다.</div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: 유동성 3형제 개념 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">02</div>
+    <h2 class="section-title">유동성 <span class="accent">3형제</span>란?</h2>
+  </div>
+
+  <p class="fade-in">미국 증시의 유동성을 좌우하는 세 가지 핵심 지표가 있다. 이 세 지표의 움직임이 시장에 풀리는 돈의 양을 결정하고, 결국 주가에 영향을 미치게 된다.</p>
+
+  <div class="table-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th>구분</th><th>역할</th><th>유동성 영향</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TGA</strong><br><span class="sub-text">재무부 일반계좌</span></td>
+          <td>미국 재무부의 '마이너스 통장'. 국채 발행·세금으로 채움</td>
+          <td>TGA ↑ = 유동성 <span class="num-red">흡수</span><br>TGA ↓ = 유동성 <span class="num-blue">공급</span></td>
+        </tr>
+        <tr>
+          <td><strong>RRP</strong><br><span class="sub-text">역레포 잔고</span></td>
+          <td>연준이 금융기관에서 돈을 빌리는 장치. 시장 과잉 유동성 흡수 도구</td>
+          <td>RRP ↑ = 유동성 <span class="num-red">흡수</span><br>RRP ↓ = 유동성 <span class="num-blue">공급</span></td>
+        </tr>
+        <tr>
+          <td><strong>지급준비금</strong><br><span class="sub-text">Reserve Balances</span></td>
+          <td>은행이 연준에 예치하는 돈. 연준이 IORB 이자 지급</td>
+          <td>감소 시 은행 시스템 <span class="num-red">스트레스</span> 증가</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="fade-in">주식은 <strong>"누군가 더 높은 가격으로 사줄 사람이 있을 때"</strong> 오르는 속성이 있다. 더 높은 가격에 사줄 수 있는 배경에는 풍부한 유동성이 있으며, 세 지표 모두 유동성이 줄어드는 방향으로 움직이고 있다.</p>
+</section>
+
+<!-- ===== SECTION 3: RRP 현황 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">03</div>
+    <h2 class="section-title">막내 <span class="accent">RRP(역레포)</span> — 엥꼬</h2>
+  </div>
+
+  <p class="fade-in">RRP는 연준이 금융기관으로부터 돈을 빌리는 것이다. 잔고가 줄어든다는 것은 그 돈이 시장으로 나간다는 뜻이므로 유동성 공급이 된다. 하지만 이미 사실상 바닥이다.</p>
+
+  <div class="callout fade-in">
+    <div class="big-num">$9.92억</div>
+    <div class="label">2026년 3월 현재 RRP 잔고 — 사실상 제로</div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartRRP" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ RRP(역레포) 잔고 추이 — 2조 5천억에서 사실상 제로로</p>
+
+  <div class="highlight-box fade-in">
+    <p>🚗 비유하자면 <strong>"주유 경고등이 들어온 뒤에도 한참 주행을 해서 차가 멈추기 직전"</strong>인 상황. 더 이상 유동성을 공급할 연료가 없다.</p>
+    <p class="sub-text">역레포를 다시 채우려면 역레포 금리를 올려 자금을 유인해야 하지만, 시장은 기준금리 인하를 기대하는 상황이라 현실적으로 어렵다.</p>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: TGA 현황 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">04</div>
+    <h2 class="section-title">둘째 <span class="accent">TGA</span> — 유동성 흡수 진행 중</h2>
+  </div>
+
+  <p class="fade-in">TGA(Treasury General Account)는 미국 재무부의 계좌다. TGA 잔고가 늘어나면 그만큼 민간에서 돈이 빠져나가는 셈이므로, 유동성이 줄어든다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartTGA" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ TGA 잔고 변화 추이 (억 달러)</p>
+
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-date">2025년 7월</div>
+      <div class="tl-content">TGA <strong>3,000억 달러</strong> — 비교적 낮은 수준</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2025년 9월</div>
+      <div class="tl-content">2개월 만에 <strong>8,048억 달러</strong>로 급증 (국채 발행 + 법인세)</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026년 3월 25일</div>
+      <div class="tl-content"><strong>8,740억 달러</strong>로 추가 증가</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026년 4월말 (예상)</div>
+      <div class="tl-content"><strong>1조 250억 달러</strong> — 개인소득세 납부로 급증 전망</div>
+    </div>
+  </div>
+
+  <div class="key-point fade-in">
+    <div class="kp-icon">💰</div>
+    <div class="kp-text">4월 15일은 미국 개인소득세 납부 마감일. 연간 세수의 약 <strong>15%(≈9,000억 달러)</strong>가 이때 일시에 유입되어 TGA가 1조 달러를 돌파한다.</div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: 지급준비금 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">05</div>
+    <h2 class="section-title">장남 <span class="accent">지급준비금</span> — 3조 달러 턱걸이</h2>
+  </div>
+
+  <p class="fade-in">은행이 연준에 예치하는 지급준비금은 은행 시스템의 안전판 역할을 한다. 2021년 양적완화 시절 4.2조 달러까지 올라갔던 지급준비금은 현재 2.99조 달러로, 3조 달러를 간신히 방어하고 있다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartReserves" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 지급준비금 추이 (조 달러)</p>
+
+  <div class="highlight-box fade-in">
+    <p><strong>RMP(Reserve Management Purchases)란?</strong></p>
+    <p>연준이 2026년 1월부터 매달 <strong>400억 달러의 단기국채를 매입</strong>하는 조치. 정식 명칭은 Reserve Management Purchases Operations.</p>
+    <p class="sub-text">미국 재무부가 월 900억 달러 규모의 단기국채를 발행하면, 그 중 절반 가까이(400억 달러)를 연준이 RMP로 소화하는 구조다. 파월은 "이것은 QE가 아니다"라고 강조했다.</p>
+  </div>
+
+  <p class="fade-in">2023년 3월, 지급준비금이 빠르게 줄어들 때 <strong>SVB 은행 파산 사태</strong>가 발생했다. 연준은 그때의 경험을 바탕으로, QT를 2025년 12월 중단하고 RMP를 시작했다. 지급준비금의 급격한 감소를 막기 위한 것이다.</p>
+</section>
+
+<!-- ===== SECTION 6: 3형제 종합 현황판 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">06</div>
+    <h2 class="section-title">3형제 <span class="accent">종합 현황판</span></h2>
+  </div>
+
+  <div class="status-grid fade-in">
+    <div class="status-card danger">
+      <div class="sc-title">RRP (역레포)</div>
+      <div class="sc-value num-red">$9.92억</div>
+      <div class="sc-desc">2.5조 → 9.92억. 사실상 소진. 유동성 공급 기능 상실.</div>
+    </div>
+    <div class="status-card danger">
+      <div class="sc-title">TGA (재무부 계좌)</div>
+      <div class="sc-value num-red">$8,740억</div>
+      <div class="sc-desc">4월말 1조 250억 달러 전망. 유동성 흡수 가속.</div>
+    </div>
+    <div class="status-card warning">
+      <div class="sc-title">지급준비금</div>
+      <div class="sc-value" style="color:#f59e0b;">$2.99조</div>
+      <div class="sc-desc">RMP로 간신히 3조 달러 방어. SVB 사태 당시 수준 접근.</div>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartCombo" height="250"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 유동성 3형제 종합 비교 — 2025년 9월 vs 2026년 3월</p>
+
+  <div class="fade-in">
+    <div class="gauge-row">
+      <div class="gauge-item">
+        <div class="gauge-circle red" style="--pct: 0.4%;">
+          <span>0.4%</span>
+        </div>
+        <div class="gauge-label">RRP 잔존율</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-circle blue" style="--pct: 85%;">
+          <span>85%</span>
+        </div>
+        <div class="gauge-label">TGA 충전율</div>
+      </div>
+      <div class="gauge-item">
+        <div class="gauge-circle gray" style="--pct: 71%;">
+          <span>71%</span>
+        </div>
+        <div class="gauge-label">지급준비금<br>(피크 대비)</div>
+      </div>
+    </div>
+    <p class="sub-text" style="text-align:center;">RRP 잔존율 = 현재/피크(2.5조), TGA 충전율 = 현재/목표(1.025조), 지급준비금 = 현재/피크(4.2조)</p>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: 시장 반응 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">07</div>
+    <h2 class="section-title">시장은 이미 <span class="accent">반응</span>했다</h2>
+  </div>
+
+  <p class="fade-in">유동성에 민감한 나스닥이 먼저 반응했다. 블로그 글이 작성된 2025년 9월 29일 이후 정확히 1개월 만인 10월 29일에 나스닥이 피크를 찍었고, 유동성에 상대적으로 둔감한 S&P 500은 2026년 1월 28일에 피크를 기록했다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartPeak" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 나스닥 vs S&P 500 피크 타이밍 (유동성 민감도 차이)</p>
+
+  <div class="highlight-box fade-in">
+    <p>📌 <strong>핵심 포인트:</strong> 트럼프의 이란 공격 이전부터 미장은 이미 하락 추세였다. 유동성 축소가 먼저 영향을 미쳤고, 지정학적 리스크는 하락을 가속화하는 촉매 역할을 했다.</p>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: 보릿고개 시뮬레이션 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">08</div>
+    <h2 class="section-title">유동성 <span class="accent">보릿고개</span> 시뮬레이션</h2>
+  </div>
+
+  <p class="fade-in">4월 15일 개인소득세 납부 마감 이후, TGA에 쌓인 돈이 풀리면서 유동성 사정이 개선될 수 있다. TGA가 줄어들면 그 돈이 지급준비금으로 유입되는 구조다.</p>
+
+  <div class="sim-box fade-in">
+    <h3>📊 유동성 스트레스 시뮬레이션</h3>
+    <div class="sim-bar-wrap">
+      <div class="sim-bar-label"><span>3월 말 (현재)</span><span style="color:var(--accent2);">스트레스 높음</span></div>
+      <div class="sim-bar"><div class="sim-bar-fill" style="width:85%; background: linear-gradient(90deg, #f59e0b, var(--accent));"></div></div>
+    </div>
+    <div class="sim-bar-wrap">
+      <div class="sim-bar-label"><span>4월 15일 (세금 납부일)</span><span style="color:var(--accent);">스트레스 최고조</span></div>
+      <div class="sim-bar"><div class="sim-bar-fill" style="width:95%; background: linear-gradient(90deg, var(--accent2), var(--accent));"></div></div>
+    </div>
+    <div class="sim-bar-wrap">
+      <div class="sim-bar-label"><span>5월 이후</span><span style="color:#34d399;">스트레스 완화 시작</span></div>
+      <div class="sim-bar"><div class="sim-bar-fill" style="width:55%; background: linear-gradient(90deg, #34d399, #60a5fa);"></div></div>
+    </div>
+    <p style="font-size:12px; color:rgba(255,255,255,0.5); margin-top:14px;">※ 시뮬레이션은 TGA 변화에 따른 유동성 스트레스를 개념적으로 표현한 것입니다.</p>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartForecast" height="240"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ TGA 잔고 전망과 유동성 보릿고개 타이밍</p>
+</section>
+
+<!-- ===== SECTION 9: 변수와 전망 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">09</div>
+    <h2 class="section-title">남아있는 <span class="accent">변수들</span></h2>
+  </div>
+
+  <p class="fade-in">유동성 보릿고개가 4월 15일 이후 완화된다 해도, 여전히 변수들이 남아 있다.</p>
+
+  <div class="table-wrap fade-in">
+    <table>
+      <thead>
+        <tr><th>변수</th><th>시기</th><th>영향</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🏛️ 연준 의장 교체</td>
+          <td>2026년 5월</td>
+          <td>파월 퇴임, Warsh 신임 의장 취임. 통화정책 방향 불확실성</td>
+        </tr>
+        <tr>
+          <td>⚔️ 이란 전쟁</td>
+          <td>진행 중</td>
+          <td>에너지 가격 상승 → 인플레이션 재점화 우려</td>
+        </tr>
+        <tr>
+          <td>📊 4월 CPI</td>
+          <td>2026년 5월 발표</td>
+          <td>이란 전쟁 인플레 반영. QT 종료 대의명분에 영향</td>
+        </tr>
+        <tr>
+          <td>🗳️ 중간선거</td>
+          <td>2026년 11월</td>
+          <td>선거 3개월 전부터 주가와 표의 상관관계 ↑. 트럼프의 시간표</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="highlight-box fade-in">
+    <p><strong>🧠 트럼프의 계산법:</strong></p>
+    <p>중간선거는 11월이고, 선거 3개월 전(8월)부터 주가가 표에 연결되는 확률이 높아진다. 4월부터 주가를 띄우면 선거일까지 시간이 너무 많이 남으므로, <strong>"위시리스트를 하나씩 채우며 스트레스를 풀다가, 천천히 움직이려 할 수 있다."</strong></p>
+  </div>
+</section>
+
+<!-- ===== SECTION 10: 결론 ===== -->
+<section class="section">
+  <div class="fade-in">
+    <div class="section-number">10</div>
+    <h2 class="section-title">결론: <span class="accent">파티는 즐기되</span>, 입구에서 놀아라</h2>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartRadar" height="250"></canvas>
+  </div>
+  <p class="chart-label fade-in">▲ 유동성 3형제 건강도 레이더 — 점수가 낮을수록 위험</p>
+
+  <p class="fade-in">유동성 3형제가 모두 비실비실한 상황이다. RRP는 소진됐고, TGA는 유동성을 흡수하고 있으며, 지급준비금은 RMP로 간신히 유지하는 수준이다.</p>
+
+  <div class="key-point fade-in">
+    <div class="kp-icon">📌</div>
+    <div class="kp-text">민간 유동성 축소는 위험자산의 변동성을 키우고, 달러 강세와 신용 위험을 높인다. 유동성의 보릿고개는 4월 15일 이후 지나가지만, 연준 의장 교체·이란 전쟁·인플레이션 등 변수가 산적해 있다.</div>
+  </div>
+
+  <div class="callout fade-in">
+    <p style="font-size:16px; font-weight:700; color:var(--text); margin-bottom:8px;">원문 핵심 메시지</p>
+    <p style="font-size:15px; color:var(--text);">"주가는 한두 가지 이유로 설명되지 않는다.<br>하지만 <strong style="color:var(--accent);">유동성은 기본적으로 체크할 필요가 있다.</strong>"</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>본 문서는 블로그 원문을 분석·정리한 것이며 투자 권유가 아닙니다.<br>투자 판단의 책임은 본인에게 있습니다.</p>
+  <p style="margin-top:8px;">© 2026 Analysis Document</p>
+</footer>
+
+<script>
+// ===== OBSERVER 1: 일반 섹션 fade-in =====
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ===== CHART CONFIGS — 딕셔너리에 저장 (직접 호출 금지) =====
+const chartConfigs = {};
+
+// --- Chart 1: RRP 잔고 추이 ---
+chartConfigs['chartRRP'] = () => {
+  new Chart(document.getElementById('chartRRP'), {
+    type: 'bar',
+    data: {
+      labels: ['2023 피크', '2024 중반', '2025.03', '2025.06', '2025.09', '2026.03'],
+      datasets: [{
+        label: 'RRP 잔고 (억 달러)',
+        data: [25000, 8000, 3500, 1500, 480, 9.92],
+        backgroundColor: ['#e11d48','#e11d48','#f43f5e','#f43f5e','#6b7280','#1a1a1a'],
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => c.raw.toLocaleString() + '억$' } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { callback: v => (v/1000).toFixed(0) + '천억' } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// --- Chart 2: TGA 추이 ---
+chartConfigs['chartTGA'] = () => {
+  new Chart(document.getElementById('chartTGA'), {
+    type: 'line',
+    data: {
+      labels: ['2025.07', '2025.08', '2025.09', '2025.12', '2026.01', '2026.03', '2026.04(E)'],
+      datasets: [{
+        label: 'TGA 잔고 (억$)',
+        data: [3000, 5500, 8048, 8200, 8400, 8740, 10250],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.08)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#e11d48',
+        pointRadius: 5,
+        pointHoverRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => c.raw.toLocaleString() + '억$' } }
+      },
+      scales: {
+        y: { beginAtZero: false, grid: { color: '#f0f0f0' }, ticks: { callback: v => (v/1000).toFixed(1) + '천억' } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// --- Chart 3: 지급준비금 ---
+chartConfigs['chartReserves'] = () => {
+  new Chart(document.getElementById('chartReserves'), {
+    type: 'line',
+    data: {
+      labels: ['2020', '2021말', '2022', '2023.03\nSVB사태', '2023말', '2024', '2025.09', '2026.03'],
+      datasets: [{
+        label: '지급준비금 (조$)',
+        data: [3.2, 4.2, 3.8, 3.0, 3.4, 3.3, 3.1, 2.99],
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37,99,235,0.08)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: (ctx) => ctx.raw <= 3.0 ? '#e11d48' : '#2563eb',
+        pointRadius: (ctx) => ctx.raw <= 3.0 ? 7 : 5,
+        pointHoverRadius: 9
+      }, {
+        label: '위험 수준 (3조$)',
+        data: [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+        borderColor: 'rgba(225,29,72,0.4)',
+        borderDash: [6, 4],
+        pointRadius: 0,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { labels: { font: { size: 11 } } },
+        tooltip: { callbacks: { label: (c) => c.raw + '조$' } }
+      },
+      scales: {
+        y: { min: 2.5, max: 4.5, grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '조' } },
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// --- Chart 4: 3형제 비교 (그룹 바) ---
+chartConfigs['chartCombo'] = () => {
+  new Chart(document.getElementById('chartCombo'), {
+    type: 'bar',
+    data: {
+      labels: ['RRP (억$)', 'TGA (억$)', '지급준비금 (천억$)'],
+      datasets: [
+        {
+          label: '2025년 9월',
+          data: [480, 8048, 31],
+          backgroundColor: '#6b7280',
+          borderRadius: 4
+        },
+        {
+          label: '2026년 3월',
+          data: [9.92, 8740, 29.9],
+          backgroundColor: '#e11d48',
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { labels: { font: { size: 11 } } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// --- Chart 5: 나스닥 vs S&P 피크 ---
+chartConfigs['chartPeak'] = () => {
+  new Chart(document.getElementById('chartPeak'), {
+    type: 'bar',
+    data: {
+      labels: ['유동성 경고\n(2025.09.29)', '나스닥 피크\n(2025.10.29)', 'S&P 피크\n(2026.01.28)', '이란 공격\n이후'],
+      datasets: [{
+        label: '시장 이벤트 타이밍',
+        data: [60, 100, 90, 40],
+        backgroundColor: ['#6b7280', '#e11d48', '#2563eb', '#1a1a1a'],
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: () => '이벤트 타이밍 시각화' } }
+      },
+      scales: {
+        y: { display: false },
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 0 } }
+      }
+    }
+  });
+};
+
+// --- Chart 6: TGA 전망 ---
+chartConfigs['chartForecast'] = () => {
+  new Chart(document.getElementById('chartForecast'), {
+    type: 'line',
+    data: {
+      labels: ['3월말', '4월초', '4/15\n세금납부', '4월말', '5월', '6월'],
+      datasets: [{
+        label: 'TGA 전망 (억$)',
+        data: [8740, 9200, 10000, 10250, 9000, 8000],
+        borderColor: '#e11d48',
+        backgroundColor: 'rgba(225,29,72,0.06)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: (ctx) => ctx.dataIndex === 3 ? '#e11d48' : '#6b7280',
+        pointRadius: (ctx) => ctx.dataIndex === 3 ? 8 : 5
+      }, {
+        label: '유동성 스트레스',
+        data: [70, 80, 95, 90, 55, 40],
+        borderColor: '#f59e0b',
+        backgroundColor: 'rgba(245,158,11,0.06)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 4,
+        yAxisID: 'y1'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { labels: { font: { size: 11 } } }
+      },
+      scales: {
+        y: { beginAtZero: false, position: 'left', grid: { color: '#f0f0f0' }, ticks: { callback: v => (v/1000).toFixed(1) + '천억' } },
+        y1: { beginAtZero: true, max: 100, position: 'right', grid: { display: false }, ticks: { callback: v => v + '%' } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// --- Chart 7: 레이더 차트 ---
+chartConfigs['chartRadar'] = () => {
+  new Chart(document.getElementById('chartRadar'), {
+    type: 'radar',
+    data: {
+      labels: ['RRP 여력', 'TGA 안정성', '지급준비금 여유', 'QT 종료 가능성', '유동성 공급 여력'],
+      datasets: [{
+        label: '현재 (2026.03)',
+        data: [5, 25, 40, 50, 25],
+        backgroundColor: 'rgba(225,29,72,0.15)',
+        borderColor: '#e11d48',
+        borderWidth: 2,
+        pointBackgroundColor: '#e11d48'
+      }, {
+        label: '6개월 전 (2025.09)',
+        data: [15, 40, 55, 35, 40],
+        backgroundColor: 'rgba(37,99,235,0.1)',
+        borderColor: '#2563eb',
+        borderWidth: 2,
+        pointBackgroundColor: '#2563eb'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: (ctx) => ctx.dataIndex * 120 },
+      plugins: {
+        legend: { labels: { font: { size: 11 } } }
+      },
+      scales: {
+        r: { min: 0, max: 100, ticks: { display: false }, grid: { color: '#e5e5e5' }, pointLabels: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// ===== OBSERVER 2: 차트 전용 — 보이면 200ms 후 생성 =====
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
