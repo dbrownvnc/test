@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>시험문제 | K-POP으로 배우는 한국어 맞춤법</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#ffffff;--bg2:#fafafa;--text:#1a1a1a;--text2:#777777;
+--accent:#e11d48;--accent2:#f43f5e;--blue:#2563eb;--gray:#6b7280;
+--border:#e5e5e5;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+.hero{background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 40%,#2d0a0f 100%);color:#fff;padding:50px 24px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 70% 30%,rgba(225,29,72,0.1) 0%,transparent 50%);pointer-events:none}
+.hero-label{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);border:1px solid var(--accent2);padding:4px 14px;border-radius:20px;margin-bottom:16px;font-weight:600}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,36px);font-weight:800;line-height:1.3;margin-bottom:10px}
+.hero h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{font-size:14px;color:rgba(255,255,255,0.5);font-weight:300}
+
+.container{max-width:680px;margin:0 auto;padding:0 20px}
+section{padding:36px 0}
+.section-divider{width:40px;height:3px;background:var(--accent);margin:0 auto 24px;border-radius:2px}
+
+h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,28px);font-weight:700;margin-bottom:6px}
+.subtitle{font-size:14px;color:var(--text2);margin-bottom:24px}
+
+/* Question card */
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:22px;margin:18px 0;position:relative}
+.q-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:14px 0 0 14px}
+.q-card.easy::before{background:#16a34a}
+.q-card.medium::before{background:#f59e0b}
+.q-card.hard::before{background:var(--accent)}
+
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px}
+.q-number{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text)}
+.q-meta{display:flex;gap:8px;align-items:center}
+.q-difficulty{font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px}
+.q-difficulty.easy{background:#f0fdf4;color:#16a34a}
+.q-difficulty.medium{background:#fffbeb;color:#d97706}
+.q-difficulty.hard{background:#fef2f2;color:var(--accent)}
+.q-type{font-size:11px;color:var(--text2);background:#fff;border:1px solid var(--border);padding:3px 10px;border-radius:12px}
+
+.q-body{font-size:15px;font-weight:500;margin-bottom:14px;line-height:1.7}
+.q-options{list-style:none;padding:0}
+.q-options li{padding:10px 14px;margin:6px 0;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:14px;cursor:default}
+.q-blank{display:inline-block;min-width:60px;border-bottom:2px solid var(--accent);margin:0 2px}
+
+/* Answer section */
+.answer-section{margin-top:50px;padding-top:40px;border-top:3px solid var(--text)}
+.a-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0}
+.a-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.a-number{font-weight:700;font-size:14px;color:var(--text)}
+.a-answer{font-weight:700;color:var(--accent);font-size:14px}
+.a-explain{font-size:14px;color:var(--text2);line-height:1.7}
+
+.toggle-btn{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:30px 0;font-family:'Noto Sans KR',sans-serif;transition:background 0.2s}
+.toggle-btn:hover{background:#be123c}
+
+.answer-wrapper{display:none}
+.answer-wrapper.show{display:block}
+
+.footer{background:var(--text);color:rgba(255,255,255,0.5);text-align:center;padding:28px 20px;font-size:12px;margin-top:20px}
+
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+.score-display{text-align:center;padding:20px;background:linear-gradient(135deg,#fef2f2,#fff1f2);border-radius:14px;margin:20px 0}
+.score-display .big{font-family:'Playfair Display',serif;font-size:48px;font-weight:800;color:var(--accent)}
+.score-display .label{font-size:13px;color:var(--text2);margin-top:4px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+<div class="hero-label">Spelling Quiz</div>
+<h1>📋 <em>시험문제</em> (총 10문제)</h1>
+<p class="hero-sub">K-POP으로 배우는 한국어 맞춤법 | 이금희 아나운서 특강</p>
+</div>
+
+<div class="container">
+
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">문제지</h2>
+<p class="subtitle fade-in">난이도: ⭐ 쉬움 3문제 · ⭐⭐ 보통 5문제 · ⭐⭐⭐ 어려움 2문제</p>
+
+<!-- Q1 -->
+<div class="q-card easy fade-in">
+<div class="q-header">
+<span class="q-number">[문제 1]</span>
+<div class="q-meta">
+<span class="q-difficulty easy">⭐ 쉬움</span>
+<span class="q-type">객관식</span>
+</div>
+</div>
+<div class="q-body">이금희 아나운서가 맞춤법을 비유한 표현으로 가장 적절한 것은?</div>
+<ul class="q-options">
+<li>① 법률</li>
+<li>② 약속</li>
+<li>③ 예절</li>
+<li>④ 습관</li>
+</ul>
+</div>
+
+<!-- Q2 -->
+<div class="q-card easy fade-in">
+<div class="q-header">
+<span class="q-number">[문제 2]</span>
+<div class="q-meta">
+<span class="q-difficulty easy">⭐ 쉬움</span>
+<span class="q-type">OX 문제</span>
+</div>
+</div>
+<div class="q-body">"설레임"은 올바른 한국어 표현이며 '설렘'과 같은 의미로 사용할 수 있다. (O / X)</div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card medium fade-in">
+<div class="q-header">
+<span class="q-number">[문제 3]</span>
+<div class="q-meta">
+<span class="q-difficulty medium">⭐⭐ 보통</span>
+<span class="q-type">객관식</span>
+</div>
+</div>
+<div class="q-body">'되'와 '돼'를 구분하는 방법으로 올바른 것은?</div>
+<ul class="q-options">
+<li>① 앞에 '안'이 오면 '돼', 아니면 '되'</li>
+<li>② '하'를 넣어 자연스러우면 '되', '해'를 넣어 자연스러우면 '돼'</li>
+<li>③ 문장 끝에 오면 '돼', 중간에 오면 '되'</li>
+<li>④ 명사 앞에는 '되', 동사 앞에는 '돼'</li>
+</ul>
+</div>
+
+<!-- Q4 -->
+<div class="q-card medium fade-in">
+<div class="q-header">
+<span class="q-number">[문제 4]</span>
+<div class="q-meta">
+<span class="q-difficulty medium">⭐⭐ 보통</span>
+<span class="q-type">빈칸채우기</span>
+</div>
+</div>
+<div class="q-body">"이럴 거면 그러지 말걸 그날" — 이 문장에서 밑줄 친 부분은 과거를 회상하는 의미이므로 선택의 '-든'이 아니라 '<span class="q-blank">&nbsp;</span>'을 사용해야 한다.</div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card easy fade-in">
+<div class="q-header">
+<span class="q-number">[문제 5]</span>
+<div class="q-meta">
+<span class="q-difficulty easy">⭐ 쉬움</span>
+<span class="q-type">객관식</span>
+</div>
+</div>
+<div class="q-body">"나 어떡해!" vs "어떻게 할까?" — 다음 설명 중 올바른 것은?</div>
+<ul class="q-options">
+<li>① '어떡해'와 '어떻게'는 같은 말이다</li>
+<li>② '어떡해'는 "어떻게 해"의 줄임말이고, 독립적으로 쓸 수 있다</li>
+<li>③ '어떻게'는 혼자서도 완결된 문장이 된다</li>
+<li>④ '어떡해'는 뒤에 반드시 다른 말이 와야 한다</li>
+</ul>
+</div>
+
+<!-- Q6 -->
+<div class="q-card medium fade-in">
+<div class="q-header">
+<span class="q-number">[문제 6]</span>
+<div class="q-meta">
+<span class="q-difficulty medium">⭐⭐ 보통</span>
+<span class="q-type">객관식</span>
+</div>
+</div>
+<div class="q-body">"그 영화 재미있___" — 친구가 본 것을 나에게 전해줄 때 빈칸에 들어갈 말은?</div>
+<ul class="q-options">
+<li>① -대</li>
+<li>② -데</li>
+<li>③ -때</li>
+<li>④ -태</li>
+</ul>
+</div>
+
+<!-- Q7 -->
+<div class="q-card medium fade-in">
+<div class="q-header">
+<span class="q-number">[문제 7]</span>
+<div class="q-meta">
+<span class="q-difficulty medium">⭐⭐ 보통</span>
+<span class="q-type">단답형</span>
+</div>
+</div>
+<div class="q-body">'헷갈리다'와 '헛갈리다'의 관계를 무엇이라 하는가? 또한, 이와 비슷한 예시로 영상에서 언급된 음식의 이름은?</div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card hard fade-in">
+<div class="q-header">
+<span class="q-number">[문제 8]</span>
+<div class="q-meta">
+<span class="q-difficulty hard">⭐⭐⭐ 어려움</span>
+<span class="q-type">서술형</span>
+</div>
+</div>
+<div class="q-body">'-든'과 '-던'의 차이를 설명하고, 이금희 아나운서가 제시한 기억법(런던 활용)을 서술하시오. 또한 각각의 예문을 하나씩 작성하시오.</div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card medium fade-in">
+<div class="q-header">
+<span class="q-number">[문제 9]</span>
+<div class="q-meta">
+<span class="q-difficulty medium">⭐⭐ 보통</span>
+<span class="q-type">빈칸채우기</span>
+</div>
+</div>
+<div class="q-body">다음 빈칸에 '대' 또는 '데'를 넣으시오.<br><br>
+(가) 내가 직접 봤는데, 진짜 맛있<span class="q-blank">&nbsp;</span><br>
+(나) 민수가 그러는데, 그 식당 맛있<span class="q-blank">&nbsp;</span></div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card hard fade-in">
+<div class="q-header">
+<span class="q-number">[문제 10]</span>
+<div class="q-meta">
+<span class="q-difficulty hard">⭐⭐⭐ 어려움</span>
+<span class="q-type">서술형</span>
+</div>
+</div>
+<div class="q-body">이금희 아나운서는 "시나 노래에서 맞춤법이 틀린 것"에 대해 '예술적 허용'이라는 개념을 언급했다. '설레임'을 예로 들어, 예술적 허용의 의미와 일상 표기와의 차이를 설명하시오.</div>
+</div>
+
+</section>
+
+<!-- ANSWER TOGGLE -->
+<button class="toggle-btn fade-in" onclick="toggleAnswers()">📝 정답 및 해설 보기</button>
+
+<!-- ANSWERS -->
+<div class="answer-wrapper" id="answerSection">
+<section class="answer-section">
+<div class="section-divider"></div>
+<h2>📝 정답 및 해설</h2>
+<p class="subtitle">총 10문제 정답과 풀이</p>
+
+<!-- A1 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 1]</span>
+<span class="a-answer">정답: ②</span>
+</div>
+<div class="a-explain">이금희 아나운서는 맞춤법을 <strong>"약속"</strong>이라고 표현했다. 네모난 판을 '칠판'이라고 이름을 붙이며 약속한 것처럼, 맞춤법도 "이럴 때 이렇게 쓰자"는 사회적 약속이다. 약속을 지키지 않으면 소통이 어려워지므로, 서로를 배려하기 위해 지켜야 한다고 설명했다.</div>
+</div>
+
+<!-- A2 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 2]</span>
+<span class="a-answer">정답: X</span>
+</div>
+<div class="a-explain">'설레임'은 <strong>아이스크림 상표명</strong>일 뿐, 올바른 한국어가 아니다. '설레다'에 명사형 접미사 'ㅁ'을 붙이면 <strong>'설렘'</strong>이 되는 것이 올바른 형태다. (예: 미움, 기쁨, 슬픔 등과 같은 패턴)</div>
+</div>
+
+<!-- A3 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 3]</span>
+<span class="a-answer">정답: ②</span>
+</div>
+<div class="a-explain">이금희 아나운서가 알려준 구분법: <strong>'하'를 넣어 자연스러우면 '되'</strong>, <strong>'해'를 넣어 자연스러우면 '돼'</strong>가 맞다. 예: "안 돼요" → "안 해요"(자연스러움) → '돼'가 맞음. '돼'는 '되+어'의 줄임말이다.</div>
+</div>
+
+<!-- A4 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 4]</span>
+<span class="a-answer">정답: -던</span>
+</div>
+<div class="a-explain"><strong>'-던'</strong>은 과거를 회상할 때 사용한다. "그러지 말걸 그날"은 과거의 일을 떠올리며 후회하는 표현이므로 '-던'이 적절하다. '-든'은 선택의 의미(살든 말든)로, 둘 이상의 선택지가 있을 때 사용한다.</div>
+</div>
+
+<!-- A5 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 5]</span>
+<span class="a-answer">정답: ②</span>
+</div>
+<div class="a-explain">'어떡해'는 <strong>"어떻게 해"의 줄임말</strong>로, 그 자체로 완결된 의미를 갖는다. 반면 '어떻게'는 <strong>부사</strong>로, 혼자서 문장을 완성할 수 없고 반드시 뒤에 꾸며줄 말이 필요하다. (예: "어떻게 할까?", "어떻게 해서 늘어났을까?")</div>
+</div>
+
+<!-- A6 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 6]</span>
+<span class="a-answer">정답: ①</span>
+</div>
+<div class="a-explain"><strong>'-대'</strong>는 다른 사람의 말을 전달할 때 사용한다. "재미있다고 해" → "재미있<strong>대</strong>"로 줄여 쓴다. '-데'는 <strong>내가 직접 경험</strong>한 것을 말할 때 사용한다. ("내가 봤는데 재미있데" = "재미있더라")</div>
+</div>
+
+<!-- A7 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 7]</span>
+<span class="a-answer">정답: 복수 표준어 / 짜장면(자장면)</span>
+</div>
+<div class="a-explain">'헷갈리다'와 '헛갈리다'는 <strong>복수 표준어</strong> 관계로, 둘 다 표준어로 인정된다. 비슷한 예시로 <strong>'짜장면'</strong>이 언급되었다. 원래 '자장면'만 표준어였지만, 사람들이 '짜장면'을 많이 사용하여 둘 다 표준어가 되었다.</div>
+</div>
+
+<!-- A8 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 8]</span>
+<span class="a-answer">정답: 서술형</span>
+</div>
+<div class="a-explain">
+<strong>모범 답안:</strong><br><br>
+<strong>'-든'</strong>은 <strong>선택</strong>의 의미로, 반드시 둘 이상의 선택지와 함께 사용된다. (예: "살든 말든", "이것이든 저것이든")<br><br>
+<strong>'-던'</strong>은 <strong>과거·회상</strong>의 의미로, 지나간 일을 떠올릴 때 사용된다. (예: "좋아하던 사람", "자주 가던 카페")<br><br>
+<strong>런던 기억법:</strong> 이금희 아나운서는 '런던(London)'이 <strong>역사와 전통의 도시</strong>인 것처럼, <strong>'-던'은 과거형</strong>이라고 기억하라고 설명했다. 런던의 '던'이 과거를 의미한다고 연결하면 쉽게 구분할 수 있다.
+</div>
+</div>
+
+<!-- A9 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 9]</span>
+<span class="a-answer">정답: (가) 데 / (나) 대</span>
+</div>
+<div class="a-explain">
+(가) "내가 직접 봤는데" → <strong>직접 경험</strong>이므로 <strong>'-데'</strong> (= "맛있더라")<br>
+(나) "민수가 그러는데" → 민수의 말을 <strong>전달</strong>하는 것이므로 <strong>'-대'</strong> (= "맛있다고 해")<br><br>
+이금희 아나운서에 따르면 문자·톡에서 <strong>90% 이상이 이 '-대/-데'를 틀린다</strong>고 한다.
+</div>
+</div>
+
+<!-- A10 -->
+<div class="a-card">
+<div class="a-header">
+<span class="a-number">[문제 10]</span>
+<span class="a-answer">정답: 서술형</span>
+</div>
+<div class="a-explain">
+<strong>모범 답안:</strong><br><br>
+<strong>예술적 허용</strong>이란 시, 노래, 그림 등 예술 작품에서 표현의 효과를 위해 맞춤법이나 문법을 약간 벗어나는 것을 허용하는 것이다. 예술의 묘미는 규칙을 깨는 데서 오기도 하기 때문이다.<br><br>
+'설레임'은 맞춤법상 틀린 표현이지만, 노래 가사에서는 리듬감이나 발음의 아름다움을 위해 사용될 수 있다. 그러나 <strong>일상 표기에서는 반드시 '설렘'</strong>으로 써야 한다. '설레다'에 명사형 접미사 'ㅁ'을 붙여 만든 '설렘'이 올바른 한국어 표현이기 때문이다.
+</div>
+</div>
+
+</section>
+</div>
+
+</div><!-- container -->
+
+<div class="footer">
+<p>K-POP으로 배우는 한국어 맞춤법 시험문제 | 이금희 아나운서 특강 기반</p>
+</div>
+
+<script>
+// Fade-in Observer
+const fadeObs=new IntersectionObserver((entries)=>{
+entries.forEach((e,i)=>{
+if(e.isIntersecting){
+setTimeout(()=>e.target.classList.add('visible'),i*80);
+fadeObs.unobserve(e.target);
+}
+});
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>fadeObs.observe(el));
+
+function toggleAnswers(){
+const sec=document.getElementById('answerSection');
+const btn=event.target;
+if(sec.classList.contains('show')){
+sec.classList.remove('show');
+btn.textContent='📝 정답 및 해설 보기';
+}else{
+sec.classList.add('show');
+btn.textContent='📝 정답 및 해설 숨기기';
+sec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+}
+</script>
+</body>
+</html>

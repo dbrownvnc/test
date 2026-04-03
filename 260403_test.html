@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>K-POP으로 배우는 한국어 맞춤법 | 이금희 아나운서 특강</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#ffffff;--bg2:#fafafa;--text:#1a1a1a;--text2:#777777;
+--accent:#e11d48;--accent2:#f43f5e;--blue:#2563eb;--gray:#6b7280;
+--table-bg:#fafafa;--table-header:#e11d48;--border:#e5e5e5;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;-webkit-font-smoothing:antialiased}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 40%,#2d0a0f 100%);color:#fff;padding:60px 24px 50px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 70%,rgba(225,29,72,0.12) 0%,transparent 50%);pointer-events:none}
+.hero-label{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);border:1px solid var(--accent2);padding:4px 14px;border-radius:20px;margin-bottom:18px;font-weight:600}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,42px);font-weight:800;line-height:1.25;margin-bottom:14px;letter-spacing:-0.5px}
+.hero h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.6);font-weight:300;max-width:500px;margin:0 auto 20px}
+.hero-meta{display:flex;justify-content:center;gap:20px;font-size:12px;color:rgba(255,255,255,0.45);flex-wrap:wrap}
+.hero-meta span::before{content:'';display:inline-block;width:5px;height:5px;background:var(--accent);border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* Layout */
+.container{max-width:680px;margin:0 auto;padding:0 20px}
+section{padding:40px 0}
+.section-divider{width:40px;height:3px;background:var(--accent);margin:0 auto 30px;border-radius:2px}
+
+/* Typography */
+h2{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,30px);font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-0.3px}
+h3{font-size:18px;font-weight:700;color:var(--text);margin:28px 0 12px;padding-left:12px;border-left:3px solid var(--accent)}
+p{font-size:15px;margin-bottom:16px;color:var(--text)}
+.subtitle{font-size:14px;color:var(--text2);margin-bottom:28px}
+
+/* Cards */
+.rule-card{background:var(--bg2);border-radius:14px;padding:24px;margin:20px 0;border:1px solid var(--border);position:relative;overflow:hidden}
+.rule-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+.rule-card h4{font-size:16px;font-weight:700;margin-bottom:10px;color:var(--accent)}
+.rule-card p{font-size:14px;margin-bottom:8px}
+
+.example-box{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0}
+.example-box .correct{color:#16a34a;font-weight:600}
+.example-box .wrong{color:var(--accent);text-decoration:line-through;font-weight:500}
+.example-box .label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block}
+.example-box .label.o{color:#16a34a}
+.example-box .label.x{color:var(--accent)}
+
+.tip-box{background:linear-gradient(135deg,#fef2f2,#fff1f2);border:1px solid #fecdd3;border-radius:10px;padding:16px 18px;margin:16px 0;font-size:14px}
+.tip-box strong{color:var(--accent)}
+
+.formula{background:var(--text);color:#fff;border-radius:8px;padding:14px 18px;text-align:center;font-size:16px;font-weight:600;margin:14px 0;letter-spacing:0.5px}
+.formula em{color:var(--accent2);font-style:normal}
+
+/* Comparison */
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.vs-card{padding:16px;border-radius:10px;text-align:center;font-size:14px;font-weight:600}
+.vs-card.good{background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a}
+.vs-card.bad{background:#fef2f2;border:1px solid #fecdd3;color:var(--accent)}
+.vs-card .big{font-size:24px;display:block;margin-bottom:6px;font-family:'Playfair Display',serif}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:var(--table-header);color:#fff;padding:10px 14px;text-align:left;font-weight:600;font-size:13px}
+td{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--table-bg)}
+tr:last-child td{border-bottom:none}
+
+/* Interactive Quiz */
+.quiz-inline{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;margin:24px 0}
+.quiz-inline h4{font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)}
+.quiz-btn-group{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.quiz-btn{padding:10px 20px;border:2px solid var(--border);border-radius:8px;background:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.25s}
+.quiz-btn:hover{border-color:var(--accent);color:var(--accent)}
+.quiz-btn.selected{border-color:var(--accent);background:var(--accent);color:#fff}
+.quiz-btn.correct-answer{border-color:#16a34a;background:#16a34a;color:#fff}
+.quiz-btn.wrong-answer{border-color:var(--accent);background:var(--accent);color:#fff}
+.quiz-result{font-size:14px;font-weight:600;margin-top:10px;min-height:22px}
+
+/* Number highlight */
+.num{font-family:'Playfair Display',serif;font-size:1.1em;font-weight:700;color:var(--accent)}
+
+/* Tags */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin:2px 4px 2px 0}
+.tag.kpop{background:#fef2f2;color:var(--accent)}
+.tag.grammar{background:#eff6ff;color:var(--blue)}
+.tag.tip{background:#f0fdf4;color:#16a34a}
+
+/* Fade-in animation */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity 0.7s ease,transform 0.7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* Chart */
+.chart-container{position:relative;max-height:340px}
+.chart-container canvas{opacity:0;transition:opacity 0.4s ease;max-height:300px}
+.chart-container.chart-ready canvas{opacity:1}
+
+/* Footer */
+.footer{background:var(--text);color:rgba(255,255,255,0.5);text-align:center;padding:30px 20px;font-size:12px}
+.footer a{color:var(--accent2);text-decoration:none}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+
+/* Song card */
+.song-card{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:14px 0}
+.song-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.song-info{flex:1}
+.song-info .name{font-weight:700;font-size:14px}
+.song-info .artist{font-size:12px;color:var(--text2)}
+
+/* Mnemonic */
+.mnemonic{background:linear-gradient(135deg,#1a1a1a,#2d2d2d);color:#fff;border-radius:12px;padding:20px;margin:16px 0;text-align:center}
+.mnemonic .title{font-size:12px;color:var(--accent2);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.mnemonic .content{font-size:18px;font-weight:700;line-height:1.6}
+.mnemonic .content em{color:var(--accent2);font-style:normal}
+
+/* Progress bar */
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 1.5s ease}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-label">Korean Spelling Masterclass</div>
+<h1>K-POP 가사로 배우는<br><em>한국어 맞춤법</em></h1>
+<p class="hero-sub">이금희 아나운서가 K-POP 가사 속 틀리기 쉬운 맞춤법을 한방에 정리</p>
+<div class="hero-meta">
+<span>홍진경 유튜브</span>
+<span>2026.04.03</span>
+<span>맞춤법 특강</span>
+</div>
+</div>
+
+<div class="container">
+
+<!-- INTRO -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">왜 맞춤법을 지켜야 할까?</h2>
+<p class="subtitle fade-in">맞춤법은 서로를 배려하는 '약속'이다</p>
+
+<div class="rule-card fade-in">
+<h4>💡 핵심 메시지</h4>
+<p><strong>"말"이라는 것은 약속</strong>이다. 네모난 판을 '칠판'이라고 부르기로 정한 것처럼, 맞춤법도 "이럴 때는 이렇게 쓰자"는 사회적 약속이다.</p>
+<p>줄임말(예: 버카충 = 버스카드 충전)은 같은 세대끼리만 통하지만, <strong>맞춤법은 모든 세대가 소통하기 위한 공통 규칙</strong>이다. 약속을 지키지 않으면 누군가는 못 알아듣는다.</p>
+</div>
+
+<div class="tip-box fade-in">
+<strong>이금희 아나운서의 접근법:</strong> K-POP 가사 속에 숨어 있는 맞춤법 오류를 찾아보며, 재미있게 맞춤법을 익히자!
+</div>
+</section>
+
+<!-- RULE 1: 되 vs 돼 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 1</h2>
+<h3 class="fade-in">되 vs 돼 구분법</h3>
+
+<div class="song-card fade-in">
+<div class="song-icon">🎵</div>
+<div class="song-info">
+<div class="name">관련 가사 예시</div>
+<div class="artist">"말도 안 되잖아 / 말도 안 돼잖아" — 어떤 게 맞을까?</div>
+</div>
+</div>
+
+<div class="mnemonic fade-in">
+<div class="title">🔑 핵심 공식</div>
+<div class="content">
+<em>'하'</em>가 들어가면 → <em>되</em><br>
+<em>'해'</em>가 들어가면 → <em>돼</em>
+</div>
+</div>
+
+<p class="fade-in"><strong>'되'와 '돼'</strong>를 헷갈릴 때는, 그 자리에 <strong>'하'</strong>와 <strong>'해'</strong>를 각각 넣어본다. '하'가 자연스러우면 <strong>'되'</strong>가 맞고, '해'가 자연스러우면 <strong>'돼'</strong>가 맞다.</p>
+
+<div class="example-box fade-in">
+<span class="label o">✅ 올바른 적용</span>
+<p>"말도 안 <strong class="correct">돼</strong>잖아" → "말도 안 <strong>해</strong>잖아" ✓ (자연스럽다)</p>
+<p>"안 <strong class="correct">돼</strong>요" → "안 <strong>해</strong>요" ✓</p>
+</div>
+
+<div class="example-box fade-in">
+<span class="label x">❌ 틀린 예시</span>
+<p>"말도 안 <strong class="wrong">되</strong>잖아" → "말도 안 <strong>하</strong>잖아" ✗ (어색하다)</p>
+</div>
+
+<div class="tip-box fade-in">
+<strong>기억법:</strong> '돼' = '되+어'의 줄임말. 받침이 'ㅚ'(되)인 곳에 모음 어미가 붙으면 '돼'가 된다. <strong>짝대기(ㅣ) 하나 차이</strong>로 의미가 달라진다!
+</div>
+</section>
+
+<!-- RULE 2: 헷갈리다 vs 헛갈리다 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 2</h2>
+<h3 class="fade-in">헷갈리다 vs 헛갈리다</h3>
+
+<div class="song-card fade-in">
+<div class="song-icon">🎵</div>
+<div class="song-info">
+<div class="name">가사 속 예시</div>
+<div class="artist">"나를 엇갈리게 했어" — 헷갈리다? 헛갈리다?</div>
+</div>
+</div>
+
+<div class="vs-grid fade-in">
+<div class="vs-card good">
+<span class="big">헷갈리다</span>
+⭕ 표준어
+</div>
+<div class="vs-card good">
+<span class="big">헛갈리다</span>
+⭕ 표준어
+</div>
+</div>
+
+<p class="fade-in"><strong>둘 다 맞다!</strong> '헷갈리다'와 '헛갈리다'는 <strong>복수 표준어</strong>로 인정된다.</p>
+
+<div class="rule-card fade-in">
+<h4>📌 복수 표준어란?</h4>
+<p>원래 표준어가 아니었던 말이 너무 많이 쓰여서 표준어로 추가 인정된 것. <strong>'짜장면'</strong>이 대표적인 예다.</p>
+<p>원래 '자장면'만 맞았지만, 사람들이 '짜장면'을 너무 많이 써서 둘 다 표준어가 되었다. 말은 사람들이 많이 다니다 보면 <strong>길이 만들어지듯</strong> 자연스럽게 변화한다.</p>
+</div>
+</section>
+
+<!-- RULE 3: 설렘 vs 설레임 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 3</h2>
+<h3 class="fade-in">설렘 vs 설레임</h3>
+
+<div class="song-card fade-in">
+<div class="song-icon">🎵</div>
+<div class="song-info">
+<div class="name">가사 속 예시</div>
+<div class="artist">"설레임의 밤잠 설치게 했던 그 말" vs "설렘의…"</div>
+</div>
+</div>
+
+<div class="vs-grid fade-in">
+<div class="vs-card good">
+<span class="big">설렘</span>
+⭕ 올바른 표현
+</div>
+<div class="vs-card bad">
+<span class="big">설레임</span>
+❌ 아이스크림 이름일 뿐
+</div>
+</div>
+
+<div class="rule-card fade-in">
+<h4>왜 '설렘'이 맞을까?</h4>
+<p><strong>설레다 + ㅁ(명사형 접미사) = 설렘</strong></p>
+<p>'설레다'에 명사를 만드는 'ㅁ'을 붙이면 '설렘'이 된다. '설레임'은 <strong>아이스크림 상표명</strong>일 뿐, 올바른 한국어가 아니다.</p>
+<p>비슷한 예: 미움(미워+ㅁ), 기쁨(기쁘+ㅁ), 슬픔(슬프+ㅁ)</p>
+</div>
+
+<div class="tip-box fade-in">
+<strong>예술적 허용:</strong> 시, 노래, 그림 등 예술 작품에서는 맞춤법을 약간 틀리는 것이 허용된다. 이것이 예술의 묘미이지만, <strong>일상에서는 '설렘'으로 쓰는 것이 올바르다.</strong>
+</div>
+</section>
+
+<!-- RULE 4: -든 vs -던 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 4</h2>
+<h3 class="fade-in">-든 vs -던 구분법</h3>
+
+<div class="song-card fade-in">
+<div class="song-icon">🎵</div>
+<div class="song-info">
+<div class="name">IZ*ONE — Wanna Be 등</div>
+<div class="artist">"살든 말든" / "이럴 거면 그러지 말걸 그날"</div>
+</div>
+</div>
+
+<div class="mnemonic fade-in">
+<div class="title">🔑 핵심 구분</div>
+<div class="content">
+<em>-든</em> = 선택 (런<em>던</em>의 'ㄴ' 빼기)<br>
+<em>-던</em> = 과거·회상 (런<em>던</em> = 역사의 도시)
+</div>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 -든: 선택형</h4>
+<p><strong>"선택"</strong>할 때 사용한다. 반드시 <strong>둘 이상의 선택지</strong>와 함께 나온다.</p>
+<p>예: 살<strong>든</strong> 말<strong>든</strong> / 이것이<strong>든</strong> 저것이<strong>든</strong> / 하<strong>든</strong> 말<strong>든</strong></p>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 -던: 과거·회상</h4>
+<p><strong>"과거"</strong>를 떠올릴 때 사용한다. '런던(London)'이 역사와 전통의 도시인 것처럼 <strong>과거형</strong>이다.</p>
+<p>예: 그러지 말걸 그<strong>날</strong> / 좋아하<strong>던</strong> 사람 / 할 듯 말 듯 내밀<strong>던</strong></p>
+</div>
+
+<div class="example-box fade-in">
+<span class="label o">✅ 정리</span>
+<p>"살<strong class="correct">든</strong> 말<strong class="correct">든</strong>" → 선택 (사는 것 OR 마는 것)</p>
+<p>"좋아하<strong class="correct">던</strong> 노래" → 과거 회상 (예전에 좋아했던)</p>
+</div>
+</section>
+
+<!-- RULE 5: 어떡해 vs 어떻게 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 5</h2>
+<h3 class="fade-in">어떡해 vs 어떻게</h3>
+
+<div class="song-card fade-in">
+<div class="song-icon">🎵</div>
+<div class="song-info">
+<div class="name">레드벨벳 — Psycho / 청하 — 어떻게 벌써</div>
+<div class="artist">"어떡해 / 어떻게"의 차이</div>
+</div>
+</div>
+
+<div class="mnemonic fade-in">
+<div class="title">🔑 핵심 구분</div>
+<div class="content">
+<em>어떻게</em> = 부사 (뒤에 뭔가 더 와야 함)<br>
+<em>어떡해</em> = 독립형 ("어떻게 해"의 줄임)
+</div>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 어떻게 (부사)</h4>
+<p><strong>부사</strong>는 혼자서 문장을 완성하지 못한다. 반드시 뒤에 꾸며줄 말이 와야 한다.</p>
+<p>예: "<strong>어떻게</strong> 할까?" / "<strong>어떻게</strong> 해서 늘어났을까?"</p>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 어떡해 (독립 표현)</h4>
+<p><strong>"어떻게 해"</strong>의 줄임말로, <strong>혼자서도</strong> 완전한 의미를 가진다.</p>
+<p>예: "이 일을 <strong>어떡해</strong>!" / "나 <strong>어떡해</strong>?"</p>
+</div>
+
+<div class="example-box fade-in">
+<span class="label o">✅ 구분 테스트</span>
+<p>뒤에 말이 더 이어지면 → <strong class="correct">어떻게</strong> (부사)</p>
+<p>그 자체로 끝나면 → <strong class="correct">어떡해</strong> (독립)</p>
+</div>
+</section>
+
+<!-- RULE 6: -대 vs -데 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Rule 6</h2>
+<h3 class="fade-in">-대 vs -데 구분법</h3>
+
+<p class="fade-in">문자, 톡에서 <strong>90% 이상이 틀리는</strong> 대표적 맞춤법 오류라고 이금희 아나운서는 강조한다.</p>
+
+<div class="mnemonic fade-in">
+<div class="title">🔑 핵심 구분</div>
+<div class="content">
+<em>-대</em> = 전달 (남이 말한 것을 전해줄 때)<br>
+<em>-데</em> = 직접 경험 (내가 직접 보거나 느꼈을 때)
+</div>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 -대 (전달)</h4>
+<p><strong>다른 사람이 한 말을 전달</strong>할 때 사용한다.</p>
+<p>예: "지선이가 봤는데 재미있<strong>대</strong>" → 지선이가 재미있<strong>다고 해</strong>(-다고 하다 → -대)</p>
+</div>
+
+<div class="rule-card fade-in">
+<h4>📖 -데 (직접 경험)</h4>
+<p><strong>내가 직접 경험한 것</strong>을 말할 때 사용한다.</p>
+<p>예: "내가 봤는데 재미있<strong>데</strong>" → 내가 직접 보니까 재미있<strong>더라</strong>(-더라 → -데)</p>
+</div>
+
+<div class="vs-grid fade-in">
+<div class="vs-card good">
+<span class="big">-대</span>
+전달 (남의 말)<br>
+<small>"~다고 해"의 줄임</small>
+</div>
+<div class="vs-card" style="background:#eff6ff;border:1px solid #bfdbfe;color:#2563eb">
+<span class="big">-데</span>
+직접 경험 (나의 경험)<br>
+<small>"~더라"의 줄임</small>
+</div>
+</div>
+
+<div class="tip-box fade-in">
+<strong>실전 예시:</strong><br>
+• "그 영화 재미있<strong>대</strong>" = 누군가가 재미있다고 말해줌 (전달)<br>
+• "그 영화 재미있<strong>데</strong>" = 내가 직접 봤더니 재미있었음 (경험)
+</div>
+</section>
+
+<!-- 눈이 높다: -던 vs -든 보너스 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">Bonus</h2>
+<h3 class="fade-in">"눈이 높던데" — 복합 활용</h3>
+
+<p class="fade-in">"눈이 높<strong>던데</strong>"처럼 <strong>-던</strong>(과거 회상)과 <strong>-데</strong>(직접 경험)가 결합하는 경우도 있다.</p>
+
+<div class="example-box fade-in">
+<span class="label o">✅ 분석</span>
+<p>"눈이 높<strong class="correct">던데</strong>" = 내가 직접 봤는데(<strong>-데</strong>), 과거에 그랬다(<strong>-던</strong>)</p>
+<p>→ "내가 보니까 눈이 높<strong>더라</strong>" (직접 경험의 과거 회상)</p>
+</div>
+</section>
+
+<!-- CHART: 오류 빈도 -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">시각화: 혼동 빈도 분석</h2>
+<p class="subtitle fade-in">한국인이 가장 많이 틀리는 맞춤법 유형별 혼동 정도</p>
+
+<div class="chart-container fade-in">
+<canvas id="errorChart" height="240"></canvas>
+</div>
+</section>
+
+<!-- CHART: 구분 난이도 -->
+<section>
+<h2 class="fade-in">규칙별 학습 난이도</h2>
+<p class="subtitle fade-in">각 맞춤법 규칙의 난이도와 실생활 활용 빈도</p>
+
+<div class="chart-container fade-in">
+<canvas id="difficultyChart" height="240"></canvas>
+</div>
+</section>
+
+<!-- Interactive Quiz Section -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">실전 연습</h2>
+<p class="subtitle fade-in">배운 내용을 바로 적용해 보세요</p>
+
+<div class="quiz-inline fade-in" id="q1">
+<h4>Q1. "말도 안 ___잖아" — 빈칸에 들어갈 말은?</h4>
+<div class="quiz-btn-group">
+<button class="quiz-btn" onclick="checkQuiz('q1',this,'되','돼')">되</button>
+<button class="quiz-btn" onclick="checkQuiz('q1',this,'돼','돼')">돼</button>
+</div>
+<div class="quiz-result" id="q1-result"></div>
+</div>
+
+<div class="quiz-inline fade-in" id="q2">
+<h4>Q2. "그 영화 재미있___" (친구가 말해줌)</h4>
+<div class="quiz-btn-group">
+<button class="quiz-btn" onclick="checkQuiz('q2',this,'대','대')">대</button>
+<button class="quiz-btn" onclick="checkQuiz('q2',this,'데','대')">데</button>
+</div>
+<div class="quiz-result" id="q2-result"></div>
+</div>
+
+<div class="quiz-inline fade-in" id="q3">
+<h4>Q3. "살___ 말___" (선택의 의미)</h4>
+<div class="quiz-btn-group">
+<button class="quiz-btn" onclick="checkQuiz('q3',this,'든/든','든/든')">든 / 든</button>
+<button class="quiz-btn" onclick="checkQuiz('q3',this,'던/던','든/든')">던 / 던</button>
+</div>
+<div class="quiz-result" id="q3-result"></div>
+</div>
+
+<div class="quiz-inline fade-in" id="q4">
+<h4>Q4. "나 ___!" (혼자서 완결)</h4>
+<div class="quiz-btn-group">
+<button class="quiz-btn" onclick="checkQuiz('q4',this,'어떻게','어떡해')">어떻게</button>
+<button class="quiz-btn" onclick="checkQuiz('q4',this,'어떡해','어떡해')">어떡해</button>
+</div>
+<div class="quiz-result" id="q4-result"></div>
+</div>
+
+<div class="quiz-inline fade-in" id="q5">
+<h4>Q5. "가슴이 ___으로 가득하다"</h4>
+<div class="quiz-btn-group">
+<button class="quiz-btn" onclick="checkQuiz('q5',this,'설렘','설렘')">설렘</button>
+<button class="quiz-btn" onclick="checkQuiz('q5',this,'설레임','설렘')">설레임</button>
+</div>
+<div class="quiz-result" id="q5-result"></div>
+</div>
+</section>
+
+<!-- Summary Chart -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">전체 요약: 6가지 규칙 숙달도</h2>
+<p class="subtitle fade-in">레이더 차트로 보는 맞춤법 규칙 복잡도</p>
+
+<div class="chart-container fade-in">
+<canvas id="radarChart" height="260"></canvas>
+</div>
+</section>
+
+<!-- Summary Table -->
+<section>
+<div class="section-divider fade-in"></div>
+<h2 class="fade-in">한눈에 정리</h2>
+<p class="subtitle fade-in">오늘 배운 6가지 맞춤법 규칙 총정리</p>
+
+<div style="overflow-x:auto" class="fade-in">
+<table>
+<thead>
+<tr><th>규칙</th><th>구분법</th><th>기억법</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>되 vs 돼</strong></td><td>'하' → 되 / '해' → 돼</td><td>하/해 대입법</td></tr>
+<tr><td><strong>헷갈리다/헛갈리다</strong></td><td>둘 다 표준어</td><td>복수 표준어</td></tr>
+<tr><td><strong>설렘 vs 설레임</strong></td><td>설렘만 올바른 표현</td><td>설레임=아이스크림 이름</td></tr>
+<tr><td><strong>-든 vs -던</strong></td><td>든=선택, 던=과거</td><td>런던=역사의 도시=과거</td></tr>
+<tr><td><strong>어떡해 vs 어떻게</strong></td><td>독립=어떡해, 부사=어떻게</td><td>뒤에 더 오면 '어떻게'</td></tr>
+<tr><td><strong>-대 vs -데</strong></td><td>전달=대, 경험=데</td><td>~다고 해→대 / ~더라→데</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Closing -->
+<section>
+<div class="section-divider fade-in"></div>
+<div class="rule-card fade-in">
+<h4>이금희 아나운서의 마무리 메시지</h4>
+<p>"여러분과 K-POP을 통해서 틀리기 쉬운 맞춤법에 대해 살펴봤는데, 한 분이라도 더, 하나라도 더 맞춤법에 관심을 가지고 <strong>재미있게 공부해서 잘 쓰시면 좋겠다</strong>는 생각이 듭니다."</p>
+</div>
+</section>
+
+</div><!-- container -->
+
+<div class="footer">
+<p>본 문서는 홍진경 유튜브 채널의 이금희 아나운서 맞춤법 특강 영상을 기반으로 분석·정리한 자료입니다.</p>
+<p style="margin-top:6px"><a href="https://youtu.be/xMZ7XpcphSo?si=qcv3LkRVs81JwJSq" target="_blank">원본 영상 보기 →</a></p>
+</div>
+
+<script>
+// Quiz logic
+function checkQuiz(qid,btn,val,correct){
+const container=document.getElementById(qid);
+if(container.dataset.answered) return;
+container.dataset.answered='true';
+const result=document.getElementById(qid+'-result');
+const btns=container.querySelectorAll('.quiz-btn');
+btns.forEach(b=>{b.style.pointerEvents='none'});
+if(val===correct){
+btn.classList.add('correct-answer');
+result.innerHTML='<span style="color:#16a34a">✅ 정답입니다!</span>';
+}else{
+btn.classList.add('wrong-answer');
+btns.forEach(b=>{
+if(b.textContent.trim().replace(' / ','/')=== correct || 
+   (b.onclick && b.onclick.toString().includes("'"+correct+"','"+correct+"'"))){
+}
+});
+result.innerHTML='<span style="color:#e11d48">❌ 오답! 정답: '+correct+'</span>';
+}
+}
+
+// Fade-in Observer
+const fadeObs=new IntersectionObserver((entries)=>{
+entries.forEach((e,i)=>{
+if(e.isIntersecting){
+setTimeout(()=>e.target.classList.add('visible'),i*80);
+fadeObs.unobserve(e.target);
+}
+});
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>fadeObs.observe(el));
+
+// Chart Configs
+const chartConfigs={};
+
+chartConfigs['errorChart']=()=>{
+new Chart(document.getElementById('errorChart'),{
+type:'bar',
+data:{
+labels:['-대/-데 혼동','되/돼 혼동','어떡해/어떻게','설렘/설레임','-든/-던 혼동','헷/헛갈리다'],
+datasets:[{
+label:'혼동 빈도 (상대값)',
+data:[95,88,75,65,60,40],
+backgroundColor:['#e11d48','#1a1a1a','#6b7280','#2563eb','#f43f5e','#9ca3af'],
+borderRadius:6,
+borderSkipped:false
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+indexAxis:'y',
+animation:{duration:1500,easing:'easeInOutQuart'},
+animations:{x:{from:0}},
+plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'%'}}},
+scales:{
+x:{max:100,grid:{color:'#f0f0f0'},ticks:{callback:v=>v+'%',font:{size:11}}},
+y:{grid:{display:false},ticks:{font:{size:12,family:'Noto Sans KR'}}}
+}
+}
+});
+};
+
+chartConfigs['difficultyChart']=()=>{
+new Chart(document.getElementById('difficultyChart'),{
+type:'bar',
+data:{
+labels:['되/돼','헷/헛갈리다','설렘/설레임','-든/-던','어떡해/어떻게','-대/-데'],
+datasets:[
+{label:'학습 난이도',data:[3,1,2,4,3,5],backgroundColor:'#e11d48',borderRadius:4,borderSkipped:false},
+{label:'실생활 활용빈도',data:[5,3,3,4,5,5],backgroundColor:'#2563eb',borderRadius:4,borderSkipped:false}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+animation:{duration:1500,easing:'easeInOutQuart',delay:ctx=>ctx.dataIndex*150},
+animations:{y:{from:0}},
+plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'Noto Sans KR'},usePointStyle:true,pointStyle:'circle'}}},
+scales:{
+y:{max:6,grid:{color:'#f0f0f0'},ticks:{stepSize:1,font:{size:11}}},
+x:{grid:{display:false},ticks:{font:{size:11,family:'Noto Sans KR'}}}
+}
+}
+});
+};
+
+chartConfigs['radarChart']=()=>{
+new Chart(document.getElementById('radarChart'),{
+type:'radar',
+data:{
+labels:['되/돼','헷/헛갈리다','설렘/설레임','-든/-던','어떡해/어떻게','-대/-데'],
+datasets:[
+{label:'규칙 복잡도',data:[3,1,2,4,3,5],backgroundColor:'rgba(225,29,72,0.15)',borderColor:'#e11d48',borderWidth:2,pointBackgroundColor:'#e11d48',pointRadius:4},
+{label:'오류 빈도',data:[4.5,2,3,3,4,5],backgroundColor:'rgba(37,99,235,0.1)',borderColor:'#2563eb',borderWidth:2,pointBackgroundColor:'#2563eb',pointRadius:4}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+animation:{duration:1800,easing:'easeInOutQuart',delay:ctx=>ctx.dataIndex*120},
+plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'Noto Sans KR'},usePointStyle:true}}},
+scales:{r:{max:6,beginAtZero:true,grid:{color:'#e5e5e5'},angleLines:{color:'#e5e5e5'},pointLabels:{font:{size:11,family:'Noto Sans KR'}},ticks:{stepSize:1,display:false}}}
+}
+});
+};
+
+// Chart Observer
+const chartObs=new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+const canvas=entry.target.querySelector('canvas');
+if(canvas&&chartConfigs[canvas.id]){
+setTimeout(()=>{
+chartConfigs[canvas.id]();
+entry.target.classList.add('chart-ready');
+delete chartConfigs[canvas.id];
+},200);
+}
+chartObs.unobserve(entry.target);
+}
+});
+},{threshold:0.25});
+document.querySelectorAll('.chart-container').forEach(el=>chartObs.observe(el));
+</script>
+</body>
+</html>
