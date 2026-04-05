@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>시험문제 — 구글은 틀렸습니다, 메모리 수만배 필요합니다</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #ffffff; --bg2: #fafafa; --text: #1a1a1a; --text2: #777777;
+      --accent: #e11d48; --accent2: #f43f5e; --border: #e5e5e5;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+    .hero {
+      background: var(--text);
+      color: #fff;
+      margin: 0 -20px;
+      padding: 48px 28px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.15;
+    }
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 5.5vw, 32px);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+    .hero h1 span { color: var(--accent2); }
+    .hero-meta { font-size: 12px; color: #aaa; }
+
+    .divider { height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2), transparent); margin: 32px 0; }
+    .divider-thin { height: 1px; background: var(--border); margin: 28px 0; }
+
+    /* SECTION HEADER */
+    .section-header {
+      background: var(--text);
+      color: #fff;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 36px 0 24px;
+    }
+    .section-header .sh-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .section-header .sh-sub { font-size: 12px; color: #aaa; margin-top: 4px; }
+
+    /* QUESTION CARD */
+    .q-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .q-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .q-num {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 700;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .q-meta { flex: 1; }
+    .q-difficulty {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 2px;
+    }
+    .q-type-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+    .q-question {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .q-options { list-style: none; padding: 0; }
+    .q-options li {
+      font-size: 13px;
+      padding: 7px 12px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+    .q-options li span { font-weight: 700; color: var(--accent); margin-right: 6px; }
+    .q-blank {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 4px;
+      min-height: 40px;
+    }
+    .q-oxbox {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .q-oxbox .ox-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      text-align: center;
+      font-size: 20px;
+    }
+    .q-write-area {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text2);
+      min-height: 60px;
+      margin-top: 6px;
+    }
+
+    /* ANSWER SECTION */
+    .ans-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      border-left: 4px solid var(--accent);
+    }
+    .ans-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .ans-num {
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ans-correct {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .ans-explanation {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .ans-explanation strong { color: var(--accent); }
+
+    /* SCORE TABLE */
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+    .score-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    .score-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .score-table tbody tr:nth-child(even) { background: var(--bg2); }
+
+    footer {
+      background: var(--bg2);
+      margin: 40px -20px 0;
+      padding: 20px 28px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text2);
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">시험문제 · Quiz</div>
+  <h1>구글은 틀렸습니다<br><span>메모리 수만 배</span> 필요합니다</h1>
+  <div class="hero-meta">📅 2026년 4월 5일 | KAIST 김정호 교수 강의 기반 | 총 10문제</div>
+</div>
+
+<!-- 채점표 -->
+<div style="margin-top:28px; padding:16px 18px; background:var(--bg2); border:1px solid var(--border); border-radius:8px;">
+  <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:10px;">난이도 배분</div>
+  <table class="score-table">
+    <thead><tr><th>난이도</th><th>문항 수</th><th>해당 문제</th></tr></thead>
+    <tbody>
+      <tr><td>⭐ 쉬움</td><td>3문제</td><td>1, 2, 3번</td></tr>
+      <tr><td>⭐⭐ 보통</td><td>5문제</td><td>4, 5, 6, 7, 8번</td></tr>
+      <tr><td>⭐⭐⭐ 어려움</td><td>2문제</td><td>9, 10번</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━━ 문제지 ━━━━━━━━━━━━━━━━━ -->
+<div class="section-header">
+  <div class="sh-label">📋 시험문제</div>
+  <h2>문제지 (총 10문제)</h2>
+  <div class="sh-sub">아래 문제를 풀고, 정답은 하단 정답지에서 확인하세요.</div>
+</div>
+
+<!-- Q1 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">1</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐ 쉬움</div>
+      <div class="q-type-badge">객관식</div>
+    </div>
+  </div>
+  <div class="q-question">김정호 교수에 따르면, 에이전틱 AI 시대에 AI 성능 경쟁의 핵심 자원이 GPU에서 무엇으로 넘어왔다고 주장하는가?</div>
+  <ul class="q-options">
+    <li><span>①</span> 전기요금</li>
+    <li><span>②</span> 알고리즘</li>
+    <li><span>③</span> 메모리</li>
+    <li><span>④</span> 데이터센터 부지</li>
+  </ul>
+</div>
+
+<!-- Q2 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">2</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐ 쉬움</div>
+      <div class="q-type-badge">OX문제</div>
+    </div>
+  </div>
+  <div class="q-question">컨텍스트 엔지니어링이란, 텍스트 질문만이 아니라 파일·이미지·동영상·문서 등을 AI에게 함께 제공하여 더 정확한 결과를 얻는 방식이다.</div>
+  <div class="q-oxbox">
+    <div class="ox-btn">⭕ O</div>
+    <div class="ox-btn">❌ X</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">3</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐ 쉬움</div>
+      <div class="q-type-badge">단답형</div>
+    </div>
+  </div>
+  <div class="q-question">트랜스포머 AI 모델에서 단어와 단어 사이의 관계(Key-Value)를 저장하는 행렬 구조의 이름을 쓰시오.</div>
+  <div class="q-blank">답: _______________</div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">4</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐ 보통</div>
+      <div class="q-type-badge">객관식</div>
+    </div>
+  </div>
+  <div class="q-question">공식 1(KV 캐시 메모리 용량)에서 동시 사용자 수(Batch)가 100배 증가할 때, 메모리 수요는 어떻게 변하는가?</div>
+  <ul class="q-options">
+    <li><span>①</span> 100배 증가한다 (곱셈 관계이므로)</li>
+    <li><span>②</span> 100 더하기만큼 증가한다 (덧셈 관계이므로)</li>
+    <li><span>③</span> 10배 증가한다 (제곱근 관계이므로)</li>
+    <li><span>④</span> 변화 없다 (배치는 메모리와 무관하므로)</li>
+  </ul>
+</div>
+
+<!-- Q5 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">5</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐ 보통</div>
+      <div class="q-type-badge">빈칸채우기</div>
+    </div>
+  </div>
+  <div class="q-question">아래 문장의 빈칸을 채우시오.<br><br>
+  AI가 첫 번째 단어를 내놓기까지 걸리는 시간을 <strong>( ① )</strong>라 하고, 이후 초당 쏟아내는 단어 수를 <strong>( ② )</strong>라 한다. ( ② )는 GPU가 아닌 <strong>( ③ )</strong>가 결정한다.</div>
+  <div class="q-blank">① _____________ &nbsp;&nbsp; ② _____________ &nbsp;&nbsp; ③ _____________</div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">6</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐ 보통</div>
+      <div class="q-type-badge">객관식</div>
+    </div>
+  </div>
+  <div class="q-question">에이전틱 AI의 '단기 메모리'에 해당하는 반도체는 무엇인가?</div>
+  <ul class="q-options">
+    <li><span>①</span> NAND Flash (SSD)</li>
+    <li><span>②</span> HBM (High Bandwidth Memory) / HBF</li>
+    <li><span>③</span> DRAM (일반 PC 메모리)</li>
+    <li><span>④</span> CPU 내장 캐시</li>
+  </ul>
+</div>
+
+<!-- Q7 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">7</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐ 보통</div>
+      <div class="q-type-badge">OX문제</div>
+    </div>
+  </div>
+  <div class="q-question">교수에 따르면, HBM3에서 HBM4로 넘어가면서 데이터 라인 수가 512개에서 1024개로 늘어났다. (O / X)</div>
+  <div class="q-oxbox">
+    <div class="ox-btn">⭕ O</div>
+    <div class="ox-btn">❌ X</div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">8</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐ 보통</div>
+      <div class="q-type-badge">단답형</div>
+    </div>
+  </div>
+  <div class="q-question">엔비디아가 추진하는 'ICMS' 아키텍처에서 멀리 떨어진 대용량 메모리(NAND Flash)를 빠르게 연결하기 위해 사용하려는 기술 방식은?</div>
+  <div class="q-blank">답: _______________</div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">9</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐⭐ 어려움</div>
+      <div class="q-type-badge">서술형</div>
+    </div>
+  </div>
+  <div class="q-question">Llama 3.3 (70B) 모델, 128K 컨텍스트 기준으로 1명이 사용할 때 KV 캐시가 약 64GB가 필요하다. 아래 세 가지 조건이 모두 동시에 적용된다면 필요한 메모리는 어떻게 되는지 계산 과정과 함께 서술하시오.<br><br>
+  <strong>조건 A:</strong> 컨텍스트 길이가 128K → 1M으로 증가 (약 8배)<br>
+  <strong>조건 B:</strong> 동시 사용자 수가 1명 → 1,000명<br>
+  <strong>조건 C:</strong> Precision이 16bit → 32bit로 정밀도 2배 향상</div>
+  <div class="q-write-area">풀이 과정 및 답: (자유롭게 작성)</div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card">
+  <div class="q-header">
+    <div class="q-num">10</div>
+    <div class="q-meta">
+      <div class="q-difficulty">⭐⭐⭐ 어려움</div>
+      <div class="q-type-badge">서술형</div>
+    </div>
+  </div>
+  <div class="q-question">김정호 교수는 "구글은 틀렸다"고 주장합니다. 이 표현이 의미하는 바를 다음 세 가지 관점에서 구체적으로 서술하시오.<br><br>
+  1) 구글(엔비디아 포함)이 선택한 ICMS(광통신 + 원격 NAND Flash) 방식의 의도<br>
+  2) 교수가 이에 동의하지 않는 이유 (광통신의 한계)<br>
+  3) 교수가 주장하는 올바른 방향</div>
+  <div class="q-write-area">서술 (각 관점별 2~3문장 이상)</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ━━━━━━━━━━━━━━━━━ 정답지 ━━━━━━━━━━━━━━━━━ -->
+<div class="section-header">
+  <div class="sh-label">📝 정답 및 해설</div>
+  <h2>정답지</h2>
+  <div class="sh-sub">문제를 충분히 풀고 난 뒤 확인하세요.</div>
+</div>
+
+<!-- A1 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">1</div>
+    <div class="ans-correct">정답: ③ 메모리</div>
+  </div>
+  <div class="ans-explanation">
+    교수는 "AI 성능은 메모리에서 온다"는 것이 영상 전체의 핵심 주장입니다. 알고리즘 차이는 거의 없어졌고, GPU 계산 경쟁은 생성형 AI까지의 이야기였으며, 에이전틱 AI 시대에는 <strong>누가 얼마나 많은 개인 데이터(메모리)를 보유하느냐</strong>가 서비스 품질을 결정한다고 강조합니다.
+  </div>
+</div>
+
+<!-- A2 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">2</div>
+    <div class="ans-correct">정답: ⭕ O</div>
+  </div>
+  <div class="ans-explanation">
+    컨텍스트 엔지니어링은 텍스트만으로 지시하는 프롬프트 엔지니어링과 달리, <strong>파일(PDF·PPT)·이미지·동영상·웹사이트 URL</strong> 등 풍부한 맥락 자료를 첨부해 AI가 더 정확하게 의도를 파악하도록 하는 방식입니다. 2024년 말부터 AI 실력의 핵심 기준이 되었습니다.
+  </div>
+</div>
+
+<!-- A3 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">3</div>
+    <div class="ans-correct">정답: KV 캐시 (KV Cache)</div>
+  </div>
+  <div class="ans-explanation">
+    트랜스포머 모델에서 각 토큰의 <strong>Key(키, 어떤 정보인가)</strong>와 <strong>Value(밸류, 그 내용)</strong>를 저장하는 행렬이 KV 캐시입니다. 단어 100개면 100×100 행렬, 100만 개면 1M×1M 행렬이 필요해 컨텍스트가 길어질수록 메모리 용량이 폭발적으로 증가합니다.
+  </div>
+</div>
+
+<!-- A4 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">4</div>
+    <div class="ans-correct">정답: ① 100배 증가한다</div>
+  </div>
+  <div class="ans-explanation">
+    공식 1에서 <strong>M_KV = S × B × P × H × 2 × L × D</strong>로 모든 변수가 <strong>곱셈</strong>으로 연결되어 있습니다. Batch(B)가 100배 늘면 전체 메모리도 정확히 100배가 됩니다. 덧셈이 아닌 곱셈이기 때문에 변수 여러 개가 동시에 늘어나면 수천~수만 배 증가가 가능한 것이 "곱하기의 공포"입니다.
+  </div>
+</div>
+
+<!-- A5 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">5</div>
+    <div class="ans-correct">정답: ① 레이턴시(Latency) &nbsp; ② 스루풋(Throughput) &nbsp; ③ 메모리 밴드위스</div>
+  </div>
+  <div class="ans-explanation">
+    <strong>레이턴시</strong> = 첫 단어가 나오기까지의 시간 (GPU 계산 능력에 의존)<br>
+    <strong>스루풋</strong> = 이후 토큰이 쏟아지는 속도 (1초당 몇 개)<br>
+    <strong>메모리 밴드위스</strong> = KV캐시 데이터를 GPU로 얼마나 빨리 전달하느냐. 공식 3에서 두 번째 항(Data Size / BW)이 압도적으로 지배함.
+  </div>
+</div>
+
+<!-- A6 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">6</div>
+    <div class="ans-correct">정답: ② HBM (High Bandwidth Memory) / HBF</div>
+  </div>
+  <div class="ans-explanation">
+    HBM/HBF는 GPU 옆에 바짝 붙어 실시간 계산과 KV캐시를 처리하는 <strong>단기 메모리</strong>입니다. 자주 찾는 환자 차트를 의사 책상 서랍에 넣어두는 것과 같습니다. 반면 NAND Flash(SSD)는 생애 전체 기록을 보관하는 <strong>장기 메모리</strong>에 해당합니다.
+  </div>
+</div>
+
+<!-- A7 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">7</div>
+    <div class="ans-correct">정답: ❌ X</div>
+  </div>
+  <div class="ans-explanation">
+    영상에서 교수는 <strong>"HBM3에서 HBM4로 갈 때 라인이 1024에서 2048로 간다"</strong>고 말했습니다. 즉, HBM3이 1024, HBM4가 2048입니다. 문제에서 "512→1024"라고 서술했으므로 틀린 설명입니다. (HBM2/HBM2e 수준이 512 전후에 해당합니다.)
+  </div>
+</div>
+
+<!-- A8 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">8</div>
+    <div class="ans-correct">정답: 광통신 (Optical Communication / Photonics)</div>
+  </div>
+  <div class="ans-explanation">
+    ICMS(Inference Context Memory Storage) 아키텍처는 GPU 근처 HBM/HBF 대신 멀리 있는 대용량 NAND Flash를 쓰되, 구리 배선의 속도 한계를 극복하기 위해 <strong>광통신(광섬유)</strong>으로 연결하자는 전략입니다. 교수는 이에 대해 광→전 변환 과정의 전력 소모, 비용, 공간 문제로 인해 완벽한 해법이 아닐 수 있다고 비판합니다.
+  </div>
+</div>
+
+<!-- A9 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">9</div>
+    <div class="ans-correct">정답: 약 128TB (= 64GB × 8 × 1,000 × 2)</div>
+  </div>
+  <div class="ans-explanation">
+    <strong>기준:</strong> 64GB (1명, 128K, 16bit)<br><br>
+    <strong>조건 A</strong> 컨텍스트 8배: 64 × 8 = <strong>512GB</strong><br>
+    <strong>조건 B</strong> 사용자 1,000배: 512GB × 1,000 = <strong>512,000GB = 512TB</strong><br>
+    <strong>조건 C</strong> 정밀도 2배: 512TB × 2 = <strong>약 1,024TB ≈ 1PB</strong><br><br>
+    → 세 조건을 동시 적용하면 기준 대비 <strong>16,000배(= 8 × 1,000 × 2)</strong> 증가하여 약 1PB(1,000TB)의 메모리가 필요합니다. 이것이 "곱하기의 공포"이며, 교수가 메모리 수요가 수만 배 증가한다고 주장하는 수학적 근거입니다.
+  </div>
+</div>
+
+<!-- A10 -->
+<div class="ans-card">
+  <div class="ans-header">
+    <div class="ans-num">10</div>
+    <div class="ans-correct">정답: 서술형 (핵심 요소 포함 시 인정)</div>
+  </div>
+  <div class="ans-explanation">
+    <strong>① 엔비디아·구글의 ICMS 방식 의도:</strong><br>
+    GPU 옆 HBM/HBF 대신, 멀리 있는 대용량 NAND Flash를 광통신으로 연결해 메모리 용량 문제를 해결하려는 전략. 한국 기업(삼성·하이닉스)에 의존하지 않고 자체적으로 통제 가능한 솔루션을 구축하려는 의도도 포함.<br><br>
+    <strong>② 교수의 반론 — 광통신의 한계:</strong><br>
+    광통신으로 전환하려면 ① 전기→광, 광→전기 변환 시 추가 전력 소모, ② 광섬유 케이블의 복잡한 물리적 연결(공간 제약), ③ 광섬유 채널 수 제한(약 16개, 구리 병렬 방식에 비해 불리). 결국 비용·전력·공간 측면에서 비효율적.<br><br>
+    <strong>③ 교수의 올바른 방향:</strong><br>
+    멀리 두든 가까이 두든 <strong>무조건 메모리는 쌓아야 한다</strong>(수직 적층 기술 HBM/HBF 방식). 가능하면 GPU 옆에 최대한 가까이 붙이는 것이 성능 측면에서 최선이며, 광통신은 차선책에 불과함. NAND Flash도 HBF처럼 수직으로 쌓아 GPU 가까이 붙이는 방향을 삼성·하이닉스·샌디스크에 설득 중.
+  </div>
+</div>
+
+<div style="margin-top:32px; padding:16px 18px; background:var(--bg2); border:1px solid var(--border); border-radius:8px; font-size:13px; color:var(--text2);">
+  <strong style="color:var(--accent);">채점 기준 (서술형)</strong><br>
+  9번: 계산 과정 정확 50점 + 최종 수치 범위 내 50점 (단위 실수 -10점 감점 가능)<br>
+  10번: 3개 관점 각 33점, 핵심 키워드(광통신 한계, 수직 적층, 전력소모) 포함 시 만점
+</div>
+
+<footer>
+  <div>📺 원본: <strong>[진짜 수학, AI 4편]</strong> — KAIST 김정호 교수 × 언더스탠딩</div>
+  <div style="margin-top:6px;">🔗 https://youtu.be/gyrMg1XEY7Y | 2026년 4월 5일</div>
+</footer>
+
+</body>
+</html>
