@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>마이크론 테크놀로지 (MU) 심층 분석 — 2026.04.06</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg2: #fafafa;
+      --text: #1a1a1a;
+      --text2: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+      --border: #e5e5e5;
+      --table-header: #e11d48;
+      --table-bg: #fafafa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── HEADER ── */
+    .cover {
+      background: var(--text);
+      color: #fff;
+      padding: 48px 24px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.18;
+    }
+    .cover-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 7vw, 46px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .cover-sub {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 24px;
+    }
+    .cover-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .chip {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #e0e0e0;
+    }
+    .chip.red { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ── VERDICT BANNER ── */
+    .verdict {
+      background: var(--accent);
+      color: #fff;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .verdict-icon { font-size: 28px; }
+    .verdict-text { font-size: 13px; opacity: 0.9; }
+    .verdict-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── SECTION ── */
+    .section { padding: 36px 0 0; }
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .divider {
+      border: none;
+      border-top: 2px solid var(--accent);
+      width: 36px;
+      margin-bottom: 18px;
+    }
+
+    /* ── STAT GRID ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-note {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px;
+    }
+
+    /* ── PROSE ── */
+    p { margin-bottom: 14px; color: var(--text); }
+    .lead { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.65; }
+    strong { color: var(--accent); font-weight: 600; }
+    em { font-style: italic; }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight-box {
+      background: var(--bg2);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .highlight-box .hb-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; margin: 18px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--table-bg);
+    }
+    thead tr { background: var(--table-header); color: #fff; }
+    thead th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 9px 12px; color: var(--text); }
+    tbody tr:nth-child(even) { background: #f5f5f5; }
+
+    /* ── CHART ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 20px 0;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 12px 12px;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── NEWS CARDS ── */
+    .news-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+    .news-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .news-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .news-badge.good { background: #dcfce7; color: #16a34a; }
+    .news-badge.bad { background: #fee2e2; color: #dc2626; }
+    .news-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+
+    /* ── SIGNAL METER ── */
+    .signal-bar-wrap { margin: 10px 0 6px; }
+    .signal-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 5px;
+    }
+    .signal-bar-outer {
+      background: #ebebeb;
+      border-radius: 6px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .signal-bar-inner {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── STRATEGY BOX ── */
+    .strategy-grid { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; }
+    .strategy-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .strategy-header {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .strategy-header.short { background: #1a1a1a; color: #fff; }
+    .strategy-header.mid { background: var(--accent); color: #fff; }
+    .strategy-body { padding: 14px 16px; font-size: 13px; }
+    .strategy-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+    .strategy-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      min-width: 52px;
+      text-transform: uppercase;
+      padding-top: 1px;
+    }
+
+    /* ── PORTFOLIO RISK ── */
+    .risk-cards { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+    .risk-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .risk-pct {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--accent);
+      min-width: 52px;
+      text-align: center;
+    }
+    .risk-label { font-weight: 600; font-size: 13px; margin-bottom: 3px; }
+    .risk-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+    /* ── CONCLUSION ── */
+    .conclusion {
+      background: var(--text);
+      color: #fff;
+      padding: 36px 24px;
+      margin-top: 40px;
+    }
+    .conclusion-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .conclusion-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .conclusion p { color: #ccc; font-size: 14px; }
+    .conclusion strong { color: var(--accent2); }
+    .buy-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      padding: 10px 28px;
+      border-radius: 6px;
+      margin: 20px 0 10px;
+      letter-spacing: 2px;
+    }
+
+    /* ── MACRO TAGS ── */
+    .macro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+    .macro-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .macro-icon { font-size: 22px; margin-bottom: 6px; }
+    .macro-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+    .macro-desc { font-size: 11px; color: var(--text2); line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 24px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text2);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── SEPARATOR ── */
+    .sep {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0 0;
+    }
+
+    /* ── INLINE METRIC ── */
+    .inline-metrics { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+    .im {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .im-label { font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
+    .im-val { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--accent); }
+    .im-sub { font-size: 10px; color: var(--text2); }
+
+    /* DCF simulator */
+    .sim-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 18px 0;
+    }
+    .sim-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .sim-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+    .sim-row label { font-size: 13px; flex-shrink: 0; }
+    .sim-row input[type=range] {
+      flex: 1;
+      accent-color: var(--accent);
+      height: 4px;
+    }
+    .sim-row .sim-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      min-width: 56px;
+      text-align: right;
+      color: var(--accent);
+    }
+    .sim-result {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sim-result-label { font-size: 13px; color: var(--text2); }
+    .sim-result-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">월스트리트 심층 리서치 · 2026.04.06</div>
+  <div class="cover-title">마이크론<br/>테크놀로지</div>
+  <div class="cover-sub">Micron Technology, Inc. · NYSE: <strong style="color:#e11d48">MU</strong></div>
+  <div class="cover-chips">
+    <span class="chip red">매수 BUY</span>
+    <span class="chip">반도체 · 대형주</span>
+    <span class="chip">시총 $420.8B</span>
+    <span class="chip">직원 43,000명</span>
+  </div>
+</div>
+
+<!-- VERDICT BANNER -->
+<div class="verdict">
+  <div class="verdict-icon">🎯</div>
+  <div>
+    <div class="verdict-label">강력 매수 BUY</div>
+    <div class="verdict-text">AI 메모리 슈퍼사이클 수혜 · Forward P/E 6~8배 · 애널리스트 목표가 $527.60</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. 성장주 분석 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 01</div>
+    <div class="section-title">AI 인프라 핵심 — 초고속 성장주로의 탈바꿈</div>
+    <hr class="divider"/>
+    <p class="lead">월스트리트는 마이크론을 전통적 경기 순환형 가치주에서 <strong>AI 인프라 하이퍼-성장주</strong>로 완전히 재평가하고 있습니다.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">매출 성장률 YoY</div>
+        <div class="stat-value">+196%</div>
+        <div class="stat-note">전년 동기 대비</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Non-GAAP EPS</div>
+        <div class="stat-value">$12.20</div>
+        <div class="stat-note">최근 분기 기록</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Forward P/E</div>
+        <div class="stat-value">6~8배</div>
+        <div class="stat-note">2026 예상 EPS 기준</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ROIC</div>
+        <div class="stat-value">39.5%</div>
+        <div class="stat-note">vs WACC 9.7%</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <div class="hb-title">핵심 재평가 근거</div>
+      HBM3E 고부가가치 제품 믹스 개선, 클라우드 업체(CSP)와의 장기 공급계약(LTA)으로 <strong>2026~2027년 물량까지 매진</strong>. 높아진 실적 가시성이 딥밸류 함정을 탈출시키는 중.
+    </div>
+
+    <!-- 매출·성장 차트 -->
+    <div class="chart-title">▎ AI 메모리 핵심 성장 지표 비교</div>
+    <div class="chart-container fade-in">
+      <canvas id="growthChart" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 2. 현금건전성 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 02</div>
+    <div class="section-title">현금건전성 — 철벽 방어의 재무 체력</div>
+    <hr class="divider"/>
+
+    <div class="inline-metrics">
+      <div class="im">
+        <span class="im-label">유동비율</span>
+        <span class="im-val">2.46</span>
+        <span class="im-sub">단기 채무 상환력</span>
+      </div>
+      <div class="im">
+        <span class="im-label">부채비율</span>
+        <span class="im-val">0.14</span>
+        <span class="im-sub">14% 초저레버리지</span>
+      </div>
+      <div class="im">
+        <span class="im-label">총현금</span>
+        <span class="im-val">$146B</span>
+        <span class="im-sub">총부채 $108B 상회</span>
+      </div>
+      <div class="im">
+        <span class="im-label">CapEx (FY24)</span>
+        <span class="im-val">$80B+</span>
+        <span class="im-sub">HBM 설비 투자</span>
+      </div>
+    </div>
+
+    <p>순현금(Net Cash) 상태로 이자 수입이 이자 비용을 상쇄하는 구조. 고금리 환경에서도 이자 부담 제로에 가깝습니다. 장기 부채 조기 상환(Buyback)은 경영진의 강한 자신감 표명으로 해석됩니다.</p>
+
+    <!-- 현금건전성 차트 -->
+    <div class="chart-title">▎ 현금 vs 부채 구조</div>
+    <div class="chart-container fade-in">
+      <canvas id="cashChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 3. 핵심 재무제표 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 03</div>
+    <div class="section-title">핵심 재무제표 — 하이퍼스케일 진입</div>
+    <hr class="divider"/>
+
+    <div class="highlight-box">
+      <div class="hb-title">재무제표 종합 평가</div>
+      '턴어라운드' 단계를 지나 <strong>'하이퍼 스케일(Hyper-scale)'</strong>로 진입하는 초입. 비용 통제 엄격, 단가(ASP)·물량(Bit Growth) 동시 상승으로 이익 잉여금 눈덩이처럼 확장 중.
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>재무 항목</th><th>내용</th><th>평가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>매출 총이익률</td><td>80% 향해 상승 중</td><td style="color:#16a34a">🟢 최상</td></tr>
+          <tr><td>Non-GAAP EPS</td><td>$12.20 (최근 분기)</td><td style="color:#16a34a">🟢 서프라이즈</td></tr>
+          <tr><td>영업현금흐름</td><td>비약적 증가 → HBM 설비 투자 자급</td><td style="color:#16a34a">🟢 선순환</td></tr>
+          <tr><td>재고자산</td><td>범용→고부가가치 HBM 중심 재편</td><td style="color:#16a34a">🟢 질적 개선</td></tr>
+          <tr><td>이익 잉여금</td><td>급격 확장</td><td style="color:#16a34a">🟢 폭발적</td></tr>
+          <tr><td>외부 차입 의존도</td><td>거의 없음 (독립적 성장 가능)</td><td style="color:#16a34a">🟢 우수</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 4. 투자기관 목표주가 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 04</div>
+    <div class="section-title">투자기관 컨센서스 — 일제히 상향 랠리</div>
+    <hr class="divider"/>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">현재 주가</div>
+        <div class="stat-value">$379.10</div>
+        <div class="stat-note">기준일 2026.04.06</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">평균 목표가</div>
+        <div class="stat-value">$527.60</div>
+        <div class="stat-note">+39.2% 상승 여력</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">최고 목표가</div>
+        <div class="stat-value">$680</div>
+        <div class="stat-note">강력 상향 랠리</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">매수 의견</div>
+        <div class="stat-value">38/45</div>
+        <div class="stat-note">84% Strong Buy</div>
+      </div>
+    </div>
+
+    <!-- 목표주가 차트 -->
+    <div class="chart-title">▎ 주가 vs 목표가 비교</div>
+    <div class="chart-container fade-in">
+      <canvas id="targetChart" height="230"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>기관</th><th>목표가</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Stifel / Susquehanna</td><td>$525~$600</td><td>3~4월 상향</td></tr>
+          <tr><td>KeyCorp 외 다수</td><td>$525~$600</td><td>어닝 서프라이즈 후</td></tr>
+          <tr><td>애널리스트 평균</td><td><strong>$527.60</strong></td><td>+39.2%</td></tr>
+          <tr><td>최고 목표가</td><td>$680</td><td>AI 사이클 선반영</td></tr>
+          <tr><td>보수적 mid-case</td><td>$302.40</td><td>HBM 수요 둔화 우려</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 5. 호재/악재 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 05</div>
+    <div class="section-title">호재 vs 악재 — 펀더멘털이 압도</div>
+    <hr class="divider"/>
+
+    <div class="news-grid">
+      <div class="news-card">
+        <span class="news-badge good">호재</span>
+        <div class="news-text"><strong>"이번엔 다르다"</strong> — Seeking Alpha 등 주요 매체, 구조적 성장주 재평가. "Next Intel" 위상 강화.</div>
+      </div>
+      <div class="news-card">
+        <span class="news-badge good">호재</span>
+        <div class="news-text"><strong>부채 조기 상환</strong> — 장기 부채 바이백으로 재무 구조 가볍게. 현금 창출력에 대한 경영진 강한 자신감 시그널.</div>
+      </div>
+      <div class="news-card">
+        <span class="news-badge good">호재</span>
+        <div class="news-text"><strong>HBM 캐파 2025~2026 매진</strong> — 공급 부족으로 전 제품 ASP 구조적 상승 중. 황금 업황(Golden Cycle).</div>
+      </div>
+      <div class="news-card">
+        <span class="news-badge bad">악재</span>
+        <div class="news-text"><strong>터보퀀트(TurboQuant) 공포</strong> — AI 소프트웨어 최적화로 메모리 수요 감소 가능성 제기. 단기 차익 실현 압력.</div>
+      </div>
+      <div class="news-card">
+        <span class="news-badge bad">악재</span>
+        <div class="news-text"><strong>거시·지정학 불안</strong> — 중동 리스크, 미중 수출 규제. 펀더멘털과 무관한 단기 동반 하락 리스크 존재.</div>
+      </div>
+      <div class="news-card">
+        <span class="news-badge bad">악재</span>
+        <div class="news-text"><strong>실적 후 차익 실현</strong> — 어닝 서프라이즈 직후 시간외 -4.4% 하락. "소문난 잔치" 패턴. 단기 변동성 요인.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 6. 기술적 지표 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 06</div>
+    <div class="section-title">기술적 지표 — 눌림목 매수 타이밍</div>
+    <hr class="divider"/>
+
+    <div class="highlight-box">
+      <div class="hb-title">RSI(14) 현재값</div>
+      <strong>RSI 36.82</strong> — 과매도(30) 직전 구간. 하락 모멘텀이 크게 둔화되고 반등을 모색하는 강력한 매수 대기 구간.
+    </div>
+
+    <!-- RSI 게이지 시뮬레이션 -->
+    <div class="signal-bar-wrap fade-in">
+      <div class="signal-label-row"><span>과매도 (0)</span><span>중립 (50)</span><span>과매수 (100)</span></div>
+      <div class="signal-bar-outer">
+        <div class="signal-bar-inner" id="rsiBar" style="width:0%; background: linear-gradient(90deg, #2563eb, #e11d48);"></div>
+      </div>
+      <div style="font-size:12px; color:var(--text2); margin-top:4px;">현재 RSI: <strong style="color:var(--accent)">36.82</strong> — 과매도 근접 구간 (매수 대기)</div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:16px">
+      <table>
+        <thead>
+          <tr><th>이동평균</th><th>값</th><th>현재가 비교</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>5일선</td><td>$350.16</td><td style="color:#16a34a">✅ 현재가 위 (반등 성공)</td></tr>
+          <tr><td>20일선</td><td>$396.55</td><td style="color:#dc2626">⚠️ 현재가 아래 (저항)</td></tr>
+          <tr><td>60일선</td><td>$394.14</td><td style="color:#dc2626">⚠️ 현재가 아래 (저항)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 이평선 차트 -->
+    <div class="chart-title">▎ 이평선 vs 현재가·지지·저항</div>
+    <div class="chart-container fade-in">
+      <canvas id="maChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 7. 거래량 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 07</div>
+    <div class="section-title">거래량 분석 — 손바뀜의 완성</div>
+    <hr class="divider"/>
+
+    <p>바닥권에서 <strong>7,300만 주 이상</strong>의 폭발적 거래량. 공포에 질린 개인 투자자 물량을 스마트 머니가 바닥에서 흡수한 전형적인 <strong>손바뀜(Change of Hands)</strong> 패턴입니다.</p>
+
+    <!-- 거래량 차트 -->
+    <div class="chart-title">▎ 최근 거래량 추이 (만 주)</div>
+    <div class="chart-container fade-in">
+      <canvas id="volumeChart" height="220"></canvas>
+    </div>
+
+    <div class="highlight-box" style="margin-top:0">
+      <div class="hb-title">볼륨 건조화 진입</div>
+      4월 2일 이후 약 5,100만 주 수준으로 안정. 매도 압력 감소 + 변동성 축소 = 조만간 새로운 방향성(상방 돌파) 결정 국면.
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 8. 수급 / 기관 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 08 · 09</div>
+    <div class="section-title">수급 분석 — 스마트 머니 vs 개인</div>
+    <hr class="divider"/>
+
+    <!-- 수급 차트 -->
+    <div class="chart-title">▎ 주주 구성 (기관 지분 82.60%)</div>
+    <div class="chart-container fade-in">
+      <canvas id="ownershipChart" height="220"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>수급 주체</th><th>동향</th><th>시그널</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>패시브·헤지펀드</td><td>$320~$350 구간 대규모 저가 매수</td><td style="color:#16a34a">🟢 강력 매수</td></tr>
+          <tr><td>기관 (롤오버)</td><td>$400~$450 콜옵션 집중 누적</td><td style="color:#16a34a">🟢 중기 상승 확신</td></tr>
+          <tr><td>개인 투자자</td><td>변동성 공포로 대거 이탈</td><td style="color:#6b7280">🔄 오버행 해소</td></tr>
+          <tr><td>자사주 매입</td><td>FCF 기반 프로그램 가동</td><td style="color:#16a34a">🟢 하단 지지</td></tr>
+          <tr><td>Vanguard/BlackRock</td><td>장기 투자 물량 유지</td><td style="color:#16a34a">🟢 안정적 보유</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 10. 경쟁사 비교 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 10</div>
+    <div class="section-title">경쟁사 비교 — 과점 구조의 황금기</div>
+    <hr class="divider"/>
+
+    <!-- 경쟁사 레이더 차트 -->
+    <div class="chart-title">▎ 메모리 빅3 경쟁력 비교 (정성 평가)</div>
+    <div class="chart-container fade-in">
+      <canvas id="radarChart" height="250"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>항목</th><th>마이크론(MU)</th><th>SK하이닉스</th><th>삼성전자</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>HBM 포지션</td><td>추격 중 (12단 HBM3E)</td><td>선점 (NVDA 주공급)</td><td>수율 이슈 개선 중</td></tr>
+          <tr><td>전력 효율</td><td><strong style="color:#e11d48">우위</strong></td><td>양호</td><td>보통</td></tr>
+          <tr><td>사업 집중도</td><td>메모리 Pure-play</td><td>메모리 위주</td><td>파운드리+메모리 이중고</td></tr>
+          <tr><td>보조금 수혜</td><td><strong style="color:#e11d48">CHIPS Act 혜택</strong></td><td>한국 정책 지원</td><td>한국 정책 지원</td></tr>
+          <tr><td>밸류에이션</td><td><strong style="color:#e11d48">저평가 (P/E 6~8)</strong></td><td>적정</td><td>저평가</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 11. P/E -->
+  <div class="section fade-in">
+    <div class="section-num">Section 11</div>
+    <div class="section-title">P/E 분석 — 역사적 밸류에이션 미스매치</div>
+    <hr class="divider"/>
+
+    <div class="highlight-box">
+      <div class="hb-title">Forward P/E의 마법</div>
+      2026 예상 EPS <strong>$45~$58</strong> 적용 시 현재 주가 기준 선행 P/E <strong>6.5~8.4배</strong>. S&P500 평균(20배)·빅테크(30배+) 대비 터무니없이 저렴.
+    </div>
+
+    <!-- P/E 비교 차트 -->
+    <div class="chart-title">▎ Forward P/E 비교 — MU vs 동종 그룹</div>
+    <div class="chart-container fade-in">
+      <canvas id="peChart" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 12~13. 가치평가 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 12 · 13</div>
+    <div class="section-title">내재가치 &amp; DCF — 저평가 확인</div>
+    <hr class="divider"/>
+
+    <!-- 가치평가 차트 -->
+    <div class="chart-title">▎ 가치평가 비교 (현재가 vs 각종 적정가)</div>
+    <div class="chart-container fade-in">
+      <canvas id="valueChart" height="230"></canvas>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>가치평가 항목</th><th>산출 금액</th><th>현재가 대비</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>현재 주가</td><td><strong>$379.10</strong></td><td>—</td></tr>
+          <tr><td>Intrinsic Value (그레이엄)</td><td>$402.62</td><td style="color:#16a34a">+6.2% 저평가</td></tr>
+          <tr><td>DCF Value</td><td>$421.67</td><td style="color:#16a34a">+11.2% 저평가</td></tr>
+          <tr><td>애널리스트 평균 목표가</td><td>$527.60</td><td style="color:#16a34a">+39.2% 강력 저평가</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>DCF 핵심 가정</th><th>값</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>할인율 (WACC)</td><td>9.7%</td></tr>
+          <tr><td>영구성장률</td><td>2.5%</td></tr>
+          <tr><td>예측 기간</td><td>5년</td></tr>
+          <tr><td>기준 FCF</td><td>$14.60B</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DCF 시뮬레이터 -->
+    <div class="sim-box fade-in">
+      <div class="sim-title">🔢 DCF 인터랙티브 시뮬레이터</div>
+      <div class="sim-row">
+        <label>기준 FCF ($B)</label>
+        <input type="range" id="simFcf" min="10" max="25" step="0.5" value="14.6" oninput="updateDCF()"/>
+        <span class="sim-val" id="simFcfVal">$14.6B</span>
+      </div>
+      <div class="sim-row">
+        <label>FCF 성장률 (%)</label>
+        <input type="range" id="simGrowth" min="5" max="40" step="1" value="20" oninput="updateDCF()"/>
+        <span class="sim-val" id="simGrowthVal">20%</span>
+      </div>
+      <div class="sim-row">
+        <label>WACC (%)</label>
+        <input type="range" id="simWacc" min="7" max="14" step="0.1" value="9.7" oninput="updateDCF()"/>
+        <span class="sim-val" id="simWaccVal">9.7%</span>
+      </div>
+      <div class="sim-row">
+        <label>영구성장률 (%)</label>
+        <input type="range" id="simTerm" min="1" max="4" step="0.1" value="2.5" oninput="updateDCF()"/>
+        <span class="sim-val" id="simTermVal">2.5%</span>
+      </div>
+      <div class="sim-result">
+        <div class="sim-result-label">시뮬레이션 적정주가</div>
+        <div class="sim-result-val" id="simResult">$421.67</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 14. 베타 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 14 · 15</div>
+    <div class="section-title">베타 β &amp; WACC/ROIC — 경제적 가치 창출의 극대화</div>
+    <hr class="divider"/>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">베타 (β)</div>
+        <div class="stat-value">1.57</div>
+        <div class="stat-note">S&P500 대비 1.57배 변동</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">WACC</div>
+        <div class="stat-value">9.7%</div>
+        <div class="stat-note">가중평균자본비용</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ROIC</div>
+        <div class="stat-value">39.5%</div>
+        <div class="stat-note">투하자본이익률</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Value Spread</div>
+        <div class="stat-value">+29.8%</div>
+        <div class="stat-note">ROIC - WACC</div>
+      </div>
+    </div>
+
+    <!-- ROIC vs WACC 차트 -->
+    <div class="chart-title">▎ ROIC vs WACC — 경제적 부가가치(EVA) 스프레드</div>
+    <div class="chart-container fade-in">
+      <canvas id="roicChart" height="220"></canvas>
+    </div>
+
+    <div class="highlight-box">
+      <div class="hb-title">Beta 전략</div>
+      β=1.57은 상승장 1.57배 초과 수익 기회. 낙폭 과대 시 저가 매수(Buy the Dip) 단기·스윙 트레이더에게 최적의 사냥감. 변동성을 위험이 아닌 <strong>수익 기회</strong>로 활용.
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 16. 포트폴리오 비중 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 16</div>
+    <div class="section-title">투자 성향별 권장 비중</div>
+    <hr class="divider"/>
+
+    <div class="risk-cards">
+      <div class="risk-card">
+        <div class="risk-pct">5%</div>
+        <div>
+          <div class="risk-label">🛡️ 보수적 (Stable)</div>
+          <div class="risk-desc">β=1.57 높은 변동성. 배당($0.15) 꾸준히 지급. AI 인플레이션 헷지·초과 수익 창출 조미료(Kicker) 성격으로 제한적 편입.</div>
+        </div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-pct">15%</div>
+        <div>
+          <div class="risk-label">⚖️ 중립적 (Balanced)</div>
+          <div class="risk-desc">낮은 P/E 밸류에이션(가치) + AI 기반 이익 폭증(성장) 양쪽 충족. 시장 하락 시 분할 매수 대응으로 알파 창출.</div>
+        </div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-pct">30%</div>
+        <div>
+          <div class="risk-label">⚡ 공격적 (Aggressive)</div>
+          <div class="risk-desc">메모리 슈퍼사이클 중반부 골디락스 구간. 강력한 펀더멘털 + 20% Dip이 맞물린 절호의 비중 확대 찬스. 연말 목표 +40%.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 포트폴리오 도넛 차트 -->
+    <div class="chart-title">▎ 공격적 투자자 예시 포트폴리오 구성</div>
+    <div class="chart-container fade-in">
+      <canvas id="portfolioChart" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 17. 매매 전략 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 17</div>
+    <div class="section-title">단기·중기 매매 전략</div>
+    <hr class="divider"/>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-header short">📈 단기 전략 (1~2주) — 기술적 반등 노리기</div>
+        <div class="strategy-body">
+          <div class="strategy-row">
+            <span class="strategy-key">진입</span>
+            <span>$379 인근 1차 매수. $355~$365 핵심 지지선에서 분할 매수(Scale-in)</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">1차 목표</span>
+            <span><strong>$405</strong> — 20일선 저항선</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">2차 목표</span>
+            <span><strong>$420</strong> — 이전 매물대 하단 (+10% 수익)</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">손절</span>
+            <span>$340 붕괴 시 단기 추세 이탈 → 절반 매도 후 관망</span>
+          </div>
+        </div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-header mid">💎 중기 전략 (1개월) — 실적 장세 안착</div>
+        <div class="strategy-body">
+          <div class="strategy-row">
+            <span class="strategy-key">접근</span>
+            <span>$370 이하 무조건 매수 및 보유(Buy &amp; Hold)</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">목표</span>
+            <span>다음 어닝 시즌 전후 <strong>$480~$500</strong> 돌파 타깃</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">근거</span>
+            <span>단기 차익 실현 소화 완료 → 기관 롱 포지션 구축 완성 예상</span>
+          </div>
+          <div class="strategy-row">
+            <span class="strategy-key">판단</span>
+            <span>최근 대규모 거래량 하락 = 세력 흔들기 확률 90%+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 시각화 차트 -->
+    <div class="chart-title">▎ 지지·저항 및 목표가 밴드</div>
+    <div class="chart-container fade-in">
+      <canvas id="strategyChart" height="230"></canvas>
+    </div>
+  </div>
+
+  <hr class="sep fade-in"/>
+
+  <!-- 18. 거시경제 -->
+  <div class="section fade-in">
+    <div class="section-num">Section 18</div>
+    <div class="section-title">거시경제 &amp; 지정학 리스크</div>
+    <hr class="divider"/>
+
+    <div class="macro-grid">
+      <div class="macro-card">
+        <div class="macro-icon">🏦</div>
+        <div class="macro-title">금리 (긍정적)</div>
+        <div class="macro-desc">순현금 기업으로 금리 리스크 최소. 향후 인하 사이클 도래 시 밸류에이션 멀티플 폭발적 재평가.</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">🌏</div>
+        <div class="macro-title">지정학 (중립)</div>
+        <div class="macro-desc">중동 리스크 단기 악재. CHIPS Act·프렌드쇼어링으로 대중 수출 규제 타격 상쇄.</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">🤖</div>
+        <div class="macro-title">AI 메가 사이클 (강력 긍정)</div>
+        <div class="macro-desc">빅테크 AI 군비 경쟁 멈출 수 없음. 경기 침체 와도 HBM 수요 확고. 가격 전가력(Pricing Power) 압도적.</div>
+      </div>
+      <div class="macro-card">
+        <div class="macro-icon">💱</div>
+        <div class="macro-title">환율 (소폭 부정)</div>
+        <div class="macro-desc">강달러 → 해외 매출 환산 불리. 단 반도체 결제는 달러 기반으로 환리스크 통제 가능.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.container -->
+
+<!-- CONCLUSION -->
+<div class="conclusion">
+  <div class="container">
+    <div class="conclusion-label">최종 결론</div>
+    <div class="conclusion-title">마이크론의 지금은<br/>역사적 저평가 구간</div>
+    <p>압도적인 영업이익률 개선, <strong>HBM 슈퍼사이클</strong> 수혜, 극단적으로 저렴한 선행 P/E(6~8배)라는 삼박자. $470→$370대 하락은 펀더멘털 훼손이 아닌 단기 수급 이탈 및 매크로 노이즈의 <strong>건전한 가격 조정</strong>. 내재가치($402)·DCF($421) 모두 현재 주가 상단, 하방은 단단 상방은 열린 비대칭 수익 구조.</p>
+    <div class="buy-badge">▲ 매수 BUY</div>
+    <p style="font-size:12px; color:#666; margin-top:12px">본 자료는 투자 참고 목적으로만 사용되며 투자 손실에 대한 법적 책임을 지지 않습니다. 투자 결정은 본인의 판단 하에 이루어져야 합니다.</p>
+  </div>
+</div>
+
+<div class="footer">마이크론 테크놀로지 (MU) 심층 분석 · 기준일 2026.04.06 · 월스트리트 리서치 관점</div>
+
+<script>
+// ── DCF 시뮬레이터 ──
+function updateDCF() {
+  const fcf = parseFloat(document.getElementById('simFcf').value);
+  const g = parseFloat(document.getElementById('simGrowth').value) / 100;
+  const wacc = parseFloat(document.getElementById('simWacc').value) / 100;
+  const term = parseFloat(document.getElementById('simTerm').value) / 100;
+  const shares = 1.1; // ~1.1B shares
+
+  let pv = 0;
+  let cf = fcf;
+  for (let i = 1; i <= 5; i++) {
+    cf *= (1 + g);
+    pv += cf / Math.pow(1 + wacc, i);
+  }
+  const tv = (cf * (1 + term)) / (wacc - term);
+  const pvTv = tv / Math.pow(1 + wacc, 5);
+  const total = (pv + pvTv) / shares;
+
+  document.getElementById('simFcfVal').textContent = '$' + fcf.toFixed(1) + 'B';
+  document.getElementById('simGrowthVal').textContent = (g * 100).toFixed(0) + '%';
+  document.getElementById('simWaccVal').textContent = (wacc * 100).toFixed(1) + '%';
+  document.getElementById('simTermVal').textContent = (term * 100).toFixed(1) + '%';
+  document.getElementById('simResult').textContent = '$' + total.toFixed(2);
+}
+
+// ── RSI Bar 애니메이션 ──
+setTimeout(() => {
+  const bar = document.getElementById('rsiBar');
+  if (bar) bar.style.width = '36.82%';
+}, 600);
+
+// ── CHART CONFIGS ──
+const chartConfigs = {};
+
+// 1. 성장 지표 Bar
+chartConfigs['growthChart'] = () => {
+  new Chart(document.getElementById('growthChart'), {
+    type: 'bar',
+    data: {
+      labels: ['매출 성장률\nYoY', '총이익률\n목표', 'ROIC', 'Value Spread\n(ROIC-WACC)', 'Forward P/E\n(역수 ×10)'],
+      datasets: [{
+        label: '지표값',
+        data: [196, 80, 39.5, 29.8, 8.4],
+        backgroundColor: ['#e11d48','#1a1a1a','#2563eb','#6b7280','#e11d48'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.parsed.y + (ctx.dataIndex === 0 ? '%' : ctx.dataIndex === 4 ? '배' : '%') } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// 2. 현금 vs 부채
+chartConfigs['cashChart'] = () => {
+  new Chart(document.getElementById('cashChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현금성 자산', '총 부채', 'CapEx (FY24)', 'Net Cash'],
+      datasets: [{
+        label: '금액 ($B)',
+        data: [146, 108, 80, 38],
+        backgroundColor: ['#2563eb','#e11d48','#6b7280','#16a34a'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y + 'B' } } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v + 'B', font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// 3. 목표주가 비교
+chartConfigs['targetChart'] = () => {
+  new Chart(document.getElementById('targetChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현재 주가', 'Intrinsic\nValue', 'DCF\nValue', '애널리스트\n평균 목표가', '최고\n목표가', '보수적\n목표가'],
+      datasets: [{
+        label: '주가($)',
+        data: [379.10, 402.62, 421.67, 527.60, 680, 302.40],
+        backgroundColor: ['#1a1a1a','#2563eb','#2563eb','#e11d48','#e11d48','#6b7280'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v, font: { size: 10 } }, min: 200 }
+      }
+    }
+  });
+};
+
+// 4. 이평선
+chartConfigs['maChart'] = () => {
+  new Chart(document.getElementById('maChart'), {
+    type: 'bar',
+    data: {
+      labels: ['하방 지지선\n$321', '5일선\n$350.16', '현재가\n$379.10', '20일선\n$396.55', '60일선\n$394.14', '1차 목표\n$405'],
+      datasets: [{
+        label: '가격($)',
+        data: [321, 350.16, 379.10, 396.55, 394.14, 405],
+        backgroundColor: ['#6b7280','#2563eb','#e11d48','#f43f5e','#f43f5e','#16a34a'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v, font: { size: 10 } }, min: 280 }
+      }
+    }
+  });
+};
+
+// 5. 거래량
+chartConfigs['volumeChart'] = () => {
+  new Chart(document.getElementById('volumeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['3/19\n고점 이탈', '3/30\n바닥 ($321)', '3/31\n바닥 구간', '4/1\n강반등', '4/2~\n안정화'],
+      datasets: [{
+        label: '거래량 (만주)',
+        data: [7450, 7300, 7350, 7442, 5100],
+        backgroundColor: ['#6b7280','#e11d48','#e11d48','#2563eb','#1a1a1a'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString() + '만주' } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// 6. 주주 구성 도넛
+chartConfigs['ownershipChart'] = () => {
+  new Chart(document.getElementById('ownershipChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['기관 투자자', '개인 투자자', '내부자 등'],
+      datasets: [{
+        data: [82.6, 14.4, 3.0],
+        backgroundColor: ['#e11d48','#1a1a1a','#6b7280'],
+        borderWidth: 0,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 14 } },
+        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed + '%' } }
+      },
+      cutout: '60%'
+    }
+  });
+};
+
+// 7. 경쟁사 레이더
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['HBM 기술력', '전력 효율', '수익성', '밸류에이션\n매력', '공급 안정성', '정책 지원'],
+      datasets: [
+        { label: 'Micron (MU)', data: [78, 90, 85, 95, 80, 88], borderColor: '#e11d48', backgroundColor: 'rgba(225,29,72,0.15)', tension: 0.4 },
+        { label: 'SK하이닉스', data: [95, 78, 80, 65, 85, 72], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', tension: 0.4 },
+        { label: '삼성전자', data: [72, 70, 65, 75, 90, 70], borderColor: '#6b7280', backgroundColor: 'rgba(107,114,128,0.08)', tension: 0.4 },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } } },
+      scales: {
+        r: {
+          min: 0, max: 100, ticks: { display: false, stepSize: 20 },
+          grid: { color: '#e5e5e5' },
+          pointLabels: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+};
+
+// 8. P/E 비교 가로 바
+chartConfigs['peChart'] = () => {
+  new Chart(document.getElementById('peChart'), {
+    type: 'bar',
+    data: {
+      labels: ['MU Forward P/E', 'S&P500 평균', 'AMD', '엔비디아', '브로드컴', 'MU TTM P/E'],
+      datasets: [{
+        label: 'P/E (배)',
+        data: [7.5, 20, 28, 45, 35, 27],
+        backgroundColor: ['#e11d48','#6b7280','#6b7280','#6b7280','#6b7280','#1a1a1a'],
+        borderRadius: 6,
+        indexAxis: 'y',
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0, duration: 1500, easing: 'easeInOutQuart' } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.parsed.x + '배' } }
+      },
+      scales: {
+        x: { grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '배', font: { size: 10 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+};
+
+// 9. 가치평가 비교
+chartConfigs['valueChart'] = () => {
+  new Chart(document.getElementById('valueChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현재 주가\n$379.10', 'Intrinsic\nValue $402', 'DCF\nValue $421', '애널리스트\n평균 $527'],
+      datasets: [{
+        label: '가격($)',
+        data: [379.10, 402.62, 421.67, 527.60],
+        backgroundColor: ['#1a1a1a','#2563eb','#2563eb','#e11d48'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 200 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v, font: { size: 10 } }, min: 280 }
+      }
+    }
+  });
+};
+
+// 10. ROIC vs WACC
+chartConfigs['roicChart'] = () => {
+  new Chart(document.getElementById('roicChart'), {
+    type: 'bar',
+    data: {
+      labels: ['WACC\n(자본비용)', 'ROIC\n(자본수익률)', 'Value Spread\n(초과수익)'],
+      datasets: [{
+        label: '수익률(%)',
+        data: [9.7, 39.5, 29.8],
+        backgroundColor: ['#6b7280','#e11d48','#2563eb'],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1600, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 200 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.parsed.y + '%' } } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '%', font: { size: 10 } } }
+      }
+    }
+  });
+};
+
+// 11. 포트폴리오 도넛
+chartConfigs['portfolioChart'] = () => {
+  new Chart(document.getElementById('portfolioChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['MU (마이크론)', 'NVDA (엔비디아)', 'AMD', '기타 AI 반도체', '현금·채권'],
+      datasets: [{
+        data: [30, 25, 15, 20, 10],
+        backgroundColor: ['#e11d48','#1a1a1a','#2563eb','#6b7280','#d1d5db'],
+        borderWidth: 0,
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { animateRotate: true, animateScale: true, duration: 2000, easing: 'easeInOutQuart' },
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed + '%' } }
+      },
+      cutout: '55%'
+    }
+  });
+};
+
+// 12. 전략 밴드 라인 차트
+chartConfigs['strategyChart'] = () => {
+  new Chart(document.getElementById('strategyChart'), {
+    type: 'bar',
+    data: {
+      labels: ['손절선\n$340', '하방 지지\n$350', '핵심 매수\n$355~365', '현재가\n$379', '1차 목표\n$405', '2차 목표\n$420', '중기 목표\n$480~500'],
+      datasets: [{
+        label: '가격($)',
+        data: [340, 350, 360, 379, 405, 420, 490],
+        backgroundColor: ['#dc2626','#6b7280','#2563eb','#e11d48','#16a34a','#16a34a','#16a34a'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      animations: { y: { from: 0 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.parsed.y } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+        y: { grid: { color: '#f0f0f0' }, ticks: { callback: v => '$' + v, font: { size: 10 } }, min: 300 }
+      }
+    }
+  });
+};
+
+// ── INTERSECTION OBSERVERS ──
+
+// Observer 1: fade-in
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// Observer 2: 차트 전용
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>
