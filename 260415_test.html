@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>DX 투자 분석 | Dynex Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-sub: #fafafa;
+      --text: #1a1a1a;
+      --text-sub: #777777;
+      --accent: #e11d48;
+      --accent2: #f43f5e;
+      --c1: #e11d48;
+      --c2: #1a1a1a;
+      --c3: #6b7280;
+      --c4: #2563eb;
+      --tbl-bg: #fafafa;
+      --tbl-hd: #e11d48;
+      --tbl-bd: #e5e5e5;
+      --font-disp: 'Playfair Display', serif;
+      --font-body: 'Source Serif 4', serif;
+      --font-ui: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--accent);
+      color: #fff;
+      padding: 48px 24px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: 'DX';
+      position: absolute;
+      right: -10px;
+      top: -20px;
+      font-family: var(--font-disp);
+      font-size: 160px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.08);
+      line-height: 1;
+      user-select: none;
+    }
+    .header-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 12px;
+    }
+    .header-title {
+      font-family: var(--font-disp);
+      font-size: clamp(28px, 7vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .header-sub {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 24px;
+    }
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .meta-pill {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+    }
+    .meta-pill strong { color: #fff; }
+
+    /* ── VERDICT BANNER ── */
+    .verdict {
+      background: var(--text);
+      color: #fff;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .verdict-badge {
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-disp);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 6px 14px;
+      white-space: nowrap;
+    }
+    .verdict-text {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+    .verdict-target {
+      margin-left: auto;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .verdict-target-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+    }
+    .verdict-target-price {
+      font-family: var(--font-disp);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+    .section { padding: 40px 0 0; }
+    .section:last-child { padding-bottom: 60px; }
+
+    /* ── SECTION HEADER ── */
+    .sec-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .sec-title {
+      font-family: var(--font-disp);
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .sec-divider {
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    /* ── KPI GRID ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--tbl-bd);
+      border: 1px solid var(--tbl-bd);
+      margin-bottom: 28px;
+    }
+    .kpi-item {
+      background: var(--bg);
+      padding: 16px;
+    }
+    .kpi-item.accent-bg { background: var(--accent); }
+    .kpi-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+    .kpi-item.accent-bg .kpi-label { color: rgba(255,255,255,0.7); }
+    .kpi-value {
+      font-family: var(--font-disp);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .kpi-item.accent-bg .kpi-value { color: #fff; }
+    .kpi-note {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-top: 3px;
+    }
+    .kpi-item.accent-bg .kpi-note { color: rgba(255,255,255,0.6); }
+    .kpi-up { color: #16a34a !important; font-size: 12px; font-family: var(--font-ui); }
+    .kpi-down { color: var(--accent) !important; font-size: 12px; font-family: var(--font-ui); }
+
+    /* ── PROSE ── */
+    p {
+      font-size: 15.5px;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+    .highlight {
+      background: linear-gradient(180deg, transparent 55%, rgba(225,29,72,0.15) 55%);
+      font-weight: 600;
+    }
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 14px 16px;
+      background: var(--bg-sub);
+      margin: 20px 0;
+      font-size: 14.5px;
+      color: var(--text);
+      font-style: italic;
+    }
+    .callout strong { font-style: normal; color: var(--accent); }
+
+    /* ── TABLE ── */
+    .tbl-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 13px;
+    }
+    thead tr { background: var(--tbl-hd); color: #fff; }
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    tbody tr:nth-child(even) { background: var(--tbl-bg); }
+    tbody tr:nth-child(odd) { background: var(--bg); }
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--tbl-bd);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    tbody td:first-child { font-weight: 500; color: var(--text-sub); }
+    .td-accent { color: var(--accent) !important; font-weight: 700 !important; }
+    .td-green { color: #16a34a !important; font-weight: 700 !important; }
+    .td-blue { color: var(--c4) !important; font-weight: 700 !important; }
+
+    /* ── CHARTS ── */
+    .chart-container {
+      position: relative;
+      max-height: 340px;
+      margin: 24px 0;
+    }
+    .chart-container canvas {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      max-height: 300px;
+    }
+    .chart-container.chart-ready canvas { opacity: 1; }
+    .chart-title {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    /* ── SCENARIO CARDS ── */
+    .scenario-cards { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+    .scenario-card {
+      border: 1px solid var(--tbl-bd);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .scenario-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-sub);
+    }
+    .scenario-tag {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    .tag-bull { background: #dcfce7; color: #16a34a; }
+    .tag-base { background: #dbeafe; color: #1d4ed8; }
+    .tag-bear { background: #fee2e2; color: #dc2626; }
+    .scenario-name { font-family: var(--font-disp); font-size: 16px; font-weight: 700; }
+    .scenario-prob {
+      margin-left: auto;
+      font-family: var(--font-disp);
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .prob-bull { color: #16a34a; }
+    .prob-base { color: #2563eb; }
+    .prob-bear { color: var(--accent); }
+    .scenario-body { padding: 12px 16px; font-size: 14px; color: var(--text-sub); }
+    .scenario-price { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+
+    /* ── MA INDICATOR ── */
+    .ma-grid { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+    .ma-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+    }
+    .ma-label { width: 48px; color: var(--text-sub); font-weight: 600; font-size: 11px; }
+    .ma-bar-wrap { flex: 1; height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
+    .ma-bar { height: 100%; border-radius: 3px; }
+    .ma-val { width: 54px; text-align: right; font-weight: 600; }
+    .ma-signal { font-size: 10px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
+    .sig-bullish { background: #dcfce7; color: #16a34a; }
+    .sig-resist { background: #fef3c7; color: #d97706; }
+    .sig-support { background: #dbeafe; color: #1d4ed8; }
+
+    /* ── PORTFOLIO WEIGHTS ── */
+    .port-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+    .port-row { background: var(--bg-sub); padding: 14px 16px; border: 1px solid var(--tbl-bd); }
+    .port-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .port-type { font-family: var(--font-ui); font-size: 13px; font-weight: 600; }
+    .port-weight { font-family: var(--font-disp); font-size: 18px; font-weight: 700; color: var(--accent); }
+    .port-bar-wrap { height: 5px; background: #e5e5e5; border-radius: 2px; }
+    .port-bar { height: 100%; border-radius: 2px; background: var(--accent); }
+    .port-desc { font-family: var(--font-ui); font-size: 12px; color: var(--text-sub); margin-top: 6px; }
+
+    /* ── SIMULATION ── */
+    .sim-wrap {
+      background: var(--bg-sub);
+      border: 1px solid var(--tbl-bd);
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .sim-title {
+      font-family: var(--font-disp);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .sim-row { margin-bottom: 14px; }
+    .sim-label { font-family: var(--font-ui); font-size: 12px; font-weight: 500; color: var(--text-sub); margin-bottom: 4px; }
+    .sim-slider { width: 100%; -webkit-appearance: none; height: 4px; background: #e5e5e5; border-radius: 2px; outline: none; cursor: pointer; }
+    .sim-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; }
+    .sim-value { font-family: var(--font-disp); font-size: 14px; font-weight: 700; color: var(--accent); }
+    .sim-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--tbl-bd);
+      border: 1px solid var(--tbl-bd);
+      margin-top: 16px;
+    }
+    .sim-res-item { background: var(--bg); padding: 12px; }
+    .sim-res-label { font-family: var(--font-ui); font-size: 10px; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; }
+    .sim-res-val { font-family: var(--font-disp); font-size: 18px; font-weight: 700; margin-top: 2px; }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.4);
+      padding: 24px;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.7;
+    }
+    .footer a { color: rgba(255,255,255,0.5); }
+
+    /* ── SEPARATOR ── */
+    .sep {
+      width: 100%;
+      height: 1px;
+      background: var(--tbl-bd);
+      margin: 32px 0 0;
+    }
+
+    /* ── NEWS ITEMS ── */
+    .news-list { display: flex; flex-direction: column; gap: 0; margin: 16px 0; border: 1px solid var(--tbl-bd); }
+    .news-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--tbl-bd);
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .dot-bull { background: #16a34a; }
+    .dot-bear { background: var(--accent); }
+    .news-content { flex: 1; }
+    .news-headline { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .news-desc { font-family: var(--font-ui); font-size: 12px; color: var(--text-sub); line-height: 1.5; }
+    .news-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 2px 8px; border-radius: 2px; margin-bottom: 4px; }
+    .news-tag.bull { background: #dcfce7; color: #16a34a; }
+    .news-tag.bear { background: #fee2e2; color: #dc2626; }
+
+    /* ── RSI GAUGE ── */
+    .rsi-wrap { margin: 20px 0; }
+    .rsi-bar-bg {
+      height: 14px;
+      background: linear-gradient(to right, #3b82f6 0%, #22c55e 30%, #22c55e 70%, #f59e0b 80%, #ef4444 100%);
+      border-radius: 7px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .rsi-needle {
+      position: absolute;
+      top: -5px;
+      width: 4px;
+      height: 24px;
+      background: var(--text);
+      border-radius: 2px;
+      transform: translateX(-50%);
+    }
+    .rsi-labels {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-ui);
+      font-size: 10px;
+      color: var(--text-sub);
+    }
+    .rsi-value-display {
+      text-align: center;
+      font-family: var(--font-disp);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .rsi-status {
+      text-align: center;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: #d97706;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-eyebrow">투자 분석 리포트 · 2026년 4월 15일</div>
+  <div class="header-title">Dynex Capital<br>심층 분석</div>
+  <div class="header-sub">NYSE: DX · REIT - Mortgage · Mid Cap</div>
+  <div class="header-meta">
+    <span class="meta-pill">시가총액 <strong>$2.74B</strong></span>
+    <span class="meta-pill">배당수익률 <strong>~15.4%</strong></span>
+    <span class="meta-pill">P/B <strong>0.98x</strong></span>
+    <span class="meta-pill">직원 <strong>28명</strong></span>
+  </div>
+</header>
+
+<!-- VERDICT -->
+<div class="verdict">
+  <div class="verdict-badge">BUY</div>
+  <div class="verdict-text">딥 밸류 구간 진입 · 배당+자본차익 병행 기대</div>
+  <div class="verdict-target">
+    <div class="verdict-target-label">중기 목표가</div>
+    <div class="verdict-target-price">$14.50–15.00</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ── SECTION 1: KEY METRICS ── -->
+  <div class="section fade-in">
+    <div class="sec-label">Overview</div>
+    <div class="sec-title">핵심 투자 지표</div>
+    <div class="kpi-grid">
+      <div class="kpi-item accent-bg">
+        <div class="kpi-label">현재가</div>
+        <div class="kpi-value">$13.25</div>
+        <div class="kpi-note">정규장 종가 기준</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">장부가 (Book Value)</div>
+        <div class="kpi-value">$13.47</div>
+        <div class="kpi-note kpi-down">▼ 할인거래 중 (P/B 0.98x)</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">월 배당금</div>
+        <div class="kpi-value">$0.17</div>
+        <div class="kpi-note kpi-up">연환산 $2.04 / 15.4%</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">애널리스트 평균 목표가</div>
+        <div class="kpi-value">$15.10</div>
+        <div class="kpi-note kpi-up">▲ 13.9% 상방 여력</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">TTM EPS</div>
+        <div class="kpi-value">$2.47</div>
+        <div class="kpi-note">후행 P/E 5.36x</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">Forward EPS</div>
+        <div class="kpi-value">$1.33</div>
+        <div class="kpi-note kpi-down">선행 P/E 9.95x</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">ROE</div>
+        <div class="kpi-value">17%</div>
+        <div class="kpi-note kpi-up">WACC 6.5% 상회</div>
+      </div>
+      <div class="kpi-item">
+        <div class="kpi-label">부채비율 (D/E)</div>
+        <div class="kpi-value">564%</div>
+        <div class="kpi-note">업계 평균 600~800% 하회</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: VALUATION ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Valuation</div>
+      <div class="sec-title">가치평가 분석</div>
+    </div>
+
+    <div class="fade-in">
+      <p>벤저민 그레이엄 내재가치 공식과 DCF 할인모델을 통해 산출한 적정가치는 현재 주가 대비 <span class="highlight">4~7% 저평가</span> 상태입니다. 월가 애널리스트 컨센서스($15.10)까지 포함하면 상방 여력은 최대 13.9%에 달합니다.</p>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">가치평가 비교 (Graham / DCF / 컨센서스)</div>
+      <canvas id="valuationChart" height="220"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>가치평가 항목</th><th>산출 금액</th><th>현재가 대비</th></tr></thead>
+          <tbody>
+            <tr><td>현재 주가</td><td class="td-accent">$13.25</td><td>기준</td></tr>
+            <tr><td>Graham 내재가치</td><td>$13.75</td><td class="td-green">+3.7%</td></tr>
+            <tr><td>DCF 현금흐름할인가치</td><td>$14.20</td><td class="td-green">+7.1%</td></tr>
+            <tr><td>애널리스트 평균 목표가</td><td>$15.10</td><td class="td-green">+13.9%</td></tr>
+            <tr><td>애널리스트 최고 목표가</td><td>$16.00</td><td class="td-green">+20.8%</td></tr>
+            <tr><td>애널리스트 최저 목표가</td><td>$14.00</td><td class="td-blue">+5.7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="callout">
+        <strong>Graham 공식:</strong> V = 선행EPS($1.33) × (8.5 + 2 × 0.92%) = <strong>$13.75</strong> |
+        <strong>DCF:</strong> WACC 6.5%, 영구성장률 1.0%, FCF Proxy $140M → 주당 <strong>$14.20</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: P/E ANALYSIS ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Earnings</div>
+      <div class="sec-title">P/E 배수 및 이익 분석</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">P/E 비교 (TTM vs Forward vs S&P 500 평균)</div>
+      <canvas id="peChart" height="220"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <p>후행 P/E(5.36x)와 선행 P/E(9.95x) 간의 괴리는 <span class="highlight">금리 상승기의 이자비용 부담</span>이 선행 EPS에 보수적으로 반영된 결과입니다. S&P 500 평균(~20x) 대비 여전히 절반 수준에 불과해 밸류에이션 매력이 유지됩니다.</p>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: TECHNICAL ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Technical Analysis</div>
+      <div class="sec-title">기술적 지표 분석</div>
+    </div>
+
+    <div class="fade-in">
+      <div class="rsi-wrap">
+        <div class="rsi-value-display">65.61</div>
+        <div class="rsi-status">RSI(14) — 강한 상승 모멘텀 (과매수 진입 직전)</div>
+        <div style="height:12px"></div>
+        <div class="rsi-bar-bg">
+          <div class="rsi-needle" style="left: 65.61%"></div>
+        </div>
+        <div class="rsi-labels">
+          <span>0 과매도</span>
+          <span>30</span>
+          <span>50 중립</span>
+          <span>70 과매수</span>
+          <span>100</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="chart-title" style="margin-top:20px">이동평균선 현황</div>
+      <div class="ma-grid">
+        <div class="ma-row">
+          <span class="ma-label">MA5</span>
+          <div class="ma-bar-wrap"><div class="ma-bar" style="width:98%;background:#16a34a"></div></div>
+          <span class="ma-val">$13.16</span>
+          <span class="ma-signal sig-bullish">골든크로스</span>
+        </div>
+        <div class="ma-row">
+          <span class="ma-label">MA20</span>
+          <div class="ma-bar-wrap"><div class="ma-bar" style="width:95%;background:#22c55e"></div></div>
+          <span class="ma-val">$12.76</span>
+          <span class="ma-signal sig-bullish">지지선</span>
+        </div>
+        <div class="ma-row">
+          <span class="ma-label">MA60</span>
+          <div class="ma-bar-wrap"><div class="ma-bar" style="width:99.5%;background:#f59e0b"></div></div>
+          <span class="ma-val">$13.38</span>
+          <span class="ma-signal sig-resist">저항선 돌파 대기</span>
+        </div>
+        <div class="ma-row">
+          <span class="ma-label">MA120</span>
+          <div class="ma-bar-wrap"><div class="ma-bar" style="width:98%;background:#3b82f6"></div></div>
+          <span class="ma-val">$13.19</span>
+          <span class="ma-signal sig-support">장기 지지선</span>
+        </div>
+        <div class="ma-row" style="border-top:2px solid var(--accent);padding-top:8px;margin-top:2px">
+          <span class="ma-label" style="color:var(--accent);font-weight:700">현재가</span>
+          <div class="ma-bar-wrap"><div class="ma-bar" style="width:99%;background:var(--accent)"></div></div>
+          <span class="ma-val" style="color:var(--accent);font-weight:700">$13.25</span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="callout">장기 지지선(MA120)을 딛고 단기 골든크로스 형성 중. <strong>MA60($13.38) 거래량 돌파 시 $14~15 구간까지 매물 희박</strong> — 강한 상승 탄력 기대 가능.</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: VOLUME / SUPPLY ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Volume & Supply</div>
+      <div class="sec-title">거래량 및 수급 분석</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">기간별 거래량 추이 (단위: 만 주)</div>
+      <canvas id="volumeChart" height="220"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <p>3월 20일 <span class="highlight">2,431만 주</span>의 폭발적 매도(패닉 셀링)가 나타난 후, 4월 들어 안정적인 300~500만 주 수준의 반등 거래량이 확인됩니다. 이는 악성 매물의 손바뀜 완료 후 <span class="highlight">저가 매집 세력의 홀딩</span>을 시사합니다.</p>
+    </div>
+  </div>
+
+  <!-- ── SECTION 6: NEWS ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">News Flow</div>
+      <div class="sec-title">호재 / 악재 뉴스</div>
+    </div>
+
+    <div class="fade-in">
+      <div class="news-list">
+        <div class="news-item">
+          <div class="news-dot dot-bull"></div>
+          <div class="news-content">
+            <span class="news-tag bull">호재</span>
+            <div class="news-headline">Monthly Common Stock Dividend of $0.17 유지 발표</div>
+            <div class="news-desc">고금리 환경 압박 속에서도 경영진이 월 배당 정책을 지속 — 현금흐름 창출력에 대한 자신감 표명. 배당 발표가 주가 하방 앵커 역할.</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-dot dot-bull"></div>
+          <div class="news-content">
+            <span class="news-tag bull">호재</span>
+            <div class="news-headline">Intact Earnings Engine Supports A Buy Despite Rising Yields</div>
+            <div class="news-desc">금리 상승에도 이익 창출 엔진이 온전히 작동 중이라는 분석. 배당 지속 가능성에 대한 시장의 신뢰 반영.</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-dot dot-bear"></div>
+          <div class="news-content">
+            <span class="news-tag bear">악재</span>
+            <div class="news-headline">JPMorgan Chase & Co. Trims Position in Dynex Capital</div>
+            <div class="news-desc">JP모건 비중 축소 — 단기 수급에 부정적. 그러나 포트폴리오 리밸런싱 목적일 가능성이 높으며, 펀더멘털 훼손이 아님.</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-dot dot-bear"></div>
+          <div class="news-content">
+            <span class="news-tag bear">악재</span>
+            <div class="news-headline">Q2 2025 실적 시장 예상치 하회</div>
+            <div class="news-desc">이자비용 증가로 인한 실적 미스 — 금리 변동성에 취약한 mREIT 비즈니스 모델의 구조적 한계. 주가에 이미 반영 완료 판단.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 7: SCENARIO ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Scenario Analysis</div>
+      <div class="sec-title">시나리오별 주가 전망</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">시나리오 확률 분포</div>
+      <canvas id="scenarioChart" height="200"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <div class="scenario-cards">
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <span class="scenario-tag tag-base">BASE</span>
+            <span class="scenario-name">점진적 금리 인하 및 마진 안정화</span>
+            <span class="scenario-prob prob-base">55%</span>
+          </div>
+          <div class="scenario-body">
+            <div class="scenario-price">📌 예상 밴드: $14.00 ~ $15.00</div>
+            연준의 하반기 점진적 금리 인하로 조달 비용 완화. 선행 EPS $1.33 안정 달성 → 장부가 이상 프리미엄 회복. 월가 컨센서스($15.10)에 근접하는 가장 합리적 시나리오.
+          </div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <span class="scenario-tag tag-bull">BULL</span>
+            <span class="scenario-name">금리 급락 및 MBS 랠리</span>
+            <span class="scenario-prob prob-bull">25%</span>
+          </div>
+          <div class="scenario-body">
+            <div class="scenario-price">📌 예상 밴드: $15.50 ~ $17.00</div>
+            경기 급둔화 또는 지정학적 위기로 안전자산 쏠림 발생 → MBS 채권 가격 급등. 장부가 $15~16달러로 치솟으며 P/B 1.05~1.1배 프리미엄 적용.
+          </div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-header">
+            <span class="scenario-tag tag-bear">BEAR</span>
+            <span class="scenario-name">인플레이션 재점화 (Higher for Longer)</span>
+            <span class="scenario-prob prob-bear">20%</span>
+          </div>
+          <div class="scenario-body">
+            <div class="scenario-price">📌 예상 밴드: $11.00 ~ $12.50</div>
+            유가 급등 등으로 인플레이션 반등 → 금리 고착화. 이자마진(NIM) 적자 전환 → 배당 컷(Dividend Cut) 우려 촉발. 3월 바닥 $12 이탈 위험.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 8: PORTFOLIO ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Portfolio Strategy</div>
+      <div class="sec-title">투자성향별 적정 비중</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">투자 성향별 권장 비중 (%)</div>
+      <canvas id="portChart" height="200"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <div class="port-grid">
+        <div class="port-row">
+          <div class="port-top">
+            <span class="port-type">🛡 보수적 (Conservative)</span>
+            <span class="port-weight">5~10%</span>
+          </div>
+          <div class="port-bar-wrap"><div class="port-bar" style="width:10%;background:#6b7280"></div></div>
+          <div class="port-desc">예금 이자 알파 창출용 보조 자산. 강력한 배당 현금흐름을 10% 이하로 활용.</div>
+        </div>
+        <div class="port-row">
+          <div class="port-top">
+            <span class="port-type">⚖️ 중립적 (Balanced)</span>
+            <span class="port-weight">10~15%</span>
+          </div>
+          <div class="port-bar-wrap"><div class="port-bar" style="width:15%;background:#2563eb"></div></div>
+          <div class="port-desc">Book Value 하방 안정성 + 목표가 자본이익 동시 충족. 가장 매력적인 인컴형 편입 비중.</div>
+        </div>
+        <div class="port-row">
+          <div class="port-top">
+            <span class="port-type">⚡ 공격적 (Aggressive)</span>
+            <span class="port-weight">15~20%</span>
+          </div>
+          <div class="port-bar-wrap"><div class="port-bar" style="width:20%"></div></div>
+          <div class="port-desc">금리 인하 강베팅. 레버리지 효과로 주가·자산가치 탄력 폭등 기대. 고배당+Capital 턴어라운드 동시 공략.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 9: SIMULATION ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Interactive Simulator</div>
+      <div class="sec-title">배당 재투자 수익 시뮬레이터</div>
+    </div>
+
+    <div class="fade-in">
+      <div class="sim-wrap">
+        <div class="sim-title">📊 DRIP (배당재투자) 시뮬레이션</div>
+
+        <div class="sim-row">
+          <div class="sim-label">초기 투자금액 <span class="sim-value" id="simInvestVal">$10,000</span></div>
+          <input class="sim-slider" type="range" id="simInvest" min="1000" max="100000" step="1000" value="10000" oninput="updateSim()" />
+        </div>
+
+        <div class="sim-row">
+          <div class="sim-label">투자 기간 <span class="sim-value" id="simYearsVal">3년</span></div>
+          <input class="sim-slider" type="range" id="simYears" min="1" max="10" step="1" value="3" oninput="updateSim()" />
+        </div>
+
+        <div class="sim-row">
+          <div class="sim-label">연평균 주가 상승률 가정 <span class="sim-value" id="simGrowthVal">5%</span></div>
+          <input class="sim-slider" type="range" id="simGrowth" min="-10" max="20" step="1" value="5" oninput="updateSim()" />
+        </div>
+
+        <div class="sim-results">
+          <div class="sim-res-item">
+            <div class="sim-res-label">누적 배당 수령</div>
+            <div class="sim-res-val" id="simDivTotal" style="color:var(--accent)">—</div>
+          </div>
+          <div class="sim-res-item">
+            <div class="sim-res-label">자본 차익</div>
+            <div class="sim-res-val" id="simCapGain" style="color:#2563eb">—</div>
+          </div>
+          <div class="sim-res-item">
+            <div class="sim-res-label">총 수익률</div>
+            <div class="sim-res-val" id="simTotalRet" style="color:#16a34a">—</div>
+          </div>
+        </div>
+
+        <div style="font-family:var(--font-ui);font-size:11px;color:var(--text-sub);margin-top:12px;line-height:1.5">
+          ※ 배당수익률 15.4% (연환산 $2.04/주, 현가 $13.25 기준). 월 배당 재투자 복리 효과 포함. 세금 및 거래 비용 미반영. 투자 참고용 시뮬레이션입니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 10: MACRO ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Macro & Risk</div>
+      <div class="sec-title">거시경제 및 리스크 요인</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">핵심 리스크 요인 레이더</div>
+      <canvas id="radarChart" height="240"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>매크로 요인</th><th>현재 상태</th><th>DX 영향</th></tr></thead>
+          <tbody>
+            <tr><td>연준 금리 방향</td><td>고점 형성 중</td><td class="td-green">우호 (인하 기대)</td></tr>
+            <tr><td>MBS 스프레드</td><td>점진적 축소 여지</td><td class="td-green">자산가치 ↑</td></tr>
+            <tr><td>인플레이션</td><td>완화 추세</td><td class="td-green">조달비용 ↓</td></tr>
+            <tr><td>레포시장 유동성</td><td>정상 작동 중</td><td>중립</td></tr>
+            <tr><td>지정학적 위기</td><td>지속 긴장</td><td class="td-accent">양면적 (인플레↑/안전자산↑)</td></tr>
+            <tr><td>달러 강세</td><td>강보합</td><td class="td-blue">패시브 자금 간접 지원</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 11: BETA / WACC ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Risk & Cost of Capital</div>
+      <div class="sec-title">베타 & WACC 분석</div>
+    </div>
+
+    <div class="chart-container fade-in">
+      <div class="chart-title">ROE vs WACC vs 무위험수익률 비교</div>
+      <canvas id="waccChart" height="220"></canvas>
+    </div>
+
+    <div class="fade-in">
+      <p>베타 0.98로 시장과 유사한 변동성을 보이지만, 고레버리지(5.6배) 기업으로서 예상보다 안정적입니다. 이자율 헤지 전략이 매크로 충격을 효과적으로 완화하고 있기 때문입니다.</p>
+      <p>ROE(17%)가 WACC(~6.5%)를 <span class="highlight">약 2.6배 초과</span>해 진정한 'Value Creator' 구간에 위치합니다. 높은 레버리지를 쥐고도 이자 비용 이상의 수익을 안정적으로 창출하고 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- ── SECTION 12: STRATEGY ── -->
+  <div class="sep"></div>
+  <div class="section">
+    <div class="fade-in">
+      <div class="sec-label">Trading Strategy</div>
+      <div class="sec-title">단기 / 중기 매매 전략</div>
+    </div>
+
+    <div class="fade-in">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>전략</th><th>기간</th><th>진입가</th><th>목표가</th><th>손절가</th></tr></thead>
+          <tbody>
+            <tr><td>단기 트레이딩</td><td>1~3개월</td><td>$13.00~13.15</td><td class="td-green">$13.80</td><td class="td-accent">$12.00</td></tr>
+            <tr><td>중기 Buy & Hold</td><td>6개월~1년</td><td>현가 분할 매수</td><td class="td-green">$15.00</td><td class="td-accent">$12.00</td></tr>
+            <tr><td>DRIP 장기 투자</td><td>1년 이상</td><td>월 정기 매수</td><td class="td-green">컨센서스 추종</td><td>배당 컷 여부 모니터링</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><strong>손절 원칙:</strong> $12.00 하향 이탈 시 즉시 비중 축소 — 인플레이션 재점화로 인한 구조적 붕괴 신호로 판단.</div>
+    </div>
+  </div>
+
+  <!-- ── DIVIDER ── -->
+  <div class="sep"></div>
+
+  <!-- ── FINAL VERDICT ── -->
+  <div class="section fade-in">
+    <div class="sec-label">Final Verdict</div>
+    <div class="sec-title">최종 투자 의견</div>
+    <div style="background:var(--accent);color:#fff;padding:28px;margin-bottom:24px">
+      <div style="font-family:var(--font-ui);font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;opacity:0.7">Investment Recommendation</div>
+      <div style="font-family:var(--font-disp);font-size:36px;font-weight:900;margin-bottom:8px">매수 (BUY)</div>
+      <div style="font-family:var(--font-ui);font-size:13px;opacity:0.85;line-height:1.7">
+        중기 목표가: <strong>$14.50 ~ $15.00</strong> | 상방 여력: 최대 13.2%<br/>
+        배당수익률: 연 ~15.4% (월 $0.17) | 안전마진: 장부가 기준 확보
+      </div>
+    </div>
+    <p>Dynex Capital은 청산 가치(Book Value $13.47) 이하로 거래 중인 전형적 딥 밸류(Deep Value) 구간입니다. 선행 EPS 하락이라는 악재는 3월 대량 매도에서 이미 충분히 소화되었습니다.</p>
+    <p><strong>① 내재가치·DCF·컨센서스 모두 현재가 대비 상방 프리미엄 ② 월 배당으로 인한 강력한 하방 방어 ③ 금리 하락 전환 시 Book Value 확장 기대</strong> — 세 가지 근거로 현 구간에서의 매수는 확률 높은 기회로 판단합니다.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  본 자료는 투자 참고용 분석 자료이며, 투자 권유 또는 특정 증권의 매수·매도 추천이 아닙니다.<br/>
+  투자의 최종 판단과 책임은 투자자 본인에게 있습니다. · 2026. 04. 15
+</div>
+
+<script>
+// ── INTERSECTION OBSERVER: FADE-IN ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+// ── CHART CONFIGS ──
+const chartConfigs = {};
+
+// 1. Valuation Chart
+chartConfigs['valuationChart'] = () => {
+  new Chart(document.getElementById('valuationChart'), {
+    type: 'bar',
+    data: {
+      labels: ['현재가', 'Graham\n내재가치', 'DCF\n할인가치', '애널리스트\n최저', '애널리스트\n평균', '애널리스트\n최고'],
+      datasets: [{
+        label: '주가 ($)',
+        data: [13.25, 13.75, 14.20, 14.00, 15.10, 16.00],
+        backgroundColor: ['#e11d48','#6b7280','#6b7280','#2563eb','#1a1a1a','#1a1a1a'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `$${ctx.raw.toFixed(2)}` } }
+      },
+      scales: {
+        y: {
+          min: 12,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => '$' + v }
+        },
+        x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 } } }
+      }
+    }
+  });
+};
+
+// 2. P/E Chart
+chartConfigs['peChart'] = () => {
+  new Chart(document.getElementById('peChart'), {
+    type: 'bar',
+    data: {
+      labels: ['DX TTM P/E', 'DX Forward P/E', 'S&P 500 평균'],
+      datasets: [{
+        label: 'P/E 배수',
+        data: [5.36, 9.95, 20.0],
+        backgroundColor: ['#e11d48', '#6b7280', '#2563eb'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + 'x' } }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + 'x' }
+        },
+        x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+      }
+    }
+  });
+};
+
+// 3. Volume Chart
+chartConfigs['volumeChart'] = () => {
+  new Chart(document.getElementById('volumeChart'), {
+    type: 'bar',
+    data: {
+      labels: ['3/10', '3/13', '3/17', '3/20\n폭락', '3/24', '3/27', '3/31', '4/3', '4/7', '4/10', '4/14'],
+      datasets: [{
+        label: '거래량 (만 주)',
+        data: [450, 520, 480, 2431, 680, 520, 410, 380, 340, 420, 460],
+        backgroundColor: ctx => ctx.dataIndex === 3 ? '#e11d48' : '#6b7280',
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 80 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + '만 주' } }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '만' }
+        },
+        x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 9 } } }
+      }
+    }
+  });
+};
+
+// 4. Scenario Chart (Horizontal Bar)
+chartConfigs['scenarioChart'] = () => {
+  new Chart(document.getElementById('scenarioChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Bear (인플레 재점화)', 'Base (금리 점진 인하)', 'Bull (MBS 랠리)'],
+      datasets: [{
+        label: '확률 (%)',
+        data: [20, 55, 25],
+        backgroundColor: ['#e11d48', '#2563eb', '#16a34a'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0, duration: 1500, easing: 'easeInOutQuart' } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + '%' } }
+      },
+      scales: {
+        x: {
+          max: 70,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '%' }
+        },
+        y: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+      }
+    }
+  });
+};
+
+// 5. Portfolio Chart
+chartConfigs['portChart'] = () => {
+  new Chart(document.getElementById('portChart'), {
+    type: 'bar',
+    data: {
+      labels: ['보수적 (최대)', '중립적 (최대)', '공격적 (최대)'],
+      datasets: [{
+        label: '권장 비중 (%)',
+        data: [10, 15, 20],
+        backgroundColor: ['#6b7280', '#2563eb', '#e11d48'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: { x: { from: 0, duration: 1500, easing: 'easeInOutQuart' } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => '최대 ' + ctx.raw + '%' } }
+      },
+      scales: {
+        x: {
+          max: 25,
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '%' }
+        },
+        y: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 11 } } }
+      }
+    }
+  });
+};
+
+// 6. Radar Chart
+chartConfigs['radarChart'] = () => {
+  new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: {
+      labels: ['금리 리스크', '신용 리스크', '유동성 리스크', '레버리지 리스크', '지정학 리스크', '배당 안정성'],
+      datasets: [
+        {
+          label: 'DX 리스크 수준',
+          data: [7, 2, 4, 6, 5, 8],
+          backgroundColor: 'rgba(225,29,72,0.12)',
+          borderColor: '#e11d48',
+          borderWidth: 2,
+          pointBackgroundColor: '#e11d48',
+          pointRadius: 4,
+          tension: 0.4
+        },
+        {
+          label: '업계 평균',
+          data: [7, 3, 5, 8, 5, 6],
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          borderColor: '#2563eb',
+          borderWidth: 2,
+          pointBackgroundColor: '#2563eb',
+          pointRadius: 3,
+          tension: 0.4,
+          borderDash: [4, 4]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1800, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 120 },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { family: 'DM Sans', size: 11 }, boxWidth: 12 }
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 10,
+          ticks: { stepSize: 2, font: { family: 'DM Sans', size: 9 } },
+          pointLabels: { font: { family: 'DM Sans', size: 11 } },
+          grid: { color: '#e5e5e5' }
+        }
+      }
+    }
+  });
+};
+
+// 7. WACC Chart
+chartConfigs['waccChart'] = () => {
+  new Chart(document.getElementById('waccChart'), {
+    type: 'bar',
+    data: {
+      labels: ['무위험수익률\n(국채 10Y)', 'WACC\n(가중평균자본비용)', '자기자본비용\n(Re)', 'ROE\n(자기자본이익률)'],
+      datasets: [{
+        label: '수익률 (%)',
+        data: [4.0, 6.5, 9.8, 17.0],
+        backgroundColor: ['#6b7280', '#2563eb', '#f59e0b', '#e11d48'],
+        borderWidth: 0,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 1500, easing: 'easeInOutQuart', delay: ctx => ctx.dataIndex * 150 },
+      animations: { y: { from: 0 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ctx.raw + '%' } }
+      },
+      scales: {
+        y: {
+          grid: { color: '#f0f0f0' },
+          ticks: { font: { family: 'DM Sans', size: 11 }, callback: v => v + '%' }
+        },
+        x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 } } }
+      }
+    }
+  });
+};
+
+// ── CHART OBSERVER ──
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const canvas = entry.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        setTimeout(() => {
+          chartConfigs[canvas.id]();
+          entry.target.classList.add('chart-ready');
+          delete chartConfigs[canvas.id];
+        }, 200);
+      }
+      chartObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ── SIMULATION ──
+function updateSim() {
+  const invest = parseInt(document.getElementById('simInvest').value);
+  const years = parseInt(document.getElementById('simYears').value);
+  const growth = parseInt(document.getElementById('simGrowth').value);
+
+  document.getElementById('simInvestVal').textContent = '$' + invest.toLocaleString();
+  document.getElementById('simYearsVal').textContent = years + '년';
+  document.getElementById('simGrowthVal').textContent = growth + '%';
+
+  const dividendRate = 0.154;
+  let totalDiv = 0;
+  let currentVal = invest;
+
+  for (let y = 0; y < years; y++) {
+    const annualDiv = currentVal * dividendRate;
+    totalDiv += annualDiv;
+    currentVal = (currentVal + annualDiv) * (1 + growth / 100);
+  }
+
+  const capGain = currentVal - invest - totalDiv;
+  const totalReturn = ((currentVal - invest) / invest * 100);
+
+  document.getElementById('simDivTotal').textContent = '+$' + Math.round(totalDiv).toLocaleString();
+  document.getElementById('simCapGain').textContent = (capGain >= 0 ? '+' : '') + '$' + Math.round(capGain).toLocaleString();
+  document.getElementById('simTotalRet').textContent = (totalReturn >= 0 ? '+' : '') + totalReturn.toFixed(1) + '%';
+}
+updateSim();
+</script>
+</body>
+</html>
