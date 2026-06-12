@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini 3.5 Live Translate — 분석 리포트</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #e11d48;
+    --red-light: #f43f5e;
+    --black: #1a1a1a;
+    --gray: #777777;
+    --border: #e5e5e5;
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --blue: #2563eb;
+    --mid-gray: #6b7280;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--black);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 56px 0 40px;
+    border-bottom: 3px solid var(--red);
+    margin-bottom: 40px;
+  }
+  .hero-eyebrow {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 6vw, 38px);
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--black);
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--red); }
+  .hero-meta {
+    font-size: 12px;
+    color: var(--gray);
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ── SUMMARY CARDS ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .summary-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    padding: 16px;
+    border-radius: 2px;
+  }
+  .summary-card .label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+  .summary-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--black);
+  }
+  .summary-card .sub {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+  .section-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .section p { color: var(--black); margin-bottom: 14px; }
+  .section p:last-child { margin-bottom: 0; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: var(--bg2);
+    border-left: 4px solid var(--red);
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 2px 2px 0;
+    font-size: 14px;
+    color: var(--black);
+  }
+  .highlight strong { color: var(--red); }
+
+  /* ── TECH PIPELINE ── */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 24px 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .pipeline-step {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    text-align: center;
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+  .pipeline-step .icon { font-size: 22px; margin-bottom: 4px; }
+  .pipeline-step .name { font-size: 11px; font-weight: 700; color: var(--black); }
+  .pipeline-step .sub { font-size: 10px; color: var(--gray); margin-top: 2px; }
+  .pipeline-arrow {
+    font-size: 18px;
+    color: var(--border);
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+  .pipeline-step.new { border-color: var(--red); border-width: 2px; }
+  .pipeline-step.new .name { color: var(--red); }
+  .pipeline-step.bad { opacity: 0.45; }
+
+  /* ── COMPARE TABLE ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 13px;
+  }
+  .compare-table th {
+    background: var(--red);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .compare-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    vertical-align: top;
+  }
+  .compare-table tr:nth-child(even) td { background: var(--bg2); }
+  .compare-table .check { color: #16a34a; font-weight: 700; }
+  .compare-table .cross { color: var(--red); font-weight: 700; }
+
+  /* ── CHART ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .chart-container {
+    position: relative;
+    max-height: 340px;
+    margin: 20px 0;
+  }
+  .chart-container canvas {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    max-height: 300px;
+  }
+  .chart-container.chart-ready canvas { opacity: 1; }
+
+  /* ── EXPAND CARDS ── */
+  .use-cases {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .use-case-item {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .use-case-header {
+    background: var(--bg2);
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .use-case-header:hover { background: #f0f0f0; }
+  .use-case-header .arrow { transition: transform 0.3s; color: var(--gray); }
+  .use-case-header.open .arrow { transform: rotate(180deg); }
+  .use-case-body {
+    display: none;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #333;
+    border-top: 1px solid var(--border);
+    line-height: 1.7;
+  }
+  .use-case-body.open { display: block; }
+  .badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+  }
+  .badge.blue { background: var(--blue); }
+  .badge.gray { background: var(--mid-gray); }
+
+  /* ── CONCLUSION BOXES ── */
+  .conclusion-grid {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .conclusion-box {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 2px;
+  }
+  .conclusion-box .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .conclusion-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .conclusion-box p { font-size: 13px; color: #444; line-height: 1.65; }
+
+  /* ── SIMULATOR ── */
+  .simulator {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+    margin: 24px 0;
+  }
+  .simulator h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .simulator .sim-desc { font-size: 12px; color: var(--gray); margin-bottom: 16px; }
+  .sim-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .sim-row label { font-size: 12px; font-weight: 700; min-width: 90px; }
+  .sim-row input[type=range] { flex: 1; accent-color: var(--red); }
+  .sim-row .val { font-size: 13px; font-weight: 700; min-width: 50px; text-align: right; color: var(--red); }
+  .sim-result {
+    margin-top: 16px;
+    padding: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 13px;
+  }
+  .sim-result .big { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--red); }
+  .sim-result .desc { color: var(--gray); font-size: 12px; margin-top: 4px; }
+  .sim-reset { 
+    margin-top: 10px; 
+    font-size: 11px; 
+    color: var(--gray); 
+    cursor: pointer; 
+    text-decoration: underline; 
+    background: none; border: none; 
+    font-family: inherit;
+  }
+
+  /* ── FOOTNOTE ── */
+  .footnote { font-size: 12px; color: var(--gray); margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero fade-in">
+  <div class="hero-eyebrow">기술 분석 리포트 · 2026년 6월 12일</div>
+  <h1>언어가 <span>인프라</span>가 되는 날 — Gemini 3.5 Live Translate</h1>
+  <div class="hero-meta">
+    <span>📺 출처: 유튜브 채널 패치</span>
+    <span>⏱ 분야: AI / 실시간 통역 기술</span>
+  </div>
+</div>
+
+<!-- SUMMARY CARDS -->
+<div class="summary-grid">
+  <div class="summary-card fade-in">
+    <div class="label">핵심 모델</div>
+    <div class="value">Gemini 3.5</div>
+    <div class="sub">Live Translate (LTE)</div>
+  </div>
+  <div class="summary-card fade-in">
+    <div class="label">배포 방식</div>
+    <div class="value">글로벌</div>
+    <div class="sub">구글 번역 앱 순차 배포</div>
+  </div>
+  <div class="summary-card fade-in">
+    <div class="label">핵심 전환</div>
+    <div class="value">텍스트→음성</div>
+    <div class="sub">스트리밍 멀티모달 파이프라인</div>
+  </div>
+  <div class="summary-card fade-in">
+    <div class="label">비즈니스 모델</div>
+    <div class="value">API 인프라</div>
+    <div class="sub">One App → Every App</div>
+  </div>
+</div>
+
+<!-- SECTION 1: 무엇이 달라졌나 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">01 — 핵심 변화</div>
+  <h2>AI가 문장이 끝나기 전에 이해하기 시작했다</h2>
+  <p>구글이 발표한 Gemini 3.5 Live Translate(이하 LTE)의 핵심은 실시간 <strong>음성 스트리밍 처리</strong>다. 기존 번역 앱이 문장 전체를 들은 뒤 번역했다면, LTE는 아직 완성되지 않은 문맥, 즉 <em>파셜 컨텍스트(partial context)</em>를 바탕으로 다음 의미를 예측하며 번역을 시작한다.</p>
+  <p>시연에서 한국어의 복잡한 후치 구조(중요한 정보가 문장 끝에 나오는 구조)를 영어로 실시간 통역하면서도 흐름을 잃지 않았고, 코드 스위칭(한국어→영어→일본어 혼용)과 격식체 감지도 처리했다. 관용어구("김이 샜다", "발이 넓다", "입이 가볍다") 역시 "well-connected", "loose mouth" 등 의미 중심으로 번역했다.</p>
+
+  <div class="highlight">
+    <strong>핵심 기술 난제:</strong> 스트리밍 통역은 "얼마나 기다리느냐"와 "얼마나 빨리 출력하느냐"의 균형 문제다. 너무 빨리 출력하면 문장 끝의 중요 정보가 누락되고, 너무 기다리면 대화가 끊긴다. LTE는 이 지연시간(latency) 제어를 상당 부분 해결했다.
+  </div>
+</div>
+
+<!-- TECH PIPELINE -->
+<div class="section fade-in">
+  <div class="section-eyebrow">02 — 기술 구조</div>
+  <h2>카스케이드 파이프라인 → 멀티모달 스트리밍</h2>
+  <p>기존 방식은 ASR(음성인식) → MT(기계번역) → TTS(음성합성)가 직렬로 연결된 구조다. 각 단계가 독립적으로 작동하므로 앞 단계의 오류가 그대로 다음 단계로 전달되고, 특히 텍스트로 변환되는 순간 <strong>말투, 억양, 감정</strong> 정보가 사라진다.</p>
+
+  <p style="font-weight:700; font-size:13px; color:var(--gray); margin-bottom: 8px;">기존 방식 (정보 손실 발생)</p>
+  <div class="pipeline">
+    <div class="pipeline-step bad">
+      <div class="icon">🎙️</div>
+      <div class="name">ASR</div>
+      <div class="sub">음성→텍스트</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step bad">
+      <div class="icon">📝</div>
+      <div class="name">MT</div>
+      <div class="sub">기계번역</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step bad">
+      <div class="icon">🔊</div>
+      <div class="name">TTS</div>
+      <div class="sub">텍스트→음성</div>
+    </div>
+  </div>
+
+  <p style="font-weight:700; font-size:13px; color:var(--gray); margin-bottom: 8px; margin-top:20px;">Gemini 3.5 LTE (오디오 기반 멀티모달)</p>
+  <div class="pipeline">
+    <div class="pipeline-step new">
+      <div class="icon">🎙️</div>
+      <div class="name">오디오 토큰</div>
+      <div class="sub">음성 스트리밍</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step new">
+      <div class="icon">🧠</div>
+      <div class="name">Gemini 3.5</div>
+      <div class="sub">멀티모달 추론</div>
+    </div>
+    <div class="pipeline-arrow">→</div>
+    <div class="pipeline-step new">
+      <div class="icon">🗣️</div>
+      <div class="name">음성 생성</div>
+      <div class="sub">억양·감정 보존</div>
+    </div>
+  </div>
+
+  <p>Gemini 3.5가 탑재됐다는 것은 단순히 "번역기에 LLM을 붙였다"는 의미가 아니다. <strong>소리로 된 언어와 글로 된 언어를 같은 생성 모델의 컨텍스트 안에서 함께 다루기 시작했다</strong>는 의미다. 음성 파형이 오디오 토큰으로 변환되어 텍스트 토큰처럼 시퀀스로 처리되며, 의미와 시간 정보를 함께 추론한다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="latencyChart" height="220"></canvas>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 3: 이어폰 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">03 — UX 변화</div>
+  <h2>이어폰 없이도 — Listening Mode의 등장</h2>
+  <p>기존 실시간 번역에서 이어폰이 필수였던 이유는 입력과 출력 분리 때문이다. 스피커로 번역음이 나오면 그 소리가 마이크로 재입력되어 <strong>피드백 루프</strong>가 생긴다. 이어폰은 번역음을 사용자 귀에만 전달해 이 문제를 막는 장치였다.</p>
+  <p>Gemini 3.5 LTE는 안드로이드 기준으로 <strong>휴대폰을 귀에 대고 전화처럼</strong> 번역음을 듣는 방식을 지원한다. 스피커보다 훨씬 적은 소리가 새어나오므로 마이크 재입력 문제가 대폭 줄어든다. 완전히 이어폰이 필요없어진 것은 아니지만, 일상적 사용 장벽을 낮췄다.</p>
+
+  <table class="compare-table">
+    <thead><tr><th>항목</th><th>기존</th><th>Gemini 3.5 LTE</th></tr></thead>
+    <tbody>
+      <tr><td>이어폰 필요</td><td class="cross">✗ 필수</td><td class="check">✓ 선택적</td></tr>
+      <tr><td>피드백 루프 방지</td><td>이어폰으로만</td><td>귀에 대고 듣기 가능</td></tr>
+      <tr><td>입출력 분리</td><td>하드웨어 의존</td><td>UX 차원 해결</td></tr>
+      <tr><td>일상 사용성</td><td>보조기기 필요</td><td>핸드폰만으로 가능</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: 산업 확장 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">04 — 산업적 의미</div>
+  <h2>구글 맵처럼 — 언어가 인프라 레이어가 된다</h2>
+  <p>가장 중요한 포인트는 <strong>API</strong>다. 개발자들이 실시간 통역 기능을 자신의 앱에 직접 붙일 수 있게 되면, 음성인식·번역·음성합성·지연시간 제어 시스템을 각 앱이 일일이 구현할 필요가 없어진다.</p>
+  <p>이는 구글 맵 API의 역사와 같다. 처음에는 사람들이 구글맵 앱을 직접 열었지만, 어느 순간 지도가 배달·택시·부동산·여행 앱 모두에 들어갔다. Gemini Live Translate도 같은 경로를 밟을 수 있다.</p>
+
+  <div class="use-cases">
+    <div class="use-case-item">
+      <div class="use-case-header" onclick="toggleUseCase(this)">
+        <span><span class="badge">회의</span> Google Meet 기업 화상회의</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="use-case-body">
+        Google Meet는 이미 음성입력, 화자관리, 회의세션, 클라우드연결, 기업계정관리가 모두 갖춰진 플랫폼이다. 실시간 통역 모델이 결합되면 별도의 통역앱 없이 회의 흐름 안에서 자동 통역이 가능해진다. 기존에는 전문 통역사 섭외, 언어별 인력, 일정 조율이 필요해 갑작스러운 소규모 회의에 통역을 붙이기 어려웠다. Google Workspace를 사용하는 기업은 별도 솔루션 없이 즉시 활용 가능하다.
+      </div>
+    </div>
+    <div class="use-case-item">
+      <div class="use-case-header" onclick="toggleUseCase(this)">
+        <span><span class="badge blue">콜센터</span> 다국어 고객 지원</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="use-case-body">
+        콜센터에서는 언어별로 인력을 따로 두거나 통역 서비스를 외주화해야 했다. API를 통해 통역 기능이 CRM·콜센터 앱에 내장되면 어느 언어의 고객이든 즉시 응대 가능해진다.
+      </div>
+    </div>
+    <div class="use-case-item">
+      <div class="use-case-header" onclick="toggleUseCase(this)">
+        <span><span class="badge gray">교육</span> 온라인 교육 플랫폼</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="use-case-body">
+        강의를 실시간으로 다국어 통역해 글로벌 수강생이 모국어로 수업을 들을 수 있다. 별도 자막 제작·더빙 과정 없이 라이브 강의 자체가 다국어 동시 수업이 된다.
+      </div>
+    </div>
+    <div class="use-case-item">
+      <div class="use-case-header" onclick="toggleUseCase(this)">
+        <span><span class="badge blue">여행</span> 모빌리티·여행 서비스</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="use-case-body">
+        택시·호텔·여행 앱에서 외국어 안내, 운전기사와의 소통, 체크인 절차 등을 실시간 통역으로 처리한다. 여행자가 별도 번역앱을 전환할 필요 없이 서비스 앱 안에서 모든 언어 소통이 가능해진다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: 수익 모델 시뮬레이터 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">05 — 비즈니스 모델</div>
+  <h2>오디오 토큰 단위 과금 — 글로벌 AI 인프라</h2>
+  <p>개인용 번역 앱은 과금이 쉽지 않다. 사용 상황이 여행·특정 대화에 한정되고 단가를 높게 책정하기 어렵다. 그러나 API로 들어가면 비용 지불 주체가 <strong>개인 → 기업·플랫폼</strong>으로 바뀐다. 과금 기준도 사용시간, 오디오 길이, 입출력 토큰, 통역 세션 수, 동시 접속자 수 등으로 다양해진다.</p>
+
+  <div class="simulator fade-in">
+    <h3>📊 API 사용량 수익 시뮬레이터</h3>
+    <div class="sim-desc">가상 시나리오: 회의앱이 통역 API를 도입했을 때 예상 월 사용량과 수익을 시뮬레이션합니다.</div>
+    <div class="sim-row">
+      <label>월 회의 수</label>
+      <input type="range" id="meetings" min="100" max="10000" value="1000" step="100" oninput="updateSim()">
+      <span class="val" id="meetings-val">1,000건</span>
+    </div>
+    <div class="sim-row">
+      <label>평균 회의 시간</label>
+      <input type="range" id="duration" min="10" max="120" value="40" step="5" oninput="updateSim()">
+      <span class="val" id="duration-val">40분</span>
+    </div>
+    <div class="sim-row">
+      <label>분당 요금 (가정)</label>
+      <input type="range" id="rate" min="1" max="20" value="5" step="1" oninput="updateSim()">
+      <span class="val" id="rate-val">$5</span>
+    </div>
+    <div class="sim-result">
+      <div>월 예상 통역 시간: <span id="total-minutes" style="font-weight:700">40,000분</span></div>
+      <div style="margin-top:8px">월 예상 API 수익:</div>
+      <div class="big" id="revenue">$200,000</div>
+      <div class="desc">※ 가상 시나리오. 실제 Google API 단가는 미공개 상태입니다.</div>
+    </div>
+    <button class="sim-reset" onclick="resetSim()">↺ 초기값으로 리셋</button>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: 전문 통역사의 미래 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">06 — 인력 시장 전망</div>
+  <h2>통역사가 모두 사라지는 건 아니다</h2>
+  <p>외교·법률·의료·사법통역·계약협상처럼 <strong>책임과 맥락이 가장 중요한 영역</strong>에서는 사람의 역할이 계속 남는다. 문화적 뉘앙스가 중요하거나 발언 하나가 큰 리스크가 되는 상황, 통역 결과에 대한 책임 소재가 중요한 경우에는 전문 통역사가 필요하다.</p>
+  <p>반면 반복적이고 단순한 통역 수요—일상회의, 고객센터, 여행 대화, 호텔 안내, 온라인 교육, 내부 세미나—는 빠르게 AI 기능으로 대체될 것이다. 핵심 변화는 통역 서비스가 <strong>"전문 인력을 섭외해야 하는 값비싼 서비스"에서 "모든 앱에 탑재된 기본 기능"으로 보편화</strong>된다는 점이다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="roleChart" height="220"></canvas>
+  </div>
+</div>
+
+<!-- SECTION 7: 결론 -->
+<div class="section fade-in">
+  <div class="section-eyebrow">07 — 결론</div>
+  <h2>세 가지로 정리되는 변화</h2>
+  <div class="conclusion-grid">
+    <div class="conclusion-box">
+      <div class="num">01</div>
+      <h3>기술적 전환</h3>
+      <p>구글 트랜슬레이트가 텍스트 번역에서 실시간 음성통역 시스템으로 이동했다. 핵심은 음성 스트리밍 처리, 문맥 추적, 지연시간 제어, 음성 정보(억양·감정) 생성이다.</p>
+    </div>
+    <div class="conclusion-box">
+      <div class="num">02</div>
+      <h3>제품적 확장</h3>
+      <p>이어폰 기반 개인 통역에서 Listening Mode와 Google Meet 화상회의 환경으로 확장. 단순 UI 변화가 아니라 입출력 분리 문제를 더 자연스럽게 해결한 UX 진화다.</p>
+    </div>
+    <div class="conclusion-box">
+      <div class="num">03</div>
+      <h3>산업적 패러다임</h3>
+      <p>구글 맵스가 위치 레이어가 되었듯, Gemini Live Translate는 언어 레이어가 될 수 있다. 구글은 번역 앱을 넘어 전 세계 통역 트래픽을 처리하는 실시간 언어 인프라 플랫폼이 된다.</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <strong>최종 메시지:</strong> 이번 업데이트는 구글이 전세계 서비스에 통역 트래픽을 가져가는 플랫폼이 될 가능성을 보여준 것이다. 언어가 더 이상 장벽이 아니라 배경이 되는 미래로 나아가고 있다.
+  </div>
+</div>
+
+<div class="footnote">
+  본 분석은 유튜브 채널 '패치'의 영상 자막을 기반으로 작성되었습니다. 수치 및 시뮬레이션은 가상 시나리오이며 실제 Google API 단가와 무관합니다.
+</div>
+
+<script>
+// ── FADE + CHART OBSERVERS ──
+const fadeObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      fadeObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+const chartConfigs = {};
+
+chartConfigs['latencyChart'] = () => {
+  new Chart(document.getElementById('latencyChart'), {
+    type: 'bar',
+    data: {
+      labels: ['ASR 처리', '번역 모델', 'TTS 합성', '총 지연 (기존)', 'Gemini 3.5 LTE'],
+      datasets: [{
+        label: '처리 지연 (상대적)',
+        data: [30, 40, 25, 95, 28],
+        backgroundColor: ['#6b7280','#6b7280','#6b7280','#1a1a1a','#e11d48'],
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `${ctx.raw} (상대값)` } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: '#e5e5e5' }, ticks: { font: { family: 'Noto Sans KR', size: 11 } } },
+        x: { grid: { display: false }, ticks: { font: { family: 'Noto Sans KR', size: 10 } } }
+      }
+    }
+  });
+};
+
+chartConfigs['roleChart'] = () => {
+  new Chart(document.getElementById('roleChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['AI로 대체 가능\n(일상·반복)', '전문 인력 필수\n(법률·외교·의료)'],
+      datasets: [{
+        data: [65, 35],
+        backgroundColor: ['#e11d48', '#1a1a1a'],
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { family: 'Noto Sans KR', size: 12 }, padding: 16 } },
+        tooltip: { callbacks: { label: ctx => `${ctx.label}: ${ctx.raw}%` } }
+      }
+    }
+  });
+};
+
+const chartObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const canvas = e.target.querySelector('canvas');
+      if (canvas && chartConfigs[canvas.id]) {
+        chartConfigs[canvas.id]();
+        e.target.classList.add('chart-ready');
+        chartObs.unobserve(e.target);
+      }
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+// ── USE CASE TOGGLE ──
+function toggleUseCase(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ── SIMULATOR ──
+function updateSim() {
+  const meetings = parseInt(document.getElementById('meetings').value);
+  const duration = parseInt(document.getElementById('duration').value);
+  const rate = parseInt(document.getElementById('rate').value);
+  document.getElementById('meetings-val').textContent = meetings.toLocaleString() + '건';
+  document.getElementById('duration-val').textContent = duration + '분';
+  document.getElementById('rate-val').textContent = '$' + rate;
+  const totalMin = meetings * duration;
+  const revenue = totalMin * rate;
+  document.getElementById('total-minutes').textContent = totalMin.toLocaleString() + '분';
+  document.getElementById('revenue').textContent = '$' + revenue.toLocaleString();
+}
+
+function resetSim() {
+  document.getElementById('meetings').value = 1000;
+  document.getElementById('duration').value = 40;
+  document.getElementById('rate').value = 5;
+  updateSim();
+}
+
+updateSim();
+</script>
+</body>
+</html>
