@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini 3.5 Live Translate — 시험문제</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #e11d48; --red-light: #f43f5e; --black: #1a1a1a;
+    --gray: #777; --border: #e5e5e5; --bg: #fff; --bg2: #fafafa;
+    --green: #16a34a; --orange: #ea580c;
+  }
+  body {
+    background: var(--bg); color: var(--black);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px; line-height: 1.7;
+    max-width: 680px; margin: 0 auto; padding: 0 16px 80px;
+  }
+
+  /* STICKY SCORE BAR */
+  .score-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--black); color: #fff;
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px;
+    flex-wrap: wrap;
+    margin: 0 -16px;
+  }
+  .score-bar .score-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.7; }
+  .score-bar .score-val { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; }
+  .score-bar .score-val span { color: var(--red); }
+  .score-progress-wrap { flex: 1; min-width: 100px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+  .score-progress { height: 100%; border-radius: 3px; transition: width 0.4s ease, background 0.4s; background: var(--red); width: 0%; }
+
+  /* HEADER */
+  .quiz-header { padding: 40px 0 24px; border-bottom: 3px solid var(--red); margin-bottom: 32px; }
+  .quiz-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--red); text-transform: uppercase; margin-bottom: 10px; }
+  .quiz-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 5vw, 30px); font-weight: 900; line-height: 1.25; }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 4px; margin-bottom: 24px;
+    overflow: hidden;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .q-card.visible { opacity: 1; transform: translateY(0); }
+  .q-head {
+    background: var(--bg2); padding: 14px 16px;
+    display: flex; align-items: flex-start; gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900;
+    color: var(--red); min-width: 28px; line-height: 1.2;
+  }
+  .q-meta { display: flex; flex-direction: column; gap: 4px; }
+  .q-text { font-weight: 500; font-size: 14.5px; line-height: 1.6; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px; letter-spacing: 0.05em;
+  }
+  .badge-type { background: #e0e7ff; color: #3730a3; }
+  .badge-easy { background: #dcfce7; color: #15803d; }
+  .badge-med { background: #fef9c3; color: #a16207; }
+  .badge-hard { background: #fee2e2; color: #b91c1c; }
+
+  .q-body { padding: 14px 16px; }
+
+  /* OPTIONS */
+  .opt-list { display: grid; gap: 8px; margin-top: 4px; }
+  .opt-btn {
+    width: 100%; text-align: left; background: var(--bg);
+    border: 1.5px solid var(--border); border-radius: 4px;
+    padding: 10px 14px; font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13.5px; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--red); background: #fff5f7; }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #dcfce7; border-color: var(--green); }
+  .opt-btn.wrong { background: #fee2e2; border-color: var(--red); }
+  .opt-badge { font-size: 11px; font-weight: 700; white-space: nowrap; margin-top: 2px; }
+
+  /* OX BUTTONS */
+  .ox-wrap { display: flex; gap: 12px; margin-top: 4px; }
+  .ox-btn {
+    flex: 1; padding: 16px; font-size: 28px; font-weight: 900;
+    border: 2px solid var(--border); border-radius: 4px; background: var(--bg);
+    cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans KR', sans-serif;
+  }
+  .ox-btn:hover:not(:disabled) { border-color: var(--red); background: #fff5f7; }
+  .ox-btn:disabled { cursor: default; }
+  .ox-btn.correct { background: #dcfce7; border-color: var(--green); }
+  .ox-btn.wrong { background: #fee2e2; border-color: var(--red); }
+
+  /* SHORT ANSWER */
+  .short-wrap { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .short-input {
+    flex: 1; min-width: 160px; padding: 10px 12px;
+    border: 1.5px solid var(--border); border-radius: 4px;
+    font-family: 'Noto Sans KR', sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .short-input:focus { border-color: var(--red); }
+  .short-input:disabled { background: var(--bg2); }
+  .short-submit {
+    padding: 10px 18px; background: var(--red); color: #fff;
+    border: none; border-radius: 4px; font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+  }
+  .short-submit:hover { background: var(--red-light); }
+  .short-submit:disabled { background: #ccc; cursor: default; }
+
+  /* EXPLANATION */
+  .explanation {
+    display: none; margin-top: 12px; padding: 12px 14px;
+    background: #f8fafc; border-left: 4px solid var(--red);
+    border-radius: 0 4px 4px 0; font-size: 13px; line-height: 1.7;
+  }
+  .explanation.show { display: block; }
+  .explanation strong { color: var(--red); }
+  .expl-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--gray); text-transform: uppercase; margin-bottom: 6px; }
+
+  /* RESULT MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 200;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: #fff; border-radius: 8px; padding: 40px 32px;
+    max-width: 400px; width: 100%; text-align: center;
+    animation: popIn 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-score {
+    font-family: 'Playfair Display', serif; font-size: 64px; font-weight: 900;
+    color: var(--red); line-height: 1;
+  }
+  .modal-grade {
+    font-size: 28px; font-weight: 900; margin: 8px 0;
+  }
+  .modal-msg { font-size: 14px; color: var(--gray); margin-bottom: 24px; line-height: 1.6; }
+  .modal-retry {
+    background: var(--red); color: #fff; border: none; border-radius: 4px;
+    padding: 12px 32px; font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .modal-retry:hover { background: var(--red-light); }
+</style>
+</head>
+<body>
+
+<!-- STICKY SCORE BAR -->
+<div class="score-bar">
+  <div>
+    <div class="score-label">진행</div>
+    <div class="score-val"><span id="solved">0</span> / 10</div>
+  </div>
+  <div>
+    <div class="score-label">정답</div>
+    <div class="score-val"><span id="correct-count">0</span></div>
+  </div>
+  <div>
+    <div class="score-label">정답률</div>
+    <div class="score-val"><span id="accuracy">0</span>%</div>
+  </div>
+  <div class="score-progress-wrap">
+    <div class="score-progress" id="progress-bar"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="quiz-header">
+  <div class="quiz-eyebrow">인터랙티브 퀴즈 · 10문제</div>
+  <h1>Gemini 3.5 Live Translate<br>이해도 확인 시험</h1>
+</div>
+
+<div id="quiz-container"></div>
+
+<!-- RESULT MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-score" id="modal-score">0</div>
+    <div class="modal-grade" id="modal-grade">—</div>
+    <div class="modal-msg" id="modal-msg"></div>
+    <button class="modal-retry" onclick="retryQuiz()">↺ 다시 풀기</button>
+  </div>
+</div>
+
+<script>
+const QUIZ_DATA = [
+  {
+    id: 1, type: 'mc',
+    question: 'Gemini 3.5 Live Translate의 핵심 특징으로 가장 적절한 것은?',
+    options: ['문장 전체를 들은 뒤 한 번에 번역한다','음성을 실시간 스트리밍으로 처리하며 번역한다','텍스트 입력만 지원한다','이어폰 없이는 절대 작동하지 않는다'],
+    answer: 1,
+    explanation: '영상에서 "AI가 사람이 말하는 내용을 실시간으로 따라가기 시작했다"고 설명하며, 전체 문장을 다 들은 다음에 번역하는 것이 아니라 아직 완성되지 않은 파셜 컨텍스트(partial context)를 바탕으로 의미를 예측한다고 했습니다.',
+    difficulty: 'easy'
+  },
+  {
+    id: 2, type: 'mc',
+    question: '기존 번역 시스템의 카스케이드 파이프라인 순서로 올바른 것은?',
+    options: ['MT → ASR → TTS','ASR → TTS → MT','ASR → MT → TTS','TTS → ASR → MT'],
+    answer: 2,
+    explanation: '영상에서 "ASR이 먼저 음성을 텍스트로 바꾸고, 그 다음에 번역 모델이 그 텍스트를 타깃 언어로 옮긴 다음에 TTS가 다시 그걸 음성으로 합성"한다고 직접 설명했습니다.',
+    difficulty: 'med'
+  },
+  {
+    id: 3, type: 'ox',
+    question: 'Gemini 3.5 Live Translate는 안드로이드 기준으로 이어폰 없이 핸드폰을 귀에 대고 전화처럼 번역 음성을 들을 수 있다.',
+    answer: 'O',
+    explanation: '영상에서 "이번 3.5LT 모델에서는 안드로이드 기준으로 이어폰 없이도 휴대폰을 귀에다 대고 전화처럼 번역음성을 듣는 방식"이라고 명확히 설명했습니다. 다만 이어폰이 완전히 필요없어진 것은 아니라고 덧붙였습니다.',
+    difficulty: 'easy'
+  },
+  {
+    id: 4, type: 'mc',
+    question: '영상에서 한국어 관용어구 "발이 넓다"를 LTE가 어떻게 번역했다고 했는가?',
+    options: ['big feet','wide range','well-connected','broad contact'],
+    answer: 2,
+    explanation: '영상에서 "발이 넓다"를 "well-connected"로, "손이 크다"를 "generous"로, "입이 가볍다"를 "loose mouth"로 번역했다고 했습니다. 단어 하나하나 대응이 아니라 전체 상황 속 감정과 의도까지 해석한 것이라 설명했습니다.',
+    difficulty: 'easy'
+  },
+  {
+    id: 5, type: 'short',
+    question: '영상에서 Gemini Live Translate의 비즈니스 확산 모델을 설명할 때 비교 사례로 든 구글의 다른 서비스는 무엇인가?',
+    answer: ['구글맵', '구글 맵', '구글맵스', '구글 맵스', 'google maps', 'google map'],
+    explanation: '영상에서 "구글맵 아시죠? 구글맵 API랑 비교를 하면 좀 이해가 쉬울 것 같다"고 했습니다. 처음에는 구글맵 앱을 직접 열어서 봤지만 어느 순간 지도가 수많은 앱 안으로 들어갔듯, Gemini Live Translate도 같은 경로를 밟을 수 있다고 설명했습니다.',
+    difficulty: 'easy'
+  },
+  {
+    id: 6, type: 'mc',
+    question: '스트리밍 음성 통역에서 "출력 타이밍 제어"가 중요한 이유로 영상에서 언급된 것은?',
+    options: [
+      '모델 크기가 너무 커서 처리가 느리기 때문에',
+      '너무 빨리 출력하면 문장 끝의 중요 정보가 나오기 전에 의미를 잘못 확정할 수 있기 때문에',
+      '이어폰 배터리 소모를 줄이기 위해',
+      '다국어 입력을 동시에 처리할 수 없기 때문에'
+    ],
+    answer: 1,
+    explanation: '영상에서 "더 오래 기다리면 문맥은 당연히 정확해지겠지만 지연이 커지고, 반대로 너무 빨리 출력해버리면 대화는 자연스럽게 이어지지만 문장 뒤쪽에서 중요한 정보가 나오기도 전에 의미를 잘못 확정해버릴 수 있다"고 설명했습니다.',
+    difficulty: 'med'
+  },
+  {
+    id: 7, type: 'mc',
+    question: 'Gemini 3.5가 번역에 탑재됐다는 것의 정확한 의미로 영상이 설명한 것은?',
+    options: [
+      '번역기에 LLM 챗봇을 붙였다는 의미',
+      '음성 인식 정확도가 높아졌다는 의미',
+      '소리로 된 언어와 글로 된 언어를 같은 생성 모델의 컨텍스트 안에서 함께 다루기 시작했다는 의미',
+      '텍스트 번역 속도가 2배 빨라졌다는 의미'
+    ],
+    answer: 2,
+    explanation: '영상에서 "Gemini 3.5가 들어갔다는 건 그냥 번역기에 LLM을 붙였다는 뜻이 아니라, 소리로 된 언어와 글로 된 언어를 같은 생성 모델의 컨텍스트 안에서 함께 다루기 시작했다는 의미가 가까워진다"고 설명했습니다.',
+    difficulty: 'hard'
+  },
+  {
+    id: 8, type: 'ox',
+    question: '영상에서는 전문 통역사의 역할이 AI의 발전으로 완전히 사라질 것이라고 전망했다.',
+    answer: 'X',
+    explanation: '영상에서 "외교나 법률, 의료, 사법통역, 계약협상 이런 것처럼 책임이랑 맥락이 가장 중요한 영역에서는 여전히 사람의 역할이 중요할 것 같다"고 했습니다. 반복적이고 단순한 통역 수요는 AI로 대체되지만 전문 통역사는 계속 필요하다고 했습니다.',
+    difficulty: 'easy'
+  },
+  {
+    id: 9, type: 'mc',
+    question: '영상에서 기존 카스케이드 파이프라인 방식의 단점으로 언급하지 않은 것은?',
+    options: [
+      '앞 단계 오류가 그대로 다음 단계에 전달된다',
+      '음성을 텍스트로 바꾸는 순간 말투·억양·감정 정보가 사라진다',
+      '처리 비용이 멀티모달 방식보다 매우 비싸다',
+      '음성인식이 잘못되면 번역도 잘못된다'
+    ],
+    answer: 2,
+    explanation: '영상에서는 카스케이드 파이프라인의 단점으로 ① 오류 전파, ② 음성 정보 손실(말투·억양·감정), ③ 음성인식 오류 시 번역 오류를 언급했습니다. 처리 비용 비교는 영상에서 직접 언급하지 않았습니다.',
+    difficulty: 'hard'
+  },
+  {
+    id: 10, type: 'mc',
+    question: '영상에서 Gemini 3.5 LTE의 산업 확장 가능성으로 언급된 분야가 아닌 것은?',
+    options: ['콜센터','여행 플랫폼','의료 진단 AI','교육 서비스'],
+    answer: 2,
+    explanation: '영상에서는 "온라인 회의, 여행, 콜센터, 모빌리티, 교육 플랫폼, 온라인 커머스" 등 다양한 앱에 통역 기능이 들어갈 것이라 했습니다. "의료 진단 AI"는 언급되지 않았으며, 의료는 전문 통역사가 필요한 영역으로 분류되었습니다.',
+    difficulty: 'med'
+  }
+];
+
+let state = { solved: 0, correct: 0 };
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  QUIZ_DATA.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `q-card-${q.id}`;
+
+    const diffMap = { easy: ['쉬움','badge-easy'], med: ['보통','badge-med'], hard: ['어려움','badge-hard'] };
+    const typeMap = { mc: '객관식', ox: 'O/X', short: '단답형' };
+    const [diffLabel, diffClass] = diffMap[q.difficulty];
+
+    let bodyHTML = '';
+    if (q.type === 'mc') {
+      bodyHTML = `<div class="opt-list">${q.options.map((opt, i) =>
+        `<button class="opt-btn" onclick="answerMC(${q.id}, ${i})" id="opt-${q.id}-${i}">
+          <span class="opt-badge">${['①','②','③','④'][i]}</span><span>${opt}</span>
+        </button>`).join('')}</div>`;
+    } else if (q.type === 'ox') {
+      bodyHTML = `<div class="ox-wrap">
+        <button class="ox-btn" onclick="answerOX(${q.id}, 'O')" id="opt-${q.id}-O">⭕ O</button>
+        <button class="ox-btn" onclick="answerOX(${q.id}, 'X')" id="opt-${q.id}-X">❌ X</button>
+      </div>`;
+    } else if (q.type === 'short') {
+      bodyHTML = `<div class="short-wrap">
+        <input type="text" class="short-input" id="short-${q.id}" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter')answerShort(${q.id})">
+        <button class="short-submit" id="submit-${q.id}" onclick="answerShort(${q.id})">제출</button>
+      </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="q-head">
+        <div class="q-num">${String(q.id).padStart(2,'0')}</div>
+        <div class="q-meta">
+          <div class="badges">
+            <span class="badge badge-type">${typeMap[q.type]}</span>
+            <span class="badge ${diffClass}">${diffLabel}</span>
+          </div>
+          <div class="q-text">${q.question}</div>
+        </div>
+      </div>
+      <div class="q-body">
+        ${bodyHTML}
+        <div class="explanation" id="expl-${q.id}">
+          <div class="expl-label">📖 해설</div>
+          ${q.explanation}
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+
+    setTimeout(() => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.08 });
+      obs.observe(card);
+    }, idx * 30);
+  });
+}
+
+function markAndReveal(qid, isCorrect) {
+  state.solved++;
+  if (isCorrect) state.correct++;
+  updateScoreBar();
+  document.getElementById(`expl-${qid}`).classList.add('show');
+  if (state.solved === QUIZ_DATA.length) setTimeout(showModal, 700);
+}
+
+function answerMC(qid, chosen) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  q.options.forEach((_, i) => {
+    const btn = document.getElementById(`opt-${qid}-${i}`);
+    btn.disabled = true;
+    if (i === q.answer) { btn.classList.add('correct'); btn.innerHTML += ' <span class="opt-badge" style="color:var(--green)">✓ 정답</span>'; }
+    else if (i === chosen && chosen !== q.answer) { btn.classList.add('wrong'); btn.innerHTML += ' <span class="opt-badge" style="color:var(--red)">✗ 오답</span>'; }
+  });
+  markAndReveal(qid, chosen === q.answer);
+}
+
+function answerOX(qid, chosen) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  ['O','X'].forEach(v => {
+    const btn = document.getElementById(`opt-${qid}-${v}`);
+    btn.disabled = true;
+    if (v === q.answer) { btn.classList.add('correct'); }
+    else if (v === chosen && chosen !== q.answer) { btn.classList.add('wrong'); }
+  });
+  markAndReveal(qid, chosen === q.answer);
+}
+
+function answerShort(qid) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  const input = document.getElementById(`short-${qid}`);
+  const submitBtn = document.getElementById(`submit-${qid}`);
+  const val = input.value.trim();
+  if (!val) return;
+  input.disabled = true;
+  submitBtn.disabled = true;
+  const correct = q.answer.some(a => val.toLowerCase().includes(a.toLowerCase()) || a.toLowerCase().includes(val.toLowerCase()));
+  input.style.borderColor = correct ? 'var(--green)' : 'var(--red)';
+  input.style.background = correct ? '#dcfce7' : '#fee2e2';
+  if (!correct) {
+    const hint = document.createElement('div');
+    hint.style.cssText = 'font-size:12px;color:var(--red);margin-top:6px;';
+    hint.textContent = `정답: ${q.answer[0]}`;
+    input.parentNode.appendChild(hint);
+  }
+  markAndReveal(qid, correct);
+}
+
+function updateScoreBar() {
+  document.getElementById('solved').textContent = state.solved;
+  document.getElementById('correct-count').textContent = state.correct;
+  const acc = state.solved > 0 ? Math.round(state.correct / state.solved * 100) : 0;
+  document.getElementById('accuracy').textContent = acc;
+  const bar = document.getElementById('progress-bar');
+  bar.style.width = acc + '%';
+  bar.style.background = acc < 40 ? 'var(--red)' : acc < 70 ? 'var(--orange)' : 'var(--green)';
+}
+
+function showModal() {
+  const total = QUIZ_DATA.length;
+  const score = Math.round(state.correct / total * 100);
+  let grade, msg;
+  if (score >= 90) { grade = '🏆 A'; msg = '완벽합니다! Gemini 3.5 Live Translate를 완전히 이해하셨군요.'; }
+  else if (score >= 70) { grade = '✅ B'; msg = '잘 하셨습니다! 핵심 내용을 대부분 파악하셨네요.'; }
+  else if (score >= 50) { grade = '📖 C'; msg = '절반 이상 맞히셨어요. 기술 파이프라인 부분을 한번 더 복습해보세요.'; }
+  else { grade = '💪 D'; msg = '영상 내용을 다시 한번 살펴보고 재도전해 보세요!'; }
+  document.getElementById('modal-score').textContent = state.correct + ' / ' + total;
+  document.getElementById('modal-grade').textContent = grade;
+  document.getElementById('modal-msg').textContent = msg;
+  document.getElementById('modal').classList.add('show');
+}
+
+function retryQuiz() {
+  state = { solved: 0, correct: 0 };
+  updateScoreBar();
+  document.getElementById('modal').classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
