@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>환율 올라갈수록 돈이 몰리는 '2가지' 업종 | 이선엽 대표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #fafafa;
+    --text: #1a1a1a;
+    --text-soft: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --table-bg: #fafafa;
+    --table-header: #e11d48;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 60px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+  /* HERO */
+  .hero {
+    padding: 56px 20px 36px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .kicker {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+    margin-bottom: 18px;
+  }
+  .hero .meta {
+    font-size: 13px;
+    color: var(--text-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+  }
+  .hero .meta span::before {
+    content: '·';
+    margin-right: 14px;
+    color: var(--accent2);
+  }
+  .hero .meta span:first-child::before { content: none; margin: 0; }
+
+  section { padding: 40px 20px; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  .eyebrow {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: -0.3px;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    color: var(--accent);
+  }
+  p { font-size: 15px; margin-bottom: 14px; color: var(--text); }
+  .lead {
+    font-size: 16.5px;
+    color: var(--text);
+    font-weight: 500;
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    margin-bottom: 22px;
+  }
+  ul, ol { padding-left: 20px; margin-bottom: 16px; }
+  li { font-size: 14.5px; margin-bottom: 8px; }
+  strong { font-weight: 700; color: var(--text); }
+  .accent-text { color: var(--accent); font-weight: 700; }
+
+  /* Pull quote */
+  .pullquote {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--accent);
+    padding: 20px 18px;
+    margin: 22px 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  /* Cards */
+  .card-grid { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
+  .card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 18px;
+  }
+  .card .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .card h4 { font-size: 14.5px; font-weight: 700; margin-bottom: 6px; }
+  .card p { font-size: 13.5px; color: var(--text-soft); margin-bottom: 0; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13.5px; }
+  th { background: var(--table-header); color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+  td { background: var(--table-bg); padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+
+  /* Chart container - REQUIRED PATTERN */
+  .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .chart-container { position: relative; max-height: 340px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 4px; padding: 16px 14px 8px; margin: 18px 0; }
+  .chart-container canvas { opacity: 0; transition: opacity 0.4s ease; max-height: 300px; }
+  .chart-container.chart-ready canvas { opacity: 1; }
+  .chart-caption { font-size: 12px; color: var(--text-soft); text-align: center; margin-top: 8px; }
+
+  /* Simulator */
+  .sim-box {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 18px;
+    margin: 18px 0;
+  }
+  .sim-row { margin-bottom: 16px; }
+  .sim-row label { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
+  .sim-row label .val { color: var(--accent); font-weight: 900; }
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border);
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .sim-result {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-top: 4px;
+  }
+  .sim-result-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 14px; }
+  .sim-result-row:not(:last-child) { border-bottom: 1px dashed var(--border); }
+  .sim-result-row .label { color: var(--text-soft); }
+  .sim-result-row .value { font-weight: 700; }
+  .sim-result-row .value.hi { color: var(--accent); font-family: 'Playfair Display', serif; font-size: 17px; }
+  .reset-btn {
+    margin-top: 14px;
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .reset-btn:active { background: var(--accent); color: #fff; }
+
+  /* Toggle compare */
+  .toggle-group { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+  .toggle-btn {
+    flex: 1;
+    min-width: 100px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    color: var(--text-soft);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* Flow steps */
+  .flow { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+  .flow-step {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 44px;
+    bottom: -2px;
+    width: 1.5px;
+    background: var(--border);
+  }
+  .flow-num {
+    flex-shrink: 0;
+    width: 35px; height: 35px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 14px;
+    font-family: 'Playfair Display', serif;
+    z-index: 1;
+  }
+  .flow-content h4 { font-size: 14.5px; font-weight: 700; margin-bottom: 4px; }
+  .flow-content p { font-size: 13.5px; color: var(--text-soft); margin-bottom: 0; }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 12px;
+    color: var(--text-soft);
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kicker">지식인초대석 · EP.145</div>
+  <h1>환율 올라갈수록 돈이 몰리는<br>'2가지' 업종</h1>
+  <div class="meta">
+    <span>이선엽 대표 (AFW 파트너스)</span>
+    <span>2026.06.20</span>
+    <span>경제 분석</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="eyebrow">Intro</div>
+  <h2>전쟁 끝나가는 중동, 시장은 이미 반응 중</h2>
+  <p class="lead">2026년 6월 16일, 트럼프 미국 대통령이 이란과 종전 협상에 서명했다는 소식에 국내 증시가 폭등했다. 호르무즈 해협 봉쇄 우려가 풀리는 동시에, 시장의 자금 흐름은 벌써 다음 국면을 준비하고 있다.</p>
+  <p>이선엽 대표는 종전 협상 자체보다 그 이후의 자금 흐름에 주목한다. 유가 하락, 코스피 8000선 안착, 1500원을 넘나드는 원달러 환율까지 — 이 모든 변화가 어떤 업종에 새로운 기회를 만드는지가 이번 인터뷰의 핵심이다.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 1</div>
+  <h2>종전, 끝이 아니라 "우호적 환경"</h2>
+  <p>이선엽 대표는 종전 서명을 시장 입장에서 <strong>"우호적 환경"</strong>으로 규정하면서도, 완전히 끝난 전쟁이라 단정하기는 이르다고 본다. 이스라엘이라는 변수가 남아 있고, 핵협상 관련 부분은 60일 이상의 시간을 남겨뒀기 때문이다.</p>
+
+  <div class="pullquote">"트럼프가 이번에 굉장히 급하다. 11월 3일 중간선거를 앞두고, 협상이 틀어지면 정치적 부담이 너무 크다."</div>
+
+  <p>즉 노이즈는 있어도 판을 깨는 방향으로 가지는 않을 가능성이 높다는 분석이다. 유가 하락은 미국·일본 등 주요국 물가가 정점을 찍었다는 기대로 이어지고, 이는 금리 인상 압력 완화 → AI 투자 환경 개선이라는 연쇄 작용으로 연결된다.</p>
+
+  <h3>코스피 1만 시대, 생각보다 빠를 수 있다</h3>
+  <p>코스피 8000선이 "기본"으로 여겨지는 지금, 이 대표는 1만 포인트 돌파 시점을 의외로 빠르게 본다. 8000 중후반대 기준으로 보면 1만까지는 <strong>10% 수준</strong>의 거리에 불과하기 때문이다. 관건은 7월 중후반 발표되는 반도체 기업들의 실적이다.</p>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartRally" height="220"></canvas>
+  </div>
+  <p class="chart-caption">2026년 코스피 랠리의 트리거 — 매번 반도체 실적 발표가 기폭제였다 (개념도)</p>
+
+  <p>실제로 올해 지수 랠리는 매번 반도체 실적이 기폭제였다. 1월 4분기 실적 발표 후 급등, 4월 마이크론 실적 후 2차 랠리. 3분기에도 비슷한 패턴이 반복될 가능성을 염두에 둘 필요가 있다는 진단이다.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 2</div>
+  <h2>"끝을 보고 가라" — 변동성 시대의 투자 원칙</h2>
+  <p>계속 오르는 시장에서 "지금 사도 되는가"라는 질문에 이 대표는 명확히 답한다. <strong>시장은 끝을 보고 가야지, 중간에 싸게 사려는 시도는 쉽지 않다</strong>는 것. 지난주 조정이 매수 기회였다는 건 결과론일 뿐, 그 당시로 돌아가면 막상 손이 나가지 않는다는 게 현실이라는 설명이다.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="num">5%+</div>
+      <h4>하루 지수 등락폭</h4>
+      <p>삼성전자·하이닉스 같은 대형주도 하루 10% 이상 변동하는 극심한 변동성 국면</p>
+    </div>
+    <div class="card">
+      <div class="num">50%</div>
+      <h4>레버리지 ETF 단기 손실 사례</h4>
+      <p>최근 변동성 구간에서 레버리지 상품 투자자 중 일부가 겪은 단기 손실 폭</p>
+    </div>
+  </div>
+
+  <h3>변동성을 견디는 유일한 방법: "쌓인 수익"</h3>
+  <p>이 대표는 변동을 견디려면 <strong>이미 계좌에 쌓인 수익</strong>이 있어야 한다고 강조한다. 수익이 없는 상태에서 조정을 맞으면 심리적으로 흔들려 팔게 되고, 팔고 나면 오히려 "더 빠질 것 같다"는 생각에 사로잡혀 저가 매수 타이밍을 놓치게 된다는 것이다. 결국 오른 뒤에는 더 비싼 가격에 다시 사게 되는 악순환이 반복된다.</p>
+
+  <div class="pullquote">"조금씩 조금씩 더 모아가는 지혜가 필요하다. 변동을 무시해야 돈을 벌 수 있다."</div>
+</section>
+
+<section>
+  <div class="eyebrow">Part 3</div>
+  <h2>지난주 폭락, 진짜 원인은 무엇이었나</h2>
+  <p>지난주 폭락장을 두고 "많이 올라서"라거나 "선거 결과 반응"이라는 해석이 엇갈렸지만, 이 대표는 <strong>특정 산업(반도체)으로의 자금 과잉 쏠림에 대한 재배분 과정</strong>이라고 진단한다.</p>
+
+  <div class="sim-box fade-in">
+    <div style="font-size:13px; font-weight:700; color:var(--accent); margin-bottom:14px;">🔍 가설 검증: 금리 인상 우려였을까?</div>
+    <p style="font-size:13px; margin-bottom:14px; color:var(--text-soft);">아래 3가지 항목을 클릭해 이 대표가 제시한 반박 근거를 확인해보세요.</p>
+    <div class="toggle-group" id="hypothesisToggle">
+      <button class="toggle-btn" data-key="bond">美국채 10년물</button>
+      <button class="toggle-btn" data-key="dollar">달러 가치</button>
+      <button class="toggle-btn" data-key="stock">빅테크 종목 움직임</button>
+    </div>
+    <div class="sim-result" id="hypothesisResult">
+      <p style="font-size:13.5px; margin-bottom:0; color:var(--text-soft);">위 항목을 눌러 근거를 확인하세요.</p>
+    </div>
+  </div>
+
+  <p>결론적으로 빅테크(구글·아마존·메타 등 돈을 빌려 반도체를 사야 하는 기업)는 상대적으로 덜 빠졌고, 정작 반도체 관련 기업이 더 크게 내렸다. <strong>이는 금리 영향이 아니라는 증거</strong>라는 게 이 대표의 논리다.</p>
+
+  <h3>스페이스X 청약, 자금 이동의 또 다른 변수</h3>
+  <p>마침 같은 시기 스페이스X 상장이 있었고, 반도체를 보유했던 투자자들 중 상당수가 청약 자금 마련을 위해 반도체를 매도했다는 분석도 나온다. 실적 악화 우려가 아니라 자금 재배분에 의한 "거친 조정"이었기에, 빠른 회복도 자연스러웠다는 설명이다.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 4</div>
+  <h2>국민연금, 양날의 검</h2>
+  <p>최근 국민연금이 국내 주식 비중을 올린 것을 두고 찬반이 엇갈린다. 영국 바클레이즈는 국민연금이 상반기 주식 매도를 멈추면서 코스피 과열과 환율에까지 영향을 미쳤다는 분석을 내놓기도 했다.</p>
+
+  <p>이 대표는 "그렇다고 보기엔 무리"라면서도, <strong>원칙대로 리밸런싱(비중 조절)을 했다면 속도 조절은 가능했을 것</strong>이라는 아쉬움을 표한다. 핵심은 이중성이다 — 비중을 늘린 만큼 국내 시장이 더 건전하고 탄탄해진다면 좋은 선택이지만, 그렇지 못하면 향후 큰 부담(나중에 한꺼번에 팔아야 하는 부메랑)으로 돌아올 수 있다.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <h4>초고령화 사회 진입</h4>
+        <p>연금 수급자(나가는 돈)가 가입자(들어오는 돈)보다 많아지는 구조 전환</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <h4>국내 주식 매도 압력 증가</h4>
+        <p>시장에 충격을 주지 않고 자산을 팔아야 하는 과제 발생</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <h4>현재: 국내 비중 확대</h4>
+        <p>당장은 긍정적이나, 장기적으로 시장이 이를 감당할 체력을 갖추는 게 관건</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Part 5</div>
+  <h2>원달러 1500원, 새로운 '뉴노멀'</h2>
+  <p>원달러 환율이 1500원을 돌파했다가 다소 내려왔지만 여전히 1500원 위에 머물러 있다. 이 대표는 이를 <strong>달러 부족이 아닌, 지수 급등에 따른 구조적 현상</strong>으로 설명한다.</p>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <h4>반도체 주가 급등</h4>
+        <p>외국인이 팔아야 할 주식 금액이 비정상적으로 커짐</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <h4>대규모 환전 발생</h4>
+        <p>매도 대금을 환전하는 과정에서 원화 약세 압력 발생</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <h4>달러는 국내로 안 들어옴</h4>
+        <p>반도체 기업들도 향후 10년간 예정된 미국 투자를 위해 달러를 그대로 보유</p>
+      </div>
+    </div>
+  </div>
+
+  <p>흥미로운 점은 이 구조가 일종의 선순환(혹은 역설)을 만든다는 것이다. 원화 약세 → 삼성전자·하이닉스의 달러 표시 영업이익 개선 → 실적 호조 → 추가 환전 유인은 더 줄어드는 구조다. 이 대표는 환율이 이전 수준으로 돌아가기는 어렵다고 본다 — 기업들의 대미 투자가 10년 단위로 예정돼 있기 때문이다.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 6 · 핵심</div>
+  <span class="badge">고환율 수혜 업종 시뮬레이터</span>
+  <h2>환율 올라갈수록 돈이 몰리는 2가지 업종</h2>
+  <p>고환율 국면에서 이 대표가 꼽은 수혜 업종은 크게 두 가지다.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="num">①</div>
+      <h4>수출 관련 업종 (반도체·자동차 등)</h4>
+      <p>원화 약세는 달러 베이스 수출 가격을 다른 국가 대비 저렴하게 만들어 가격 경쟁력을 높인다.</p>
+    </div>
+    <div class="card">
+      <div class="num">②</div>
+      <h4>유통업종 (백화점 등)</h4>
+      <p>원화 약세로 국내 명품 가격이 해외보다 약 20% 이상 저렴해지며 외국인 수요와 내국인 소비가 동시에 몰린다.</p>
+    </div>
+  </div>
+
+  <h3>유통업이 수혜를 받는 3가지 경로</h3>
+  <div class="sim-box fade-in">
+    <div class="toggle-group" id="retailToggle">
+      <button class="toggle-btn active" data-key="foreign">외국인 관광 수요</button>
+      <button class="toggle-btn" data-key="income">반도체 고소득층 소비</button>
+      <button class="toggle-btn" data-key="domestic">해외여행 대체 소비</button>
+    </div>
+    <div class="sim-result" id="retailResult">
+      <p style="font-size:13.5px; margin-bottom:0;">국내 명품 가격이 해외 대비 20% 이상 저렴해지면서, K팝 스타 영향으로 한국을 찾는 외국인 관광객들이 백화점에 몰리고 있다는 분석이다.</p>
+    </div>
+  </div>
+
+  <div class="chart-container fade-in">
+    <canvas id="chartSector" height="220"></canvas>
+  </div>
+  <p class="chart-caption">고환율 국면 수혜/우려 요인 비교 (개념도)</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 7</div>
+  <h2>레버리지 ETF, 왜 위험한가</h2>
+  <p>이 대표는 국내 레버리지 ETF에 대해 강한 우려를 표한다. 이유는 한국 증시의 독특한 구조 때문이다. 특정 2개 기업과 관련 기업들이 시가총액의 <strong>60% 이상</strong>을 차지하는 만큼, 레버리지 상품이 지수 변동성을 몇 배로 증폭시킬 수 있다는 것이다.</p>
+
+  <div class="sim-box">
+    <div class="sim-row">
+      <label>기초자산 변동률 (코스피 가정) <span class="val" id="baseVal">0%</span></label>
+      <input type="range" id="baseSlider" min="-20" max="20" value="0" step="1">
+    </div>
+    <div class="sim-row">
+      <label>레버리지 배율 <span class="val" id="leverageVal">2배</span></label>
+      <input type="range" id="leverageSlider" min="1" max="3" value="2" step="1">
+    </div>
+    <div class="sim-result">
+      <div class="sim-result-row">
+        <span class="label">기초자산 변동</span>
+        <span class="value" id="baseResult">0%</span>
+      </div>
+      <div class="sim-result-row">
+        <span class="label">레버리지 상품 이론적 변동</span>
+        <span class="value hi" id="leverageResult">0%</span>
+      </div>
+      <div class="sim-result-row">
+        <span class="label">체감 위험도</span>
+        <span class="value" id="riskResult">낮음</span>
+      </div>
+    </div>
+    <button class="reset-btn" id="leverageReset">초기값으로 리셋</button>
+  </div>
+  <p style="font-size:12.5px; color:var(--text-soft);">※ 단순화한 개념 시뮬레이션이며, 실제 레버리지 ETF는 일별 복리 효과로 인해 장기 보유 시 위 계산과 다르게 움직일 수 있습니다.</p>
+
+  <p>특히 우려되는 지점은 두 종목이 계속 앞서 나갈 경우, 실적이 개선되는 반도체 소부장(소재·부품·장비) 기업들조차 오히려 소외되어 주가가 밀릴 수 있다는 역설적 현상이다.</p>
+</section>
+
+<section>
+  <div class="eyebrow">Part 8 · 마무리</div>
+  <h2>"공포에 사라"는 말, 현실에서는 다르게</h2>
+  <p>이론적으로는 "공포에 사고 환희에 팔라"고 하지만, 이 대표는 더 현실적인 조언을 건넨다. <strong>공포의 순간에는 매수보다 "보유 물량을 지키는 것"</strong>이 더 중요하다는 것이다.</p>
+
+  <div class="pullquote">"심리적으로 불안하고 공포스러울 때는 시세를 보지 말고 하루 이틀만 참아보라. 반대로 환희에 차서 사고 싶을 때도 참아보라 — 그때가 꼭지일 수 있다."</div>
+
+  <p>현재 군중심리는 어디에 있을까. 이 대표는 <strong>아직 "경계·공포" 쪽에 가깝다</strong>고 진단한다. 하락장에서 완전히 벗어나지 못했고, 이란-미국 합의도 갈 길이 멀다는 인식이 여전하기 때문이다. 군중과 반대로 움직이는 것이 투자 실패 확률을 낮추는 길이라는 게 그의 결론이다.</p>
+</section>
+
+</div>
+
+<footer>
+  지식인초대석 EP.145 · 이선엽 대표(AFW파트너스) 1부 분석 요약<br>
+  본 콘텐츠는 정보 제공 목적이며 투자 권유가 아닙니다.
+</footer>
+
+<script>
+  // === Fade-in observer ===
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => fadeObs.observe(el));
+
+  // === Chart configs ===
+  const chartConfigs = {};
+
+  chartConfigs['chartRally'] = () => {
+    new Chart(document.getElementById('chartRally'), {
+      type: 'line',
+      data: {
+        labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월(예상)'],
+        datasets: [{
+          label: '코스피 흐름 (반도체 실적 발표 트리거)',
+          data: [20, 35, 25, 55, 65, 75, 90],
+          borderColor: '#e11d48',
+          backgroundColor: 'rgba(225,29,72,0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointBackgroundColor: '#e11d48',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1a1a1a',
+            titleFont: { family: "'Noto Sans KR'" },
+            bodyFont: { family: "'Noto Sans KR'" },
+            callbacks: {
+              label: (ctx) => '랠리 강도 지수: ' + ctx.parsed.y
+            }
+          }
+        },
+        scales: {
+          y: { display: false },
+          x: { grid: { display: false }, ticks: { color: '#777777', font: { size: 11, family: "'Noto Sans KR'" } } }
+        }
+      }
+    });
+  };
+
+  chartConfigs['chartSector'] = () => {
+    new Chart(document.getElementById('chartSector'), {
+      type: 'bar',
+      data: {
+        labels: ['수출(반도체·차)', '유통(백화점)', '레버리지ETF', '반도체 소부장'],
+        datasets: [{
+          label: '고환율 국면 영향',
+          data: [80, 70, -40, -20],
+          backgroundColor: ['#e11d48', '#f43f5e', '#6b7280', '#2563eb'],
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1a1a1a',
+            callbacks: {
+              label: (ctx) => (ctx.parsed.x > 0 ? '수혜 강도 ' : '우려 강도 ') + Math.abs(ctx.parsed.x)
+            }
+          }
+        },
+        scales: {
+          x: { grid: { color: '#e5e5e5' }, ticks: { color: '#777777', font: { size: 10, family: "'Noto Sans KR'" } } },
+          y: { grid: { display: false }, ticks: { color: '#1a1a1a', font: { size: 12, family: "'Noto Sans KR'" } } }
+        }
+      }
+    });
+  };
+
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const canvas = e.target.querySelector('canvas');
+        if (canvas && chartConfigs[canvas.id]) {
+          chartConfigs[canvas.id]();
+          e.target.classList.add('chart-ready');
+          chartObs.unobserve(e.target);
+        }
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.chart-container').forEach(el => chartObs.observe(el));
+
+  // === Hypothesis toggle (금리 인상 가설 검증) ===
+  const hypothesisData = {
+    bond: '미국 국채 10년물 금리가 오르긴 했지만, 금리 인상 우려를 반영했다고 보기엔 상승폭이 미약했다.',
+    dollar: '금리 인상 우려였다면 달러 가치가 더 크게 올랐어야 하는데 그렇지 않았다.',
+    stock: '돈을 빌려 반도체를 사야 하는 빅테크(구글·아마존·메타)는 덜 빠지고, 정작 반도체 관련주가 더 크게 빠졌다. 이는 금리 영향이 아니라는 증거다.'
+  };
+  const hypothesisBtns = document.querySelectorAll('#hypothesisToggle .toggle-btn');
+  const hypothesisResult = document.getElementById('hypothesisResult');
+  hypothesisBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      hypothesisBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      hypothesisResult.innerHTML = '<p style="font-size:13.5px; margin-bottom:0;">' + hypothesisData[btn.dataset.key] + '</p>';
+    });
+  });
+
+  // === Retail toggle ===
+  const retailData = {
+    foreign: '국내 명품 가격이 해외 대비 20% 이상 저렴해지면서, K팝 스타 영향으로 한국을 찾는 외국인 관광객들이 백화점에 몰리고 있다는 분석이다.',
+    income: '반도체 기업 종사자들의 연봉이 크게 오르면서, 이들이 다이소 대신 백화점으로 소비처를 옮기는 경향이 나타나고 있다.',
+    domestic: '원화 약세로 해외여행 비용 부담이 커지면서, 해외 대신 국내에서 소비하려는 수요가 백화점으로 향하고 있다는 분석이다.'
+  };
+  const retailBtns = document.querySelectorAll('#retailToggle .toggle-btn');
+  const retailResult = document.getElementById('retailResult');
+  retailBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      retailBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      retailResult.innerHTML = '<p style="font-size:13.5px; margin-bottom:0;">' + retailData[btn.dataset.key] + '</p>';
+    });
+  });
+
+  // === Leverage simulator ===
+  const baseSlider = document.getElementById('baseSlider');
+  const leverageSlider = document.getElementById('leverageSlider');
+  const baseVal = document.getElementById('baseVal');
+  const leverageVal = document.getElementById('leverageVal');
+  const baseResult = document.getElementById('baseResult');
+  const leverageResult = document.getElementById('leverageResult');
+  const riskResult = document.getElementById('riskResult');
+
+  function updateLeverageSim() {
+    const base = parseInt(baseSlider.value, 10);
+    const lev = parseInt(leverageSlider.value, 10);
+    const leveraged = base * lev;
+
+    baseVal.textContent = base + '%';
+    leverageVal.textContent = lev + '배';
+    baseResult.textContent = base + '%';
+    leverageResult.textContent = (leveraged > 0 ? '+' : '') + leveraged + '%';
+    leverageResult.style.color = leveraged < 0 ? '#2563eb' : '#e11d48';
+
+    const absLev = Math.abs(leveraged);
+    let risk = '낮음';
+    if (absLev >= 40) risk = '매우 높음';
+    else if (absLev >= 25) risk = '높음';
+    else if (absLev >= 10) risk = '보통';
+    riskResult.textContent = risk;
+  }
+  baseSlider.addEventListener('input', updateLeverageSim);
+  leverageSlider.addEventListener('input', updateLeverageSim);
+  document.getElementById('leverageReset').addEventListener('click', () => {
+    baseSlider.value = 0;
+    leverageSlider.value = 2;
+    updateLeverageSim();
+  });
+  updateLeverageSim();
+</script>
+
+</body>
+</html>

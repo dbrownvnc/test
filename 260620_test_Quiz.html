@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>퀴즈 | 환율 올라갈수록 돈이 몰리는 '2가지' 업종</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
+
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #fafafa;
+    --text: #1a1a1a;
+    --text-soft: #777777;
+    --accent: #e11d48;
+    --accent2: #f43f5e;
+    --border: #e5e5e5;
+    --green: #16a34a;
+    --green-bg: #dcfce7;
+    --red: #dc2626;
+    --red-bg: #fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg-soft);
+    color: var(--text);
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px; }
+
+  /* Sticky scoreboard */
+  .scoreboard {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 2px solid var(--accent);
+    padding: 12px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .scoreboard-inner { max-width: 640px; margin: 0 auto; }
+  .scoreboard-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .scoreboard-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+  }
+  .scoreboard-stats {
+    display: flex;
+    gap: 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-soft);
+  }
+  .scoreboard-stats b { color: var(--text); font-size: 13px; }
+  .progress-bar-bg {
+    width: 100%;
+    height: 7px;
+    background: #e5e5e5;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: #dc2626;
+    width: 0%;
+    transition: width 0.4s ease, background 0.4s ease;
+  }
+
+  .hero {
+    padding: 32px 16px 20px;
+    text-align: center;
+  }
+  .hero .kicker {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 13.5px;
+    color: var(--text-soft);
+  }
+
+  .q-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 18px;
+    margin-bottom: 16px;
+  }
+  .q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .q-number {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--accent);
+  }
+  .q-diff {
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+  }
+  .diff-easy { background: #dcfce7; color: #16a34a; }
+  .diff-medium { background: #fef3c7; color: #d97706; }
+  .diff-hard { background: #fee2e2; color: #dc2626; }
+
+  .q-type {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    background: #6b7280;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .q-text {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-btn {
+    text-align: left;
+    background: var(--bg-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .opt-btn:active { transform: scale(0.98); }
+  .opt-btn:disabled { cursor: not-allowed; }
+  .opt-btn.correct {
+    background: var(--green-bg);
+    border-color: var(--green);
+    color: #15803d;
+    font-weight: 700;
+  }
+  .opt-btn.wrong {
+    background: var(--red-bg);
+    border-color: var(--red);
+    color: #b91c1c;
+    font-weight: 700;
+  }
+  .opt-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  .opt-badge.correct-badge { background: var(--green); color: #fff; }
+  .opt-badge.wrong-badge { background: var(--red); color: #fff; }
+
+  .ox-group { display: flex; gap: 10px; }
+  .ox-btn {
+    flex: 1;
+    background: var(--bg-soft);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 900;
+    font-family: 'Playfair Display', serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ox-btn:active { transform: scale(0.97); }
+  .ox-btn.correct { background: var(--green-bg); border-color: var(--green); color: #15803d; }
+  .ox-btn.wrong { background: var(--red-bg); border-color: var(--red); color: #b91c1c; }
+  .ox-btn:disabled { cursor: not-allowed; }
+
+  .short-answer { display: flex; gap: 8px; }
+  .short-answer input {
+    flex: 1;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+  }
+  .short-answer input:focus { border-color: var(--accent); }
+  .short-answer input.correct { border-color: var(--green); background: var(--green-bg); }
+  .short-answer input.wrong { border-color: var(--red); background: var(--red-bg); }
+  .submit-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    white-space: nowrap;
+  }
+  .submit-btn:disabled { background: #c4c4c4; cursor: not-allowed; }
+
+  .feedback-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 14px;
+    margin-top: 12px;
+  }
+  .feedback-badge.ok { background: var(--green-bg); color: #15803d; }
+  .feedback-badge.no { background: var(--red-bg); color: #b91c1c; }
+
+  .explanation {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.65;
+    display: none;
+  }
+  .explanation.show { display: block; animation: fadeDown 0.3s ease; }
+  .explanation .exp-label {
+    font-weight: 800;
+    color: var(--accent);
+    font-size: 11.5px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .explanation .exp-source {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+    font-size: 12px;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Final result */
+  .final-result {
+    display: none;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    border-radius: 14px;
+    padding: 32px 24px;
+    text-align: center;
+    color: #fff;
+    margin-top: 8px;
+  }
+  .final-result.show { display: block; animation: fadeDown 0.4s ease; }
+  .final-result .grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--accent2);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .final-result .score-text {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .final-result .msg {
+    font-size: 13px;
+    color: #c4c4c4;
+    margin-bottom: 22px;
+  }
+  .retry-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .retry-btn:active { background: var(--accent2); }
+</style>
+</head>
+<body>
+
+<div class="scoreboard">
+  <div class="scoreboard-inner">
+    <div class="scoreboard-row">
+      <span class="scoreboard-title">📊 실시간 채점판</span>
+      <div class="scoreboard-stats">
+        <span>푼 문제 <b id="solvedCount">0</b>/10</span>
+        <span>맞힌 문제 <b id="correctCount">0</b></span>
+        <span>정답률 <b id="accuracyPct">0%</b></span>
+      </div>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="kicker">지식인초대석 EP.145 · 퀴즈</div>
+    <h1>환율 올라갈수록 돈이 몰리는<br>'2가지' 업종</h1>
+    <p>이선엽 대표 인터뷰 내용을 바탕으로 한 10문제 · 객관식·단답형·OX 혼합</p>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <div class="final-result" id="finalResult">
+    <div class="grade" id="finalGrade">A</div>
+    <div class="score-text" id="finalScoreText">10문제 중 10개 정답</div>
+    <div class="msg" id="finalMsg">완벽합니다! 인터뷰 내용을 정확히 이해하셨네요.</div>
+    <button class="retry-btn" id="retryBtn">🔄 다시 풀기</button>
+  </div>
+</div>
+
+<script>
+const QUIZ_DATA = [
+  {
+    id: 1,
+    type: 'mcq',
+    difficulty: 'easy',
+    question: '이선엽 대표가 종전 협상에 서명한 직후 시장 상황을 설명한 표현으로 가장 적절한 것은?',
+    options: [
+      '전쟁이 100% 완전히 끝났다',
+      '시장 입장에서 우호적 환경이 됐다',
+      '오히려 시장에 악재로 작용했다',
+      '아무런 영향이 없었다'
+    ],
+    answer: 1,
+    explanation: '이선엽 대표는 "끝났다라기보다 시장 입장에서는 우호적 환경은 된다라고 봐야 되겠죠"라고 말하며, 전쟁 이슈가 100% 마무리됐다고 단정하기는 어렵다고 설명했습니다.'
+  },
+  {
+    id: 2,
+    type: 'ox',
+    difficulty: 'easy',
+    question: '이선엽 대표는 종전 협상에도 불구하고 이스라엘 변수와 핵협상 관련 60일 이상의 기간이 남아있다고 언급했다.',
+    answer: 'O',
+    explanation: '본문에서 "이스라엘이라는 변수가 여전히 남아있고", "핵협상과 관련된 부분들은 60일 이상 남겨놨다"고 명확히 언급했습니다.'
+  },
+  {
+    id: 3,
+    type: 'mcq',
+    difficulty: 'medium',
+    question: '코스피 1만 포인트 달성 시점에 가장 큰 영향을 미칠 것으로 언급된 요인은?',
+    options: [
+      '국민연금의 매도 속도',
+      '7월 중후반 반도체 기업 실적 발표',
+      '원달러 환율 안정화',
+      '스페이스X 상장 일정'
+    ],
+    answer: 1,
+    explanation: '이선엽 대표는 "관련 기업들의 실적이 7월 중후반에 발표가 되니 그 이후에 나타난 주식 흐름에 따라서 달성 여부가... 빨리 포착이 되지 않을까"라고 언급하며 반도체 실적 발표를 핵심 변수로 꼽았습니다.'
+  },
+  {
+    id: 4,
+    type: 'short',
+    difficulty: 'medium',
+    question: '이선엽 대표는 변동성이 큰 시장에서 투자를 견디기 위해 가장 필요한 것이 무엇이라고 했나요? (한 단어로 답하세요)',
+    answer: ['수익'],
+    explanation: '"밑에서부터 수익이 쌓여있는 분들만 가능하다", "수익을 바탕으로 해서 향후 올라가는 변동성에 견딜 수 있는 발판으로 활용"이라고 말하며, 미리 쌓인 "수익"이 변동성을 견디는 핵심이라고 강조했습니다.'
+  },
+  {
+    id: 5,
+    type: 'mcq',
+    difficulty: 'hard',
+    question: '이선엽 대표가 지난주 폭락장의 원인이 "금리 인상 우려"가 아니라고 판단한 근거로 제시하지 않은 것은?',
+    options: [
+      '미국 국채 10년물 금리 상승폭이 미약했다',
+      '달러 가치가 충분히 오르지 않았다',
+      '돈을 빌리는 빅테크 기업들의 하락폭이 크지 않았다',
+      '코스피 거래량이 급격히 감소했다'
+    ],
+    answer: 3,
+    explanation: '이선엽 대표는 국채 10년물 상승폭 미약, 달러 가치 미상승, 빅테크 기업의 작은 하락폭이라는 세 가지 근거를 제시했습니다. 거래량 감소는 언급되지 않았습니다.'
+  },
+  {
+    id: 6,
+    type: 'short',
+    difficulty: 'medium',
+    question: '이선엽 대표가 지난주 폭락장의 진짜 원인으로 지목한 것은 반도체로의 과도한 자금 무엇 때문인가요?',
+    answer: ['쏠림', '자금쏠림', '쏠림현상'],
+    explanation: '"많이 올랐다라는 표현보다는 과도하게 특정 산업에 자금이 몰린 게 원인", "너무 반도체에 쏠렸던 자금들이 완화되는 과정에서 벌어진 거친 조정"이라고 설명했습니다.'
+  },
+  {
+    id: 7,
+    type: 'mcq',
+    difficulty: 'easy',
+    question: '이선엽 대표가 고환율 국면에서 수혜를 받는 업종으로 꼽은 두 가지는?',
+    options: [
+      'IT 서비스업종과 건설업종',
+      '수출 관련 업종과 유통업종',
+      '금융업종과 바이오업종',
+      '에너지업종과 통신업종'
+    ],
+    answer: 1,
+    explanation: '"고환율에 유리한 업종은 일단은 수출 관련 업종들이 되게 유리하겠죠... 의외로 유통업종이 되게 수혜가 큽니다"라고 언급하며 두 업종을 명시했습니다.'
+  },
+  {
+    id: 8,
+    type: 'ox',
+    difficulty: 'medium',
+    question: '이선엽 대표에 따르면, 국내 명품 가격은 원화 약세로 인해 해외 대비 약 20% 이상 저렴하다.',
+    answer: 'O',
+    explanation: '"원화가 약세인 만큼 전 세계에서 명품 가격이 우리나라가 제일 쌉니다. 아마 해외 기준으로 해외보다 20% 이상 명품 가격이 많이 쌀 겁니다"라고 명확히 언급했습니다.'
+  },
+  {
+    id: 9,
+    type: 'mcq',
+    difficulty: 'hard',
+    question: '이선엽 대표가 국내 레버리지 ETF를 우려하는 핵심 구조적 이유는?',
+    options: [
+      '레버리지 ETF의 운용 수수료가 너무 높아서',
+      '특정 2개 기업 및 관련 기업이 시가총액 60% 이상을 차지해 변동성이 증폭되기 때문',
+      '레버리지 ETF는 한국에서 거래가 금지되어 있어서',
+      '외국인 투자자들이 레버리지 ETF를 선호하지 않아서'
+    ],
+    answer: 1,
+    explanation: '"특정 기업 2개 그리고 특정 기업과 관련된 여러 가지 기업들이 시총액 60%를 넘게 차지하고 있습니다... 레버리지를 활용될 수 있다는 얘기는 거의 지수를 몇 배씩 변동성을 키울 수 있다"고 설명했습니다.'
+  },
+  {
+    id: 10,
+    type: 'short',
+    difficulty: 'hard',
+    question: '인터뷰 말미에 이선엽 대표는 현재 군중심리가 "환희"와 "공포" 중 어느 쪽에 더 가깝다고 진단했나요?',
+    answer: ['공포'],
+    explanation: '"공포 쪽이 좀 더 많습니까? 네"라고 답하며, 하락에서 아직 벗어나지 못했고 이란-미국 합의도 갈 길이 멀다는 인식 때문에 아직 경계·공포 심리가 우세하다고 진단했습니다.'
+  }
+];
+
+let state = { solved: 0, correct: 0 };
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+
+  QUIZ_DATA.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'q-card-' + q.id;
+
+    const diffLabel = { easy: '쉬움', medium: '보통', hard: '어려움' }[q.difficulty];
+    const diffClass = { easy: 'diff-easy', medium: 'diff-medium', hard: 'diff-hard' }[q.difficulty];
+    const typeLabel = { mcq: '객관식', short: '단답형', ox: 'OX' }[q.type];
+
+    let bodyHtml = '';
+
+    if (q.type === 'mcq') {
+      bodyHtml = `<div class="options" id="options-${q.id}">` +
+        q.options.map((opt, i) => `
+          <button class="opt-btn" data-idx="${i}" onclick="answerMCQ(${q.id}, ${i})">
+            <span>${opt}</span>
+          </button>
+        `).join('') +
+      `</div>`;
+    } else if (q.type === 'ox') {
+      bodyHtml = `<div class="ox-group" id="options-${q.id}">
+        <button class="ox-btn" data-val="O" onclick="answerOX(${q.id}, 'O')">O</button>
+        <button class="ox-btn" data-val="X" onclick="answerOX(${q.id}, 'X')">X</button>
+      </div>`;
+    } else if (q.type === 'short') {
+      bodyHtml = `<div class="short-answer" id="options-${q.id}">
+        <input type="text" id="input-${q.id}" placeholder="정답을 입력하세요" onkeydown="if(event.key==='Enter') answerShort(${q.id})">
+        <button class="submit-btn" id="submit-${q.id}" onclick="answerShort(${q.id})">제출</button>
+      </div>`;
+    }
+
+    card.innerHTML = `
+      <div class="q-header">
+        <span class="q-number">Q${q.id}</span>
+        <span class="q-diff ${diffClass}">${diffLabel}</span>
+      </div>
+      <span class="q-type">${typeLabel}</span>
+      <div class="q-text">${q.question}</div>
+      ${bodyHtml}
+      <div id="feedback-${q.id}"></div>
+      <div class="explanation" id="explanation-${q.id}">
+        <span class="exp-label">💡 해설</span>
+        ${q.explanation}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function lockQuestion(qid) {
+  const opts = document.querySelectorAll(`#options-${qid} button`);
+  opts.forEach(b => b.disabled = true);
+  const input = document.getElementById('input-' + qid);
+  if (input) input.disabled = true;
+}
+
+function showFeedback(qid, isCorrect) {
+  const fb = document.getElementById('feedback-' + qid);
+  fb.innerHTML = isCorrect
+    ? `<span class="feedback-badge ok">✓ 정답!</span>`
+    : `<span class="feedback-badge no">✗ 오답</span>`;
+  document.getElementById('explanation-' + qid).classList.add('show');
+}
+
+function recordAnswer(isCorrect) {
+  state.solved += 1;
+  if (isCorrect) state.correct += 1;
+  updateScoreboard();
+  if (state.solved === QUIZ_DATA.length) {
+    setTimeout(showFinalResult, 400);
+  }
+}
+
+function answerMCQ(qid, idx) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  const opts = document.querySelectorAll(`#options-${qid} .opt-btn`);
+  const isCorrect = idx === q.answer;
+
+  opts.forEach((btn, i) => {
+    if (i === q.answer) {
+      btn.classList.add('correct');
+      btn.innerHTML = `<span>${q.options[i]}</span><span class="opt-badge correct-badge">✓ 정답!</span>`;
+    } else if (i === idx && !isCorrect) {
+      btn.classList.add('wrong');
+      btn.innerHTML = `<span>${q.options[i]}</span><span class="opt-badge wrong-badge">✗ 오답</span>`;
+    }
+  });
+
+  lockQuestion(qid);
+  showFeedback(qid, isCorrect);
+  recordAnswer(isCorrect);
+}
+
+function answerOX(qid, val) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  const opts = document.querySelectorAll(`#options-${qid} .ox-btn`);
+  const isCorrect = val === q.answer;
+
+  opts.forEach(btn => {
+    if (btn.dataset.val === q.answer) {
+      btn.classList.add('correct');
+    } else if (btn.dataset.val === val && !isCorrect) {
+      btn.classList.add('wrong');
+    }
+  });
+
+  lockQuestion(qid);
+  showFeedback(qid, isCorrect);
+  recordAnswer(isCorrect);
+}
+
+function answerShort(qid) {
+  const q = QUIZ_DATA.find(x => x.id === qid);
+  const input = document.getElementById('input-' + qid);
+  const submitBtn = document.getElementById('submit-' + qid);
+  if (input.disabled) return;
+
+  const userAns = input.value.trim().replace(/\s+/g, '');
+  const isCorrect = q.answer.some(a => a.replace(/\s+/g, '') === userAns);
+
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  input.disabled = true;
+  submitBtn.disabled = true;
+
+  lockQuestion(qid);
+  showFeedback(qid, isCorrect);
+  recordAnswer(isCorrect);
+}
+
+function updateScoreboard() {
+  const accuracy = state.solved > 0 ? Math.round((state.correct / state.solved) * 100) : 0;
+  document.getElementById('solvedCount').textContent = state.solved;
+  document.getElementById('correctCount').textContent = state.correct;
+  document.getElementById('accuracyPct').textContent = accuracy + '%';
+
+  const bar = document.getElementById('progressBar');
+  bar.style.width = accuracy + '%';
+  if (accuracy < 40) bar.style.background = '#dc2626';
+  else if (accuracy < 70) bar.style.background = '#f59e0b';
+  else bar.style.background = '#16a34a';
+}
+
+function showFinalResult() {
+  const total = QUIZ_DATA.length;
+  const correct = state.correct;
+  const pct = Math.round((correct / total) * 100);
+
+  let grade, msg;
+  if (pct >= 90) { grade = 'A'; msg = '완벽합니다! 인터뷰 내용을 정확히 이해하셨네요.'; }
+  else if (pct >= 70) { grade = 'B'; msg = '훌륭해요! 핵심 내용을 잘 파악하셨습니다.'; }
+  else if (pct >= 50) { grade = 'C'; msg = '괜찮아요! 분석 리포트를 다시 한번 살펴보세요.'; }
+  else { grade = 'D'; msg = '아쉬워요. 분석 리포트를 다시 읽고 재도전해보세요!'; }
+
+  document.getElementById('finalGrade').textContent = grade;
+  document.getElementById('finalScoreText').textContent = `${total}문제 중 ${correct}개 정답 (정답률 ${pct}%)`;
+  document.getElementById('finalMsg').textContent = msg;
+  document.getElementById('finalResult').classList.add('show');
+  document.getElementById('finalResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+document.getElementById('retryBtn').addEventListener('click', () => {
+  state = { solved: 0, correct: 0 };
+  updateScoreboard();
+  document.getElementById('finalResult').classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+renderQuiz();
+updateScoreboard();
+</script>
+
+</body>
+</html>
