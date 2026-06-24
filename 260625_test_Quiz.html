@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBM 다음 HBF? 쉬운 퀴즈 10문제</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#fafafa;
+    --text:#1a1a1a;
+    --text-sub:#777777;
+    --accent:#e11d48;
+    --accent2:#f43f5e;
+    --border:#e5e5e5;
+    --green:#16a34a;
+    --green-bg:#f0fdf4;
+    --red:#dc2626;
+    --red-bg:#fef2f2;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; line-height:1.65;}
+  .wrap{max-width:680px; margin:0 auto; padding:0 18px 60px;}
+
+  .top-header{padding:22px 18px 16px; text-align:center; max-width:680px; margin:0 auto;}
+  .top-header .eyebrow{font-size:11.5px; font-weight:700; letter-spacing:0.05em; color:var(--accent); margin-bottom:8px;}
+  .top-header h1{font-family:'Playfair Display',serif; font-size:23px; font-weight:700; margin:0 0 6px; line-height:1.35;}
+  .top-header p{font-size:13px; color:var(--text-sub); margin:0;}
+
+  .scoreboard{position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--border); padding:12px 18px; box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+  .scoreboard-inner{max-width:680px; margin:0 auto;}
+  .score-stats{display:flex; justify-content:space-between; font-size:12.5px; font-weight:700; color:var(--text); margin-bottom:8px;}
+  .score-stats span.lbl{color:var(--text-sub); font-weight:500; margin-right:4px;}
+  .progress-track{width:100%; height:9px; background:#e5e5e5; border-radius:5px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:#dc2626; border-radius:5px; transition:width .35s ease, background-color .35s ease;}
+
+  .quiz-list{padding-top:22px;}
+  .q-card{background:var(--bg-alt); border:1px solid var(--border); border-radius:14px; padding:20px 18px; margin-bottom:18px;}
+  .q-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .q-num{font-family:'Playfair Display',serif; font-weight:700; font-size:15px; color:var(--accent);}
+  .q-badges{display:flex; gap:6px;}
+  .badge{font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:5px; color:#fff;}
+  .badge.easy{background:#6b7280;}
+  .badge.medium{background:#f43f5e;}
+  .badge.hard{background:#e11d48;}
+  .badge.type{background:#1a1a1a;}
+
+  .q-text{font-size:15.5px; font-weight:600; color:var(--text); margin-bottom:14px; line-height:1.6;}
+
+  .options{display:flex; flex-direction:column; gap:8px;}
+  .opt-btn{
+    text-align:left; padding:12px 14px; border:1.5px solid var(--border); background:#fff; border-radius:9px;
+    font-size:14px; font-family:'Noto Sans KR',sans-serif; color:var(--text); cursor:pointer; transition:all .15s ease;
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+  }
+  .opt-btn:hover:not(:disabled){border-color:var(--accent2); background:#fff8f9;}
+  .opt-btn:disabled{cursor:default;}
+  .opt-btn.correct{background:var(--green-bg); border-color:var(--green); color:#15803d; font-weight:700;}
+  .opt-btn.wrong{background:var(--red-bg); border-color:var(--red); color:#b91c1c; font-weight:700;}
+  .opt-tag{font-size:11px; font-weight:700; padding:2px 7px; border-radius:5px; flex-shrink:0;}
+  .opt-tag.correct{background:var(--green); color:#fff;}
+  .opt-tag.wrong{background:var(--red); color:#fff;}
+
+  .ox-row{display:flex; gap:10px;}
+  .ox-row .opt-btn{flex:1; justify-content:center; font-weight:700; font-size:16px;}
+
+  .short-row{display:flex; gap:8px;}
+  .short-input{flex:1; padding:11px 13px; border:1.5px solid var(--border); border-radius:9px; font-size:14px; font-family:'Noto Sans KR',sans-serif; outline:none;}
+  .short-input:focus{border-color:var(--accent);}
+  .short-input:disabled{background:#f0f0f0; color:var(--text-sub);}
+  .submit-btn{padding:11px 18px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:13.5px; border-radius:9px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; flex-shrink:0;}
+  .submit-btn:disabled{background:#c4c4c4; cursor:default;}
+  .short-feedback{margin-top:10px; padding:10px 13px; border-radius:9px; font-size:13.5px; font-weight:700; display:none;}
+  .short-feedback.correct{display:block; background:var(--green-bg); color:#15803d;}
+  .short-feedback.wrong{display:block; background:var(--red-bg); color:#b91c1c;}
+
+  .explain{margin-top:14px; padding:14px 15px; background:#fff; border-left:3px solid var(--accent); border-radius:0 8px 8px 0; font-size:13.5px; color:var(--text); line-height:1.7; display:none;}
+  .explain.show{display:block;}
+  .explain .ex-label{font-weight:700; color:var(--accent); font-size:11.5px; margin-bottom:6px; display:block;}
+
+  .result-section{display:none; text-align:center; padding:36px 22px; background:var(--bg-alt); border:1px solid var(--border); border-radius:16px; margin-top:8px;}
+  .result-section.show{display:block;}
+  .result-grade{font-family:'Playfair Display',serif; font-size:56px; font-weight:700; color:var(--accent); line-height:1; margin-bottom:6px;}
+  .result-score{font-size:16px; font-weight:700; color:var(--text); margin-bottom:4px;}
+  .result-msg{font-size:13.5px; color:var(--text-sub); margin-bottom:20px;}
+  .retry-btn{padding:13px 26px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:14px; border-radius:10px; cursor:pointer; font-family:'Noto Sans KR',sans-serif;}
+  .retry-btn:hover{background:#be123c;}
+
+  @media (max-width:380px){
+    .top-header h1{font-size:19px;}
+    .q-text{font-size:14.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-header">
+  <div class="eyebrow">쉬운 퀴즈 · AI 컴퓨터의 기억 창고</div>
+  <h1>HBM 다음은 HBF? 10문제로 점검하기</h1>
+  <p>어려운 말 없이, 영상에서 직접 나온 내용만으로 만든 퀴즈예요</p>
+</div>
+
+<div class="scoreboard">
+  <div class="scoreboard-inner">
+    <div class="score-stats">
+      <span><span class="lbl">푼 문제</span><span id="statSolved">0</span> / 10</span>
+      <span><span class="lbl">맞힌 문제</span><span id="statCorrect">0</span></span>
+      <span><span class="lbl">정답률</span><span id="statRate">0%</span></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="quiz-list" id="quizList"></div>
+
+  <div class="result-section" id="resultSection">
+    <div class="result-grade" id="resultGrade">A</div>
+    <div class="result-score" id="resultScore">10 / 10</div>
+    <div class="result-msg" id="resultMsg">완벽합니다!</div>
+    <button class="retry-btn" id="retryBtn">다시 풀기</button>
+  </div>
+</div>
+
+<script>
+const QUIZ_DATA = [
+  {
+    id: 1,
+    type: 'mc',
+    difficulty: 'easy',
+    question: "HBF라는 이름은 무엇을 줄인 말일까요?",
+    options: ["High Bandwidth Flash (낸드를 이용한 새 저장 공간)", "High Bit Frequency", "Hybrid Block Format", "High Backup Fabric"],
+    answer: 0,
+    explanation: "HBF는 'High Bandwidth Flash'를 줄인 말이에요. 영상에서 'HBF, High Bandwidth Flash의 표준화에 나섰다'고 직접 설명했어요. 쉽게 말하면, GPU 바로 옆에 놓는 큰 서랍장 같은 새 저장 공간이에요."
+  },
+  {
+    id: 2,
+    type: 'ox',
+    difficulty: 'easy',
+    question: "HBF가 등장하면 HBM은 완전히 없어지고 그 자리를 HBF가 통째로 대신한다.",
+    answer: false,
+    explanation: "영상은 'HBM이 사라지는 게 아니라 가장 잘하는 자리로 역할이 재배치되는 중'이라고 강조했어요. 비유하면, 손 닿는 선반(HBM)이 없어지는 게 아니라, 그 옆에 큰 서랍장(HBF)이 하나 더 생기는 것뿐이에요."
+  },
+  {
+    id: 3,
+    type: 'mc',
+    difficulty: 'medium',
+    question: "HBM과 HBF는 '이렇게 만들자'는 공통 규칙(표준)을 서로 다른 모임에서 정해요. HBF의 표준을 정하는 모임은?",
+    options: ["JEDEC", "OCP (Open Compute Project)", "IEEE", "ISO"],
+    answer: 1,
+    explanation: "영상에서 'HBM 같은 메모리 표준은 재덱에서 나오는데 HBF는 재덱이 아니라 OCP를 택했다'고 설명했어요. OCP는 빠르게 바뀌는 AI 시장에 맞춰 규칙을 실시간으로 고치기 좋은 모임이라는 이유였어요."
+  },
+  {
+    id: 4,
+    type: 'short',
+    difficulty: 'medium',
+    question: "샌디스크가 처음 목표로 잡은 HBF(1단계)의 용량은 몇 GB일까요? (숫자만 입력)",
+    answer: "512",
+    explanation: "샌디스크의 1단계 목표는 낸드 칩 16개를 한 묶음으로 쌓아 512GB 용량, 1초에 1.6TB를 옮기는 속도를 만드는 것이었어요."
+  },
+  {
+    id: 5,
+    type: 'mc',
+    difficulty: 'medium',
+    question: "샌디스크가 새 메모리로 '낸드(NAND)'를 고른 이유로 영상에서 말하지 않은 것은?",
+    options: ["이미 검증된 안정적인 기술이라서", "전기를 꺼도 내용이 지워지지 않아서", "대량으로 만들기에 비용이 유리해서", "한 칸 자체의 읽기 속도가 화이트보드(DRAM)보다 더 빨라서"],
+    answer: 3,
+    explanation: "영상은 낸드의 장점으로 '검증된 기술', '비용', '전기를 꺼도 내용이 남는 점(비휘발성)'을 들었어요. 오히려 '낸드 하나를 빠르게 만드는 게 아니라 동시에 일하는 숫자를 늘리는 것'이라고 설명했으니, 한 칸 자체가 더 빠르다는 내용은 나오지 않았어요."
+  },
+  {
+    id: 6,
+    type: 'mc',
+    difficulty: 'easy',
+    question: "화이트보드 같은 HBM과 비교했을 때, 종이 노트 같은 HBF가 전기를 아낄 수 있는 가장 큰 이유는?",
+    options: ["발열이 전혀 없어서", "내용을 지키려고 계속 다시 써줄 필요가 없어서", "전압이 항상 똑같아서", "관리하는 회로가 필요 없어서"],
+    answer: 1,
+    explanation: "화이트보드(HBM)는 글씨가 지워지기 전에 계속 다시 써줘야 하는데, 여기에도 전기가 들어요. 종이 노트(HBF)는 한 번 쓰면 따로 손댈 필요가 없어서 전기를 아낄 수 있다고 설명했어요."
+  },
+  {
+    id: 7,
+    type: 'short',
+    difficulty: 'hard',
+    question: "선반(HBM)과 서랍장(HBF)을 함께 썼더니, HBM만 썼을 때보다 전기 1와트당 성능이 최대 몇 배 좋아졌을까요? (숫자만, 예: 2.5)",
+    answer: "2.69",
+    explanation: "SK하이닉스가 GPU 옆에 HBM 8개와 HBF 8개를 함께 붙인 구조를 시뮬레이션했더니, HBM만 8개 썼을 때보다 전기 1와트당 성능이 최대 2.69배 좋아졌다고 했어요."
+  },
+  {
+    id: 8,
+    type: 'ox',
+    difficulty: 'medium',
+    question: "샌디스크가 공개한 '요리사(처리장치)를 서랍장(낸드) 위에 직접 올리는' 특허는 이미 검증을 마치고 만들어지는 제품이다.",
+    answer: false,
+    explanation: "영상은 첫 번째로 '이건 제품이 아니라 특허'라는 점을 강조했어요. 회사들은 실제로 만들지 않을 기술도 권리를 미리 챙기려고 특허를 내는데, 전기·발열·불량률·수명 문제는 아직 아무것도 검증되지 않았어요."
+  },
+  {
+    id: 9,
+    type: 'mc',
+    difficulty: 'hard',
+    question: "엔비디아가 자주 바뀌는 임시 메모(KV 캐시)를 GPU 밖, '복도 끝 공유 창고'처럼 따로 두기 위해 만든 전용 공간의 이름은?",
+    options: ["스펙트럼X", "CMX", "블루필드4 STX", "AINB"],
+    answer: 1,
+    explanation: "블루필드4 STX는 저장 구조 전체의 이름이고, 그 위에 만든 첫 공간이 CMX예요. CMX는 자주 바뀌는 임시 메모를 GPU의 HBM 밖에 보관하고, 스펙트럼X라는 고속 네트워크로 여러 GPU가 함께 나눠 써요."
+  },
+  {
+    id: 10,
+    type: 'mc',
+    difficulty: 'medium',
+    question: "SK하이닉스의 AIN 제품 세 갈래(AIND·AINP·AINB) 중, HBF를 적용한 제품은?",
+    options: ["AIND", "AINP", "AINB", "AINX"],
+    answer: 2,
+    explanation: "AIND는 대용량, AINP는 고성능 SSD를 뜻하고, AINB가 바로 HBF를 적용한 '대역폭 확장' 제품군이에요."
+  }
+];
+
+let state = { solved: 0, correct: 0 };
+
+const quizList = document.getElementById('quizList');
+const statSolved = document.getElementById('statSolved');
+const statCorrect = document.getElementById('statCorrect');
+const statRate = document.getElementById('statRate');
+const progressFill = document.getElementById('progressFill');
+const resultSection = document.getElementById('resultSection');
+const resultGrade = document.getElementById('resultGrade');
+const resultScore = document.getElementById('resultScore');
+const resultMsg = document.getElementById('resultMsg');
+
+const diffLabel = { easy: '쉬움', medium: '보통', hard: '어려움' };
+const typeLabel = { mc: '객관식', short: '단답형', ox: 'OX' };
+
+function buildCard(q) {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.id = 'card-' + q.id;
+
+  const head = document.createElement('div');
+  head.className = 'q-head';
+  head.innerHTML =
+    '<span class="q-num">Q' + q.id + '</span>' +
+    '<div class="q-badges">' +
+      '<span class="badge type">' + typeLabel[q.type] + '</span>' +
+      '<span class="badge ' + q.difficulty + '">' + diffLabel[q.difficulty] + '</span>' +
+    '</div>';
+  card.appendChild(head);
+
+  const qtext = document.createElement('div');
+  qtext.className = 'q-text';
+  qtext.textContent = q.question;
+  card.appendChild(qtext);
+
+  if (q.type === 'mc') {
+    const optWrap = document.createElement('div');
+    optWrap.className = 'options';
+    q.options.forEach((optText, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.innerHTML = '<span>' + optText + '</span>';
+      btn.addEventListener('click', () => handleMcAnswer(q, idx, optWrap, card));
+      optWrap.appendChild(btn);
+    });
+    card.appendChild(optWrap);
+  } else if (q.type === 'ox') {
+    const optWrap = document.createElement('div');
+    optWrap.className = 'ox-row';
+    [true, false].forEach((val) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = val ? 'O' : 'X';
+      btn.addEventListener('click', () => handleOxAnswer(q, val, optWrap, card));
+      optWrap.appendChild(btn);
+    });
+    card.appendChild(optWrap);
+  } else if (q.type === 'short') {
+    const shortWrap = document.createElement('div');
+    shortWrap.className = 'short-row';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'short-input';
+    input.placeholder = '답을 입력하세요';
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'submit-btn';
+    submitBtn.textContent = '제출';
+    submitBtn.addEventListener('click', () => handleShortAnswer(q, input, submitBtn, card));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleShortAnswer(q, input, submitBtn, card);
+    });
+    shortWrap.appendChild(input);
+    shortWrap.appendChild(submitBtn);
+    card.appendChild(shortWrap);
+
+    const feedback = document.createElement('div');
+    feedback.className = 'short-feedback';
+    feedback.id = 'feedback-' + q.id;
+    card.appendChild(feedback);
+  }
+
+  const explain = document.createElement('div');
+  explain.className = 'explain';
+  explain.id = 'explain-' + q.id;
+  explain.innerHTML = '<span class="ex-label">쉬운 해설</span>' + q.explanation;
+  card.appendChild(explain);
+
+  return card;
+}
+
+function lockCard(optWrap) {
+  if (!optWrap) return;
+  optWrap.querySelectorAll('button').forEach(b => b.disabled = true);
+}
+
+function recordResult(isCorrect) {
+  state.solved += 1;
+  if (isCorrect) state.correct += 1;
+  updateScoreboard();
+  if (state.solved >= QUIZ_DATA.length) {
+    setTimeout(showResult, 300);
+  }
+}
+
+function handleMcAnswer(q, idx, optWrap, card) {
+  if (optWrap.dataset.answered) return;
+  optWrap.dataset.answered = '1';
+  const buttons = optWrap.querySelectorAll('button');
+  const isCorrect = idx === q.answer;
+  buttons.forEach((btn, i) => {
+    if (i === q.answer) {
+      btn.classList.add('correct');
+      btn.innerHTML += ' <span class="opt-tag correct">✓ 정답!</span>';
+    } else if (i === idx) {
+      btn.classList.add('wrong');
+      btn.innerHTML += ' <span class="opt-tag wrong">✗ 오답</span>';
+    }
+  });
+  lockCard(optWrap);
+  document.getElementById('explain-' + q.id).classList.add('show');
+  recordResult(isCorrect);
+}
+
+function handleOxAnswer(q, val, optWrap, card) {
+  if (optWrap.dataset.answered) return;
+  optWrap.dataset.answered = '1';
+  const buttons = optWrap.querySelectorAll('button');
+  const isCorrect = val === q.answer;
+  buttons.forEach((btn) => {
+    const btnVal = btn.textContent.trim() === 'O';
+    if (btnVal === q.answer) {
+      btn.classList.add('correct');
+      btn.innerHTML += ' <span class="opt-tag correct">✓</span>';
+    } else if (btnVal === val) {
+      btn.classList.add('wrong');
+      btn.innerHTML += ' <span class="opt-tag wrong">✗</span>';
+    }
+  });
+  lockCard(optWrap);
+  document.getElementById('explain-' + q.id).classList.add('show');
+  recordResult(isCorrect);
+}
+
+function handleShortAnswer(q, input, submitBtn, card) {
+  if (input.disabled) return;
+  const userVal = input.value.trim().replace(/,/g, '');
+  if (!userVal) {
+    input.focus();
+    return;
+  }
+  const correctVal = String(q.answer).trim();
+  const isCorrect = userVal.toLowerCase() === correctVal.toLowerCase();
+  input.disabled = true;
+  submitBtn.disabled = true;
+  const feedback = document.getElementById('feedback-' + q.id);
+  feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+  feedback.textContent = isCorrect
+    ? '✓ 정답! (' + correctVal + ')'
+    : '✗ 오답 — 정답은 "' + correctVal + '" 이에요.';
+  document.getElementById('explain-' + q.id).classList.add('show');
+  recordResult(isCorrect);
+}
+
+function updateScoreboard() {
+  statSolved.textContent = state.solved;
+  statCorrect.textContent = state.correct;
+  const rate = state.solved > 0 ? Math.round((state.correct / state.solved) * 100) : 0;
+  statRate.textContent = rate + '%';
+  progressFill.style.width = (state.solved / QUIZ_DATA.length * 100) + '%';
+  if (rate >= 70) {
+    progressFill.style.backgroundColor = '#16a34a';
+  } else if (rate >= 40) {
+    progressFill.style.backgroundColor = '#f59e0b';
+  } else {
+    progressFill.style.backgroundColor = '#dc2626';
+  }
+}
+
+function showResult() {
+  const total = QUIZ_DATA.length;
+  const rate = Math.round((state.correct / total) * 100);
+  let grade, msg;
+  if (rate >= 90) { grade = 'A'; msg = '완벽해요! HBM과 HBF의 관계를 제대로 이해하셨네요.'; }
+  else if (rate >= 70) { grade = 'B'; msg = '훌륭해요! 핵심 내용을 잘 따라오셨어요.'; }
+  else if (rate >= 50) { grade = 'C'; msg = '좋은 시도예요. 해설을 다시 읽어보면 더 쉬워질 거예요.'; }
+  else { grade = 'D'; msg = '괜찮아요, 다시 풀면서 비유들을 한 번 더 떠올려보세요.'; }
+  resultGrade.textContent = grade;
+  resultScore.textContent = state.correct + ' / ' + total;
+  resultMsg.textContent = msg;
+  resultSection.classList.add('show');
+  resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function renderQuiz() {
+  quizList.innerHTML = '';
+  QUIZ_DATA.forEach(q => quizList.appendChild(buildCard(q)));
+}
+
+function resetQuiz() {
+  state = { solved: 0, correct: 0 };
+  updateScoreboard();
+  resultSection.classList.remove('show');
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('retryBtn').addEventListener('click', resetQuiz);
+
+renderQuiz();
+updateScoreboard();
+</script>
+</body>
+</html>
